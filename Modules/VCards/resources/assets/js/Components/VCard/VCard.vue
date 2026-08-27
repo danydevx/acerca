@@ -17,24 +17,24 @@
         @openImagePosition="emit('openImagePosition')"
       />
 
+      <div v-if="heroFields.length" class="vcard__hero-fields" aria-label="Campos destacados">
+        <a
+          v-for="field in heroFields"
+          :key="field.id"
+          :href="getFieldUrl(field)"
+          class="vcard__hero-field-icon"
+          :class="{ 'rounded': shape === 'rounded' }"
+          :title="field.label || field.field_type_definition?.name || 'Campo'"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i :class="field.field_type_definition?.icon || 'bi-link'"></i>
+        </a>
+      </div>
+
       <div class="vcard__content">
         <VCardIdentity :vcard="vcard" :shape="shape" />
         <VCardWhatsApp :contacts="contacts" :shape="shape" />
-
-        <div v-if="heroFields.length" class="vcard__hero-fields" aria-label="Campos destacados">
-          <a
-            v-for="field in heroFields"
-            :key="field.id"
-            :href="getFieldUrl(field)"
-            class="vcard__hero-field-icon"
-            :class="{ 'rounded': shape === 'rounded' }"
-            :title="field.label || field.field_type_definition?.name || 'Campo'"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i :class="field.field_type_definition?.icon || 'bi-link'"></i>
-          </a>
-        </div>
 
         <VCardContactList :contacts="contacts" :shape="shape" />
         <VCardAppointments v-if="sections.appointments === true" :shape="shape" />

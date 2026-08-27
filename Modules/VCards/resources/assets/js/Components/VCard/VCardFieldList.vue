@@ -1,25 +1,28 @@
 <template>
-  <div v-if="activeFields && activeFields.length > 0" class="vcard__fields">
-    <template v-for="field in activeFields" :key="field.id">
-      <a
-        v-if="getActionUrl(field)"
-        :href="getActionUrl(field)"
-        class="vcard__field"
-        :class="{ 'rounded': shape === 'rounded' }"
-        target="_blank"
-        rel="noopener nofollow"
-      >
-        <i :class="getFieldIcon(field.field_type_key)"></i>
-      </a>
-      <div
-        v-else
-        class="vcard__field vcard__field--static"
-        :class="{ 'rounded': shape === 'rounded' }"
-      >
-        <i :class="getFieldIcon(field.field_type_key)"></i>
-      </div>
-    </template>
-  </div>
+  <section v-if="activeFields && activeFields.length > 0" class="vcard-section vcard-fields">
+    <h2 class="vcard-section__title">Redes sociales</h2>
+    <div class="vcard__fields">
+      <template v-for="field in activeFields" :key="field.id">
+        <a
+          v-if="getActionUrl(field)"
+          :href="getActionUrl(field)"
+          class="vcard__field"
+          :class="{ 'rounded': shape === 'rounded' }"
+          target="_blank"
+          rel="noopener nofollow"
+        >
+          <i :class="getFieldIcon(field.field_type_key)"></i>
+        </a>
+        <div
+          v-else
+          class="vcard__field vcard__field--static"
+          :class="{ 'rounded': shape === 'rounded' }"
+        >
+          <i :class="getFieldIcon(field.field_type_key)"></i>
+        </div>
+      </template>
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -165,7 +168,7 @@ function getActionUrl(field) {
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.75rem;
-  margin: 1.25rem 0 1.5rem;
+  margin-top: 1rem;
 }
 
 .vcard__field {
