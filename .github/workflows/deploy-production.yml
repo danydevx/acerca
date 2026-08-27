@@ -1,0 +1,122 @@
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          ssh-keyscan \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Prepare production directory
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "mkdir -p '${{ secrets.PRODUCTION_PATH }}'"
+
+      - name: Deploy files
+        run: |
+          rsync -az --delete \
+            --exclude=".git" \
+            --exclude=".github" \
+            --exclude=".env" \
+            --exclude="node_modules" \
+            --exclude="vendor" \
+            --exclude="storage" \
+            -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SSH_PORT }}" \
+            ./ \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.PRODUCTION_PATH }}/"
+
+      - name: Prepare Laravel directories
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
+
+            cd "${{ secrets.PRODUCTION_PATH }}"
+
+            mkdir -p storage/framework/cache
+            mkdir -p storage/framework/sessions
+            mkdir -p storage/framework/views
+            mkdir -p storage/logs
+            mkdir -p storage/app/public
+            mkdir -p bootstrap/cache
+
+            chmod -R 775 storage
+            chmod -R 775 bootstrap/cache
+
+          EOF
+
+      - name: Install Composer dependencies
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
+
+            cd "${{ secrets.PRODUCTION_PATH }}"
+
+            /opt/cpanel/ea-php83/root/usr/bin/php \
+              $(which composer) install \
+              --no-dev \
+              --prefer-dist \
+              --no-interaction \
+              --optimize-autoloader
+
+          EOF
+
+      - name: Laravel production commands
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
+
+            cd "${{ secrets.PRODUCTION_PATH }}"
+
+            /opt/cpanel/ea-php83/root/usr/bin/php artisan optimize:clear
+            /opt/cpanel/ea-php83/root/usr/bin/php artisan migrate --force
+            /opt/cpanel/ea-php83/root/usr/bin/php artisan config:cache
+            /opt/cpanel/ea-php83/root/usr/bin/php artisan route:cache
+            /opt/cpanel/ea-php83/root/usr/bin/php artisan view:cache
+
+          EOF
+
+      - name: Verify production build
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "test -f '${{ secrets.PRODUCTION_PATH }}/public/build/manifest.json' && echo 'Production Vite build OK'"
