@@ -339,7 +339,7 @@
         <div class="d-flex align-items-center gap-2">
           <div class="dropdown">
             <button
-              class="btn btn-outline-secondary btn-sm dropdown-toggle"
+              class="btn btn-secondary btn-sm dropdown-toggle"
               type="button"
               data-bs-toggle="dropdown"
             >

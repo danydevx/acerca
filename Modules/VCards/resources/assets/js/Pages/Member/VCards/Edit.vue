@@ -32,9 +32,8 @@
       </template>
     </PageHeader>
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-header bg-white">
-        <ul class="nav nav-tabs" role="tablist">
+    <div class="vcard-edit-page">
+      <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item">
             <button
               class="nav-link"
@@ -113,9 +112,8 @@
             </button>
           </li>
         </ul>
-      </div>
 
-      <div class="card-body">
+      <div class="tab-content">
         <div class="row">
           <div class="col-12 col-lg-8">
             <form @submit.prevent="submit">
@@ -2071,6 +2069,42 @@ function deleteCard() {
 </script>
 
 <style scoped>
+.vcard-edit-page {
+  padding: 0 0 48px;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid #dee2e6;
+
+  .nav-link {
+    color: #6c757d;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    padding: 12px 20px;
+    font-weight: 500;
+
+    &:hover {
+      color: #0d6efd;
+      border-color: transparent;
+    }
+
+    &.active {
+      color: #0d6efd;
+      border-bottom-color: #0d6efd;
+      background: transparent;
+    }
+  }
+}
+
+.tab-content {
+  padding-top: 0;
+
+  .tab-pane {
+    padding: 0;
+  }
+}
+
 .design-option {
   cursor: pointer;
   transition: all 0.2s;

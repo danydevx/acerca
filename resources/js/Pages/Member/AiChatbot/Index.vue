@@ -18,7 +18,7 @@
     </PageHeader>
 
     <div class="ai-chatbot-page">
-      <ul class="nav nav-tabs mb-4" role="tablist">
+      <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
           <button
             class="nav-link"
@@ -258,6 +258,10 @@ const onPeriodChange = (newPeriod) => {
 }
 
 .tab-content {
-  padding-top: 24px;
+  padding-top: 0;
+
+  .tab-pane {
+    padding: 0;
+  }
 }
 </style>
