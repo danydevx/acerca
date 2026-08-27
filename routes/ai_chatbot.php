@@ -15,6 +15,9 @@ Route::middleware(['auth', 'verified', 'active', 'role:member'])
         Route::post('/contexts', [AiChatbotController::class, 'storeContext'])->name('contexts.store');
         Route::put('/contexts/{contextId}', [AiChatbotController::class, 'updateContext'])->name('contexts.update');
         Route::delete('/contexts/{contextId}', [AiChatbotController::class, 'destroyContext'])->name('contexts.destroy');
+        Route::get('/embeddings-json', [AiChatbotController::class, 'embeddingsJson'])->name('embeddings.json');
+        Route::delete('/embeddings/{type}', [AiChatbotController::class, 'destroyEmbeddings'])->name('embeddings.destroy');
+        Route::delete('/embedding/{id}', [AiChatbotController::class, 'destroyEmbedding'])->name('embedding.destroy');
         Route::post('/reindex', [AiChatbotController::class, 'reindex'])->name('reindex');
         Route::post('/extract-url', [AiChatbotController::class, 'extractUrl'])->name('extract-url');
         Route::get('/history', [ConversationHistoryController::class, 'index'])->name('history');

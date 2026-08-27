@@ -23,6 +23,8 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify'
+
 const props = defineProps({
   vcard: {
     type: Object,
@@ -36,7 +38,22 @@ const props = defineProps({
 
 function copyLink() {
   const url = `${window.location.origin}/v/${props.vcard.slug}`
-  navigator.clipboard.writeText(url)
+
+  const textArea = document.createElement('textarea')
+  textArea.value = url
+  textArea.style.position = 'fixed'
+  textArea.style.left = '-9999px'
+  textArea.style.top = '-9999px'
+  document.body.appendChild(textArea)
+  textArea.focus()
+  textArea.select()
+  try {
+    document.execCommand('copy')
+    toast.success('Enlace copiado al portapapeles')
+  } catch (err) {
+    toast.error('No se pudo copiar')
+  }
+  document.body.removeChild(textArea)
 }
 </script>
 

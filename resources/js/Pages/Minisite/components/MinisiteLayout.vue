@@ -42,12 +42,13 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import HeroLeft from './HeroLeft.vue'
 import HeroCenter from './HeroCenter.vue'
 import HeroRight from './HeroRight.vue'
 import MinisiteFooter from './Footer.vue'
 
-defineProps({
+const props = defineProps({
   business: {
     type: Object,
     required: true,
@@ -84,6 +85,12 @@ defineProps({
     type: Array,
     default: () => [],
   },
+})
+
+onMounted(() => {
+  if (window.Analytics && props.business?.slug) {
+    window.Analytics.init(props.business.slug)
+  }
 })
 </script>
 

@@ -1,0 +1,11 @@
+{
+    "name": "acercade/analytics",
+    "description": "Analytics module for tracking pageviews, events, and visitor data",
+    "type": "laravel-module",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Analytics\\": "app/"
+        }
+    }
+}

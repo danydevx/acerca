@@ -18,7 +18,7 @@
     </PageHeader>
 
     <div class="ai-chatbot-page">
-      <ul class="nav nav-tabs mb-4" role="tablist">
+      <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
           <button
             class="nav-link"

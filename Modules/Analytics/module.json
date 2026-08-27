@@ -1,0 +1,11 @@
+{
+    "name": "Analytics",
+    "slug": "analytics",
+    "version": "1.0.0",
+    "description": "Analytics module for tracking pageviews, events, and visitor data",
+    "is_enabled": true,
+    "order": 1,
+    "providers": [
+        "Modules\\Analytics\\Providers\\AnalyticsServiceProvider"
+    ]
+}

@@ -587,6 +587,87 @@
             </div>
           </div>
         </div>
+
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0"><i class="bi bi-clock me-2"></i>Pausa Programada</h5>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-info small mb-3">
+              <i class="bi bi-info-circle me-1"></i>
+              Programa horarios en los que el chatbot no estará disponible. Útil para evitar uso fuera de horario laboral o durante días específicos.
+            </div>
+            <div class="row g-4">
+              <div class="col-12">
+                <div class="form-check form-switch mb-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    v-model="form.scheduled_pause_enabled"
+                    id="scheduledPauseEnabled"
+                  />
+                  <label class="form-check-label" for="scheduledPauseEnabled">
+                    <strong>Activar pausa programada</strong>
+                    <small class="d-block text-muted">El chatbot se ocultará automáticamente según el horario configurado</small>
+                  </label>
+                </div>
+              </div>
+
+              <div v-if="form.scheduled_pause_enabled" class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">Hora de inicio de pausa</label>
+                  <input
+                    type="time"
+                    v-model="form.scheduled_pause_start"
+                    class="form-control"
+                  />
+                  <small class="text-muted">Cuando comienza la pausa</small>
+                </div>
+              </div>
+
+              <div v-if="form.scheduled_pause_enabled" class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">Hora de fin de pausa</label>
+                  <input
+                    type="time"
+                    v-model="form.scheduled_pause_end"
+                    class="form-control"
+                  />
+                  <small class="text-muted">Cuando termina la pausa</small>
+                </div>
+              </div>
+
+              <div v-if="form.scheduled_pause_enabled" class="col-12">
+                <div class="mb-3">
+                  <label class="form-label d-block">Días de la semana</label>
+                  <small class="text-muted d-block mb-2">Selecciona los días en que apply la pausa</small>
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check" v-for="day in weekDays" :key="day.value">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        :id="'day-' + day.value"
+                        :checked="form.scheduled_pause_days.includes(day.value)"
+                        @change="togglePauseDay(day.value)"
+                      />
+                      <label class="form-check-label" :for="'day-' + day.value">
+                        {{ day.label }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="form.scheduled_pause_enabled" class="col-12">
+                <div class="alert alert-warning small">
+                  <i class="bi bi-exclamation-triangle me-1"></i>
+                  <strong>Nota:</strong> Durante la pausa, el widget del chatbot no se mostrará. Los usuarios tampoco podrán interactuar con él. <span v-if="form.scheduled_pause_start && form.scheduled_pause_end">El horario de pausa es de {{ form.scheduled_pause_start }} a {{ form.scheduled_pause_end }}.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="card-footer">
           <button type="submit" class="btn btn-primary" :disabled="saving">
             <span v-if="saving"><i class="bi bi-hourglass-split me-2"></i>Guardando...</span>
@@ -666,6 +747,10 @@ const defaultForm = {
   intent_support_text: 'Obtener ayuda',
   intent_support_url: '',
   intent_support_keywords: 'ayuda, soporte, problema',
+  scheduled_pause_enabled: false,
+  scheduled_pause_start: '22:00',
+  scheduled_pause_end: '08:00',
+  scheduled_pause_days: [],
 }
 
 const form = reactive({ ...defaultForm })
@@ -727,6 +812,11 @@ const form = reactive({ ...defaultForm })
       form.lead_capture_enabled = newSettings.lead_capture_enabled || false
       form.lead_capture_title = newSettings.lead_capture_title || '¿Te gustaría recibir noticias sobre nosotros?'
       form.lead_capture_description = newSettings.lead_capture_description || 'Déjanos tu correo y te mantendremos informado.'
+
+      form.scheduled_pause_enabled = newSettings.scheduled_pause_enabled || false
+      form.scheduled_pause_start = newSettings.scheduled_pause_start || '22:00'
+      form.scheduled_pause_end = newSettings.scheduled_pause_end || '08:00'
+      form.scheduled_pause_days = newSettings.scheduled_pause_days || []
     }
   },
   { immediate: true }
@@ -740,6 +830,25 @@ const availableAdditionalPresets = computed(() => {
     !form.additional_preset_ids.includes(p.id)
   )
 })
+
+const weekDays = [
+  { value: 'sunday', label: 'Domingo' },
+  { value: 'monday', label: 'Lunes' },
+  { value: 'tuesday', label: 'Martes' },
+  { value: 'wednesday', label: 'Miércoles' },
+  { value: 'thursday', label: 'Jueves' },
+  { value: 'friday', label: 'Viernes' },
+  { value: 'saturday', label: 'Sábado' },
+]
+
+const togglePauseDay = (day) => {
+  const index = form.scheduled_pause_days.indexOf(day)
+  if (index === -1) {
+    form.scheduled_pause_days.push(day)
+  } else {
+    form.scheduled_pause_days.splice(index, 1)
+  }
+}
 
 const getPresetName = (presetId) => {
   const preset = props.presets.find(p => p.id === presetId)
@@ -787,6 +896,12 @@ const saveSettings = () => {
   formData.append('url_import_max_chars', form.url_import_max_chars)
   formData.append('rag_min_similarity', form.rag_min_similarity)
   formData.append('rag_max_results', form.rag_max_results)
+  formData.append('scheduled_pause_enabled', form.scheduled_pause_enabled ? '1' : '0')
+  formData.append('scheduled_pause_start', form.scheduled_pause_start || '')
+  formData.append('scheduled_pause_end', form.scheduled_pause_end || '')
+  form.scheduled_pause_days.forEach(day => {
+    formData.append('scheduled_pause_days[]', day)
+  })
 
   const ctaSettings = JSON.stringify({
     enabled: form.cta_enabled,

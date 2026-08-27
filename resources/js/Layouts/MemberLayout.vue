@@ -339,7 +339,7 @@
         <div class="d-flex align-items-center gap-2">
           <div class="dropdown">
             <button
-              class="btn btn-outline-secondary btn-sm dropdown-toggle"
+              class="btn btn-secondary btn-sm dropdown-toggle"
               type="button"
               data-bs-toggle="dropdown"
             >
@@ -758,6 +758,7 @@ const alertClass = (type, priority) => {
   display: flex;
   min-height: 100vh;
   font-family: 'DM Sans', sans-serif;
+  background-color: #f8f9fa;
 }
 
 .sidebar {
@@ -769,6 +770,7 @@ const alertClass = (type, priority) => {
   position: sticky;
   top: 0;
   height: 100vh;
+  background-color: #343a40;
 }
 
 @media (max-width: 991.98px) {
@@ -847,6 +849,7 @@ const alertClass = (type, priority) => {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  background-color: #ffffff;
 }
 
 .offcanvas {
@@ -872,5 +875,15 @@ const alertClass = (type, priority) => {
 
 .rotate-90 {
   transform: rotate(90deg);
+}
+
+.main-content {
+  :deep(.card-header) {
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
 }
 </style>

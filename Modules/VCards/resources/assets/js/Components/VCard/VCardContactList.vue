@@ -1,7 +1,7 @@
 <template>
-  <div v-if="nonWhatsappContacts.length > 0" class="vcard__contacts">
+  <div v-if="contacts.length > 0" class="vcard__contacts">
     <a
-      v-for="contact in nonWhatsappContacts"
+      v-for="contact in contacts"
       :key="contact.id"
       :href="getContactLink(contact)"
       class="vcard__contact"
@@ -31,18 +31,15 @@ const props = defineProps({
   },
 })
 
-const nonWhatsappContacts = computed(() => {
-  return props.contacts.filter(c => c.type !== 'whatsapp')
-})
-
 const contactIcons = {
   phone: 'bi-telephone',
   email: 'bi-envelope',
   whatsapp: 'bi-whatsapp',
+  website: 'bi-globe',
 }
 
 function getContactIcon(type) {
-  return contactIcons[type] || 'bi-telephone'
+  return contactIcons[type] || 'bi-link'
 }
 
 function getContactDisplay(contact) {
@@ -66,14 +63,21 @@ function getContactLink(contact) {
     const phone = contact.value.replace(/\D/g, '')
     return `tel:+${contact.country_code || ''}${phone}`
   }
+  if (contact.type === 'website') {
+    let url = contact.value
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://' + url
+    }
+    return url
+  }
   return '#'
 }
 </script>
 
 <style scoped>
 .vcard__contacts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
   margin: 1.25rem 0 1.5rem;
 }
@@ -91,6 +95,7 @@ function getContactLink(contact) {
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
   border: 1px solid rgba(15, 23, 42, 0.04);
   min-height: 74px;
+  width: 100%;
 }
 
 .vcard__contact.rounded {
@@ -129,11 +134,5 @@ function getContactLink(contact) {
   font-weight: 500;
   line-height: 1.35;
   word-break: break-word;
-}
-
-@media (max-width: 575px) {
-  .vcard__contacts {
-    grid-template-columns: 1fr;
-  }
 }
 </style>

@@ -7,7 +7,6 @@
         :logoUrl="logoUrl"
         :badgeUrl="badgeUrl"
         :heroBackgroundImageUrl="heroBackgroundImageUrl"
-        :heroFields="heroFields"
         :shape="shape"
         :imageX="imageX"
         :imageY="imageY"
@@ -18,11 +17,26 @@
         @openImagePosition="emit('openImagePosition')"
       />
 
+      <div v-if="heroFields.length" class="vcard__hero-fields" aria-label="Campos destacados">
+        <a
+          v-for="field in heroFields"
+          :key="field.id"
+          :href="getFieldUrl(field)"
+          class="vcard__hero-field-icon"
+          :class="{ 'rounded': shape === 'rounded' }"
+          :title="field.label || field.field_type_definition?.name || 'Campo'"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i :class="field.field_type_definition?.icon || 'bi-link'"></i>
+        </a>
+      </div>
+
       <div class="vcard__content">
         <VCardIdentity :vcard="vcard" :shape="shape" />
         <VCardWhatsApp :contacts="contacts" :shape="shape" />
+
         <VCardContactList :contacts="contacts" :shape="shape" />
-        <VCardFieldList :fields="fields" :shape="shape" />
         <VCardAppointments v-if="sections.appointments === true" :shape="shape" />
         <VCardServices v-if="sections.services === true" :services="selectedServices" />
         <VCardPackages v-if="sections.packages === true" :packages="packages" />
@@ -45,6 +59,8 @@
           :zip="vcard.zip"
           :location="location"
         />
+
+        <VCardFieldList :fields="nonHeroFields" :shape="shape" />
 
         <div class="vcard__qr text-center" v-if="qrCodeUrl">
           <img
@@ -216,6 +232,14 @@ const heroFields = computed(() => {
   })
 })
 
+const nonHeroFields = computed(() => {
+  return (props.fields || []).filter((field) => {
+    const isActive = field.active !== false
+    const showInHero = [true, 1, '1', 'true'].includes(field.config?.show_in_hero)
+    return isActive && !showInHero
+  })
+})
+
 const wrapperStyle = computed(() => ({
   '--vcard-primary': props.vcard.primary_color || '#313bac',
   '--vcard-font': `'${props.vcard.font || 'Poppins'}', sans-serif`,
@@ -264,4 +288,65 @@ onBeforeUnmount(() => {
   const link = document.getElementById(fontLinkId)
   if (link) link.remove()
 })
+
+function getFieldUrl(field) {
+  const config = field.config || {}
+  switch (field.field_type_key) {
+    case 'instagram':
+      return config.username ? `https://instagram.com/${config.username}` : '#'
+    case 'twitter':
+      return config.username ? `https://x.com/${config.username}` : '#'
+    case 'facebook':
+      return config.username ? `https://facebook.com/${config.username}` : '#'
+    case 'linkedin':
+      return config.username ? `https://linkedin.com/in/${config.username}` : '#'
+    case 'tiktok':
+      return config.username ? `https://tiktok.com/@${config.username}` : '#'
+    case 'youtube':
+      return config.url || '#'
+    case 'spotify':
+      return config.url || '#'
+    case 'github':
+      return config.username ? `https://github.com/${config.username}` : '#'
+    case 'telegram':
+      return config.username ? `https://t.me/${config.username}` : '#'
+    case 'discord':
+      return config.invite_url || '#'
+    case 'paypal':
+      return config.url || '#'
+    default:
+      return '#'
+  }
+}
 </script>
+
+<style scoped>
+.vcard__hero-fields {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.vcard__hero-field-icon {
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--vcard-primary);
+  color: var(--vcard-surface);
+  text-decoration: none;
+  flex: 0 0 auto;
+}
+
+.vcard__hero-field-icon.rounded {
+  border-radius: 0.375rem;
+}
+
+.vcard__hero-field-icon i {
+  font-size: 1.3rem;
+  color: var(--vcard-surface);
+}
+</style>

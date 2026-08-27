@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css'
 import 'qalendar/dist/style.css'
 import 'bootstrap'
 import '../../Modules/VCards/resources/assets/less/vcards.less'
+import '../../Modules/Analytics/resources/assets/js/analytics-tracker.js'
 
 import { createApp, h } from 'vue'
 import { createInertiaApp, Link, Head } from '@inertiajs/vue3'

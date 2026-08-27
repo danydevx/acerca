@@ -176,6 +176,18 @@ class ChatController extends Controller
             ]);
         }
 
+        if ($settings->isCurrentlyActive() === false) {
+            return response()->json([
+                'is_paused' => true,
+                'scheduled_pause_start' => $settings->scheduled_pause_start,
+                'scheduled_pause_end' => $settings->scheduled_pause_end,
+                'chatbot_name' => $settings->chatbot_name ?: 'Asistente Virtual',
+                'chatbot_avatar' => $settings->chatbot_avatar,
+                'widget_color' => $settings->widget_color,
+                'widget_theme' => $settings->widget_theme ?? 'light',
+            ]);
+        }
+
         $initialSuggestions = [];
         $allPresets = $settings->getAllActivePresets();
         if ($allPresets->isNotEmpty()) {

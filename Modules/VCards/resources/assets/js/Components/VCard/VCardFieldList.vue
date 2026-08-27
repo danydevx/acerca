@@ -1,23 +1,28 @@
 <template>
-  <div v-if="activeFields && activeFields.length > 0" class="vcard__fields">
-    <template v-for="field in activeFields" :key="field.id">
-      <a
-        v-if="getActionUrl(field)"
-        :href="getActionUrl(field)"
-        class="vcard__field"
-        :class="{ 'rounded': shape === 'rounded' }"
-        target="_blank"
-        rel="noopener nofollow"
-      >
-        <i :class="getFieldIcon(field.field_type_key)"></i>
-        <span>{{ field.label || getFieldDisplayValue(field) }}</span>
-      </a>
-      <div v-else class="vcard__field vcard__field--static" :class="{ 'rounded': shape === 'rounded' }">
-        <i :class="getFieldIcon(field.field_type_key)"></i>
-        <span>{{ field.label || getFieldDisplayValue(field) }}</span>
-      </div>
-    </template>
-  </div>
+  <section v-if="activeFields && activeFields.length > 0" class="vcard-section vcard-fields">
+    <h2 class="vcard-section__title">Redes sociales</h2>
+    <div class="vcard__fields">
+      <template v-for="field in activeFields" :key="field.id">
+        <a
+          v-if="getActionUrl(field)"
+          :href="getActionUrl(field)"
+          class="vcard__field"
+          :class="{ 'rounded': shape === 'rounded' }"
+          target="_blank"
+          rel="noopener nofollow"
+        >
+          <i :class="getFieldIcon(field.field_type_key)"></i>
+        </a>
+        <div
+          v-else
+          class="vcard__field vcard__field--static"
+          :class="{ 'rounded': shape === 'rounded' }"
+        >
+          <i :class="getFieldIcon(field.field_type_key)"></i>
+        </div>
+      </template>
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -58,7 +63,8 @@ const fieldIcons = {
 }
 
 const activeFields = computed(() => {
-  return (props.fields || []).filter(f => f.active !== false)
+  const excludeTypes = ['whatsapp', 'email', 'website', 'link']
+  return (props.fields || []).filter(f => f.active !== false && !excludeTypes.includes(f.field_type_key))
 })
 
 function getFieldIcon(fieldTypeKey) {
@@ -159,40 +165,34 @@ function getActionUrl(field) {
 <style scoped>
 .vcard__fields {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
 }
 
 .vcard__field {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  padding: 0.625rem 1rem;
-  background: var(--vcard-surface-2);
-  border-radius: 0;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: var(--vcard-primary);
+  border-radius: 50%;
   text-decoration: none;
-  color: var(--vcard-text);
-  font-size: 0.9375rem;
+  color: var(--vcard-surface);
   transition: all 0.2s;
-}
-
-.vcard__field.rounded {
-  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
 }
 
 .vcard__field i {
-  font-size: 1rem;
-  margin-right: 0.75rem;
-  color: var(--vcard-primary);
+  font-size: 1.8rem;
+  color: var(--vcard-surface);
 }
 
 .vcard__field:hover {
-  background: var(--vcard-primary);
-  color: var(--vcard-surface);
-}
-
-.vcard__field:hover i {
-  color: var(--vcard-surface);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
 }
 
 .vcard__field--static {
@@ -200,7 +200,6 @@ function getActionUrl(field) {
 }
 
 .vcard__field--static:hover {
-  background: var(--vcard-surface-2);
-  color: var(--vcard-text);
+  transform: none;
 }
 </style>

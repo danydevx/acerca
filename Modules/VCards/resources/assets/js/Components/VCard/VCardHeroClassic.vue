@@ -42,18 +42,6 @@
         <h1 class="vcard-hero__name">{{ displayName }}</h1>
         <p v-if="personalMetaLine" class="vcard-hero__meta">{{ personalMetaLine }}</p>
       </div>
-
-      <div v-if="heroFields.length" class="vcard-hero__field-icons" aria-label="Campos destacados en el hero">
-        <span
-          v-for="field in heroFields"
-          :key="field.id"
-          class="vcard-hero__field-icon"
-          :class="{ 'rounded': shape === 'rounded' }"
-          :title="field.label || field.field_type_definition?.name || 'Campo'"
-        >
-          <i :class="field.field_type_definition?.icon || 'bi-link'"></i>
-        </span>
-      </div>
     </div>
   </section>
 </template>
@@ -81,10 +69,6 @@ const props = defineProps({
   heroBackgroundImageUrl: {
     type: String,
     default: null,
-  },
-  heroFields: {
-    type: Array,
-    default: () => [],
   },
   shape: {
     type: String,
@@ -188,6 +172,7 @@ const heroBannerStyle = computed(() => {
 <style scoped>
 .vcard-hero--classic {
   background: var(--vcard-surface);
+  margin-bottom: 0;
 }
 
 .vcard-hero__banner {
@@ -271,7 +256,7 @@ const heroBannerStyle = computed(() => {
 .vcard-hero__body {
   position: relative;
   background: var(--vcard-surface);
-  padding: 3.75rem 1.25rem 2rem;
+  padding: 3.75rem 1.25rem 0;
 }
 
 .vcard-hero__identity {
@@ -291,16 +276,22 @@ const heroBannerStyle = computed(() => {
 }
 
 .vcard-hero__field-icon {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 0;
-  background: color-mix(in srgb, var(--vcard-primary) 12%, var(--vcard-surface));
-  color: var(--vcard-primary);
+  background: var(--vcard-primary);
+  color: var(--vcard-surface);
   box-shadow: 0 0.25rem 0.75rem rgba(15, 23, 42, 0.1);
   flex: 0 0 auto;
+  text-decoration: none;
+}
+
+.vcard-hero__field-icon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.375rem 1rem rgba(15, 23, 42, 0.15);
 }
 
 .vcard-hero__field-icon.rounded {
@@ -308,8 +299,9 @@ const heroBannerStyle = computed(() => {
 }
 
 .vcard-hero__field-icon i {
-  font-size: 1rem;
+  font-size: 1.3rem;
   line-height: 1;
+  color: var(--vcard-surface);
 }
 
 .vcard-hero__name {

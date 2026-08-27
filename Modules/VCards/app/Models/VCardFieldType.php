@@ -256,7 +256,7 @@ class VCardFieldType
 
     public static function getMostPopular(): array
     {
-        $popular = ['website', 'link', 'instagram', 'email', 'phone', 'linkedin', 'facebook', 'whatsapp'];
+        $popular = ['instagram', 'linkedin', 'facebook', 'twitter', 'tiktok', 'youtube', 'github', 'telegram'];
         $all = self::getAll();
 
         return array_values(array_filter($all, fn($type) => in_array($type['key'], $popular)));
@@ -268,6 +268,24 @@ class VCardFieldType
         $grouped = [];
 
         foreach ($all as $type) {
+            $category = $type['category'];
+            if (!isset($grouped[$category])) {
+                $grouped[$category] = [];
+            }
+            $grouped[$category][] = $type;
+        }
+
+        return $grouped;
+    }
+
+    public static function getSocialOnly(): array
+    {
+        $exclude = ['website', 'link', 'email', 'phone', 'whatsapp', 'note', 'pdf', 'address'];
+        $all = self::getAll();
+        $filtered = array_filter($all, fn($type) => !in_array($type['key'], $exclude));
+
+        $grouped = [];
+        foreach ($filtered as $type) {
             $category = $type['category'];
             if (!isset($grouped[$category])) {
                 $grouped[$category] = [];

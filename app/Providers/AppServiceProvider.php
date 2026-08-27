@@ -11,6 +11,7 @@ use App\Models\Subscription;
 use App\Models\SupportTicket;
 use App\Models\User;
 use App\Models\WebhookEndpoint;
+use App\Policies\AnalyticsSettingPolicy;
 use App\Policies\ApiKeyPolicy;
 use App\Policies\ListingAboutPolicy;
 use App\Policies\ListingAppointmentPolicy;
@@ -118,6 +119,7 @@ class AppServiceProvider extends ServiceProvider
             return '/';
         });
 
+        Gate::policy(\Modules\Analytics\Models\AnalyticsSetting::class, AnalyticsSettingPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(ApiKey::class, ApiKeyPolicy::class);
         Gate::policy(WebhookEndpoint::class, WebhookEndpointPolicy::class);

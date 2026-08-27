@@ -32,5 +32,6 @@
     "ListingRestaurantMenu": true,
     "ListingCheckin": true,
     "Locations": true,
-    "VCards": true
+    "VCards": true,
+    "Analytics": true
 }
