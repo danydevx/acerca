@@ -8,6 +8,7 @@ use Modules\VCards\Http\Controllers\Member\VCardImageController;
 use Modules\VCards\Http\Controllers\Member\VCardPackageController;
 use Modules\VCards\Http\Controllers\Member\VCardSeoController;
 use Modules\VCards\Http\Controllers\Member\VCardTeamController;
+use Modules\VCards\Http\Controllers\Member\VCardVisitController;
 
 Route::middleware(['auth', 'verified', 'active', 'role:member'])->group(function () {
     Route::get('/member/listings/{listing}/vcards', [VCardController::class, 'index'])
@@ -35,6 +36,17 @@ Route::middleware(['auth', 'verified', 'active', 'role:member'])->group(function
         ->name('member.listings.vcards.seo.edit');
     Route::post('/member/listings/{listing}/vcards/{vcard}/seo', [VCardSeoController::class, 'update'])
         ->name('member.listings.vcards.seo.update');
+
+    Route::get('/member/listings/{listing}/vcards/{vcard}/analytics', [VCardVisitController::class, 'index'])
+        ->name('member.listings.vcards.analytics.index');
+    Route::get('/member/listings/{listing}/vcards/{vcard}/analytics/data', [VCardVisitController::class, 'data'])
+        ->name('member.listings.vcards.analytics.data');
+    Route::delete('/member/listings/{listing}/vcards/{vcard}/analytics/{visit}', [VCardVisitController::class, 'destroy'])
+        ->name('member.listings.vcards.analytics.destroy');
+    Route::delete('/member/listings/{listing}/vcards/{vcard}/analytics/clear', [VCardVisitController::class, 'clear'])
+        ->name('member.listings.vcards.analytics.clear');
+    Route::put('/member/listings/{listing}/vcards/{vcard}/analytics/settings', [VCardVisitController::class, 'updateSettings'])
+        ->name('member.listings.vcards.analytics.settings');
 
     Route::post('/member/listings/{listing}/vcards/{vcard}/logo', [VCardImageController::class, 'uploadLogo'])
         ->name('member.listings.vcards.logo.upload');

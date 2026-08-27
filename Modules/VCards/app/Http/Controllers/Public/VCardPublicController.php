@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Modules\VCards\Http\Resources\VCardResource;
 use Modules\VCards\Models\VCard;
+use Modules\VCards\Services\VCardVisitService;
 
 class VCardPublicController extends Controller
 {
@@ -33,6 +34,10 @@ class VCardPublicController extends Controller
         }
 
         $vcard->incrementViews();
+
+        if ($vcard->track_visits) {
+            app(VCardVisitService::class)->record($vcard, $request);
+        }
 
         $aiChatbot = $this->getAiChatbotSettings($vcard);
 

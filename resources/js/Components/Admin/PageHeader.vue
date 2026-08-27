@@ -6,8 +6,8 @@
         <nav v-if="breadcrumbs && breadcrumbs.length" aria-label="breadcrumb">
           <ol class="breadcrumb mb-0">
             <li v-for="(crumb, index) in breadcrumbs" :key="index" class="breadcrumb-item" :class="{ active: crumb.active }">
-              <Link v-if="!crumb.active && crumb.href" :href="crumb.href">{{ crumb.label }}</Link>
-              <span v-else>{{ crumb.label }}</span>
+              <Link v-if="!crumb.active && crumb.href" :href="crumb.href">{{ crumb.label || crumb.title }}</Link>
+              <span v-else>{{ crumb.label || crumb.title }}</span>
             </li>
           </ol>
         </nav>

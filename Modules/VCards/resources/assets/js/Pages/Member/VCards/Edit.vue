@@ -9,6 +9,13 @@
     >
       <template #actions>
         <a
+          :href="`/member/listings/${listing?.id}/vcards/${vcard?.id}/analytics`"
+          class="btn btn-outline-primary btn-sm"
+        >
+          <i class="bi bi-bar-chart me-1"></i>
+          Analytics
+        </a>
+        <a
           :href="`/member/listings/${listing?.id}/vcards/${vcard?.id}/seo`"
           class="btn btn-outline-dark btn-sm"
         >

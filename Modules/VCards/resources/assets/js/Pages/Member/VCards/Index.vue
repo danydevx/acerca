@@ -108,6 +108,16 @@
         <span>{{ row.views }} visitas</span>
       </template>
 
+      <template #cell-analytics="{ row }">
+        <Link
+          :href="`/member/listings/${listing?.id}/vcards/${row.id}/analytics`"
+          class="btn btn-sm btn-outline-primary"
+          title="Analytics"
+        >
+          <i class="bi bi-bar-chart"></i>
+        </Link>
+      </template>
+
       <template #cell-actions="{ row }">
         <div class="actions">
           <Link
@@ -195,6 +205,7 @@ const columns = [
   { key: 'team', label: 'Equipo', sortable: false },
   { key: 'active', label: 'Estado', sortable: true },
   { key: 'views', label: 'Visitas', sortable: true },
+  { key: 'analytics', label: 'Analytics', sortable: false },
   { key: 'actions', label: 'Acciones', sortable: false },
 ]
 

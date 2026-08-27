@@ -28,6 +28,9 @@ class VCard extends Model
         'tracking_code',
         'paused',
         'ai_chat_enabled',
+        'track_visits',
+        'store_ip_hash',
+        'retention_days',
         'password_protected',
         'password_salt',
         'password_encrypted',
@@ -83,6 +86,8 @@ class VCard extends Model
         'renew' => 'boolean',
         'paused' => 'boolean',
         'ai_chat_enabled' => 'boolean',
+        'track_visits' => 'boolean',
+        'store_ip_hash' => 'boolean',
         'password_protected' => 'boolean',
         'tracking_code' => 'array',
         'views' => 'integer',
@@ -211,6 +216,11 @@ class VCard extends Model
     public function selectedFeatures(): HasMany
     {
         return $this->hasMany(VCardSelectedFeature::class, 'vcard_id')->orderBy('sort_order');
+    }
+
+    public function visits(): HasMany
+    {
+        return $this->hasMany(VCardVisit::class, 'vcard_id')->orderByDesc('visited_at');
     }
 
     public function getServicesAttribute(): \Illuminate\Database\Eloquent\Collection
