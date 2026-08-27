@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isAvailable && !isPaused" class="ai-chat-widget" :class="[widgetTheme, { open: isOpen }]">
+  <div v-if="isAvailable" class="ai-chat-widget" :class="[widgetTheme, { open: isOpen }]">
     <div v-if="!isOpen" class="chat-bubble" :style="{ backgroundColor: widgetColor }" @click="openChat">
         <div class="bubble-icon">
           <img v-if="localChatbotAvatar" :src="localChatbotAvatar" alt="Avatar" class="bubble-avatar" />

@@ -312,15 +312,6 @@
                       </div>
                       <div class="col-12">
                         <FieldImage
-                          id="vcard-logo"
-                          label="Logo"
-                          v-model="logoFile"
-                          :initialPreview="form.logo ? `/storage/${form.logo}` : null"
-                          :maxSizeMb="5"
-                        />
-                      </div>
-                      <div class="col-12">
-                        <FieldImage
                           id="vcard-badge"
                           label="Badge"
                           v-model="badgeFile"
@@ -585,6 +576,15 @@
                     label="Empresa"
                     v-model="form.company"
                     placeholder="Nombre de la empresa"
+                  />
+                </div>
+                <div class="col-12 col-md-6">
+                  <FieldImage
+                    id="vcard-logo"
+                    label="Logo"
+                    v-model="logoFile"
+                    :initialPreview="form.logo ? `/storage/${form.logo}` : null"
+                    :maxSizeMb="5"
                   />
                 </div>
                 <div class="col-12">

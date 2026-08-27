@@ -13,8 +13,8 @@ return new class extends Migration
             $table->uuid('session_id')->unique();
             $table->foreignId('visitor_id')->constrained('analytics_visitors')->onDelete('cascade');
             $table->foreignId('listing_id')->constrained()->onDelete('cascade');
-            $table->timestamp('started_at');
-            $table->timestamp('last_activity_at');
+            $table->timestamp('started_at')->useCurrent();
+            $table->timestamp('last_activity_at')->useCurrent();
             $table->timestamp('expires_at');
             $table->boolean('is_bot')->default(false);
             $table->string('device_type', 20)->nullable();

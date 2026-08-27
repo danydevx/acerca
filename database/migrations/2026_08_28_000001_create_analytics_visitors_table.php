@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->uuid('visitor_id')->unique();
             $table->foreignId('listing_id')->constrained()->onDelete('cascade');
-            $table->timestamp('first_seen_at');
-            $table->timestamp('last_seen_at');
+            $table->timestamp('first_seen_at')->useCurrent();
+            $table->timestamp('last_seen_at')->useCurrent();
             $table->string('user_agent', 500)->nullable();
             $table->boolean('is_bot')->default(false);
             $table->string('country_code', 2)->nullable();

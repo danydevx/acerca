@@ -1,23 +1,26 @@
-window.Analytics = {
-  _endpoint: '/analytics/collect',
-  _listingSlug: null,
-  _queue: [],
+(function () {
+  'use strict';
 
-  init(listingSlug) {
-    this._listingSlug = listingSlug;
-    this._processQueue();
-    this._trackPageview();
-    this._setupHistoryTracking();
-  },
+  window.Analytics = {
+    _endpoint: '/analytics/collect',
+    _listingSlug: null,
+    _queue: [],
 
-  _send(data) {
-    if (!this._listingSlug) {
-      this._queue.push(data);
-      return;
-    }
+    init(listingSlug) {
+      this._listingSlug = listingSlug;
+      this._processQueue();
+      this._trackPageview();
+      this._setupHistoryTracking();
+    },
 
-    const payload = {
-      ...data,
+    _send(data) {
+      if (!this._listingSlug) {
+        this._queue.push(data);
+        return;
+      }
+
+      const payload = {
+        ...data,
       path: data.path || window.location.pathname,
       url: data.url || window.location.href,
       referrer: document.referrer || null,
@@ -132,3 +135,5 @@ window.Analytics = {
     this.trackEvent('cta_click', metadata);
   },
 };
+
+})();
