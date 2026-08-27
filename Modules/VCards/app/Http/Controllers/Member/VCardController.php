@@ -228,6 +228,8 @@ class VCardController extends Controller
             'tracking_code' => ['nullable', 'array'],
             'paused' => ['boolean'],
             'ai_chat_enabled' => ['boolean'],
+            'password_protected' => ['boolean'],
+            'password_word' => ['nullable', 'string', 'max:255'],
             'meta_pixel_id' => ['nullable', 'string', 'max:255'],
             'google_analytics_id' => ['nullable', 'string', 'max:255'],
             'google_webmasters_verification' => ['nullable', 'string', 'max:255'],
@@ -248,7 +250,19 @@ class VCardController extends Controller
             unset($validated['slug']);
         }
 
+        $passwordWord = $validated['password_word'] ?? null;
+        $passwordProtected = $validated['password_protected'] ?? false;
+        unset($validated['password_word']);
+
         $vcard->update($validated);
+
+        if ($passwordProtected && $passwordWord) {
+            $vcard->setPassword($passwordWord);
+            $vcard->save();
+        } elseif (!$passwordProtected) {
+            $vcard->clearPassword();
+            $vcard->save();
+        }
 
         return redirect()->back();
     }

@@ -28,6 +28,9 @@ class VCard extends Model
         'tracking_code',
         'paused',
         'ai_chat_enabled',
+        'password_protected',
+        'password_salt',
+        'password_encrypted',
         'meta_pixel_id',
         'google_analytics_id',
         'google_webmasters_verification',
@@ -80,6 +83,7 @@ class VCard extends Model
         'renew' => 'boolean',
         'paused' => 'boolean',
         'ai_chat_enabled' => 'boolean',
+        'password_protected' => 'boolean',
         'tracking_code' => 'array',
         'views' => 'integer',
     ];
@@ -352,6 +356,61 @@ class VCard extends Model
     public function scopeForListing($query, int $listingId)
     {
         return $query->where('listing_id', $listingId);
+    }
+
+    public function scopeUnprotected($query)
+    {
+        return $query->where('password_protected', false);
+    }
+
+    public function hasPasswordProtection(): bool
+    {
+        return $this->password_protected && $this->password_encrypted && $this->password_salt;
+    }
+
+    public function setPassword(string $word): void
+    {
+        if (empty($word)) {
+            $this->clearPassword();
+            return;
+        }
+
+        $salt = bin2hex(random_bytes(32));
+        $combined = $salt . $word;
+        $this->password_salt = $salt;
+        $this->password_encrypted = encrypt($combined);
+        $this->password_protected = true;
+    }
+
+    public function checkPassword(string $word): bool
+    {
+        if (!$this->hasPasswordProtection()) {
+            return true;
+        }
+
+        try {
+            $decrypted = decrypt($this->password_encrypted);
+            return $decrypted === $this->password_salt . $word;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function clearPassword(): void
+    {
+        $this->password_protected = false;
+        $this->password_salt = null;
+        $this->password_encrypted = null;
+    }
+
+    public function isUnlockedBySession(): bool
+    {
+        return session()->has('vcard_unlocked_' . $this->id);
+    }
+
+    public function markAsUnlocked(): void
+    {
+        session()->put('vcard_unlocked_' . $this->id, true);
     }
 
     public function toVCardString(): string

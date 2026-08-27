@@ -178,6 +178,23 @@
                   hint="Muestra el chatbot de IA en la tarjeta digital"
                 />
               </div>
+              <div class="col-12">
+                <FieldSwitch
+                  id="vcard-password-protected"
+                  label="Proteger con contraseña"
+                  v-model="form.password_protected"
+                  hint="Agrega una contraseña para acceder a la tarjeta"
+                />
+              </div>
+              <div v-if="form.password_protected" class="col-12">
+                <FieldText
+                  id="vcard-password-word"
+                  label="Palabra clave"
+                  v-model="form.password_word"
+                  placeholder="Escribe una palabra clave"
+                  hint="Esta palabra será requerida para ver la tarjeta"
+                />
+              </div>
               <div class="col-12 mt-4">
                 <button
                   type="button"
@@ -1412,6 +1429,8 @@ const form = reactive({
   tracking_code: props.vcard?.tracking_code || [],
   paused: props.vcard?.paused ?? false,
   ai_chat_enabled: props.vcard?.ai_chat_enabled ?? false,
+  password_protected: props.vcard?.password_protected ?? false,
+  password_word: '',
   meta_pixel_id: props.vcard?.meta_pixel_id || '',
   google_analytics_id: props.vcard?.google_analytics_id || '',
   google_webmasters_verification: props.vcard?.google_webmasters_verification || '',

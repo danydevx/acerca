@@ -19,6 +19,19 @@ class VCardPublicController extends Controller
             ->with(['contacts', 'activeFields', 'team', 'listing', 'listing.about', 'seoSetting', 'sections', 'selectedProducts', 'selectedProducts.product', 'selectedTestimonials', 'selectedTestimonials.review', 'businessHours', 'selectedMenuCategories.category', 'selectedMenuCategories.category.activeProducts', 'selectedLocation', 'selectedFeatures.feature'])
             ->firstOrFail();
 
+        if ($vcard->hasPasswordProtection() && !$vcard->isUnlockedBySession()) {
+            return Inertia::render('Public/VCards/Unlock', [
+                'vcard' => [
+                    'id' => $vcard->id,
+                    'name' => $vcard->name,
+                    'slug' => $vcard->slug,
+                    'logo' => $vcard->logo,
+                    'profile_photo' => $vcard->profile_photo,
+                    'primary_color' => $vcard->primary_color,
+                ],
+            ]);
+        }
+
         $vcard->incrementViews();
 
         $aiChatbot = $this->getAiChatbotSettings($vcard);
@@ -27,6 +40,30 @@ class VCardPublicController extends Controller
             'vcard' => (new VCardResource($vcard))->resolve(request()),
             'aiChatbot' => $aiChatbot,
         ]);
+    }
+
+    public function unlock(Request $request, string $slug)
+    {
+        $vcard = VCard::where('slug', $slug)
+            ->where('active', true)
+            ->where('paused', false)
+            ->firstOrFail();
+
+        if (!$vcard->hasPasswordProtection()) {
+            $vcard->markAsUnlocked();
+            return redirect("/v/{$slug}");
+        }
+
+        $request->validate([
+            'password' => 'required|string',
+        ]);
+
+        if ($vcard->checkPassword($request->password)) {
+            $vcard->markAsUnlocked();
+            return redirect("/v/{$slug}");
+        }
+
+        return redirect("/v/{$slug}")->withErrors(['password' => 'Contraseña incorrecta']);
     }
 
     private function getAiChatbotSettings(VCard $vcard): ?array

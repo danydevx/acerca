@@ -44,7 +44,7 @@
     <div class="card border-0 shadow-sm">
       <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
+          <thead>
             <tr>
               <th scope="col">Asunto</th>
               <th scope="col">Estado</th>
@@ -65,9 +65,11 @@
               <td class="text-muted">{{ ticket.priority || '-' }}</td>
               <td class="text-muted">{{ ticket.last_reply_at || ticket.created_at }}</td>
               <td class="text-end">
-                <Link :href="`/member/support/${ticket.id}`" class="btn btn-sm btn-outline-primary">
-                  <i class="bi bi-eye"></i>
-                </Link>
+                <div class="actions d-inline-flex gap-1">
+                  <Link :href="`/member/support/${ticket.id}`" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-eye"></i>
+                  </Link>
+                </div>
               </td>
             </tr>
           </tbody>
