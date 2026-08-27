@@ -7,6 +7,7 @@ enum VCardContactType: string
     case PHONE = 'phone';
     case EMAIL = 'email';
     case WHATSAPP = 'whatsapp';
+    case WEBSITE = 'website';
 
     public function label(): string
     {
@@ -14,6 +15,7 @@ enum VCardContactType: string
             self::PHONE => 'Teléfono',
             self::EMAIL => 'Email',
             self::WHATSAPP => 'WhatsApp',
+            self::WEBSITE => 'Sitio Web',
         };
     }
 }

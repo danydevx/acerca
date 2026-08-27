@@ -401,16 +401,33 @@ class VCard extends Model
         $this->password_protected = false;
         $this->password_salt = null;
         $this->password_encrypted = null;
+        $this->forgetUnlockSession();
     }
 
     public function isUnlockedBySession(): bool
     {
-        return session()->has('vcard_unlocked_' . $this->id);
+        $unlockedAt = session()->get('vcard_unlocked_' . $this->id);
+        if (!$unlockedAt) {
+            return false;
+        }
+
+        $expirySeconds = 24 * 60 * 60;
+        if (time() - $unlockedAt > $expirySeconds) {
+            $this->forgetUnlockSession();
+            return false;
+        }
+
+        return true;
     }
 
     public function markAsUnlocked(): void
     {
-        session()->put('vcard_unlocked_' . $this->id, true);
+        session()->put('vcard_unlocked_' . $this->id, time());
+    }
+
+    public function forgetUnlockSession(): void
+    {
+        session()->forget('vcard_unlocked_' . $this->id);
     }
 
     public function toVCardString(): string

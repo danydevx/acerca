@@ -257,6 +257,7 @@ class VCardController extends Controller
         $vcard->update($validated);
 
         if ($passwordProtected && $passwordWord) {
+            $vcard->forgetUnlockSession();
             $vcard->setPassword($passwordWord);
             $vcard->save();
         } elseif (!$passwordProtected) {
