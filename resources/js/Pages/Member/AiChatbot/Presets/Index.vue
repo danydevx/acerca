@@ -15,19 +15,16 @@
       </template>
     </PageHeader>
 
-      <div v-if="$page.props.flash?.success" class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ $page.props.flash.success }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-      </div>
+    <div v-if="$page.props.flash?.success" class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ $page.props.flash.success }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
 
-      <div v-if="globalPresets.length > 0" class="card border-0 shadow-sm mb-4">
-        <div class="card-header bg-white py-3">
-          <h5 class="mb-0">Presets Globales</h5>
-          <small class="text-muted">Disponibles para todos los negocios</small>
-        </div>
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-0">
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
+            <thead>
               <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Personalidad</th>
@@ -37,58 +34,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="preset in globalPresets" :key="preset.id">
-                <td>
-                  <div class="fw-semibold">{{ preset.name }}</div>
-                  <small class="text-muted">{{ preset.description?.substring(0, 60) || '' }}...</small>
-                </td>
-                <td>
-                  <span class="badge text-bg-info">{{ preset.personality }}</span>
-                </td>
-                <td>
-                  <span class="badge text-bg-secondary">{{ preset.language?.toUpperCase() }}</span>
-                </td>
-                <td>
-                  <span :class="preset.is_active ? 'badge bg-success' : 'badge bg-secondary'">
-                    {{ preset.is_active ? 'Activo' : 'Inactivo' }}
-                  </span>
-                </td>
-                <td class="text-end">
-                  <div class="btn-group btn-group-sm">
-                    <button
-                      type="button"
-                      class="btn btn-outline-secondary"
-                      @click="duplicatePreset(preset)"
-                      title="Duplicar"
-                    >
-                      <i class="bi bi-copy"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white py-3">
-          <h5 class="mb-0">Mis Presets</h5>
-          <small class="text-muted">Presets creados para este negocio</small>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Personalidad</th>
-                <th scope="col">Idioma</th>
-                <th scope="col">Estado</th>
-                <th scope="col" class="text-end">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="businessPresets.length === 0">
+              <tr v-if="allPresets.length === 0">
                 <td colspan="5" class="text-center text-muted py-4">
                   No tienes presets creados.
                   <Link :href="`/member/listings/${listing.id}/ai-chatbot/presets/create`" class="text-primary">
@@ -96,7 +42,7 @@
                   </Link>
                 </td>
               </tr>
-              <tr v-for="preset in businessPresets" :key="preset.id">
+              <tr v-for="preset in allPresets" :key="preset.id">
                 <td>
                   <div class="fw-semibold">{{ preset.name }}</div>
                   <small class="text-muted">{{ preset.description?.substring(0, 60) || '' }}...</small>
@@ -113,24 +59,25 @@
                   </span>
                 </td>
                 <td class="text-end">
-                  <div class="btn-group btn-group-sm">
+                  <div class="actions d-inline-flex gap-1">
                     <Link
                       :href="`/member/listings/${listing.id}/ai-chatbot/presets/${preset.id}/edit`"
-                      class="btn btn-outline-primary"
+                      class="btn btn-sm btn-outline-primary"
                     >
                       <i class="bi bi-pencil"></i>
                     </Link>
                     <button
                       type="button"
-                      class="btn btn-outline-secondary"
+                      class="btn btn-sm btn-outline-secondary"
                       @click="duplicatePreset(preset)"
                       title="Duplicar"
                     >
                       <i class="bi bi-copy"></i>
                     </button>
                     <button
+                      v-if="!preset.is_system"
                       type="button"
-                      class="btn btn-outline-danger"
+                      class="btn btn-sm btn-outline-danger"
                       @click="deletePreset(preset)"
                     >
                       <i class="bi bi-trash"></i>
@@ -142,6 +89,7 @@
           </table>
         </div>
       </div>
+    </div>
   </MemberLayout>
 </template>
 
@@ -155,6 +103,8 @@ const page = usePage()
 const listing = page.props.listing
 const globalPresets = page.props.globalPresets || []
 const businessPresets = page.props.listingPresets || []
+
+const allPresets = computed(() => [...globalPresets, ...businessPresets])
 
 const breadcrumbs = computed(() => [
   { label: 'Inicio', href: '/member/dashboard' },
