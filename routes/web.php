@@ -906,6 +906,9 @@ Route::delete('/member/listings/{listing}/feature-assignments/{assignment}', [Fe
 Route::post('/member/listings/{listing}/features/reorder', [FeatureController::class, 'reorder'])
     ->middleware(['auth', 'verified', 'active', 'role:member'])
     ->name('member.listings.features.reorder');
+Route::delete('/member/listings/{listing}/features/unlink-all', [FeatureController::class, 'unlinkAll'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.features.unlink-all');
 
 Route::get('/member/listings/{listing}/menu-categories', [MemberMenuCategoryController::class, 'index'])
     ->middleware(['auth', 'verified', 'active', 'role:member'])

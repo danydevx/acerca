@@ -43,7 +43,12 @@
         </div>
 
         <div class="mb-3 d-flex justify-content-between align-items-center">
-          <span class="text-muted small">Arrastra las cards para reordenar</span>
+          <div class="d-flex gap-2">
+            <span class="text-muted small">Arrastra las cards para reordenar</span>
+            <button v-if="businessFeatures.length > 0" class="btn btn-outline-danger btn-sm" @click="unlinkAll">
+              <i class="bi bi-trash me-1"></i>Desvincular todas
+            </button>
+          </div>
           <button class="btn btn-outline-primary btn-sm" @click="openImportModal" v-if="availableFeaturesCount > 0">
             <i class="bi bi-download me-1"></i>Importar ({{ availableFeaturesCount }})
           </button>
@@ -540,6 +545,13 @@ const removeAssignment = (bf) => {
 const deleteFeature = (bf) => {
   if (!confirm('Estas seguro de eliminar esta caracteristica?')) return
   router.delete(`/member/listings/${listing.value.id}/features/${bf.id}`, {
+    preserveScroll: true,
+  })
+}
+
+const unlinkAll = () => {
+  if (!confirm('Estas seguro de desvincular todas las caracteristicas? Esta accion no se puede deshacer.')) return
+  router.delete(`/member/listings/${listing.value.id}/features/unlink-all`, {
     preserveScroll: true,
   })
 }

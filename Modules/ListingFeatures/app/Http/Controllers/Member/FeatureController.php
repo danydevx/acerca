@@ -414,4 +414,27 @@ class FeatureController extends Controller
 
         return redirect()->back();
     }
+
+    public function unlinkAll(Request $request, Listing $business)
+    {
+        $user = $request->user();
+        if (!$user->hasAnyRole(['superadmin', 'admin']) && $business->user_id !== $user->id) {
+            abort(403, 'No tienes permiso para desvincular features.');
+        }
+
+        $deletedCount = 0;
+
+        $listingFeatures = ListingFeature::where('listing_id', $business->id)->get();
+
+        foreach ($listingFeatures as $lf) {
+            $feature = $lf->feature;
+            if ($feature && ($feature->isClone() || $feature->isCustom())) {
+                $feature->delete();
+            }
+            $lf->delete();
+            $deletedCount++;
+        }
+
+        return redirect()->back()->with('success', "{$deletedCount} caracteristicas desvinculadas correctamente.");
+    }
 }
