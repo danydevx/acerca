@@ -153,6 +153,7 @@ class HandleInertiaRequests extends Middleware
             'fidelity_cards' => 'fidelity-cards',
             'vcards_seo' => 'vcards-seo',
             'vcards_packages' => 'vcards-packages',
+            'analytics' => 'analytics',
         ];
 
         return $paths[$moduleKey] ?? $moduleKey;

@@ -248,6 +248,11 @@ class Listing extends Model
         return $this->hasMany(\Modules\ListingPackages\Models\ListingPackage::class, 'listing_id');
     }
 
+    public function analyticsSetting(): HasOne
+    {
+        return $this->hasOne(\Modules\Analytics\Models\AnalyticsSetting::class, 'listing_id');
+    }
+
     public function getEnabledModules(): array
     {
         return $this->modules()->where('is_enabled', true)->pluck('module_key')->toArray();
