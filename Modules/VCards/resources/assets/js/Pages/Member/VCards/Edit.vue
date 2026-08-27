@@ -2098,11 +2098,7 @@ function deleteCard() {
 }
 
 .tab-content {
-  padding-top: 0;
-
-  .tab-pane {
-    padding: 0;
-  }
+  padding-top: 24px;
 }
 
 .design-option {
