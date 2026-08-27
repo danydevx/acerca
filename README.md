@@ -1,6 +1,6 @@
-# Invita2
+# Acerca.site
 
-Vamos a contruir un sistema de invitaciones 
+Sitio web para vCards
 
 ------------------------------------------------------------------------
 
