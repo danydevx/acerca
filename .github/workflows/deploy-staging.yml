@@ -28,12 +28,21 @@ jobs:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
+
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
           ssh-keyscan \
             -p "${{ secrets.SSH_PORT }}" \
             "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Prepare staging directory
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "mkdir -p '${{ secrets.STAGING_PATH }}'"
 
       - name: Deploy files
         run: |
@@ -48,7 +57,27 @@ jobs:
             ./ \
             "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.STAGING_PATH }}/"
 
-      - name: Laravel setup
+      - name: Prepare Laravel directories
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
+
+            cd "${{ secrets.STAGING_PATH }}"
+
+            mkdir -p storage/framework/cache
+            mkdir -p storage/framework/sessions
+            mkdir -p storage/framework/views
+            mkdir -p storage/logs
+            mkdir -p bootstrap/cache
+
+            chmod -R 775 storage
+            chmod -R 775 bootstrap/cache
+
+          EOF
+
+      - name: Install Composer dependencies
         run: |
           ssh \
             -i ~/.ssh/id_ed25519 \
@@ -61,6 +90,17 @@ jobs:
               --prefer-dist \
               --no-interaction \
               --optimize-autoloader
+
+          EOF
+
+      - name: Laravel commands
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
+
+            cd "${{ secrets.STAGING_PATH }}"
 
             php artisan optimize:clear
             php artisan migrate --force
