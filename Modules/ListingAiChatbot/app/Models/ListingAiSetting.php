@@ -45,6 +45,10 @@ class ListingAiSetting extends Model
         'cta_secondary_url',
         'intent_cta',
         'additional_preset_ids',
+        'scheduled_pause_enabled',
+        'scheduled_pause_start',
+        'scheduled_pause_end',
+        'scheduled_pause_days',
     ];
 
     protected $casts = [
@@ -61,6 +65,8 @@ class ListingAiSetting extends Model
         'lead_capture_enabled' => 'boolean',
         'cta_enabled' => 'boolean',
         'additional_preset_ids' => 'array',
+        'scheduled_pause_enabled' => 'boolean',
+        'scheduled_pause_days' => 'array',
     ];
 
     protected $hidden = [
@@ -136,5 +142,39 @@ class ListingAiSetting extends Model
             ->orderBy('is_system', 'desc')
             ->orderBy('name')
             ->get();
+    }
+
+    public function isPausedBySchedule(): bool
+    {
+        if (!$this->scheduled_pause_enabled) {
+            return false;
+        }
+
+        $now = now();
+        $currentDay = strtolower($now->format('l'));
+        $currentTime = $now->format('H:i');
+
+        $activeDays = $this->scheduled_pause_days ?? [];
+        if (!in_array($currentDay, $activeDays) && !in_array((int)$now->dayOfWeek, $activeDays)) {
+            return false;
+        }
+
+        $start = $this->scheduled_pause_start ?? '00:00';
+        $end = $this->scheduled_pause_end ?? '00:00';
+
+        if ($start <= $end) {
+            return $currentTime >= $start && $currentTime <= $end;
+        } else {
+            return $currentTime >= $start || $currentTime <= $end;
+        }
+    }
+
+    public function isCurrentlyActive(): bool
+    {
+        if (!$this->is_enabled) {
+            return false;
+        }
+
+        return !$this->isPausedBySchedule();
     }
 }

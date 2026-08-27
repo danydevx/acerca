@@ -87,6 +87,10 @@ class AiChatbotController extends Controller
                 'lead_capture_enabled' => $settings->lead_capture_enabled ?? false,
                 'lead_capture_title' => $settings->lead_capture_title ?? '¿Te gustaría recibir noticias sobre nosotros?',
                 'lead_capture_description' => $settings->lead_capture_description ?? 'Déjanos tu correo y te mantendremos informado.',
+                'scheduled_pause_enabled' => $settings->scheduled_pause_enabled ?? false,
+                'scheduled_pause_start' => $settings->scheduled_pause_start ?? '22:00',
+                'scheduled_pause_end' => $settings->scheduled_pause_end ?? '08:00',
+                'scheduled_pause_days' => $settings->scheduled_pause_days ?? [],
             ] : null,
             'presets' => $presets,
             'contexts' => $contexts,
@@ -125,6 +129,11 @@ class AiChatbotController extends Controller
             'rag_max_results' => 'nullable|integer|min:1|max:20',
             'cta_settings' => 'nullable|string',
             'lead_capture_settings' => 'nullable|string',
+            'scheduled_pause_enabled' => 'boolean',
+            'scheduled_pause_start' => 'nullable|date_format:H:i',
+            'scheduled_pause_end' => 'nullable|date_format:H:i',
+            'scheduled_pause_days' => 'nullable|array',
+            'scheduled_pause_days.*' => 'string|in:sunday,monday,tuesday,wednesday,thursday,friday,saturday',
         ]);
 
         $updateData = [
@@ -149,6 +158,10 @@ class AiChatbotController extends Controller
             'url_import_max_chars' => $data['url_import_max_chars'] ?? 5000,
             'rag_min_similarity' => (float) ($data['rag_min_similarity'] ?? 0.25),
             'rag_max_results' => (int) ($data['rag_max_results'] ?? 5),
+            'scheduled_pause_enabled' => $data['scheduled_pause_enabled'] ?? false,
+            'scheduled_pause_start' => $data['scheduled_pause_start'] ?? null,
+            'scheduled_pause_end' => $data['scheduled_pause_end'] ?? null,
+            'scheduled_pause_days' => $data['scheduled_pause_days'] ?? [],
         ];
 
         if (!empty($data['cta_settings'])) {
@@ -242,6 +255,73 @@ class AiChatbotController extends Controller
         $context->delete();
 
         return redirect()->back()->with('success', 'Contexto eliminado correctamente.');
+    }
+
+    public function embeddingsJson(Request $request, \Modules\Listings\Models\Listing $business)
+    {
+        abort_unless($business->user_id === Auth::id() || Auth::user()->hasRole('superadmin'), 403);
+
+        $type = $request->query('type');
+
+        $typeMap = [
+            'product' => ['product'],
+            'service' => ['service'],
+            'promotion' => ['promotion'],
+            'faq' => ['faq'],
+            'location' => ['location'],
+            'about' => ['about'],
+            'custom' => ['custom'],
+            'restaurant_menu' => ['restaurant_category', 'restaurant_product'],
+            'social_network' => ['social_network'],
+            'appointments' => ['appointment', 'appointment_exception'],
+        ];
+
+        $sourceTypes = $typeMap[$type] ?? [$type];
+
+        $embeddings = \Modules\ListingAiChatbot\Models\AiEmbedding::where('listing_id', $business->id)
+            ->whereIn('source_type', $sourceTypes)
+            ->get(['id', 'source_type', 'source_id', 'chunk_text']);
+
+        return response()->json(['embeddings' => $embeddings]);
+    }
+
+    public function destroyEmbeddings(Request $request, \Modules\Listings\Models\Listing $business, string $type)
+    {
+        abort_unless($business->user_id === Auth::id() || Auth::user()->hasRole('superadmin'), 403);
+
+        $typeMap = [
+            'product' => ['product'],
+            'service' => ['service'],
+            'promotion' => ['promotion'],
+            'faq' => ['faq'],
+            'location' => ['location'],
+            'about' => ['about'],
+            'custom' => ['custom'],
+            'restaurant_menu' => ['restaurant_category', 'restaurant_product'],
+            'social_network' => ['social_network'],
+            'appointments' => ['appointment', 'appointment_exception'],
+        ];
+
+        $sourceTypes = $typeMap[$type] ?? [$type];
+
+        $deleted = \Modules\ListingAiChatbot\Models\AiEmbedding::where('listing_id', $business->id)
+            ->whereIn('source_type', $sourceTypes)
+            ->delete();
+
+        return redirect()->back()->with('success', "{$deleted} fragmentos eliminados correctamente.");
+    }
+
+    public function destroyEmbedding(Request $request, \Modules\Listings\Models\Listing $business, int $id)
+    {
+        abort_unless($business->user_id === Auth::id() || Auth::user()->hasRole('superadmin'), 403);
+
+        $embedding = \Modules\ListingAiChatbot\Models\AiEmbedding::where('listing_id', $business->id)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $embedding->delete();
+
+        return redirect()->back()->with('success', 'Fragmento eliminado correctamente.');
     }
 
     public function reindex(Request $request, \Modules\Listings\Models\Listing $business)

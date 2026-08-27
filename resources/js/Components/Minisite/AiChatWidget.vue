@@ -1,173 +1,173 @@
 <template>
-  <div v-if="isAvailable" class="ai-chat-widget" :class="[widgetTheme, { open: isOpen }]">
+  <div v-if="isAvailable && !isPaused" class="ai-chat-widget" :class="[widgetTheme, { open: isOpen }]">
     <div v-if="!isOpen" class="chat-bubble" :style="{ backgroundColor: widgetColor }" @click="openChat">
-      <div class="bubble-icon">
-        <img v-if="localChatbotAvatar" :src="localChatbotAvatar" alt="Avatar" class="bubble-avatar" />
-        <svg v-else width="28" height="28" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2C6.48 2 2 5.58 2 10c0 1.82.62 3.49 1.64 4.83L2 22l4.17-.64A9.93 9.93 0 0012 22c5.52 0 10-3.58 10-8s-4.48-12-10-12z" fill="white"/>
-          <circle cx="8" cy="10" r="1.5" :fill="widgetColor"/>
-          <circle cx="12" cy="10" r="1.5" :fill="widgetColor"/>
-          <circle cx="16" cy="10" r="1.5" :fill="widgetColor"/>
-        </svg>
-      </div>
-      <div class="bubble-badge" v-if="unreadCount > 0">{{ unreadCount }}</div>
-    </div>
-
-    <div v-else class="chat-window">
-      <div class="chat-header" :style="{ backgroundColor: widgetColor }">
-        <div class="chat-header-info">
-          <div class="chat-avatar">
-            <img v-if="chatbotAvatar" :src="chatbotAvatar" alt="Avatar" class="chat-avatar-img" />
-            <i v-else class="bi bi-robot"></i>
-          </div>
-          <div>
-            <div class="chat-title">{{ localChatbotName }}</div>
-            <div class="chat-status">
-              <span class="status-dot"></span> En línea
-            </div>
-          </div>
+        <div class="bubble-icon">
+          <img v-if="localChatbotAvatar" :src="localChatbotAvatar" alt="Avatar" class="bubble-avatar" />
+          <svg v-else width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C6.48 2 2 5.58 2 10c0 1.82.62 3.49 1.64 4.83L2 22l4.17-.64A9.93 9.93 0 0012 22c5.52 0 10-3.58 10-8s-4.48-12-10-12z" fill="white"/>
+            <circle cx="8" cy="10" r="1.5" :fill="widgetColor"/>
+            <circle cx="12" cy="10" r="1.5" :fill="widgetColor"/>
+            <circle cx="16" cy="10" r="1.5" :fill="widgetColor"/>
+          </svg>
         </div>
-        <div class="chat-header-actions">
-          <button v-if="allowReset" class="chat-action-btn" @click="resetChat" title="Reiniciar chat">
-            <i class="bi bi-arrow-counterclockwise"></i>
-          </button>
-          <button class="chat-close-btn" @click="closeChat">
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </div>
+        <div class="bubble-badge" v-if="unreadCount > 0">{{ unreadCount }}</div>
       </div>
 
-      <div class="chat-messages" ref="messagesContainer">
-        <div v-if="messages.length === 0" class="chat-empty">
-          <i class="bi bi-chat-dots"></i>
-          <p v-if="!localSuggestions.length">¡Hola! Soy {{ localChatbotName }}. ¿En qué puedo ayudarte?</p>
-          <div v-else class="suggestions-container">
-            <p class="suggestions-title">Sugerencias:</p>
-            <button
-              v-for="(suggestion, idx) in localSuggestions"
-              :key="idx"
-              class="suggestion-btn"
-              :style="{ borderColor: widgetColor, color: widgetColor }"
-              @click="useSuggestion(suggestion)"
-            >
-              {{ suggestion }}
-            </button>
-          </div>
-        </div>
-
-        <div
-          v-for="(msg, index) in messages"
-          :key="index"
-          class="chat-message"
-          :class="msg.role"
-        >
-          <div class="message-content" :class="{ expanded: msg.expanded || !msg.isLong }">
-            <template v-if="msg.isLong && localExpandableResponses && !msg.expanded">
-              {{ msg.preview }}
-              <button class="expand-btn" @click="msg.expanded = true">Ver más</button>
-            </template>
-            <template v-else>
-              {{ msg.content }}
-            </template>
-          </div>
-
-          <div v-if="localShowCitations && msg.sources && msg.sources.length" class="message-sources">
-            <div class="sources-header" @click="msg.sourcesExpanded = !msg.sourcesExpanded">
-              <i class="bi bi-link-45deg"></i>
-              <span>Fuentes ({{ msg.sources.length }})</span>
-              <i :class="msg.sourcesExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
+      <div v-else class="chat-window">
+        <div class="chat-header" :style="{ backgroundColor: widgetColor }">
+          <div class="chat-header-info">
+            <div class="chat-avatar">
+              <img v-if="chatbotAvatar" :src="chatbotAvatar" alt="Avatar" class="chat-avatar-img" />
+              <i v-else class="bi bi-robot"></i>
             </div>
-            <div v-if="msg.sourcesExpanded" class="sources-list">
-              <div v-for="(source, idx) in msg.sources" :key="idx" class="source-item">
-                <span class="source-type">{{ formatSourceType(source.type) }}</span>
-                <span class="source-text">{{ source.text }}</span>
+            <div>
+              <div class="chat-title">{{ localChatbotName }}</div>
+              <div class="chat-status">
+                <span class="status-dot"></span> En línea
               </div>
             </div>
           </div>
-
-          <div v-if="msg.showCta && msg.showCta.url" class="message-cta">
-            <a
-              :href="msg.showCta.url"
-              target="_blank"
-              class="cta-btn cta-primary"
-              :style="{ backgroundColor: widgetColor }"
-            >
-              {{ msg.showCta.text }}
-            </a>
-          </div>
-
-          <div class="message-time" v-if="msg.timestamp">
-            {{ formatTime(msg.timestamp) }}
-          </div>
-        </div>
-
-        <div v-if="isTyping" class="chat-message assistant">
-          <div class="message-content typing">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-
-        <div v-if="showLeadCapture && !leadCaptureSubmitted" class="lead-capture">
-          <div class="lead-capture-icon">
-            <i class="bi bi-envelope-plus"></i>
-          </div>
-          <div class="lead-capture-content">
-            <p class="lead-capture-title">{{ leadCaptureTitle }}</p>
-            <p class="lead-capture-desc">{{ leadCaptureDescription }}</p>
-            <div class="lead-capture-form">
-              <input
-                type="text"
-                v-model="leadName"
-                placeholder="Tu nombre (opcional)"
-                class="lead-input"
-              />
-              <input
-                type="email"
-                v-model="leadEmail"
-                placeholder="tu@email.com"
-                class="lead-input"
-                @keypress.enter="submitLead"
-              />
-              <button
-                class="lead-submit"
-                :style="{ backgroundColor: widgetColor }"
-                @click="submitLead"
-              >
-                <i class="bi bi-send"></i>
-              </button>
-            </div>
-            <button class="lead-skip" @click="showLeadCapture = false">
-              Nah, mejor no
+          <div class="chat-header-actions">
+            <button v-if="allowReset" class="chat-action-btn" @click="resetChat" title="Reiniciar chat">
+              <i class="bi bi-arrow-counterclockwise"></i>
+            </button>
+            <button class="chat-close-btn" @click="closeChat">
+              <i class="bi bi-x-lg"></i>
             </button>
           </div>
         </div>
 
-        <div v-if="leadCaptureSubmitted" class="lead-capture-success">
-          <i class="bi bi-check-circle"></i>
-          <span>¡Gracias! Te mantendremos informado.</span>
-        </div>
-      </div>
+        <div class="chat-messages" ref="messagesContainer">
+          <div v-if="messages.length === 0" class="chat-empty">
+            <i class="bi bi-chat-dots"></i>
+            <p v-if="!localSuggestions.length">¡Hola! Soy {{ localChatbotName }}. ¿En qué puedo ayudarte?</p>
+            <div v-else class="suggestions-container">
+              <p class="suggestions-title">Sugerencias:</p>
+              <button
+                v-for="(suggestion, idx) in localSuggestions"
+                :key="idx"
+                class="suggestion-btn"
+                :style="{ borderColor: widgetColor, color: widgetColor }"
+                @click="useSuggestion(suggestion)"
+              >
+                {{ suggestion }}
+              </button>
+            </div>
+          </div>
 
-      <div class="chat-input">
-        <input
-          type="text"
-          v-model="inputMessage"
-          placeholder="Escribe un mensaje..."
-          :disabled="sending"
-          @keypress.enter="sendMessage"
-        />
-        <button
-          class="send-btn"
-          :style="{ backgroundColor: widgetColor }"
-          :disabled="!inputMessage.trim() || sending"
-          @click="sendMessage"
-        >
-          <i v-if="sending" class="bi bi-hourglass-split"></i>
-          <i v-else class="bi bi-send"></i>
-        </button>
-      </div>
+          <div
+            v-for="(msg, index) in messages"
+            :key="index"
+            class="chat-message"
+            :class="msg.role"
+          >
+            <div class="message-content" :class="{ expanded: msg.expanded || !msg.isLong }">
+              <template v-if="msg.isLong && localExpandableResponses && !msg.expanded">
+                {{ msg.preview }}
+                <button class="expand-btn" @click="msg.expanded = true">Ver más</button>
+              </template>
+              <template v-else>
+                {{ msg.content }}
+              </template>
+            </div>
+
+            <div v-if="localShowCitations && msg.sources && msg.sources.length" class="message-sources">
+              <div class="sources-header" @click="msg.sourcesExpanded = !msg.sourcesExpanded">
+                <i class="bi bi-link-45deg"></i>
+                <span>Fuentes ({{ msg.sources.length }})</span>
+                <i :class="msg.sourcesExpanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
+              </div>
+              <div v-if="msg.sourcesExpanded" class="sources-list">
+                <div v-for="(source, idx) in msg.sources" :key="idx" class="source-item">
+                  <span class="source-type">{{ formatSourceType(source.type) }}</span>
+                  <span class="source-text">{{ source.text }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div v-if="msg.showCta && msg.showCta.url" class="message-cta">
+              <a
+                :href="msg.showCta.url"
+                target="_blank"
+                class="cta-btn cta-primary"
+                :style="{ backgroundColor: widgetColor }"
+              >
+                {{ msg.showCta.text }}
+              </a>
+            </div>
+
+            <div class="message-time" v-if="msg.timestamp">
+              {{ formatTime(msg.timestamp) }}
+            </div>
+          </div>
+
+          <div v-if="isTyping" class="chat-message assistant">
+            <div class="message-content typing">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <div v-if="showLeadCapture && !leadCaptureSubmitted" class="lead-capture">
+            <div class="lead-capture-icon">
+              <i class="bi bi-envelope-plus"></i>
+            </div>
+            <div class="lead-capture-content">
+              <p class="lead-capture-title">{{ leadCaptureTitle }}</p>
+              <p class="lead-capture-desc">{{ leadCaptureDescription }}</p>
+              <div class="lead-capture-form">
+                <input
+                  type="text"
+                  v-model="leadName"
+                  placeholder="Tu nombre (opcional)"
+                  class="lead-input"
+                />
+                <input
+                  type="email"
+                  v-model="leadEmail"
+                  placeholder="tu@email.com"
+                  class="lead-input"
+                  @keypress.enter="submitLead"
+                />
+                <button
+                  class="lead-submit"
+                  :style="{ backgroundColor: widgetColor }"
+                  @click="submitLead"
+                >
+                  <i class="bi bi-send"></i>
+                </button>
+              </div>
+              <button class="lead-skip" @click="showLeadCapture = false">
+                Nah, mejor no
+              </button>
+            </div>
+          </div>
+
+          <div v-if="leadCaptureSubmitted" class="lead-capture-success">
+            <i class="bi bi-check-circle"></i>
+            <span>¡Gracias! Te mantendremos informado.</span>
+          </div>
+        </div>
+
+        <div class="chat-input">
+          <input
+            type="text"
+            v-model="inputMessage"
+            placeholder="Escribe un mensaje..."
+            :disabled="sending"
+            @keypress.enter="sendMessage"
+          />
+          <button
+            class="send-btn"
+            :style="{ backgroundColor: widgetColor }"
+            :disabled="!inputMessage.trim() || sending"
+            @click="sendMessage"
+          >
+            <i v-if="sending" class="bi bi-hourglass-split"></i>
+            <i v-else class="bi bi-send"></i>
+          </button>
+        </div>
     </div>
   </div>
 </template>
@@ -459,7 +459,11 @@ const checkAvailability = () => {
   fetch(`/m/${props.businessSlug}/ai-chatbot/settings`)
     .then((res) => res.json())
     .then((data) => {
-      isAvailable.value = data.available === true
+      if (data.is_paused) {
+        isAvailable.value = false
+        return
+      }
+      isAvailable.value = data.available !== false
       if (data.chatbot_name) {
         localChatbotName.value = data.chatbot_name
       }

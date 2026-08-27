@@ -84,14 +84,32 @@
             </div>
             <div v-else class="embedding-list">
               <div v-for="emb in embeddings" :key="emb.id" class="embedding-item card mb-2">
-                <div class="card-body py-2">
-                  <small class="text-muted d-block mb-1">ID: {{ emb.source_id }} · Tipo: {{ emb.source_type }}</small>
-                  <div class="chunk-text">{{ emb.chunk_text }}</div>
+                <div class="card-body py-2 d-flex justify-content-between align-items-start">
+                  <div class="flex-grow-1 me-2">
+                    <small class="text-muted d-block mb-1">ID: {{ emb.source_id }} · Tipo: {{ emb.source_type }}</small>
+                    <div class="chunk-text">{{ emb.chunk_text }}</div>
+                  </div>
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    @click="deleteEmbedding(emb.id)"
+                    title="Eliminar fragmento"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer d-flex justify-content-between">
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              @click="deleteAllEmbeddings"
+              :disabled="deleting"
+            >
+              <span v-if="deleting"><i class="bi bi-hourglass-split me-2"></i>Eliminando...</span>
+              <span v-else><i class="bi bi-trash me-2"></i>Eliminar todos ({{ embeddings.length }})</span>
+            </button>
             <button type="button" class="btn btn-secondary" @click="closeModal">Cerrar</button>
           </div>
         </div>
@@ -120,6 +138,8 @@ const showModal = ref(false)
 const modalTitle = ref('')
 const embeddings = ref([])
 const loadingModal = ref(false)
+const deleting = ref(false)
+const currentType = ref('')
 
 const contentTypes = computed(() => [
   { type: 'product', label: 'Productos', count: props.embeddingCounts?.product || 0 },
@@ -136,6 +156,7 @@ const contentTypes = computed(() => [
 
 const viewContent = (type, label) => {
   modalTitle.value = label
+  currentType.value = type
   embeddings.value = []
   showModal.value = true
   loadingModal.value = true
@@ -161,6 +182,38 @@ const viewContent = (type, label) => {
 const closeModal = () => {
   showModal.value = false
   embeddings.value = []
+}
+
+const deleteAllEmbeddings = () => {
+  if (!confirm(`¿Eliminar todos los ${embeddings.value.length} fragmentos de "${modalTitle.value}"?`)) return
+
+  deleting.value = true
+
+  router.delete(`/member/listings/${props.business.id}/ai-chatbot/embeddings/${currentType.value}`, {
+    preserveScroll: true,
+    onSuccess: () => {
+      closeModal()
+      window.location.reload()
+    },
+    onError: (errors) => {
+      alert(Object.values(errors).join('\n') || 'Error al eliminar')
+      deleting.value = false
+    },
+  })
+}
+
+const deleteEmbedding = (id) => {
+  if (!confirm('¿Eliminar este fragmento?')) return
+
+  router.delete(`/member/listings/${props.business.id}/ai-chatbot/embedding/${id}`, {
+    preserveScroll: true,
+    onSuccess: () => {
+      embeddings.value = embeddings.value.filter(e => e.id !== id)
+    },
+    onError: (errors) => {
+      alert(Object.values(errors).join('\n') || 'Error al eliminar')
+    },
+  })
 }
 
 const reindex = () => {

@@ -32,6 +32,18 @@ class WidgetApiController extends Controller
 
         $settings = $widget->getAiSetting();
 
+        if ($settings && $settings->isCurrentlyActive() === false) {
+            return response()->json([
+                'is_paused' => true,
+                'chatbot_name' => $settings->chatbot_name ?: 'Asistente Virtual',
+                'chatbot_avatar' => $settings->chatbot_avatar,
+                'widget_color' => $settings->widget_color ?: '#3B82F6',
+                'widget_theme' => $settings->widget_theme ?? 'light',
+                'scheduled_pause_start' => $settings->scheduled_pause_start,
+                'scheduled_pause_end' => $settings->scheduled_pause_end,
+            ]);
+        }
+
         ChatbotWidgetAnalytics::track($publicKey, 'load', ['domain' => $domain]);
 
         return response()->json([
@@ -43,6 +55,7 @@ class WidgetApiController extends Controller
             'cta_enabled' => $settings->cta_enabled ?? false,
             'intent_cta' => $this->parseIntentCta($settings),
             'intent_buttons' => $this->buildIntentButtons($settings),
+            'is_paused' => false,
         ]);
     }
 
@@ -62,6 +75,13 @@ class WidgetApiController extends Controller
 
         if (!$widget->isDomainAllowed($domain)) {
             return $this->errorStream('Dominio no autorizado');
+        }
+
+        $settings = $widget->getAiSetting();
+        if ($settings && $settings->isCurrentlyActive() === false) {
+            return response()->stream(function () {
+                echo "data: " . json_encode(['type' => 'done', 'content' => '', 'is_paused' => true]) . "\n\n";
+            }, 200, ['Content-Type' => 'text/event-stream']);
         }
 
         $validated = $request->validate([
