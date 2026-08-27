@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('listing_id')->constrained()->onDelete('cascade');
             $table->timestamp('started_at')->useCurrent();
             $table->timestamp('last_activity_at')->useCurrent();
-            $table->timestamp('expires_at');
+            $table->timestamp('expires_at')->useCurrent();
             $table->boolean('is_bot')->default(false);
             $table->string('device_type', 20)->nullable();
             $table->string('browser', 50)->nullable();
