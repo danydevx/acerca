@@ -64,6 +64,8 @@ jobs:
             -p "${{ secrets.SSH_PORT }}" \
             "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
 
+            set -e
+
             cd "${{ secrets.PRODUCTION_PATH }}"
 
             mkdir -p storage/framework/cache
@@ -78,6 +80,43 @@ jobs:
 
           EOF
 
+      - name: Validate production environment
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
+
+            set -e
+
+            cd "${{ secrets.PRODUCTION_PATH }}"
+
+            if [ ! -f .env ]; then
+              echo "ERROR: Production .env does not exist"
+              exit 1
+            fi
+
+            if ! grep -q "^APP_ENV=production" .env; then
+              echo "ERROR: APP_ENV must be production"
+              exit 1
+            fi
+
+            if ! grep -q "^APP_DEBUG=false" .env; then
+              echo "ERROR: APP_DEBUG must be false"
+              exit 1
+            fi
+
+            if ! grep -q "^DB_CONNECTION=mysql" .env; then
+              echo "ERROR: DB_CONNECTION must be mysql"
+              exit 1
+            fi
+
+            rm -f bootstrap/cache/config.php
+
+            echo "Production environment OK"
+
+          EOF
+
       - name: Install Composer dependencies
         run: |
           ssh \
@@ -85,31 +124,94 @@ jobs:
             -p "${{ secrets.SSH_PORT }}" \
             "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
 
+            set -e
+
             cd "${{ secrets.PRODUCTION_PATH }}"
 
-            /opt/cpanel/ea-php83/root/usr/bin/php \
-              $(which composer) install \
+            PHP="/opt/cpanel/ea-php83/root/usr/bin/php"
+            COMPOSER="$(which composer)"
+
+            $PHP $COMPOSER install \
               --no-dev \
               --prefer-dist \
               --no-interaction \
+              --no-progress \
               --optimize-autoloader
 
           EOF
 
-      - name: Laravel production commands
+      - name: Verify database configuration
         run: |
           ssh \
             -i ~/.ssh/id_ed25519 \
             -p "${{ secrets.SSH_PORT }}" \
             "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
 
+            set -e
+
             cd "${{ secrets.PRODUCTION_PATH }}"
 
-            /opt/cpanel/ea-php83/root/usr/bin/php artisan optimize:clear
-            /opt/cpanel/ea-php83/root/usr/bin/php artisan migrate --force
-            /opt/cpanel/ea-php83/root/usr/bin/php artisan config:cache
-            /opt/cpanel/ea-php83/root/usr/bin/php artisan route:cache
-            /opt/cpanel/ea-php83/root/usr/bin/php artisan view:cache
+            PHP="/opt/cpanel/ea-php83/root/usr/bin/php"
+
+            rm -f bootstrap/cache/config.php
+
+            DB_DRIVER=$(
+              $PHP artisan tinker \
+                --execute="echo config('database.default');" \
+                2>/dev/null
+            )
+
+            echo "Database driver: ${DB_DRIVER}"
+
+            if [ "${DB_DRIVER}" != "mysql" ]; then
+              echo "ERROR: Laravel is not using MySQL"
+              exit 1
+            fi
+
+            echo "MySQL configuration OK"
+
+          EOF
+
+      - name: Run Laravel production commands
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
+
+            set -e
+
+            cd "${{ secrets.PRODUCTION_PATH }}"
+
+            PHP="/opt/cpanel/ea-php83/root/usr/bin/php"
+
+            $PHP artisan optimize:clear
+
+            $PHP artisan migrate --force
+
+            $PHP artisan config:cache
+            $PHP artisan route:cache
+
+          EOF
+
+      - name: Ensure storage link exists
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "${{ secrets.SSH_PORT }}" \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
+
+            set -e
+
+            cd "${{ secrets.PRODUCTION_PATH }}"
+
+            PHP="/opt/cpanel/ea-php83/root/usr/bin/php"
+
+            mkdir -p storage/app/public
+
+            if [ ! -L public/storage ]; then
+              $PHP artisan storage:link
+            fi
 
           EOF
 
@@ -118,5 +220,21 @@ jobs:
           ssh \
             -i ~/.ssh/id_ed25519 \
             -p "${{ secrets.SSH_PORT }}" \
-            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
-            "test -f '${{ secrets.PRODUCTION_PATH }}/public/build/manifest.json' && echo 'Production Vite build OK'"
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" << 'EOF'
+
+            set -e
+
+            cd "${{ secrets.PRODUCTION_PATH }}"
+
+            if [ ! -f public/build/manifest.json ]; then
+              echo "ERROR: Vite manifest not found"
+              exit 1
+            fi
+
+            echo "Production Vite build OK"
+
+          EOF
+
+      - name: Deployment completed
+        run: |
+          echo "Production deployment completed successfully"
