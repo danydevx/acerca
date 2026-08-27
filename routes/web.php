@@ -185,6 +185,18 @@ Route::get('/dev/booking-test', function () {
     return view('dev.booking-test');
 })->name('dev.booking-test');
 
+Route::get('/terminos', function () {
+    return view('legal.terminos', [
+        'title' => 'Terminos de servicio',
+    ]);
+})->name('legal.terminos');
+
+Route::get('/privacidad', function () {
+    return view('legal.privacidad', [
+        'title' => 'Politica de privacidad',
+    ]);
+})->name('legal.privacidad');
+
 Route::get('/register', [RegisterController::class, 'showRegister'])
     ->middleware('guest')
     ->name('register');

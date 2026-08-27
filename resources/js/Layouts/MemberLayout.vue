@@ -3,7 +3,7 @@
     <aside class="sidebar bg-dark text-white">
       <div class="sidebar-header p-3 border-bottom border-secondary d-flex align-items-center justify-content-between">
         <Link href="/member" class="text-white text-decoration-none fw-semibold">
-          Mi SaaS
+          Acerca.site
         </Link>
         <button
           class="btn btn-link text-white p-0 d-lg-none"
@@ -27,16 +27,6 @@
           <div class="sidebar-section-title">Mi Negocio</div>
 
             <template v-if="primaryBusiness">
-            <Link
-              v-if="hasRealListing"
-              :href="`/member/listings/${primaryBusiness.id}/modules`"
-              class="sidebar-link"
-              :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/modules`) }"
-            >
-              <i class="bi bi-grid"></i>
-              <span>Ver módulos</span>
-            </Link>
-
             <Link
               v-if="hasRealListing"
               :href="`/member/listings/${primaryBusiness.id}/edit`"
@@ -404,7 +394,7 @@
     >
       <div class="offcanvas-header border-bottom border-secondary">
         <Link href="/member" class="text-white text-decoration-none fw-semibold">
-          Mi SaaS
+          Acerca.site
         </Link>
         <button
           type="button"

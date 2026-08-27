@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title inertia>{{ config('app.name', 'Mi SaaS') }}</title>
+    <title inertia>{{ config('app.name', 'Acerca.site') }}</title>
 
     @vite(['resources/less/minisite.less', 'resources/js/app.js'])
     @inertiaHead

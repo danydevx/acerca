@@ -44,7 +44,8 @@ function getContactIcon(type) {
 
 function getContactDisplay(contact) {
   if (contact.type === 'whatsapp' || contact.type === 'phone') {
-    const prefix = contact.country_code ? `+${contact.country_code} ` : ''
+    const code = contact.country_code ? contact.country_code.replace(/^\+/, '') : ''
+    const prefix = code ? `+${code} ` : ''
     const ext = contact.extension ? ` ext. ${contact.extension}` : ''
     return prefix + contact.value + ext
   }
@@ -61,7 +62,8 @@ function getContactLink(contact) {
   }
   if (contact.type === 'phone') {
     const phone = contact.value.replace(/\D/g, '')
-    return `tel:+${contact.country_code || ''}${phone}`
+    const code = (contact.country_code || '').replace(/^\+/, '')
+    return `tel:+${code}${phone}`
   }
   if (contact.type === 'website') {
     let url = contact.value

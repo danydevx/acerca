@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
@@ -25,7 +26,7 @@ class RegisterController extends Controller
             return redirect('/login')->with('error', 'El registro esta deshabilitado.');
         }
 
-        return view('auth.register', [
+        return Inertia::render('Auth/Register', [
             'title' => 'Registro',
             'prefill' => [
                 'email' => (string) $request->query('email', ''),

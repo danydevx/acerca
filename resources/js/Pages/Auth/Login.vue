@@ -1,125 +1,149 @@
 <template>
-  <div class="min-vh-100 bg-body-tertiary d-flex align-items-center">
-    <Head title="Iniciar sesion" />
+  <div class="login-page">
+    <Head title="Iniciar sesion - Acerca.site">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    </Head>
 
-    <div class="container py-5">
-      <div class="row align-items-center g-4 g-lg-5">
-        <div class="col-lg-6">
-          <span class="badge text-bg-secondary">Mi SaaS</span>
-          <h1 class="display-6 fw-semibold mt-3 mb-2">Bienvenido al dashboard</h1>
-          <p class="text-muted">
-            Accede a indicadores claros, tareas prioritarias y reportes listos para decisiones rapidas.
-          </p>
+    <div class="login-container">
+      <div class="login-brand">
+        <div class="brand-content">
+          <div class="brand-logo">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="48" height="48" rx="12" fill="url(#gradient)"/>
+              <path d="M14 34V14h8c5.523 0 10 4.477 10 10s-4.477 10-10 10h-8z" fill="white" fill-opacity="0.9"/>
+              <path d="M24 18h10v16H24V18z" fill="white"/>
+              <defs>
+                <linearGradient id="gradient" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#2B6EEB"/>
+                  <stop offset="1" stop-color="#3AA7F4"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h1 class="brand-name">Acerca.site</h1>
+          <p class="brand-headline">Tarjeta digital con IA para presentar todo acerca de usted</p>
+          <p class="brand-tagline">Tu tarjeta de presentacion, ahora inteligente. Toda su informacion, redes, servicios y formas de contacto en un solo lugar.</p>
 
-          <div class="d-flex flex-column gap-3 mt-4">
-            <div class="d-flex gap-3 align-items-start">
-              <i class="bi bi-speedometer2 fs-4 text-primary"></i>
+          <div class="brand-features">
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="bi bi-x-circle"></i>
+              </div>
               <div>
-                <div class="fw-semibold">Metricas en tiempo real</div>
-                <div class="text-muted">Visualiza el estado del negocio en un solo lugar.</div>
+                <strong>Sin apps</strong>
+                <p>No descargar ni actualizar nada. Su tarjeta vive en un link.</p>
               </div>
             </div>
-            <div class="d-flex gap-3 align-items-start">
-              <i class="bi bi-people fs-4 text-primary"></i>
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="bi bi-qr-code"></i>
+              </div>
               <div>
-                <div class="fw-semibold">Equipos alineados</div>
-                <div class="text-muted">Permisos y roles listos para cada area.</div>
+                <strong>Comparte por link o QR</strong>
+                <p>Lista para reuniones, eventos, ventas y networking.</p>
               </div>
             </div>
-            <div class="d-flex gap-3 align-items-start">
-              <i class="bi bi-shield-check fs-4 text-primary"></i>
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="bi bi-arrow-repeat"></i>
+              </div>
               <div>
-                <div class="fw-semibold">Acceso confiable</div>
-                <div class="text-muted">Entradas seguras con trazabilidad y control.</div>
+                <strong>Siempre actualizada</strong>
+                <p>Cambie una vez. Todos ven la version nueva.</p>
               </div>
             </div>
           </div>
+
+          <div class="brand-footer">
+            <p>acerca.site — Tarjetas digitales para compartir mejor, conectar mas rapido y mantener su informacion siempre actualizada.</p>
+          </div>
         </div>
+      </div>
 
-        <div class="col-lg-5 offset-lg-1">
-          <div class="card border-0 shadow-sm">
-            <div class="card-body p-4 p-lg-5">
-              <div class="d-flex align-items-start justify-content-between mb-4">
-                <div>
-                  <h2 class="h4 mb-1">Iniciar sesion</h2>
-                  <p class="text-muted mb-0">Entra para continuar al panel.</p>
-                </div>
-                <span class="badge text-bg-success">Acceso seguro</span>
+      <div class="login-form-container">
+        <div class="login-form-wrapper">
+          <div class="form-header">
+            <h2>Inicia sesion en tu cuenta</h2>
+            <p>Accede a tu tarjeta digital</p>
+          </div>
+
+          <div v-if="flashSuccess" class="alert alert-success">
+            {{ flashSuccess }}
+          </div>
+
+          <div v-if="flashError" class="alert alert-danger">
+            {{ flashError }}
+          </div>
+
+          <form @submit.prevent="submit">
+            <div class="form-group">
+              <label>Correo electronico</label>
+              <div class="input-wrapper">
+                <i class="bi bi-envelope"></i>
+                <input
+                  v-model="form.email"
+                  type="email"
+                  class="form-control"
+                  :class="{ 'is-invalid': form.errors.email }"
+                  placeholder="tu@email.com"
+                  autocomplete="email"
+                  required
+                />
               </div>
-
-              <div v-if="flashSuccess" class="alert alert-success">
-                {{ flashSuccess }}
+              <div v-if="form.errors.email" class="error-text">
+                {{ form.errors.email }}
               </div>
-
-              <div v-if="flashError" class="alert alert-danger">
-                {{ flashError }}
-              </div>
-
-              <form @submit.prevent="submit">
-                <div class="mb-3">
-                  <label class="form-label">Correo</label>
-                  <div class="input-group input-group-lg">
-                    <span class="input-group-text">
-                      <i class="bi bi-envelope"></i>
-                    </span>
-                    <input
-                      v-model="form.email"
-                      type="email"
-                      class="form-control"
-                      :class="{ 'is-invalid': form.errors.email }"
-                      placeholder="tu@empresa.com"
-                      autocomplete="email"
-                      required
-                    />
-                  </div>
-                  <div v-if="form.errors.email" class="invalid-feedback d-block">
-                    {{ form.errors.email }}
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label">Clave</label>
-                  <div class="input-group input-group-lg">
-                    <span class="input-group-text">
-                      <i class="bi bi-lock"></i>
-                    </span>
-                    <input
-                      v-model="form.password"
-                      type="password"
-                      class="form-control"
-                      :class="{ 'is-invalid': form.errors.password }"
-                      placeholder="••••••••"
-                      autocomplete="current-password"
-                      required
-                    />
-                  </div>
-                  <div v-if="form.errors.password" class="invalid-feedback d-block">
-                    {{ form.errors.password }}
-                  </div>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                  <div class="form-check">
-                    <input
-                      id="remember"
-                      v-model="form.remember"
-                      class="form-check-input"
-                      type="checkbox"
-                    />
-                    <label class="form-check-label" for="remember">Recordarme</label>
-                  </div>
-                  <Link href="/forgot-password" class="text-decoration-none small">Olvidaste tu clave?</Link>
-                </div>
-
-                <button class="btn btn-primary w-100 btn-lg" type="submit" :disabled="form.processing">
-                  {{ form.processing ? 'Entrando...' : 'Entrar al dashboard' }}
-                </button>
-              </form>
-
-              <p class="small text-muted mt-3 mb-0">
-                Si no tienes acceso, solicita alta con tu administrador.
-              </p>
             </div>
+
+            <div class="form-group">
+              <div class="label-row">
+                <label>Contrasena</label>
+                <Link href="/forgot-password" class="forgot-link">Olvidaste tu contrasena?</Link>
+              </div>
+              <div class="input-wrapper">
+                <i class="bi bi-lock"></i>
+                <input
+                  v-model="form.password"
+                  type="password"
+                  class="form-control"
+                  :class="{ 'is-invalid': form.errors.password }"
+                  placeholder="••••••••"
+                  autocomplete="current-password"
+                  required
+                />
+              </div>
+              <div v-if="form.errors.password" class="error-text">
+                {{ form.errors.password }}
+              </div>
+            </div>
+
+            <div class="form-options">
+              <label class="checkbox-label">
+                <input
+                  v-model="form.remember"
+                  type="checkbox"
+                />
+                <span>Recordarme</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn-submit" :disabled="form.processing">
+              <span v-if="form.processing">
+                <i class="bi bi-arrow-repeat spin"></i>
+                Accediendo...
+              </span>
+              <span v-else>
+                Acceder a mi tarjeta
+                <i class="bi bi-arrow-right"></i>
+              </span>
+            </button>
+          </form>
+
+          <div class="form-footer">
+            <p>Tu informacion siempre actualizada, lista para compartir.</p>
+            <p>No tienes cuenta? <Link href="/register">Crea tu tarjeta aqui</Link></p>
           </div>
         </div>
       </div>
@@ -149,3 +173,324 @@ const submit = () => {
 const flashSuccess = computed(() => page.props.flash?.success)
 const flashError = computed(() => page.props.flash?.error)
 </script>
+
+<style scoped>
+.login-page {
+  min-height: 100vh;
+  background: #F8FBFF;
+  font-family: 'Manrope', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.login-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+.login-brand {
+  background: linear-gradient(135deg, #2B6EEB 0%, #3AA7F4 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-brand::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+  animation: pulse 15s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.3; }
+}
+
+.brand-content {
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
+}
+
+.brand-logo {
+  margin-bottom: 1.5rem;
+}
+
+.brand-name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.brand-headline {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  opacity: 0.95;
+}
+
+.brand-tagline {
+  font-size: 1rem;
+  opacity: 0.85;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.brand-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.feature-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.feature-item strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.feature-item p {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 0.875rem;
+}
+
+.brand-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.brand-footer p {
+  margin: 0;
+  opacity: 0.7;
+  font-size: 0.875rem;
+}
+
+.login-form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.login-form-wrapper {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form-header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1E293B;
+  margin-bottom: 0.5rem;
+}
+
+.form-header p {
+  color: #64748B;
+  margin: 0;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.label-row label {
+  margin-bottom: 0;
+}
+
+.forgot-link {
+  font-size: 0.875rem;
+  color: #2B6EEB;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94A3B8;
+  font-size: 1.125rem;
+}
+
+.input-wrapper .form-control {
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.input-wrapper .form-control:focus {
+  border-color: #2B6EEB;
+  box-shadow: 0 0 0 3px rgba(43, 110, 235, 0.1);
+  outline: none;
+}
+
+.input-wrapper .form-control.is-invalid {
+  border-color: #EF4444;
+}
+
+.error-text {
+  color: #EF4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.form-options {
+  margin-bottom: 1.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: #64748B;
+  font-size: 0.875rem;
+}
+
+.checkbox-label input {
+  width: 18px;
+  height: 18px;
+  accent-color: #2B6EEB;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #2B6EEB 0%, #3AA7F4 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(43, 110, 235, 0.35);
+}
+
+.btn-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.form-footer {
+  margin-top: 2rem;
+  text-align: center;
+  color: #64748B;
+  font-size: 0.875rem;
+}
+
+.form-footer a {
+  color: #2B6EEB;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+.alert {
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.alert-success {
+  background: #D1FAE5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+}
+
+.alert-danger {
+  background: #FEE2E2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
+}
+
+@media (max-width: 1024px) {
+  .login-container {
+    grid-template-columns: 1fr;
+  }
+
+  .login-brand {
+    display: none;
+  }
+
+  .login-form-container {
+    min-height: 100vh;
+  }
+}
+</style>

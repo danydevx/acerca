@@ -7,7 +7,7 @@
     @else
         <meta name="viewport" content="width=device-width, initial-scale=1">
     @endif
-    <title inertia>{{ config('app.name', 'Mi SaaS') }}</title>
+    <title inertia>{{ config('app.name', 'Acerca.site') }}</title>
 
     @php
     $vars = json_decode($page['props']['theme_css_variables'] ?? '{}', true);

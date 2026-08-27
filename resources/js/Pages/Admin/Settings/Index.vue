@@ -49,10 +49,10 @@
             <h2 class="h6 mb-3">Informacion general</h2>
             <div class="row g-3">
               <div class="col-12 col-md-6">
-                <FieldText id="app-name" label="Nombre de la app" placeholder="Mi SaaS" v-model="form.app.name" :formError="form.errors['app.name']" required />
+                <FieldText id="app-name" label="Nombre de la app" placeholder="Acerca.site" v-model="form.app.name" :formError="form.errors['app.name']" required />
               </div>
               <div class="col-12 col-md-6">
-                <FieldText id="app-short-name" label="Nombre corto" placeholder="SaaS" v-model="form.app.short_name" :formError="form.errors['app.short_name']" />
+                <FieldText id="app-short-name" label="Nombre corto" placeholder="Acerca" v-model="form.app.short_name" :formError="form.errors['app.short_name']" />
               </div>
               <div class="col-12 col-md-6">
                 <FieldEmail id="app-email" label="Email" placeholder="contacto@empresa.com" v-model="form.app.email" :formError="form.errors['app.email']" />

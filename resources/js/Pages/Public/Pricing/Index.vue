@@ -4,7 +4,7 @@
 
     <nav class="navbar navbar-expand-lg bg-white border-bottom">
       <div class="container">
-        <Link href="/" class="navbar-brand">Mi SaaS</Link>
+        <Link href="/" class="navbar-brand">Acerca.site</Link>
         <div class="ms-auto d-flex gap-2">
           <Link v-if="!isAuthenticated" href="/login" class="btn btn-outline-secondary btn-sm">Iniciar sesion</Link>
           <Link v-if="!isAuthenticated" href="/register" class="btn btn-primary btn-sm">Crear cuenta</Link>

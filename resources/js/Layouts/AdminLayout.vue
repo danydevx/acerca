@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-lg bg-dark border-bottom" data-bs-theme="dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Mi SaaS</a>
+        <a class="navbar-brand" href="#">Acerca.site</a>
 
         <button
           class="navbar-toggler"

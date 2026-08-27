@@ -508,7 +508,7 @@ const submitCreate = () => {
 
 const submitEdit = () => {
   editSending.value = true
-  router.put(`/member/listings/${listing.value.id}/features/${editForm.value.id}`, {
+  router.put(`/member/listings/${listing.value.id}/features/${editForm.value.feature_id}`, {
     title: editForm.value.title,
     description: editForm.value.description,
     icon: editForm.value.icon,
@@ -544,7 +544,7 @@ const removeAssignment = (bf) => {
 
 const deleteFeature = (bf) => {
   if (!confirm('Estas seguro de eliminar esta caracteristica?')) return
-  router.delete(`/member/listings/${listing.value.id}/features/${bf.id}`, {
+  router.delete(`/member/listings/${listing.value.id}/features/${bf.feature_id}`, {
     preserveScroll: true,
   })
 }
