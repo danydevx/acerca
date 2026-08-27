@@ -162,7 +162,7 @@ class VCardController extends Controller
             ->orderBy('sort_order')
             ->get(['id', 'name']);
 
-        $fieldTypes = VCardFieldType::getGrouped();
+        $fieldTypes = VCardFieldType::getSocialOnly();
         $fieldTypeCategories = VCardFieldType::getCategories();
         $mostPopularFields = VCardFieldType::getMostPopular();
 
