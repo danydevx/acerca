@@ -150,7 +150,9 @@ class ListingAiSetting extends Model
             return false;
         }
 
-        $now = now();
+        $listing = $this->listing;
+        $tz = $listing?->timezone ?? config('app.timezone');
+        $now = now()->timezone($tz);
         $currentDay = strtolower($now->format('l'));
         $currentTime = $now->format('H:i');
 
