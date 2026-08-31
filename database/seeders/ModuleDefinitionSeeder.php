@@ -309,6 +309,17 @@ class ModuleDefinitionSeeder extends Seeder
                 'show_in_menu' => true,
                 'menu_title' => 'Paquetes vCards',
             ],
+            [
+                'key' => 'projects',
+                'name' => 'Proyectos',
+                'description' => 'Gestión de proyectos y portafolio de trabajo',
+                'icon' => 'bi bi-folder',
+                'sort_order' => 30,
+                'has_settings' => false,
+                'is_premium' => false,
+                'show_in_menu' => true,
+                'menu_title' => 'Proyectos',
+            ],
         ];
 
         foreach ($modules as $module) {

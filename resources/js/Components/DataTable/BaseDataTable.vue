@@ -25,10 +25,14 @@
             <th
               v-for="column in columns"
               :key="column.key"
-              :class="{
-                sortable: column.sortable !== false && !reorderable,
-                sorted: sortKey === column.key,
-              }"
+              :class="[
+                column.class || '',
+                {
+                  sortable: column.sortable !== false && !reorderable,
+                  sorted: sortKey === column.key,
+                  'actions-header': column.key === 'actions',
+                }
+              ]"
               @click="!reorderable && column.sortable !== false && toggleSort(column.key)"
               :style="column.width ? { width: column.width } : {}"
             >
@@ -115,7 +119,7 @@
       <div class="app-datatable__pagination" v-if="localData.last_page > 1">
         <button
           type="button"
-          class="btn btn-sm btn-outline-secondary"
+          class="btn btn-sm btn-outline-dark rounded-pill"
           :disabled="currentPage <= 1"
           @click="goToPage(currentPage - 1)"
         >
@@ -127,7 +131,7 @@
           v-for="page in visiblePages"
           :key="page"
           class="btn btn-sm"
-          :class="page === currentPage ? 'btn-primary' : 'btn-outline-secondary'"
+          :class="page === currentPage ? 'btn-gradient' : 'btn btn-outline-dark rounded-pill'"
           @click="goToPage(page)"
         >
           {{ page }}
@@ -135,7 +139,7 @@
 
         <button
           type="button"
-          class="btn btn-sm btn-outline-secondary"
+          class="btn btn-sm btn-outline-dark rounded-pill"
           :disabled="currentPage >= localData.last_page"
           @click="goToPage(currentPage + 1)"
         >

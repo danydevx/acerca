@@ -498,15 +498,33 @@ onMounted(() => {
   color: #6c757d !important;
 }
 
+.nav-tabs {
+  border-bottom: 2px solid #dee2e6;
+}
+
 .nav-tabs .nav-link {
-  color: #495057;
+  color: #6c757d;
   cursor: pointer;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 12px 20px;
+  font-weight: 500;
+}
+
+.nav-tabs .nav-link i {
+  margin-right: 0.5rem;
+}
+
+.nav-tabs .nav-link:hover {
+  color: #0d6efd;
+  border-color: transparent;
 }
 
 .nav-tabs .nav-link.active {
   color: #0d6efd;
   font-weight: 500;
   border-bottom: 2px solid #0d6efd;
+  background: transparent;
 }
 
 .table {

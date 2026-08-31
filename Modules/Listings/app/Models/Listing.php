@@ -113,6 +113,16 @@ class Listing extends Model
         return $this->hasMany(ListingProductCategory::class, 'listing_id');
     }
 
+    public function projects(): HasMany
+    {
+        return $this->hasMany(\Modules\ListingProjects\Models\ListingProject::class, 'listing_id');
+    }
+
+    public function projectCategories(): HasMany
+    {
+        return $this->hasMany(\Modules\ListingProjects\Models\ListingProjectCategory::class, 'listing_id');
+    }
+
     public function services(): HasMany
     {
         return $this->hasMany(ListingService::class, 'listing_id');

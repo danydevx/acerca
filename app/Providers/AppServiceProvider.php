@@ -31,6 +31,8 @@ use App\Policies\ListingModulePolicy;
 use App\Policies\BusinessPolicy;
 use App\Policies\ListingProductCategoryPolicy;
 use App\Policies\ListingProductPolicy;
+use App\Policies\ListingProjectPolicy;
+use App\Policies\ListingProjectCategoryPolicy;
 use App\Policies\ListingPromotionPolicy;
 use App\Policies\ListingReviewPolicy;
 use App\Policies\ListingSeoSettingPolicy;
@@ -135,6 +137,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(\Modules\ListingAbout\Models\ListingAbout::class, ListingAboutPolicy::class);
         Gate::policy(\Modules\ListingProducts\Models\ListingProduct::class, ListingProductPolicy::class);
         Gate::policy(\Modules\ListingProducts\Models\ListingProductCategory::class, ListingProductCategoryPolicy::class);
+        Gate::policy(\Modules\ListingProjects\Models\ListingProject::class, ListingProjectPolicy::class);
+        Gate::policy(\Modules\ListingProjects\Models\ListingProjectCategory::class, ListingProjectCategoryPolicy::class);
         Gate::policy(\Modules\ListingServices\Models\ListingService::class, ListingServicePolicy::class);
         Gate::policy(\Modules\ListingPromotions\Models\ListingPromotion::class, ListingPromotionPolicy::class);
         Gate::policy(\Modules\ListingLeads\Models\ListingLead::class, ListingLeadPolicy::class);

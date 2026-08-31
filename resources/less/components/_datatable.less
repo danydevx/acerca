@@ -81,6 +81,9 @@
         color: #374151;
         border-bottom: 1px solid #e5e7eb;
         white-space: nowrap;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
 
         &.sortable {
           cursor: pointer;
@@ -228,29 +231,45 @@
   .badge {
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.5rem;
+    padding: 0.35em 0.65em;
     font-size: 0.75rem;
-    font-weight: 500;
-    border-radius: 0.25rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
 
-    &.bg-success {
+    &.bg-success,
+    &.bg-active {
       background-color: #d1fae5;
       color: #065f46;
     }
 
-    &.bg-secondary {
+    &.bg-secondary,
+    &.bg-inactive {
       background-color: #f3f4f6;
       color: #4b5563;
     }
 
-    &.bg-warning {
+    &.bg-warning,
+    &.bg-pending {
       background-color: #fef3c7;
       color: #92400e;
     }
 
-    &.bg-danger {
+    &.bg-danger,
+    &.bg-error {
       background-color: #fee2e2;
       color: #991b1b;
+    }
+
+    &.bg-info {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+
+    &.bg-light {
+      background-color: #f3f4f6;
+      color: #374151;
     }
   }
 
@@ -258,6 +277,12 @@
     display: flex;
     gap: 0.25rem;
     white-space: nowrap;
+    justify-content: flex-end;
+  }
+
+  .actions-header {
+    text-align: center;
+    width: 120px;
   }
 }
 

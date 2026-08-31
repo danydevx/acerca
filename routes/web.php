@@ -100,6 +100,9 @@ use App\Http\Controllers\Member\PreferenceController as MemberPreferenceControll
 use App\Http\Controllers\Member\ProductCategoryController as MemberProductCategoryController;
 use App\Http\Controllers\Member\ProductController;
 use Modules\ListingProducts\Http\Controllers\ListingProductImageController;
+use App\Http\Controllers\Member\ProjectController;
+use App\Http\Controllers\Member\ProjectCategoryController;
+use Modules\ListingProjects\Http\Controllers\ListingProjectImageController;
 use App\Http\Controllers\Member\PromotionController;
 use App\Http\Controllers\Member\ReviewController;
 use App\Http\Controllers\Member\SeoController;
@@ -705,6 +708,53 @@ Route::post('/member/listings/{listing}/products/{product}/images', [ListingProd
 Route::delete('/member/listings/{listing}/products/{product}/images/{image}', [ListingProductImageController::class, 'destroy'])
     ->middleware(['auth', 'verified', 'active', 'role:member'])
     ->name('member.listings.products.images.destroy');
+
+Route::get('/member/listings/{listing}/projects', [ProjectController::class, 'index'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.projects.index');
+Route::get('/member/listings/{listing}/projects/create', [ProjectController::class, 'create'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.projects.create');
+Route::post('/member/listings/{listing}/projects', [ProjectController::class, 'store'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.projects.store');
+Route::get('/member/listings/{listing}/projects/{project}/edit', [ProjectController::class, 'edit'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.projects.edit');
+Route::put('/member/listings/{listing}/projects/{project}', [ProjectController::class, 'update'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.projects.update');
+Route::delete('/member/listings/{listing}/projects/{project}', [ProjectController::class, 'destroy'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.projects.destroy');
+Route::post('/member/listings/{listing}/projects/{project}/clone', [ProjectController::class, 'clone'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.projects.clone');
+Route::post('/member/listings/{listing}/projects/reorder', [ProjectController::class, 'reorder'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.projects.reorder');
+Route::post('/member/listings/{listing}/projects/bulk-delete', [ProjectController::class, 'bulkDelete'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.projects.bulk-delete');
+Route::post('/member/listings/{listing}/projects/{project}/images', [ListingProjectImageController::class, 'store'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.projects.images.store');
+Route::delete('/member/listings/{listing}/projects/{project}/images/{image}', [ListingProjectImageController::class, 'destroy'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.projects.images.destroy');
+
+Route::get('/member/listings/{listing}/project-categories', [ProjectCategoryController::class, 'index'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.project-categories.index');
+Route::post('/member/listings/{listing}/project-categories', [ProjectCategoryController::class, 'store'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.project-categories.store');
+Route::put('/member/listings/{listing}/project-categories/{category}', [ProjectCategoryController::class, 'update'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.project-categories.update');
+Route::delete('/member/listings/{listing}/project-categories/{category}', [ProjectCategoryController::class, 'destroy'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.project-categories.destroy');
 
 Route::get('/member/listings/{listing}/appointments', [AppointmentController::class, 'index'])
     ->middleware(['auth', 'verified', 'active', 'role:member'])
