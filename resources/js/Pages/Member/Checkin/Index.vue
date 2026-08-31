@@ -64,7 +64,7 @@
                 <td>{{ checkin.notes || '-' }}</td>
                 <td>
                   <button
-                    class="btn btn-sm btn-outline-danger"
+                    class="btn btn-outline-danger rounded-pill"
                     @click="deleteCheckin(checkin)"
                   >
                     <i class="bi bi-trash"></i>

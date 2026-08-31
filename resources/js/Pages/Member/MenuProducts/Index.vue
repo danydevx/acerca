@@ -11,19 +11,19 @@
         <p class="text-muted mb-0">Gestiona los productos de tu menu. Arrastra para reordenar.</p>
       </template>
       <template #actions>
-        <button
-          v-if="selectedIds.length > 0"
-          class="btn btn-danger btn-sm"
-          @click="deleteSelected"
-          :disabled="deleting"
-        >
-          <i class="bi bi-trash me-1"></i>
-          Eliminar ({{ selectedIds.length }})
-        </button>
-        <Link :href="`/member/listings/${listing?.id}/menu-categories`" class="btn btn-outline-secondary btn-sm">
+          <button
+            v-if="selectedIds.length > 0"
+            class="btn btn-outline-danger rounded-pill"
+            @click="deleteSelected"
+            :disabled="deleting"
+          >
+            <i class="bi bi-trash me-1"></i>
+            Eliminar ({{ selectedIds.length }})
+          </button>
+        <Link :href="`/member/listings/${listing?.id}/menu-categories`" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-folder me-1"></i>Categorias
         </Link>
-        <Link :href="`/member/listings/${listing?.id}/menu-products/create`" class="btn btn-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/menu-products/create`" class="btn btn-gradient rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nuevo Producto
         </Link>
       </template>
@@ -45,7 +45,7 @@
             <option :value="null">Todas las categorias</option>
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.title }}</option>
           </select>
-          <button v-if="filterCategory || searchQuery" type="button" class="btn btn-outline-secondary btn-sm" @click="clearFilters">
+          <button v-if="filterCategory || searchQuery" type="button" class="btn btn-outline-dark rounded-pill" @click="clearFilters">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -113,13 +113,13 @@
         </div>
         <div class="card-footer bg-transparent py-1">
           <div class="d-flex gap-1">
-            <button @click="cloneProduct(product)" class="btn btn-sm btn-outline-secondary">
+            <button @click="cloneProduct(product)" class="btn btn-outline-dark rounded-pill">
               <i class="bi bi-copy"></i>
             </button>
-            <Link :href="`/member/listings/${listing?.id}/menu-products/${product.id}/edit`" class="btn btn-sm btn-outline-primary flex-grow-1">
+            <Link :href="`/member/listings/${listing?.id}/menu-products/${product.id}/edit`" class="btn btn-outline-primary rounded-pill flex-grow-1">
               <i class="bi bi-pencil"></i>
             </Link>
-            <button @click="deleteProduct(product)" class="btn btn-sm btn-outline-danger">
+            <button @click="deleteProduct(product)" class="btn btn-outline-danger rounded-pill">
               <i class="bi bi-trash"></i>
             </button>
           </div>

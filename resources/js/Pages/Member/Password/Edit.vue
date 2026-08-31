@@ -64,7 +64,7 @@
           </div>
 
           <div class="col-12">
-            <button type="submit" class="btn btn-primary" :disabled="form.processing">
+            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="form.processing">
               {{ form.processing ? 'Guardando...' : 'Guardar cambios' }}
             </button>
           </div>

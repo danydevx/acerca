@@ -7,10 +7,10 @@
       :breadcrumbs="breadcrumbs"
     >
       <template #actions>
-        <Link href="/member/account" class="btn btn-outline-secondary btn-sm">
+        <Link href="/member/account" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-wallet2 me-1"></i>Ver cuenta
         </Link>
-        <Link href="/member/invoices" class="btn btn-outline-secondary btn-sm">
+        <Link href="/member/invoices" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-receipt me-1"></i>Comprobantes
         </Link>
       </template>

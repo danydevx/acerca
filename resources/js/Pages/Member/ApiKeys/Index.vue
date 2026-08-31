@@ -13,7 +13,7 @@
       <div class="fw-semibold mb-1">Copia esta API key ahora. No volvera a mostrarse.</div>
       <div class="d-flex flex-wrap align-items-center gap-2">
         <code class="bg-light border rounded px-2 py-1">{{ plainKey }}</code>
-        <button class="btn btn-sm btn-outline-secondary" type="button" @click="copyKey">Copiar</button>
+        <button class="btn btn-outline-dark rounded-pill btn-sm" type="button" @click="copyKey">Copiar</button>
       </div>
     </div>
 
@@ -48,7 +48,7 @@
             </div>
           </div>
           <div class="col-12 col-md-4 d-flex align-items-end">
-            <button class="btn btn-primary w-100" type="submit" :disabled="form.processing">
+            <button class="btn btn-gradient rounded-pill w-100" type="submit" :disabled="form.processing">
               {{ form.processing ? 'Creando...' : 'Crear API key' }}
             </button>
           </div>
@@ -89,14 +89,14 @@
                 <div class="d-inline-flex gap-2">
                   <button
                     v-if="!key.revoked_at"
-                    class="btn btn-sm btn-outline-primary"
+                    class="btn btn-outline-primary rounded-pill btn-sm"
                     type="button"
                     @click="toggleKey(key)"
                   >
                     {{ key.is_active ? 'Desactivar' : 'Activar' }}
                   </button>
                   <button
-                    class="btn btn-sm btn-outline-danger"
+                    class="btn btn-outline-danger rounded-pill btn-sm"
                     type="button"
                     :disabled="!!key.revoked_at"
                     @click="revokeKey(key)"

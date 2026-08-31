@@ -1,11 +1,11 @@
 <template>
   <div class="col-12 d-flex gap-2 mt-4">
-    <button type="submit" class="btn btn-primary" :disabled="sending || disabled">
+    <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending || disabled">
       <span v-if="sending">{{ submittingText }}</span>
       <span v-else>{{ submitText }}</span>
     </button>
-    <Link v-if="cancelHref" :href="cancelHref" class="btn btn-outline-secondary">{{ cancelText }}</Link>
-    <button v-else type="button" class="btn btn-outline-secondary" @click="$emit('cancel')">{{ cancelText }}</button>
+    <Link v-if="cancelHref" :href="cancelHref" class="btn btn-outline-dark rounded-pill">{{ cancelText }}</Link>
+    <button v-else type="button" class="btn btn-outline-dark rounded-pill" @click="$emit('cancel')">{{ cancelText }}</button>
   </div>
 </template>
 

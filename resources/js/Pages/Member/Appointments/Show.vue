@@ -67,7 +67,7 @@
                 v-for="option in statusOptions"
                 :key="option.value"
                 class="btn"
-                :class="appointment.status === option.value ? `btn-${option.color}` : `btn-outline-${option.color}`"
+                :class="appointment.status === option.value ? `btn btn-${option.color} rounded-pill` : `btn btn-outline-${option.color} rounded-pill`"
                 :disabled="appointment.status === option.value || appointment.status === 'cancelled' || appointment.status === 'completed'"
                 @click="updateStatus(option.value)"
               >

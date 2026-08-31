@@ -88,11 +88,11 @@
           </div>
 
           <div class="mt-4">
-            <button type="submit" class="btn btn-primary" :disabled="sending">
+            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
               <span v-if="sending">Guardando...</span>
               <span v-else>Guardar</span>
             </button>
-            <Link :href="`/member/listings/${listing?.id}/fidelity-rewards`" class="btn btn-outline-secondary ms-2">
+            <Link :href="`/member/listings/${listing?.id}/fidelity-rewards`" class="btn btn-outline-dark rounded-pill ms-2">
               Cancelar
             </Link>
           </div>

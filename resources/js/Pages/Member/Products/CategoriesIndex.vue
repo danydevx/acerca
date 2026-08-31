@@ -8,7 +8,7 @@
       :backHref="`/member/listings/${listing?.id}/products`"
     >
       <template #actions>
-        <button class="btn btn-primary btn-sm" @click="openCreateModal">
+        <button class="btn btn-gradient rounded-pill" @click="openCreateModal">
           <i class="bi bi-plus-lg me-1"></i>Nueva Categoria
         </button>
       </template>
@@ -53,13 +53,13 @@
       <template #cell-actions="{ row }">
         <div class="actions">
           <button
-            class="btn btn-sm btn-outline-primary"
+            class="btn btn-outline-primary rounded-pill"
             @click="openEditModal(row)"
           >
             <i class="bi bi-pencil"></i>
           </button>
           <button
-            class="btn btn-sm btn-outline-danger"
+            class="btn btn-outline-danger rounded-pill"
             @click="deleteCategory(row)"
           >
             <i class="bi bi-trash"></i>
@@ -112,8 +112,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary" :disabled="sending">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
                 {{ sending ? (editingCategory ? 'Guardando...' : 'Creando...') : (editingCategory ? 'Guardar Cambios' : 'Crear Categoria') }}
               </button>
             </div>
@@ -265,3 +265,11 @@ onMounted(() => {
   categoryModal = new Modal(modalElement.value)
 })
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

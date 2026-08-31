@@ -14,7 +14,7 @@
       </div>
 
       <div v-if="backHref || $slots.actions" class="d-flex gap-2">
-        <Link v-if="backHref" :href="backHref" class="btn btn-outline-secondary btn-sm">
+        <Link v-if="backHref" :href="backHref" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-arrow-left me-1"></i>
           {{ backLabel }}
         </Link>

@@ -82,14 +82,14 @@
                     class="rounded" 
                     style="width: 80px; height: 80px; object-fit: cover;" 
                   />
-                  <button 
-                    v-if="member?.image && !imagePreview"
-                    type="button" 
-                    class="btn btn-outline-danger btn-sm ms-2"
-                    @click="removeImage"
-                  >
-                    <i class="bi bi-trash"></i> Eliminar
-                  </button>
+                    <button
+                      v-if="member?.image && !imagePreview"
+                      type="button"
+                      class="btn btn-outline-danger rounded-pill ms-2"
+                      @click="removeImage"
+                    >
+                      <i class="bi bi-trash"></i> Eliminar
+                    </button>
                 </div>
               </div>
 

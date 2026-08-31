@@ -8,20 +8,20 @@
       :backHref="`/member/listings`"
     >
       <template #actions>
-        <button
+          <button
           v-if="selectedIds.length > 0"
-          class="btn btn-danger btn-sm"
+          class="btn btn-outline-danger rounded-pill btn-sm"
           @click="deleteSelected"
           :disabled="deleting"
         >
           <i class="bi bi-trash me-1"></i>
           Eliminar ({{ selectedIds.length }})
         </button>
-        <Link :href="`/member/listings/${listing?.id}/vcards/teams`" class="btn btn-outline-secondary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/vcards/teams`" class="btn btn-outline-dark rounded-pill btn-sm">
           <i class="bi bi-people me-1"></i>
           Equipos
         </Link>
-        <Link :href="`/member/listings/${listing?.id}/vcards/create`" class="btn btn-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/vcards/create`" class="btn btn-gradient rounded-pill btn-sm">
           <i class="bi bi-plus-lg me-1"></i>
           Nueva Tarjeta
         </Link>
@@ -35,7 +35,7 @@
             <option :value="null">Todos los equipos</option>
             <option v-for="team in teams" :key="team.id" :value="team.id">{{ team.name }}</option>
           </select>
-          <button v-if="filterTeam" type="button" class="btn btn-outline-secondary btn-sm" @click="clearFilter">
+          <button v-if="filterTeam" type="button" class="btn btn-outline-dark rounded-pill btn-sm" @click="clearFilter">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -109,9 +109,9 @@
       </template>
 
       <template #cell-analytics="{ row }">
-        <Link
+          <Link
           :href="`/member/listings/${listing?.id}/vcards/${row.id}/analytics`"
-          class="btn btn-sm btn-outline-primary"
+          class="btn btn-outline-primary rounded-pill btn-sm"
           title="Analytics"
         >
           <i class="bi bi-bar-chart"></i>
@@ -122,7 +122,7 @@
         <div class="actions">
           <Link
             :href="`/member/listings/${listing?.id}/vcards/${row.id}/edit`"
-            class="btn btn-sm btn-outline-primary"
+            class="btn btn-outline-primary rounded-pill btn-sm"
             title="Editar"
           >
             <i class="bi bi-pencil"></i>
@@ -130,27 +130,27 @@
           <a
             :href="`/v/${row.slug}`"
             target="_blank"
-            class="btn btn-sm btn-outline-secondary"
+            class="btn btn-outline-dark rounded-pill btn-sm"
             title="Ver tarjeta"
           >
             <i class="bi bi-eye"></i>
           </a>
           <button
-            class="btn btn-sm btn-outline-secondary"
+            class="btn btn-outline-dark rounded-pill btn-sm"
             @click="copyLink(row)"
             title="Copiar enlace"
           >
             <i class="bi bi-link"></i>
           </button>
           <button
-            class="btn btn-sm btn-outline-secondary"
+            class="btn btn-outline-dark rounded-pill btn-sm"
             @click="downloadVCard(row)"
             title="Descargar vCard"
           >
             <i class="bi bi-download"></i>
           </button>
           <button
-            class="btn btn-sm btn-outline-secondary"
+            class="btn btn-outline-dark rounded-pill btn-sm"
             @click="duplicateVCard(row)"
             :disabled="cloning === row.id"
             title="Duplicar"
@@ -158,7 +158,7 @@
             <i class="bi bi-copy"></i>
           </button>
           <button
-            class="btn btn-sm btn-outline-danger"
+            class="btn btn-outline-danger rounded-pill btn-sm"
             @click="deleteVCard(row)"
             :disabled="deleting === row.id"
           >

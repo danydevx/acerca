@@ -17,7 +17,7 @@
             <option value="all">Todo</option>
           </select>
           <button
-            class="btn btn-outline-danger btn-sm"
+            class="btn btn-outline-danger rounded-pill btn-sm"
             @click="clearHistory"
             :disabled="clearing"
           >

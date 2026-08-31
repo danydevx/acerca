@@ -9,7 +9,7 @@
     >
       <template #actions>
         <button
-          class="btn btn-primary btn-sm"
+          class="btn btn-gradient rounded-pill btn-sm"
           @click="showTeamModal = true; editingTeam = null"
         >
           <i class="bi bi-plus-lg me-1"></i>
@@ -26,7 +26,7 @@
     <div v-if="teams.length === 0" class="text-center py-5">
       <i class="bi bi-people text-muted" style="font-size: 4rem;"></i>
       <p class="text-muted mt-3">No hay equipos creados.</p>
-      <button class="btn btn-primary" @click="showTeamModal = true; editingTeam = null">
+      <button class="btn btn-gradient rounded-pill" @click="showTeamModal = true; editingTeam = null">
         <i class="bi bi-plus-lg me-1"></i>
         Crear primer equipo
       </button>
@@ -49,10 +49,10 @@
                 {{ team.vcards_count || 0 }} tarjetas
               </span>
               <div class="btn-group">
-                <button class="btn btn-sm btn-outline-secondary" @click="editTeam(team)">
+                <button class="btn btn-outline-dark rounded-pill btn-sm" @click="editTeam(team)">
                   <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-danger" @click="deleteTeam(team)">
+                <button class="btn btn-outline-danger rounded-pill btn-sm" @click="deleteTeam(team)">
                   <i class="bi bi-trash"></i>
                 </button>
               </div>
@@ -88,8 +88,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="closeModal">Cancelar</button>
-            <button type="button" class="btn btn-primary" @click="saveTeam" :disabled="saving">
+            <button type="button" class="btn btn-outline-dark rounded-pill" @click="closeModal">Cancelar</button>
+            <button type="button" class="btn btn-gradient rounded-pill" @click="saveTeam" :disabled="saving">
               {{ saving ? 'Guardando...' : 'Guardar' }}
             </button>
           </div>

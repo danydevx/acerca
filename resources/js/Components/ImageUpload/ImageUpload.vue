@@ -52,7 +52,7 @@
               <h5 class="mb-0">{{ files.length }} imagen(es) seleccionada(s)</h5>
               <button
                 type="button"
-                class="btn btn-sm btn-outline-secondary"
+                class="btn btn-outline-dark rounded-pill btn-sm"
                 @click="clearFiles"
               >
                 <i class="bi bi-trash me-1"></i> Limpiar todo
@@ -68,7 +68,7 @@
                 <img :src="file.preview" :alt="file.name" />
                 <button
                   type="button"
-                  class="btn btn-sm btn-danger upload-preview__remove"
+                  class="btn btn-outline-danger rounded-pill btn-sm upload-preview__remove"
                   @click="removeFile(index)"
                 >
                   <i class="bi bi-x"></i>
@@ -102,7 +102,7 @@
         <div class="modal-footer">
           <button
             type="button"
-            class="btn btn-secondary"
+            class="btn btn-outline-dark rounded-pill"
             data-bs-dismiss="modal"
             :disabled="uploading"
           >
@@ -111,7 +111,7 @@
           <button
             v-if="!uploading && files.length > 0"
             type="button"
-            class="btn btn-primary"
+            class="btn btn-gradient rounded-pill"
             @click="startUpload"
           >
             <i class="bi bi-cloud-arrow-up me-1"></i>

@@ -52,7 +52,7 @@
                 <h2 class="h6 mb-1">API Keys</h2>
                 <p class="text-muted mb-0">Gestiona claves para integraciones externas.</p>
               </div>
-              <Link href="/member/api-keys" class="btn btn-sm btn-outline-secondary">Administrar</Link>
+              <Link href="/member/api-keys" class="btn btn-outline-dark rounded-pill btn-sm">Administrar</Link>
             </div>
 
             <div v-if="!canUseApi" class="alert alert-warning mt-3">
@@ -88,7 +88,7 @@
                   </div>
                 </div>
                 <div class="col-12 col-md-4 d-flex align-items-end">
-                  <button class="btn btn-primary w-100" type="submit" :disabled="apiKeyForm.processing">
+                  <button class="btn btn-gradient rounded-pill w-100" type="submit" :disabled="apiKeyForm.processing">
                     {{ apiKeyForm.processing ? 'Creando...' : 'Crear API key' }}
                   </button>
                 </div>
@@ -158,7 +158,7 @@
                 <h2 class="h6 mb-1">Webhooks</h2>
                 <p class="text-muted mb-0">Recibe eventos en tus sistemas externos.</p>
               </div>
-              <Link href="/member/webhooks" class="btn btn-sm btn-outline-secondary">Administrar</Link>
+              <Link href="/member/webhooks" class="btn btn-outline-dark rounded-pill btn-sm">Administrar</Link>
             </div>
 
             <div v-if="!canUseWebhooks" class="alert alert-warning mt-3">
@@ -195,7 +195,7 @@
                   <div v-if="webhookForm.errors.events" class="text-danger small mt-1">{{ webhookForm.errors.events }}</div>
                 </div>
                 <div class="col-12">
-                  <button class="btn btn-primary" type="submit" :disabled="webhookForm.processing">
+                  <button class="btn btn-gradient rounded-pill" type="submit" :disabled="webhookForm.processing">
                     {{ webhookForm.processing ? 'Guardando...' : 'Crear webhook' }}
                   </button>
                 </div>
@@ -233,12 +233,12 @@
                       </td>
                       <td class="text-end">
                         <div class="d-inline-flex gap-2">
-                          <Link :href="`/member/webhooks/${endpoint.id}/deliveries`" class="btn btn-sm btn-outline-secondary">
+                          <Link :href="`/member/webhooks/${endpoint.id}/deliveries`" class="btn btn-outline-dark rounded-pill btn-sm">
                             Entregas
                           </Link>
                           <button class="btn btn-sm btn-outline-info" type="button" @click="sendTest(endpoint)">Probar</button>
-                          <Link :href="`/member/webhooks`" class="btn btn-sm btn-outline-primary">Editar</Link>
-                          <button class="btn btn-sm btn-outline-danger" type="button" @click="removeWebhook(endpoint)">Eliminar</button>
+                          <Link :href="`/member/webhooks`" class="btn btn-outline-primary rounded-pill btn-sm">Editar</Link>
+                          <button class="btn btn-outline-danger rounded-pill btn-sm" type="button" @click="removeWebhook(endpoint)">Eliminar</button>
                         </div>
                       </td>
                     </tr>

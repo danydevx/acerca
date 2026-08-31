@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <button type="button" class="btn btn-primary btn-sm" @click="openCreateModal">
+        <button type="button" class="btn btn-gradient rounded-pill" @click="openCreateModal">
           <i class="bi bi-plus-lg me-1"></i>Nuevo Turno
         </button>
       </template>
@@ -53,11 +53,11 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <button class="btn btn-sm btn-outline-primary" @click="openEditModal(row)" title="Editar">
+          <button class="btn btn-outline-primary rounded-pill" @click="openEditModal(row)" title="Editar">
             <i class="bi bi-pencil"></i>
           </button>
           <button
-            class="btn btn-sm"
+            class="btn btn-sm rounded-pill"
             :class="row.is_available ? 'btn-outline-warning' : 'btn-outline-success'"
             @click="toggleSlot(row)"
             title="Cambiar estado"
@@ -65,7 +65,7 @@
             <i :class="row.is_available ? 'bi bi-x-lg' : 'bi bi-check-lg'"></i>
           </button>
           <button
-            class="btn btn-sm btn-outline-danger"
+            class="btn btn-outline-danger rounded-pill"
             @click="deleteSlot(row)"
             title="Eliminar"
           >
@@ -167,8 +167,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary" :disabled="creating">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="creating">
                 {{ creating ? 'Creando...' : 'Crear Turno' }}
               </button>
             </div>
@@ -277,8 +277,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary" :disabled="saving">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="saving">
                 {{ saving ? 'Guardando...' : 'Guardar Cambios' }}
               </button>
             </div>
@@ -483,16 +483,14 @@ const deleteSlot = (slot) => {
 }
 
 onMounted(() => {
-  createModal = new Modal(createModalElement.value)
-  editModal = new Modal(editModalElement.value)
-  createModal._element.addEventListener('hidden.bs.modal', () => {
-    form.business_service_id = ''
-    form.business_location_id = null
-    form.day_of_week = null
-    form.specific_date = ''
-    form.start_time = '09:00'
-    form.end_time = '10:00'
-    form.slots_available = 1
-  })
+  slotModal = new Modal(createModalElement.value)
 })
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

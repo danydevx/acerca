@@ -70,10 +70,10 @@
           </div>
 
           <div class="d-flex gap-2 mt-4">
-            <button type="submit" class="btn btn-primary" :disabled="sending">
+            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
               {{ sending ? 'Guardando...' : 'Guardar Cambios' }}
             </button>
-            <Link href="/member/listings" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link href="/member/listings" class="btn btn-outline-dark rounded-pill">Cancelar</Link>
           </div>
         </form>
       </div>
@@ -121,7 +121,7 @@
               <label class="form-label fw-semibold">URL del minisite:</label>
               <code class="d-block mb-2 p-2 bg-light rounded">{{ qrLink }}</code>
             </div>
-            <a :href="qrLink" target="_blank" class="btn btn-sm btn-outline-primary">
+            <a :href="qrLink" target="_blank" class="btn btn-outline-primary rounded-pill">
               <i class="bi bi-box-arrow-up-right me-1"></i>Abrir minisite
             </a>
           </div>

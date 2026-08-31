@@ -36,8 +36,8 @@
         </div>
 
         <div class="d-flex flex-wrap gap-2 mt-4">
-          <Link href="/member" class="btn btn-primary">Ir al dashboard</Link>
-          <Link href="/member/account" class="btn btn-outline-secondary">Ver cuenta</Link>
+          <Link href="/member" class="btn btn-gradient rounded-pill">Ir al dashboard</Link>
+          <Link href="/member/account" class="btn btn-outline-dark rounded-pill">Ver cuenta</Link>
         </div>
       </div>
     </div>

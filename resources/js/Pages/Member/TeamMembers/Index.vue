@@ -8,7 +8,7 @@
       backHref="/member/dashboard"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/team-members/create`" class="btn btn-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/team-members/create`" class="btn btn-gradient rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nuevo Miembro
         </Link>
       </template>
@@ -17,13 +17,13 @@
     <div class="mb-3 d-flex gap-2">
       <Link
         :href="`/member/listings/${listing?.id}/team-members`"
-        class="btn btn-secondary btn-sm"
+        class="btn btn-outline-dark rounded-pill"
       >
         <i class="bi bi-people me-1"></i>Miembros
       </Link>
       <Link
         :href="`/member/listings/${listing?.id}/team-member-positions`"
-        class="btn btn-outline-secondary btn-sm"
+        class="btn btn-outline-dark rounded-pill"
       >
         <i class="bi bi-folder me-1"></i>Puestos
       </Link>
@@ -113,10 +113,10 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/team-members/${row.id}/edit`" class="btn btn-sm btn-outline-primary">
+          <Link :href="`/member/listings/${listing?.id}/team-members/${row.id}/edit`" class="btn btn-outline-primary rounded-pill">
             <i class="bi bi-pencil"></i>
           </Link>
-          <button class="btn btn-sm btn-outline-danger" @click="deleteMember(row)">
+          <button class="btn btn-outline-danger rounded-pill" @click="deleteMember(row)">
             <i class="bi bi-trash"></i>
           </button>
         </div>
@@ -210,3 +210,11 @@ const deleteMember = (member) => {
   })
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

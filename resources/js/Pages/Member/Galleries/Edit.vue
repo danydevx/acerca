@@ -64,10 +64,10 @@
           </div>
 
           <div class="col-12 d-flex gap-2">
-            <button type="submit" class="btn btn-primary" :disabled="form.processing">
+            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="form.processing">
               {{ form.processing ? 'Guardando...' : 'Guardar cambios' }}
             </button>
-            <Link :href="`/member/listings/${listing?.id || ''}/galleries`" class="btn btn-outline-secondary">
+            <Link :href="`/member/listings/${listing?.id || ''}/galleries`" class="btn btn-outline-dark rounded-pill">
               Cancelar
             </Link>
           </div>

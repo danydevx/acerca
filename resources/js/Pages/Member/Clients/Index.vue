@@ -17,7 +17,7 @@
           <i class="bi bi-trash me-1"></i>
           Eliminar ({{ selectedIds.length }})
         </button>
-        <Link :href="`/member/listings/${listing?.id}/clients/create`" class="btn btn-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/clients/create`" class="btn btn-gradient rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
           Nuevo Cliente
         </Link>
@@ -57,14 +57,14 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <button class="btn btn-sm btn-outline-secondary" @click="cloneClient(row)" title="Clonar">
+          <button class="btn btn-outline-dark rounded-pill" @click="cloneClient(row)" title="Clonar">
             <i class="bi bi-copy"></i>
           </button>
-          <Link :href="`/member/listings/${listing?.id}/clients/${row.id}/edit`" class="btn btn-sm btn-outline-primary">
+          <Link :href="`/member/listings/${listing?.id}/clients/${row.id}/edit`" class="btn btn-outline-primary rounded-pill">
             <i class="bi bi-pencil"></i>
           </Link>
           <button
-            class="btn btn-sm btn-outline-danger"
+            class="btn btn-outline-danger rounded-pill"
             @click="deleteClient(row)"
           >
             <i class="bi bi-trash"></i>
@@ -183,3 +183,11 @@ const deleteSelected = () => {
   }
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

@@ -10,27 +10,27 @@
       <template #actions>
         <a
           :href="`/member/listings/${listing?.id}/vcards/${vcard?.id}/analytics`"
-          class="btn btn-outline-primary btn-sm"
+          class="btn btn-outline-primary rounded-pill btn-sm"
         >
           <i class="bi bi-bar-chart me-1"></i>
           Analytics
         </a>
         <a
           :href="`/member/listings/${listing?.id}/vcards/${vcard?.id}/seo`"
-          class="btn btn-outline-dark btn-sm"
+          class="btn btn-outline-dark rounded-pill btn-sm"
         >
           <i class="bi bi-graph-up me-1"></i>
           SEO
         </a>
         <button
-          class="btn btn-outline-secondary btn-sm"
+          class="btn btn-outline-dark rounded-pill btn-sm"
           @click="copyLink"
         >
           <i class="bi bi-link me-1"></i>
           Copiar Enlace
         </button>
         <button
-          class="btn btn-outline-primary btn-sm"
+          class="btn btn-outline-primary rounded-pill btn-sm"
           @click="downloadVCard"
         >
           <i class="bi bi-download me-1"></i>
@@ -203,14 +203,14 @@
                 />
               </div>
               <div class="col-12 mt-4">
-                <button
-                  type="button"
-                  class="btn btn-outline-danger btn-sm"
-                  @click="deleteCard"
-                >
-                  <i class="bi bi-trash me-1"></i>
-                  Eliminar tarjeta
-                </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger rounded-pill"
+                @click="deleteCard"
+              >
+                <i class="bi bi-trash me-1"></i>
+                Eliminar tarjeta
+              </button>
               </div>
             </div>
 
@@ -611,7 +611,7 @@
             <div class="mb-3">
               <button
                 type="button"
-                class="btn btn-primary btn-sm"
+                class="btn btn-gradient rounded-pill btn-sm"
                 @click="showContactModal = true"
               >
                 <i class="bi bi-plus-lg me-1"></i>
@@ -642,13 +642,13 @@
                   </div>
                   <div>
                     <button
-                      class="btn btn-sm btn-outline-secondary me-1"
+                      class="btn btn-outline-dark rounded-pill btn-sm me-1"
                       @click="editContact(contact)"
                     >
                       <i class="bi bi-pencil"></i>
                     </button>
                     <button
-                      class="btn btn-sm btn-outline-danger"
+                      class="btn btn-outline-danger rounded-pill btn-sm"
                       @click="deleteContact(contact.id)"
                     >
                       <i class="bi bi-trash"></i>
@@ -742,8 +742,8 @@
                     </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @click="showContactModal = false">Cancelar</button>
-                    <button type="button" class="btn btn-primary" @click="saveContact">{{ editingContact ? 'Actualizar' : 'Guardar' }}</button>
+                    <button type="button" class="btn btn-outline-dark rounded-pill" @click="showContactModal = false">Cancelar</button>
+                    <button type="button" class="btn btn-gradient rounded-pill" @click="saveContact">{{ editingContact ? 'Actualizar' : 'Guardar' }}</button>
                   </div>
                 </div>
               </div>
@@ -754,7 +754,7 @@
             <div class="mb-3">
               <button
                 type="button"
-                class="btn btn-primary btn-sm"
+                class="btn btn-gradient rounded-pill btn-sm"
                 @click="showFieldModal = true"
               >
                 <i class="bi bi-plus-lg me-1"></i>
@@ -787,13 +787,13 @@
                   </div>
                   <div>
                     <button
-                      class="btn btn-sm btn-outline-secondary me-1"
+                      class="btn btn-outline-dark rounded-pill btn-sm me-1"
                       @click="editField(field)"
                     >
                       <i class="bi bi-pencil"></i>
                     </button>
                     <button
-                      class="btn btn-sm btn-outline-danger"
+                      class="btn btn-outline-danger rounded-pill btn-sm"
                       @click="deleteField(field.id)"
                     >
                       <i class="bi bi-trash"></i>
@@ -832,7 +832,7 @@
                               v-for="field in mostPopularFields"
                               :key="field.key"
                               class="btn btn-sm"
-                              :class="fieldForm.field_type_key === field.key ? 'btn-primary' : 'btn-outline-secondary'"
+                              :class="fieldForm.field_type_key === field.key ? 'btn-gradient rounded-pill' : 'btn btn-outline-dark rounded-pill'"
                               @click="selectFieldType(field.key)"
                             >
                               <i :class="field.icon" class="me-1"></i>
@@ -843,14 +843,14 @@
                           <div v-for="(catFields, category) in filteredFieldTypes" :key="category" class="mb-3">
                             <h6 class="text-muted small">{{ getCategoryName(category) }}</h6>
                             <div class="d-flex flex-wrap gap-2">
-                              <button
-                                type="button"
-                                v-for="field in catFields"
-                                :key="field.key"
-                                class="btn btn-sm"
-                                :class="fieldForm.field_type_key === field.key ? 'btn-primary' : 'btn-outline-secondary'"
-                                @click="selectFieldType(field.key)"
-                              >
+                            <button
+                              type="button"
+                              v-for="field in catFields"
+                              :key="field.key"
+                              class="btn btn-sm"
+                              :class="fieldForm.field_type_key === field.key ? 'btn-gradient rounded-pill' : 'btn btn-outline-dark rounded-pill'"
+                              @click="selectFieldType(field.key)"
+                            >
                                 <i :class="field.icon" class="me-1"></i>
                                 {{ field.name }}
                               </button>
@@ -928,10 +928,10 @@
                             {{ fieldErrors.config }}
                           </div>
                           <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-primary" @click="saveField">
+                            <button type="button" class="btn btn-gradient rounded-pill" @click="saveField">
                               {{ editingField ? 'Actualizar' : 'Agregar campo' }}
                             </button>
-                            <button type="button" class="btn btn-outline-secondary" @click="closeFieldModal">
+                            <button type="button" class="btn btn-outline-dark rounded-pill" @click="closeFieldModal">
                               Cancelar
                             </button>
                           </div>
@@ -1041,7 +1041,7 @@
                 <div class="section-item__action" v-if="section.key === 'services' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-dark rounded-pill btn-sm"
                     @click="showServicesModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1050,7 +1050,7 @@
                 <div class="section-item__action" v-if="section.key === 'packages' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-dark rounded-pill btn-sm"
                     @click="showPackagesModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1059,7 +1059,7 @@
                 <div class="section-item__action" v-if="section.key === 'gallery' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-dark rounded-pill btn-sm"
                     @click="showGalleryModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1068,7 +1068,7 @@
                 <div class="section-item__action" v-if="section.key === 'products' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-dark rounded-pill btn-sm"
                     @click="showProductsModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1077,7 +1077,7 @@
                 <div class="section-item__action" v-if="section.key === 'testimonials' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-dark rounded-pill btn-sm"
                     @click="showTestimonialsModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1086,7 +1086,7 @@
                 <div class="section-item__action" v-if="section.key === 'business_hours' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-dark rounded-pill btn-sm"
                     @click="showBusinessHoursModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1095,7 +1095,7 @@
                 <div class="section-item__action" v-if="section.key === 'menu' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-dark rounded-pill btn-sm"
                     @click="showMenuModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1104,7 +1104,7 @@
                 <div class="section-item__action" v-if="section.key === 'location' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-dark rounded-pill btn-sm"
                     @click="showLocationModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1113,7 +1113,7 @@
                 <div class="section-item__action" v-if="section.key === 'features' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-dark rounded-pill btn-sm"
                     @click="showFeaturesModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1122,7 +1122,7 @@
               </div>
             </div>
             <div class="mt-3">
-              <button type="button" class="btn btn-primary" @click="saveSections" :disabled="savingSections">
+              <button type="button" class="btn btn-gradient rounded-pill" @click="saveSections" :disabled="savingSections">
                 {{ savingSections ? 'Guardando...' : 'Guardar Secciones' }}
               </button>
             </div>

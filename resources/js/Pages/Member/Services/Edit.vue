@@ -62,7 +62,7 @@
                     :formError="errors.category_id"
                   />
                 </div>
-                <button type="button" class="btn btn-outline-primary btn-sm mb-3" @click="openCategoryModal">
+                <button type="button" class="btn btn-gradient rounded-pill mb-3" @click="openCategoryModal">
                   <i class="bi bi-plus"></i>
                 </button>
               </div>
@@ -205,8 +205,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary" :disabled="categorySending">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="categorySending">
                 {{ categorySending ? 'Creando...' : 'Crear Categoria' }}
               </button>
             </div>

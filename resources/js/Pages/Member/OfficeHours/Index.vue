@@ -10,7 +10,7 @@
       <template #actions>
         <Link
           :href="`/member/listings/${listing.id}/locations/${location.id}/schedules/create`"
-          class="btn btn-primary btn-sm"
+          class="btn btn-gradient rounded-pill"
         >
           <i class="bi bi-plus-lg me-1"></i>
           Nuevo Horario
@@ -52,7 +52,7 @@
       <template #cell-actions="{ row }">
         <div class="actions">
           <button
-            class="btn btn-sm btn-outline-secondary"
+            class="btn btn-outline-dark rounded-pill"
             @click="cloneSchedule(row.id)"
             :disabled="cloning === row.id"
             title="Clonar"
@@ -61,12 +61,12 @@
           </button>
           <Link
             :href="`/member/listings/${listing?.id}/locations/${location?.id}/schedules/${row.id}/edit`"
-            class="btn btn-sm btn-outline-primary"
+            class="btn btn-outline-primary rounded-pill"
           >
             <i class="bi bi-pencil"></i>
           </Link>
           <button
-            class="btn btn-sm btn-outline-danger"
+            class="btn btn-outline-danger rounded-pill"
             @click="deleteSchedule(row)"
             :disabled="deleting === row.id"
           >
@@ -159,7 +159,7 @@ const deleteSchedule = (schedule) => {
 }
 .actions {
   display: flex;
-  gap: 0.375rem;
-  justify-content: flex-end;
+  gap: 0.5rem;
+  align-items: center;
 }
 </style>

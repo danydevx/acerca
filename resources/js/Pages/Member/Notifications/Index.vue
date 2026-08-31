@@ -11,7 +11,7 @@
         <div class="text-muted small">{{ unreadCount }} sin leer</div>
         <button
           type="button"
-          class="btn btn-outline-secondary btn-sm"
+          class="btn btn-outline-dark rounded-pill"
           :disabled="!hasUnread"
           @click="markAllAsRead"
         >
@@ -53,14 +53,14 @@
               <Link
                 v-if="notification.url"
                 :href="notification.url"
-                class="btn btn-sm btn-outline-primary"
+                class="btn btn-outline-primary rounded-pill"
               >
                 Ver
               </Link>
               <button
                 v-if="!notification.is_read"
                 type="button"
-                class="btn btn-sm btn-outline-secondary"
+                class="btn btn-outline-dark rounded-pill"
                 @click="markAsRead(notification)"
               >
                 Marcar leida

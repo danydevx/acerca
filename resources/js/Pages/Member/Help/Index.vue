@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">Ayuda</h1>
         <p class="text-muted mb-0">Encuentra respuestas rapidas.</p>
       </div>
-      <Link href="/member/support/create" class="btn btn-outline-secondary btn-sm">Crear ticket</Link>
+      <Link href="/member/support/create" class="btn btn-outline-dark rounded-pill">Crear ticket</Link>
     </div>
 
     <div class="card border-0 shadow-sm mb-3">
@@ -25,8 +25,8 @@
             </select>
           </div>
           <div class="col-12 col-md-2 d-flex gap-2">
-            <button class="btn btn-outline-primary" type="submit">Filtrar</button>
-            <button class="btn btn-outline-secondary" type="button" @click="clearFilters">Limpiar</button>
+            <button class="btn btn-outline-primary rounded-pill" type="submit">Filtrar</button>
+            <button class="btn btn-outline-dark rounded-pill" type="button" @click="clearFilters">Limpiar</button>
           </div>
         </form>
       </div>
@@ -48,7 +48,7 @@
             </div>
             <h2 class="h5 mb-2">{{ article.title }}</h2>
             <p class="text-muted mb-3">{{ article.excerpt || 'Consulta el detalle del articulo.' }}</p>
-            <Link :href="`/member/help/${article.slug}`" class="btn btn-outline-primary btn-sm">Leer mas</Link>
+              <Link :href="`/member/help/${article.slug}`" class="btn btn-outline-primary rounded-pill">Leer mas</Link>
           </div>
         </div>
       </div>

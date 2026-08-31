@@ -201,7 +201,7 @@ onBeforeUnmount(() => {
         <button
           v-if="!readonly"
           type="button"
-          class="btn btn-sm btn-outline-danger w-100"
+          class="btn btn-outline-danger rounded-pill btn-sm w-100"
           @click="removeImage(index)"
         >
           <i class="bi bi-x-circle"></i> Quitar

@@ -8,39 +8,38 @@
       :backHref="`/member/listings/${listing?.id}/vcards/${vcard?.id}/edit`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
+    <div class="vcard-seo-page">
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" :class="{ active: activeTab === 'basic' }" @click="activeTab = 'basic'">
+            <i class="bi bi-search me-2"></i>SEO Basico
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" :class="{ active: activeTab === 'social' }" @click="activeTab = 'social'">
+            <i class="bi bi-share me-2"></i>Redes Sociales
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" :class="{ active: activeTab === 'indexing' }" @click="activeTab = 'indexing'">
+            <i class="bi bi-globe me-2"></i>Indexacion
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" :class="{ active: activeTab === 'advanced' }" @click="activeTab = 'advanced'">
+            <i class="bi bi-gear me-2"></i>Avanzado
+          </button>
+        </li>
+      </ul>
+
+      <form @submit.prevent="submit">
         <div v-if="$page.props.flash?.success" class="alert alert-success alert-dismissible fade show" role="alert">
           {{ $page.props.flash.success }}
           <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
 
-        <ul class="nav nav-tabs mb-4" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" :class="{ active: activeTab === 'basic' }" @click="activeTab = 'basic'" type="button">
-              <i class="bi bi-search me-1"></i>SEO Basico
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" :class="{ active: activeTab === 'social' }" @click="activeTab = 'social'" type="button">
-              <i class="bi bi-share me-1"></i>Redes Sociales
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" :class="{ active: activeTab === 'indexing' }" @click="activeTab = 'indexing'" type="button">
-              <i class="bi bi-globe me-1"></i>Indexacion
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" :class="{ active: activeTab === 'advanced' }" @click="activeTab = 'advanced'" type="button">
-              <i class="bi bi-gear me-1"></i>Avanzado
-            </button>
-          </li>
-        </ul>
-
-        <form @submit.prevent="submit">
-          <div class="tab-content">
-            <div class="tab-pane fade" :class="{ 'show active': activeTab === 'basic' }" role="tabpanel">
+        <div class="tab-content">
+          <div class="tab-pane" :class="{ 'show active': activeTab === 'basic' }" role="tabpanel">
               <div class="row g-3">
                 <div class="col-12 col-md-8">
                   <FieldText
@@ -95,7 +94,7 @@
               </div>
             </div>
 
-            <div class="tab-pane fade" :class="{ 'show active': activeTab === 'social' }" role="tabpanel">
+            <div class="tab-pane" :class="{ 'show active': activeTab === 'social' }" role="tabpanel">
               <div class="row g-3">
                 <div class="col-12 col-md-8">
                   <FieldText
@@ -165,7 +164,7 @@
               </div>
             </div>
 
-            <div class="tab-pane fade" :class="{ 'show active': activeTab === 'indexing' }" role="tabpanel">
+            <div class="tab-pane" :class="{ 'show active': activeTab === 'indexing' }" role="tabpanel">
               <div class="row g-3">
                 <div class="col-12">
                   <FieldSwitch
@@ -207,7 +206,7 @@
               </div>
             </div>
 
-            <div class="tab-pane fade" :class="{ 'show active': activeTab === 'advanced' }" role="tabpanel">
+            <div class="tab-pane" :class="{ 'show active': activeTab === 'advanced' }" role="tabpanel">
               <div class="row g-3">
                 <div class="col-12">
                   <FieldSwitch
@@ -233,12 +232,11 @@
           </div>
 
           <div class="d-flex gap-2 mt-4 pt-4 border-top">
-            <button type="submit" class="btn btn-primary" :disabled="sending">
+            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
               {{ sending ? 'Guardando...' : 'Guardar Configuracion' }}
             </button>
           </div>
         </form>
-      </div>
     </div>
   </MemberLayout>
 </template>
@@ -344,3 +342,37 @@ const submit = () => {
   })
 }
 </script>
+
+<style lang="less" scoped>
+.vcard-seo-page {
+  padding: 0 0 48px;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid #dee2e6;
+
+  .nav-link {
+    color: #6c757d;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    padding: 12px 20px;
+    font-weight: 500;
+
+    &:hover {
+      color: #0d6efd;
+      border-color: transparent;
+    }
+
+    &.active {
+      color: #0d6efd;
+      border-bottom-color: #0d6efd;
+      background: transparent;
+    }
+  }
+}
+
+.tab-content {
+  padding-top: 24px;
+}
+</style>

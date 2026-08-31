@@ -10,7 +10,7 @@
         <a
           :href="`/m/${listing?.slug}`"
           target="_blank"
-          class="btn btn-outline-primary btn-sm"
+          class="btn btn-outline-dark rounded-pill"
         >
           <i class="bi bi-box-arrow-up-right me-1"></i>Ver en Minisite
         </a>

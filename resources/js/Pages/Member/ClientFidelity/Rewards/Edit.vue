@@ -5,7 +5,7 @@
     <PageHeader
       :title="`Editar: ${reward?.title}`"
       :breadcrumbs="breadcrumbs"
-      backHref="/member/listings/fidelity-rewards"
+      :backHref="`/member/listings/${listing?.id}/fidelity-rewards`"
     />
 
     <div class="card border-0 shadow-sm">
@@ -112,11 +112,11 @@
           </div>
 
           <div class="mt-4">
-            <button type="submit" class="btn btn-primary" :disabled="sending">
+            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
               <span v-if="sending">Guardando...</span>
               <span v-else>Guardar cambios</span>
             </button>
-            <Link :href="`/member/listings/${listing?.id}/fidelity-rewards`" class="btn btn-outline-secondary ms-2">
+            <Link :href="`/member/listings/${listing?.id}/fidelity-rewards`" class="btn btn-outline-dark rounded-pill ms-2">
               Cancelar
             </Link>
           </div>
@@ -136,6 +136,7 @@ const page = usePage()
 const listing = computed(() => page.props.listing)
 const reward = computed(() => page.props.reward)
 const sending = ref(false)
+const errors = ref({})
 const imagePreview = ref(null)
 
 const breadcrumbs = computed(() => [
@@ -187,7 +188,8 @@ const submit = () => {
     formData.append('image', form.value.image)
   }
 
-  router.post(`/member/listings/${listing.value?.id}/fidelity-rewards/${reward.value?.id}`, formData, {
+  router.post(`/member/listings/${listing.value?.id}/fidelity-rewards/${reward.value?.id}?_method=PUT`, formData, {
+    preserveScroll: true,
     onSuccess: () => {
       sending.value = false
     },

@@ -130,10 +130,10 @@
               </div>
 
               <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary" :disabled="saving">
+                <button type="submit" class="btn btn-gradient rounded-pill" :disabled="saving">
                   {{ saving ? 'Guardando...' : 'Guardar configuración' }}
                 </button>
-                <Link :href="`/member/listings/${listing?.id}/orders`" class="btn btn-outline-secondary">
+                <Link :href="`/member/listings/${listing?.id}/orders`" class="btn btn-outline-dark rounded-pill">
                   Cancelar
                 </Link>
               </div>

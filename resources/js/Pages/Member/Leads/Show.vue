@@ -55,11 +55,11 @@
         </div>
 
         <div class="mt-4 d-flex gap-2">
-          <Link :href="`/member/listings/${listing.id}/leads/${lead.id}/edit`" class="btn btn-primary">
+          <Link :href="`/member/listings/${listing.id}/leads/${lead.id}/edit`" class="btn btn-gradient rounded-pill">
             <i class="bi bi-pencil me-1"></i>Editar
           </Link>
           <button
-            class="btn btn-outline-danger"
+            class="btn btn-outline-danger rounded-pill"
             @click="deleteLead"
           >
             <i class="bi bi-trash me-1"></i>Eliminar

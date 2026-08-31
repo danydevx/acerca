@@ -34,7 +34,7 @@
 
               <button
                 type="button"
-                class="btn btn-outline-secondary btn-sm"
+                class="btn btn-outline-dark rounded-pill"
                 @click="$refs.avatarInput.click()"
               >
                 <i class="bi bi-upload me-1"></i>
@@ -44,7 +44,7 @@
               <button
                 v-if="form.avatar || avatarPreview"
                 type="button"
-                class="btn btn-outline-danger btn-sm ms-2"
+                class="btn btn-outline-danger rounded-pill ms-2"
                 @click="removeAvatar"
               >
                 <i class="bi bi-trash"></i>
@@ -123,7 +123,7 @@
         </div>
 
         <div class="mt-3">
-          <button type="button" class="btn btn-primary" :disabled="form.processing" @click="submit">
+          <button type="button" class="btn btn-gradient rounded-pill" :disabled="form.processing" @click="submit">
             {{ form.processing ? 'Guardando...' : 'Guardar cambios' }}
           </button>
         </div>

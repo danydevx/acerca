@@ -9,10 +9,10 @@
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0"><i class="bi bi-file-text me-2"></i>Contextos Personalizados</h5>
         <div class="d-flex gap-2">
-          <button class="btn btn-outline-primary btn-sm" @click="openImportUrlModal">
+          <button class="btn btn-outline-dark rounded-pill" @click="openImportUrlModal">
             <i class="bi bi-link-45deg me-1"></i>Importar desde URL
           </button>
-          <button class="btn btn-primary btn-sm" @click="openCreateModal">
+          <button class="btn btn-gradient rounded-pill" @click="openCreateModal">
             <i class="bi bi-plus-lg me-1"></i>Nuevo Contexto
           </button>
         </div>
@@ -48,10 +48,10 @@
               </p>
             </div>
             <div class="context-actions">
-              <button class="btn btn-sm btn-outline-primary" @click="openEditModal(context)">
+              <button class="btn btn-outline-primary rounded-pill" @click="openEditModal(context)">
                 <i class="bi bi-pencil"></i>
               </button>
-              <button class="btn btn-sm btn-outline-danger" @click="deleteContext(context)">
+              <button class="btn btn-outline-danger rounded-pill" @click="deleteContext(context)">
                 <i class="bi bi-trash"></i>
               </button>
             </div>
@@ -105,8 +105,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary" :disabled="saving">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="saving">
                 {{ saving ? 'Guardando...' : 'Guardar' }}
               </button>
             </div>
@@ -139,7 +139,7 @@
                   />
                   <button
                     type="button"
-                    class="btn btn-outline-primary"
+                    class="btn btn-outline-dark rounded-pill"
                     @click="extractUrl"
                     :disabled="extracting || !urlForm.url"
                   >
@@ -182,10 +182,10 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
               <button
                 type="submit"
-                class="btn btn-primary"
+                class="btn btn-gradient rounded-pill"
                 :disabled="saving || !urlForm.extracted"
               >
                 {{ saving ? 'Guardando...' : 'Guardar Contexto' }}

@@ -203,10 +203,10 @@
           </div>
 
           <div class="col-12 d-flex gap-2 mt-4">
-            <button type="submit" class="btn btn-primary" :disabled="sending">
+            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
               {{ sending ? 'Creando...' : 'Crear Ubicacion' }}
             </button>
-            <Link :href="`/member/listings/${listing.id}/locations`" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link :href="`/member/listings/${listing.id}/locations`" class="btn btn-outline-dark rounded-pill">Cancelar</Link>
           </div>
         </form>
       </div>

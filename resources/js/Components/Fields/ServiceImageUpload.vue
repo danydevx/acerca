@@ -2,7 +2,7 @@
   <div class="service-gallery-upload">
     <div class="d-flex justify-content-between align-items-center mb-2">
       <label class="form-label mb-0">{{ label }}</label>
-      <button type="button" class="btn btn-sm btn-primary" @click="openModal">
+      <button type="button" class="btn btn-gradient rounded-pill btn-sm" @click="openModal">
         <i class="bi bi-plus-lg me-1"></i> Agregar imágenes
       </button>
     </div>
@@ -29,7 +29,7 @@
             <td>
               <button
                 type="button"
-                class="btn btn-sm btn-outline-danger"
+                class="btn btn-outline-danger rounded-pill btn-sm"
                 @click="deleteImage(img.id)"
                 :disabled="deletingId === img.id"
               >
@@ -91,7 +91,7 @@
               <div v-else class="upload-preview">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h5 class="mb-0">{{ files.length }} imagen(es) seleccionada(s)</h5>
-                  <button type="button" class="btn btn-sm btn-outline-secondary" @click="clearFiles">
+                  <button type="button" class="btn btn-outline-dark rounded-pill btn-sm" @click="clearFiles">
                     <i class="bi bi-trash me-1"></i> Limpiar todo
                   </button>
                 </div>
@@ -99,7 +99,7 @@
                 <div class="upload-preview__grid">
                   <div v-for="(file, index) in files" :key="index" class="upload-preview__item">
                     <img :src="file.preview" :alt="file.name" />
-                    <button type="button" class="btn btn-sm btn-danger upload-preview__remove" @click="removeFile(index)">
+                    <button type="button" class="btn btn-outline-danger rounded-pill btn-sm upload-preview__remove" @click="removeFile(index)">
                       <i class="bi bi-x"></i>
                     </button>
                   </div>
@@ -126,10 +126,10 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" :disabled="uploading">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal" :disabled="uploading">
                 Cancelar
               </button>
-              <button v-if="!uploading && files.length > 0" type="button" class="btn btn-primary" @click="startUpload">
+              <button v-if="!uploading && files.length > 0" type="button" class="btn btn-gradient rounded-pill" @click="startUpload">
                 <i class="bi bi-cloud-arrow-up me-1"></i>
                 Subir {{ files.length }} imagen(es)
               </button>

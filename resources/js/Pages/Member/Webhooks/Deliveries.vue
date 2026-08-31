@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">Entregas</h1>
         <p class="text-muted mb-0">{{ webhook.name }} · {{ webhook.url }}</p>
       </div>
-      <Link href="/member/webhooks" class="btn btn-outline-secondary btn-sm">Volver</Link>
+      <Link href="/member/webhooks" class="btn btn-outline-dark rounded-pill">Volver</Link>
     </div>
 
     <div class="card border-0 shadow-sm">
@@ -37,7 +37,7 @@
               <td class="text-end">
                 <button
                   v-if="!delivery.delivered_at"
-                  class="btn btn-sm btn-outline-primary"
+                  class="btn btn-outline-primary rounded-pill"
                   type="button"
                   @click="retry(delivery)"
                 >

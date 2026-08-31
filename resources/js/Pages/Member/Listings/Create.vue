@@ -113,10 +113,10 @@
               El slug publico se generara automaticamente y el negocio iniciara sin publicar.
             </div>
             <div class="d-flex gap-2">
-              <button type="submit" class="btn btn-primary" :disabled="form.processing">
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="form.processing">
                 {{ form.processing ? 'Creando...' : 'Crear negocio' }}
               </button>
-              <Link href="/member/listings" class="btn btn-outline-secondary">Cancelar</Link>
+              <Link href="/member/listings" class="btn btn-outline-dark rounded-pill">Cancelar</Link>
             </div>
           </div>
         </form>

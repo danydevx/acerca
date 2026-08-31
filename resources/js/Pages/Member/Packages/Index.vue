@@ -8,7 +8,7 @@
       backHref="/member/dashboard"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/packages/create`" class="btn btn-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/packages/create`" class="btn btn-gradient rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nuevo Paquete
         </Link>
       </template>
@@ -81,13 +81,13 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <button class="btn btn-sm btn-outline-secondary" @click="clonePackage(row)" title="Clonar">
+          <button class="btn btn-outline-dark rounded-pill" @click="clonePackage(row)" title="Clonar">
             <i class="bi bi-copy"></i>
           </button>
-          <Link :href="`/member/listings/${listing?.id}/packages/${row.id}/edit`" class="btn btn-sm btn-outline-primary">
+          <Link :href="`/member/listings/${listing?.id}/packages/${row.id}/edit`" class="btn btn-outline-primary rounded-pill">
             <i class="bi bi-pencil"></i>
           </Link>
-          <button class="btn btn-sm btn-outline-danger" @click="deletePackage(row)">
+          <button class="btn btn-outline-danger rounded-pill" @click="deletePackage(row)">
             <i class="bi bi-trash"></i>
           </button>
         </div>
@@ -187,3 +187,11 @@ const clonePackage = (pkg) => {
   })
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

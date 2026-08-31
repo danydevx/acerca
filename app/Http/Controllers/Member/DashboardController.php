@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Modules\ListingAppointments\Models\ListingAppointment;
+use Modules\ListingGallery\Models\ListingGalleryImage;
+use Modules\ListingPackages\Models\ListingPackage;
+use Modules\ListingProducts\Models\ListingProduct;
+use Modules\ListingPromotions\Models\ListingPromotion;
+use Modules\ListingRestaurantMenu\Entities\MenuProduct;
+use Modules\ListingReviews\Models\ListingReview;
+use Modules\ListingServices\Models\ListingService;
+use Modules\ListingTeamMembers\Models\ListingTeamMember;
 use Modules\Listings\Models\Listing;
 use Modules\ListingLeads\Models\ListingLead;
 use Modules\ListingModules\Models\ListingModule;
-use Modules\ListingPromotions\Models\ListingPromotion;
-use Modules\ListingReviews\Models\ListingReview;
+use Modules\Properties\Models\Property;
 
 class DashboardController extends Controller
 {
@@ -90,17 +97,17 @@ class DashboardController extends Controller
         }
 
         $modelMap = [
-            'services' => null,
-            'products' => null,
-            'gallery' => null,
+            'services' => ListingService::class,
+            'products' => ListingProduct::class,
+            'gallery' => ListingGalleryImage::class,
             'leads' => ListingLead::class,
             'appointments' => ListingAppointment::class,
             'promotions' => ListingPromotion::class,
             'reviews' => ListingReview::class,
-            'team_members' => null,
-            'packages' => null,
-            'restaurant_menu' => null,
-            'properties' => null,
+            'team_members' => ListingTeamMember::class,
+            'packages' => ListingPackage::class,
+            'restaurant_menu' => MenuProduct::class,
+            'properties' => Property::class,
         ];
 
         $iconMap = [

@@ -10,17 +10,17 @@
       <template #actions>
         <button
           v-if="selectedIds.length > 0"
-          class="btn btn-danger btn-sm"
+          class="btn btn-outline-danger rounded-pill"
           @click="deleteSelected"
           :disabled="deleting"
         >
           <i class="bi bi-trash me-1"></i>
           Eliminar ({{ selectedIds.length }})
         </button>
-        <Link :href="`/member/listings/${listing?.id}/product-categories`" class="btn btn-outline-secondary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/product-categories`" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-folder me-1"></i>Categorias
         </Link>
-        <Link :href="`/member/listings/${listing?.id}/products/create`" class="btn btn-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/products/create`" class="btn btn-gradient rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
           Nuevo Producto
         </Link>
@@ -34,7 +34,7 @@
             <option :value="null">Todas las categorias</option>
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
           </select>
-          <button v-if="filterCategory" type="button" class="btn btn-outline-secondary btn-sm" @click="clearFilter">
+          <button v-if="filterCategory" type="button" class="btn btn-outline-dark rounded-pill" @click="clearFilter">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -117,7 +117,7 @@
       <template #cell-actions="{ row }">
         <div class="actions">
           <button
-            class="btn btn-sm btn-outline-secondary"
+            class="btn btn-outline-dark rounded-pill"
             @click="cloneProduct(row)"
             :disabled="cloning === row.id"
             title="Clonar producto"
@@ -126,12 +126,12 @@
           </button>
           <Link
             :href="`/member/listings/${listing?.id}/products/${row.id}/edit`"
-            class="btn btn-sm btn-outline-primary"
+            class="btn btn-outline-primary rounded-pill"
           >
             <i class="bi bi-pencil"></i>
           </Link>
           <button
-            class="btn btn-sm btn-outline-danger"
+            class="btn btn-outline-danger rounded-pill"
             @click="deleteProduct(row)"
             :disabled="deleting === row.id"
           >
@@ -270,3 +270,11 @@ const deleteSelected = () => {
   }
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

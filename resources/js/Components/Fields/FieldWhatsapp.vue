@@ -3,7 +3,7 @@
     <label :for="id" class="form-label">{{ label }} <strong v-if="required">*</strong></label>
     <div class="input-group">
       <button
-        class="btn btn-outline-secondary dropdown-toggle"
+        class="btn btn-outline-dark rounded-pill dropdown-toggle"
         type="button"
         data-bs-toggle="dropdown"
         :disabled="readonly"

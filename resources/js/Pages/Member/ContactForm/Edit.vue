@@ -10,13 +10,13 @@
       <template #actions>
         <Link
           :href="`/member/listings/${listing?.id}/contact-forms/${form?.id}/preview`"
-          class="btn btn-outline-secondary"
+          class="btn btn-outline-dark rounded-pill"
           target="_blank"
         >
           <i class="bi bi-eye me-1"></i>
           Vista Previa
         </Link>
-        <button class="btn btn-primary" @click="showFieldModal = true">
+        <button class="btn btn-gradient rounded-pill" @click="showFieldModal = true">
           <i class="bi bi-plus me-1"></i>
           Agregar Campo
         </button>
@@ -62,7 +62,7 @@
               <i class="bi bi-input-cursor text-muted" style="font-size: 3rem;"></i>
               <p class="text-muted mt-3">No hay campos configurados.</p>
               <p class="text-muted small">Agrega campos para construir tu formulario de contacto.</p>
-              <button class="btn btn-primary" @click="showFieldModal = true">
+              <button class="btn btn-gradient rounded-pill" @click="showFieldModal = true">
                 <i class="bi bi-plus me-1"></i>Agregar Primer Campo
               </button>
             </div>
@@ -106,11 +106,11 @@
                         </p>
                       </div>
                     </div>
-                    <div class="btn-group">
-                      <button class="btn btn-sm btn-outline-secondary" @click="editField(field)">
+                    <div class="actions">
+                      <button class="btn btn-outline-primary rounded-pill" @click="editField(field)">
                         <i class="bi bi-pencil"></i>
                       </button>
-                      <button class="btn btn-sm btn-outline-danger" @click="deleteField(field)">
+                      <button class="btn btn-outline-danger rounded-pill" @click="deleteField(field)">
                         <i class="bi bi-trash"></i>
                       </button>
                     </div>
@@ -326,6 +326,12 @@ const getFieldWidthClass = (field) => {
 </script>
 
 <style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .field-item {
   transition: all 0.2s;
 }

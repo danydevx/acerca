@@ -8,10 +8,10 @@
         <p class="text-muted mb-0">Resumen de tu cuenta y suscripcion.</p>
       </div>
       <div class="d-flex flex-wrap gap-2">
-        <Link href="/member/profile" class="btn btn-outline-secondary btn-sm">Editar perfil</Link>
-        <Link href="/member/password" class="btn btn-outline-secondary btn-sm">Cambiar password</Link>
-        <Link href="/member/notifications" class="btn btn-outline-secondary btn-sm">Notificaciones</Link>
-        <Link href="/member/invoices" class="btn btn-outline-secondary btn-sm">Comprobantes</Link>
+        <Link href="/member/profile" class="btn btn-outline-dark rounded-pill">Editar perfil</Link>
+        <Link href="/member/password" class="btn btn-outline-dark rounded-pill">Cambiar password</Link>
+        <Link href="/member/notifications" class="btn btn-outline-dark rounded-pill">Notificaciones</Link>
+        <Link href="/member/invoices" class="btn btn-outline-dark rounded-pill">Comprobantes</Link>
       </div>
     </div>
 
@@ -84,7 +84,7 @@
               <div class="mt-3">
                 <button
                   type="button"
-                  class="btn btn-primary btn-sm"
+                  class="btn btn-gradient rounded-pill"
                   :disabled="!subscription.can_manage"
                   @click="openBillingPortal"
                 >

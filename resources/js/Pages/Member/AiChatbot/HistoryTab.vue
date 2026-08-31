@@ -5,7 +5,7 @@
         <h5 class="mb-1">Historial de Conversaciones</h5>
         <small class="text-muted">Últimas {{ conversations.length }} conversaciones</small>
       </div>
-      <button class="btn btn-outline-secondary btn-sm" @click="loadConversations" :disabled="loading">
+      <button class="btn btn-outline-dark rounded-pill" @click="loadConversations" :disabled="loading">
         <i class="bi bi-arrow-clockwise me-1"></i>Actualizar
       </button>
     </div>
@@ -98,7 +98,7 @@
             <small class="text-muted me-auto">
               Iniciada: {{ formatDate(selectedConversation.started_at) }}
             </small>
-            <button type="button" class="btn btn-secondary" @click="closeModal">Cerrar</button>
+            <button type="button"             class="btn btn-outline-dark rounded-pill" @click="closeModal">Cerrar</button>
           </div>
         </div>
       </div>

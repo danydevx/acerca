@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <button class="btn btn-primary" @click="openCreateModal">
+        <button class="btn btn-gradient rounded-pill" @click="openCreateModal">
           <i class="bi bi-plus me-1"></i>Agregar red social
         </button>
       </template>
@@ -69,10 +69,10 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <button class="btn btn-sm btn-outline-primary" @click="openEditModal(row)">
+          <button class="btn btn-outline-primary rounded-pill" @click="openEditModal(row)">
             <i class="bi bi-pencil"></i>
           </button>
-          <button class="btn btn-sm btn-outline-danger" @click="deleteNetwork(row)">
+          <button class="btn btn-outline-danger rounded-pill" @click="deleteNetwork(row)">
             <i class="bi bi-trash"></i>
           </button>
         </div>
@@ -154,8 +154,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary" :disabled="sending">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
                 {{ sending ? 'Guardando...' : 'Guardar' }}
               </button>
             </div>
@@ -327,3 +327,11 @@ onMounted(() => {
   })
 })
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

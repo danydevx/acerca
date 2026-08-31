@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">{{ file.original_name }}</h1>
         <p class="text-muted mb-0">Detalle del archivo</p>
       </div>
-      <Link href="/member/files" class="btn btn-outline-secondary btn-sm">Volver</Link>
+      <Link href="/member/files" class="btn btn-outline-dark rounded-pill">Volver</Link>
     </div>
 
     <div class="card border-0 shadow-sm">
@@ -26,8 +26,8 @@
         </dl>
 
         <div class="mt-3 d-flex gap-2">
-          <Link :href="`/member/files/${file.id}/download`" class="btn btn-primary">Descargar</Link>
-          <button class="btn btn-outline-danger" type="button" @click="remove">Eliminar</button>
+          <Link :href="`/member/files/${file.id}/download`" class="btn btn-gradient rounded-pill">Descargar</Link>
+          <button class="btn btn-outline-danger rounded-pill" type="button" @click="remove">Eliminar</button>
         </div>
       </div>
     </div>

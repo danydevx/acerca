@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/faqs/create`" class="btn btn-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/faqs/create`" class="btn btn-gradient rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nueva Pregunta
         </Link>
       </template>
@@ -17,13 +17,13 @@
     <div class="mb-3 d-flex gap-2">
       <Link
         :href="`/member/listings/${listing?.id}/faqs`"
-        class="btn btn-outline-secondary btn-sm"
+        class="btn btn-outline-dark rounded-pill"
       >
         Todas
       </Link>
       <Link
         :href="`/member/listings/${listing?.id}/faq-categories`"
-        class="btn btn-outline-secondary btn-sm"
+        class="btn btn-outline-dark rounded-pill"
       >
         <i class="bi bi-folder me-1"></i>Categorías
       </Link>
@@ -112,13 +112,13 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <button class="btn btn-sm btn-outline-secondary" @click="cloneFaq(row)" title="Clonar">
+          <button class="btn btn-outline-dark rounded-pill" @click="cloneFaq(row)" title="Clonar">
             <i class="bi bi-copy"></i>
           </button>
-          <Link :href="`/member/listings/${listing?.id}/faqs/${row.id}/edit`" class="btn btn-sm btn-outline-primary">
+          <Link :href="`/member/listings/${listing?.id}/faqs/${row.id}/edit`" class="btn btn-outline-primary rounded-pill">
             <i class="bi bi-pencil"></i>
           </Link>
-          <button class="btn btn-sm btn-outline-danger" @click="deleteFaq(row)">
+          <button class="btn btn-outline-danger rounded-pill" @click="deleteFaq(row)">
             <i class="bi bi-trash"></i>
           </button>
         </div>
@@ -227,3 +227,11 @@ const cloneFaq = (faq) => {
   })
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

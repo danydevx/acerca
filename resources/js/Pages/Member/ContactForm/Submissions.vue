@@ -8,7 +8,7 @@
       :backHref="`/member/listings/${listing?.id}/contact-forms`"
     >
       <template #actions>
-        <a :href="`/member/listings/${listing?.id}/contact-forms/${form?.id}/export`" class="btn btn-success btn-sm">
+        <a :href="`/member/listings/${listing?.id}/contact-forms/${form?.id}/export`" class="btn btn-gradient rounded-pill">
           <i class="bi bi-download me-1"></i>Exportar CSV
         </a>
       </template>
@@ -48,10 +48,10 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/leads/${row.id}`" class="btn btn-sm btn-outline-primary">
+          <Link :href="`/member/listings/${listing?.id}/leads/${row.id}`" class="btn btn-outline-primary rounded-pill">
             <i class="bi bi-eye"></i>
           </Link>
-          <button class="btn btn-sm btn-outline-danger" @click="deleteSubmission(row)">
+          <button class="btn btn-outline-danger rounded-pill" @click="deleteSubmission(row)">
             <i class="bi bi-trash"></i>
           </button>
         </div>
@@ -119,3 +119,11 @@ const deleteSubmission = (row) => {
   }
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

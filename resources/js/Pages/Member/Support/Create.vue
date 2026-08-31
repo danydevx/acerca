@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">Nuevo ticket</h1>
         <p class="text-muted mb-0">Describe tu solicitud para ayudarte mejor.</p>
       </div>
-      <Link href="/member/support" class="btn btn-outline-secondary btn-sm">Volver</Link>
+      <Link href="/member/support" class="btn btn-outline-dark rounded-pill">Volver</Link>
     </div>
 
     <div class="card border-0 shadow-sm">
@@ -54,10 +54,10 @@
           </div>
 
           <div class="col-12 d-flex gap-2">
-            <button type="submit" class="btn btn-primary" :disabled="form.processing">
+            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="form.processing">
               {{ form.processing ? 'Enviando...' : 'Crear ticket' }}
             </button>
-            <Link href="/member/support" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link href="/member/support" class="btn btn-outline-dark rounded-pill">Cancelar</Link>
           </div>
         </form>
       </div>

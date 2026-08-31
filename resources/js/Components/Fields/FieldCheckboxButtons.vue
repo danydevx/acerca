@@ -14,7 +14,7 @@
           @change="onChange(item.id, $event)"
         >
         <label
-          class="btn btn-outline-primary"
+          class="btn btn-outline-dark rounded-pill"
           :for="idPrefix + item.id"
         >
           {{ item.label }}

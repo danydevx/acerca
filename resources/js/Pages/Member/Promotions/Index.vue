@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/promotions/create`" class="btn btn-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/promotions/create`" class="btn btn-gradient rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
           Nueva Promocion
         </Link>
@@ -84,18 +84,18 @@
       <template #cell-actions="{ row }">
         <div class="actions">
           <button
-            class="btn btn-sm btn-outline-secondary"
+            class="btn btn-outline-dark rounded-pill"
             @click="clonePromotion(row)"
             :disabled="cloning === row.id"
             title="Clonar promocion"
           >
             <i class="bi bi-copy"></i>
           </button>
-          <Link :href="`/member/listings/${listing?.id}/promotions/${row.id}/edit`" class="btn btn-sm btn-outline-primary">
+          <Link :href="`/member/listings/${listing?.id}/promotions/${row.id}/edit`" class="btn btn-outline-primary rounded-pill">
             <i class="bi bi-pencil"></i>
           </Link>
           <button
-            class="btn btn-sm btn-outline-danger"
+            class="btn btn-outline-danger rounded-pill"
             @click="deletePromotion(row)"
           >
             <i class="bi bi-trash"></i>
@@ -206,3 +206,11 @@ const deleteSelected = () => {
   }
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

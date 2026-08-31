@@ -7,7 +7,7 @@
       :breadcrumbs="breadcrumbs"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/fidelity-rewards`" class="btn btn-outline-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/fidelity-rewards`" class="btn btn-outline-primary rounded-pill">
           <i class="bi bi-gift me-1"></i>
           Ver recompensas
         </Link>
@@ -43,156 +43,207 @@
       </div>
 
       <div class="col-12 col-md-9">
-        <div class="card border-0 shadow-sm">
-          <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs" role="tablist">
-              <li class="nav-item">
-                <button
-                  class="nav-link"
-                  :class="{ active: activeTab === 'clients' }"
-                  type="button"
-                  @click="activeTab = 'clients'"
-                >
-                  <i class="bi bi-people me-1"></i>
-                  Por cliente
-                </button>
-              </li>
-              <li class="nav-item">
-                <button
-                  class="nav-link"
-                  :class="{ active: activeTab === 'completions' }"
-                  type="button"
-                  @click="activeTab = 'completions'"
-                >
-                  <i class="bi bi-list-check me-1"></i>
-                  Completaciones
-                </button>
-              </li>
-            </ul>
-          </div>
+        <div class="fidelity-history-tabs">
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <button
+                class="nav-link"
+                :class="{ active: activeTab === 'clients' }"
+                @click="activeTab = 'clients'"
+              >
+                <i class="bi bi-people me-2"></i>
+                Por cliente
+              </button>
+            </li>
+            <li class="nav-item">
+              <button
+                class="nav-link"
+                :class="{ active: activeTab === 'completions' }"
+                @click="activeTab = 'completions'"
+              >
+                <i class="bi bi-list-check me-2"></i>
+                Completaciones
+              </button>
+            </li>
+          </ul>
 
-          <div class="card-body">
-            <div class="row g-3 mb-4">
-              <div class="col-md-4">
-                <input
-                  v-model="search"
-                  type="search"
-                  class="form-control"
-                  placeholder="Buscar por cliente..."
-                  @search="applyFilters"
-                />
-              </div>
-              <div class="col-md-3">
-                <select v-model="filters.reward_id" class="form-select" @change="applyFilters">
-                  <option value="">Todas las recompensas</option>
-                  <option v-for="reward in rewards" :key="reward.id" :value="reward.id">
-                    {{ reward.title }}
-                  </option>
-                </select>
-              </div>
-              <div class="col-md-2">
-                <input
-                  v-model="filters.date_from"
-                  type="date"
-                  class="form-control"
-                  placeholder="Desde"
-                  @change="applyFilters"
-                />
-              </div>
-              <div class="col-md-2">
-                <input
-                  v-model="filters.date_to"
-                  type="date"
-                  class="form-control"
-                  placeholder="Hasta"
-                  @change="applyFilters"
-                />
-              </div>
-              <div class="col-md-1">
-                <button class="btn btn-outline-secondary" type="button" @click="clearFilters">
-                  <i class="bi bi-x-lg"></i>
-                </button>
+          <div class="tab-content">
+            <div class="tab-pane fade" :class="{ 'show active': activeTab === 'clients' }">
+              <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                  <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                      <input
+                        v-model="search"
+                        type="search"
+                        class="form-control"
+                        placeholder="Buscar por cliente..."
+                        @search="applyFilters"
+                      />
+                    </div>
+                    <div class="col-md-3">
+                      <select v-model="filters.reward_id" class="form-select" @change="applyFilters">
+                        <option value="">Todas las recompensas</option>
+                        <option v-for="reward in rewards" :key="reward.id" :value="reward.id">
+                          {{ reward.title }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-md-2">
+                      <input
+                        v-model="filters.date_from"
+                        type="date"
+                        class="form-control"
+                        placeholder="Desde"
+                        @change="applyFilters"
+                      />
+                    </div>
+                    <div class="col-md-2">
+                      <input
+                        v-model="filters.date_to"
+                        type="date"
+                        class="form-control"
+                        placeholder="Hasta"
+                        @change="applyFilters"
+                      />
+                    </div>
+                    <div class="col-md-1">
+                      <button class="btn btn-outline-dark rounded-pill" type="button" @click="clearFilters">
+                        <i class="bi bi-x-lg"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                      <thead>
+                        <tr>
+                          <th>Cliente</th>
+                          <th class="text-center">Completaciones</th>
+                          <th class="text-center">Última</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="client in groupedByClient" :key="client.client_name">
+                          <td>
+                            <strong>{{ client.client_name }}</strong>
+                          </td>
+                          <td class="text-center">
+                            <span class="badge bg-primary">{{ client.total_completions }}</span>
+                          </td>
+                          <td class="text-center text-muted small">
+                            {{ formatDate(client.last_completion) }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div v-if="groupedByClient.length === 0" class="text-center py-4 text-muted">
+                      No hay datos
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div v-if="activeTab === 'clients'" class="table-responsive">
-              <table class="table table-hover align-middle">
-                <thead>
-                  <tr>
-                    <th>Cliente</th>
-                    <th class="text-center">Completaciones</th>
-                    <th class="text-center">Última</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="client in groupedByClient" :key="client.client_name">
-                    <td>
-                      <strong>{{ client.client_name }}</strong>
-                    </td>
-                    <td class="text-center">
-                      <span class="badge bg-primary">{{ client.total_completions }}</span>
-                    </td>
-                    <td class="text-center text-muted small">
-                      {{ formatDate(client.last_completion) }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div v-if="groupedByClient.length === 0" class="text-center py-4 text-muted">
-                No hay datos
-              </div>
-            </div>
+            <div class="tab-pane fade" :class="{ 'show active': activeTab === 'completions' }">
+              <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                  <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                      <input
+                        v-model="search"
+                        type="search"
+                        class="form-control"
+                        placeholder="Buscar por cliente..."
+                        @search="applyFilters"
+                      />
+                    </div>
+                    <div class="col-md-3">
+                      <select v-model="filters.reward_id" class="form-select" @change="applyFilters">
+                        <option value="">Todas las recompensas</option>
+                        <option v-for="reward in rewards" :key="reward.id" :value="reward.id">
+                          {{ reward.title }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-md-2">
+                      <input
+                        v-model="filters.date_from"
+                        type="date"
+                        class="form-control"
+                        placeholder="Desde"
+                        @change="applyFilters"
+                      />
+                    </div>
+                    <div class="col-md-2">
+                      <input
+                        v-model="filters.date_to"
+                        type="date"
+                        class="form-control"
+                        placeholder="Hasta"
+                        @change="applyFilters"
+                      />
+                    </div>
+                    <div class="col-md-1">
+                      <button class="btn btn-outline-dark rounded-pill" type="button" @click="clearFilters">
+                        <i class="bi bi-x-lg"></i>
+                      </button>
+                    </div>
+                  </div>
 
-            <div v-else class="table-responsive">
-              <table class="table table-hover align-middle">
-                <thead>
-                  <tr>
-                    <th>Cliente</th>
-                    <th>Recompensa</th>
-                    <th>Visitas</th>
-                    <th>Fecha</th>
-                    <th>Completado por</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="completion in completions.data" :key="completion.id">
-                    <td>
-                      <strong>{{ completion.client_name }}</strong>
-                    </td>
-                    <td>
-                      <span v-if="completion.reward">{{ completion.reward.title }}</span>
-                      <span v-else class="text-muted">-</span>
-                    </td>
-                    <td>
-                      <span class="badge bg-secondary">{{ completion.visits_completed }}</span>
-                    </td>
-                    <td class="text-muted small">
-                      {{ formatDate(completion.created_at) }}
-                    </td>
-                    <td>
-                      <span v-if="completion.completed_by" class="text-muted small">
-                        {{ completion.completed_by.name }}
-                      </span>
-                      <span v-else class="text-muted">-</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                      <thead>
+                        <tr>
+                          <th>Cliente</th>
+                          <th>Recompensa</th>
+                          <th>Visitas</th>
+                          <th>Fecha</th>
+                          <th>Completado por</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="completion in completions.data" :key="completion.id">
+                          <td>
+                            <strong>{{ completion.client_name }}</strong>
+                          </td>
+                          <td>
+                            <span v-if="completion.reward">{{ completion.reward.title }}</span>
+                            <span v-else class="text-muted">-</span>
+                          </td>
+                          <td>
+                            <span class="badge bg-secondary">{{ completion.visits_completed }}</span>
+                          </td>
+                          <td class="text-muted small">
+                            {{ formatDate(completion.created_at) }}
+                          </td>
+                          <td>
+                            <span v-if="completion.completed_by" class="text-muted small">
+                              {{ completion.completed_by.name }}
+                            </span>
+                            <span v-else class="text-muted">-</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
 
-              <div v-if="completions.data.length === 0" class="text-center py-4 text-muted">
-                No hay datos
-              </div>
+                    <div v-if="completions.data.length === 0" class="text-center py-4 text-muted">
+                      No hay datos
+                    </div>
 
-              <div v-if="completions.links" class="d-flex justify-content-center mt-4">
-                <component
-                  :is="Link"
-                  v-for="link in completions.links"
-                  :key="link.label"
-                  :href="link.url || '#'"
-                  class="btn btn-sm mx-1"
-                  :class="[link.active ? 'btn-primary' : 'btn-outline-secondary', !link.url ? 'disabled' : '']"
-                  v-html="link.label"
-                />
+                    <div v-if="completions.links" class="d-flex justify-content-center mt-4">
+                      <component
+                        :is="Link"
+                        v-for="link in completions.links"
+                        :key="link.label"
+                        :href="link.url || '#'"
+                        class="btn btn-sm mx-1 rounded-pill"
+                        :class="[link.active ? 'btn-gradient' : 'btn-outline-dark', !link.url ? 'disabled' : '']"
+                        v-html="link.label"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -263,3 +314,37 @@ watch(search, () => {
   applyFilters()
 })
 </script>
+
+<style lang="less" scoped>
+.fidelity-history-tabs {
+  padding: 0 0 48px;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid #dee2e6;
+
+  .nav-link {
+    color: #6c757d;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    padding: 12px 20px;
+    font-weight: 500;
+
+    &:hover {
+      color: #0d6efd;
+      border-color: transparent;
+    }
+
+    &.active {
+      color: #0d6efd;
+      border-bottom-color: #0d6efd;
+      background: transparent;
+    }
+  }
+}
+
+.tab-content {
+  padding-top: 24px;
+}
+</style>

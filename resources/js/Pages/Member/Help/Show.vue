@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">{{ article.title }}</h1>
         <p class="text-muted mb-0">{{ article.category || 'General' }} · {{ article.published_at || '-' }}</p>
       </div>
-      <Link href="/member/help" class="btn btn-outline-secondary btn-sm">Volver</Link>
+      <Link href="/member/help" class="btn btn-outline-dark rounded-pill">Volver</Link>
     </div>
 
     <div class="card border-0 shadow-sm">
@@ -23,7 +23,7 @@
           <div class="fw-semibold">¿No resolvio tu duda?</div>
           <div class="text-muted small">Crea un ticket para que te ayudemos.</div>
         </div>
-        <Link href="/member/support/create" class="btn btn-primary">Crear ticket</Link>
+        <Link href="/member/support/create" class="btn btn-gradient rounded-pill">Crear ticket</Link>
       </div>
     </div>
   </MemberLayout>

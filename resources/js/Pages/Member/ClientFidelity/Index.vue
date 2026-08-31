@@ -7,7 +7,7 @@
       :breadcrumbs="breadcrumbs"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/fidelity-cards/create`" class="btn btn-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/fidelity-cards/create`" class="btn btn-gradient rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nueva
         </Link>
       </template>
@@ -16,13 +16,13 @@
     <div class="mb-3 d-flex gap-2">
       <Link
         :href="`/member/listings/${listing?.id}/fidelity-cards`"
-        class="btn btn-secondary btn-sm"
+        class="btn btn-outline-dark rounded-pill"
       >
         <i class="bi bi-credit-card me-1"></i>Tarjetas
       </Link>
       <Link
         :href="`/member/listings/${listing?.id}/fidelity-cards/scan-view`"
-        class="btn btn-outline-secondary btn-sm"
+        class="btn btn-outline-dark rounded-pill"
       >
         <i class="bi bi-qr-code-scan me-1"></i>Escanear
       </Link>
@@ -108,13 +108,13 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/fidelity-cards/${row.id}`" class="btn btn-sm btn-outline-primary">
+          <Link :href="`/member/listings/${listing?.id}/fidelity-cards/${row.id}`" class="btn btn-outline-primary rounded-pill">
             <i class="bi bi-eye"></i>
           </Link>
-          <Link :href="`/member/listings/${listing?.id}/fidelity-cards/${row.id}/edit`" class="btn btn-sm btn-outline-secondary">
+          <Link :href="`/member/listings/${listing?.id}/fidelity-cards/${row.id}/edit`" class="btn btn-outline-dark rounded-pill">
             <i class="bi bi-pencil"></i>
           </Link>
-          <button class="btn btn-sm btn-outline-danger" @click="deleteCard(row)">
+          <button class="btn btn-outline-danger rounded-pill" @click="deleteCard(row)">
             <i class="bi bi-trash"></i>
           </button>
         </div>
@@ -206,3 +206,11 @@ const deleteCard = (card) => {
   })
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

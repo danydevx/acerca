@@ -12,13 +12,13 @@
     <div class="mb-3 d-flex gap-2">
       <Link
         :href="`/member/listings/${listing?.id}/fidelity-cards`"
-        class="btn btn-outline-secondary btn-sm"
+        class="btn btn-outline-dark rounded-pill"
       >
         <i class="bi bi-credit-card me-1"></i>Tarjetas
       </Link>
       <Link
         :href="`/member/listings/${listing?.id}/fidelity-cards/scan-view`"
-        class="btn btn-secondary btn-sm"
+        class="btn btn-outline-dark rounded-pill"
       >
         <i class="bi bi-qr-code-scan me-1"></i>Escanear
       </Link>
@@ -55,7 +55,7 @@
                   required
                 />
               </div>
-              <button type="submit" class="btn btn-primary btn-sm" :disabled="form.processing || !form.public_code">
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="form.processing || !form.public_code">
                 <i class="bi bi-qr-code-scan me-1"></i>
                 {{ form.processing ? 'Buscando...' : 'Buscar y Registrar Visita' }}
               </button>

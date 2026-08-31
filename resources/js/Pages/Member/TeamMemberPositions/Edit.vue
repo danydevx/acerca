@@ -56,11 +56,11 @@
               </div>
 
               <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary" :disabled="form.processing">
+                <button type="submit" class="btn btn-gradient rounded-pill" :disabled="form.processing">
                   <i class="bi bi-check me-1"></i>
                   {{ form.processing ? 'Guardando...' : 'Guardar' }}
                 </button>
-                <Link :href="`/member/listings/${listing?.id}/team-member-positions`" class="btn btn-outline-secondary">
+                <Link :href="`/member/listings/${listing?.id}/team-member-positions`" class="btn btn-outline-dark rounded-pill">
                   Cancelar
                 </Link>
               </div>

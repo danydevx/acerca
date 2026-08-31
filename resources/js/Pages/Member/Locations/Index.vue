@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/locations/create`" class="btn btn-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/locations/create`" class="btn btn-gradient rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
           Nueva Ubicacion
         </Link>
@@ -85,10 +85,10 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/locations/${row.id}/schedules`" class="btn btn-sm btn-outline-secondary" title="Horarios">
+          <Link :href="`/member/listings/${listing?.id}/locations/${row.id}/schedules`" class="btn btn-outline-dark rounded-pill" title="Horarios">
             <i class="bi bi-clock"></i>
           </Link>
-          <Link :href="`/member/listings/${listing?.id}/locations/${row.id}/edit`" class="btn btn-sm btn-outline-primary">
+          <Link :href="`/member/listings/${listing?.id}/locations/${row.id}/edit`" class="btn btn-outline-primary rounded-pill">
             <i class="bi bi-pencil"></i>
           </Link>
         </div>
@@ -163,3 +163,11 @@ const deleteSelected = () => {
   }
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

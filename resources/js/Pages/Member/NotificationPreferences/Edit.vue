@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">Preferencias de notificacion</h1>
         <p class="text-muted mb-0">Elige que categorias quieres recibir y por que canal.</p>
       </div>
-      <Link href="/member/notifications" class="btn btn-outline-secondary btn-sm">Ver notificaciones</Link>
+      <Link href="/member/notifications" class="btn btn-outline-dark rounded-pill">Ver notificaciones</Link>
     </div>
 
     <div v-if="flashSuccess" class="alert alert-success">
@@ -68,7 +68,7 @@
         <div class="text-muted small">
           Algunas notificaciones de seguridad no pueden desactivarse.
         </div>
-        <button class="btn btn-primary" type="button" :disabled="form.processing" @click="submit">
+        <button class="btn btn-gradient rounded-pill" type="button" :disabled="form.processing" @click="submit">
           {{ form.processing ? 'Guardando...' : 'Guardar cambios' }}
         </button>
       </div>

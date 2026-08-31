@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">Seleccion de plan</h1>
         <p class="text-muted mb-0">Confirmamos tu interes antes de habilitar el checkout.</p>
       </div>
-      <Link href="/pricing" class="btn btn-outline-secondary btn-sm">Volver a planes</Link>
+      <Link href="/pricing" class="btn btn-outline-dark rounded-pill">Volver a planes</Link>
     </div>
 
     <div v-if="!plan" class="card border-0 shadow-sm">
@@ -42,7 +42,7 @@
                   <div class="fw-semibold">{{ coupon.code }}</div>
                   <div class="text-muted small">{{ coupon.name }}</div>
                 </div>
-                <button type="button" class="btn btn-sm btn-outline-secondary" @click="clearCoupon">
+                <button type="button" class="btn btn-outline-dark rounded-pill btn-sm" @click="clearCoupon">
                   Quitar
                 </button>
               </div>
@@ -53,7 +53,7 @@
                   class="form-control"
                   placeholder="Codigo de cupon"
                 />
-                <button type="submit" class="btn btn-outline-primary" :disabled="processingCoupon">
+                <button type="submit" class="btn btn-outline-primary rounded-pill" :disabled="processingCoupon">
                   Aplicar
                 </button>
               </form>
@@ -96,7 +96,7 @@
             <button
               v-if="plan.stripe_price_id"
               type="button"
-              class="btn btn-primary w-100"
+              class="btn btn-gradient rounded-pill w-100"
               @click="goToCheckout"
             >
               Continuar a pago
@@ -104,7 +104,7 @@
             <button
               v-else
               type="button"
-              class="btn btn-outline-secondary w-100"
+              class="btn btn-outline-dark rounded-pill w-100"
               @click="clearSelection"
             >
               Entendido

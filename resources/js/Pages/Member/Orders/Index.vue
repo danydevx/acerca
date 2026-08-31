@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/orders/settings`" class="btn btn-outline-secondary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/orders/settings`" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-gear me-1"></i>
           Configuración
         </Link>
@@ -29,7 +29,7 @@
               {{ status.label }}
             </option>
           </select>
-          <button v-if="statusFilter" type="button" class="btn btn-outline-secondary btn-sm" @click="clearFilter">
+          <button v-if="statusFilter" type="button" class="btn btn-outline-dark rounded-pill" @click="clearFilter">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -86,12 +86,12 @@
         <div class="actions">
           <Link
             :href="`/member/listings/${listing?.id}/orders/${row.id}`"
-            class="btn btn-sm btn-outline-primary"
+            class="btn btn-outline-primary rounded-pill"
           >
             <i class="bi bi-eye"></i>
           </Link>
           <button
-            class="btn btn-sm btn-outline-danger"
+            class="btn btn-outline-danger rounded-pill"
             @click="deleteOrder(row)"
           >
             <i class="bi bi-trash"></i>
@@ -215,3 +215,11 @@ const deleteOrder = (order) => {
   })
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

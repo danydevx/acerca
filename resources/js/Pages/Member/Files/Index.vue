@@ -21,7 +21,7 @@
             </div>
           </div>
           <div class="col-12 col-md-4 d-flex align-items-end">
-            <button class="btn btn-primary w-100" type="submit" :disabled="form.processing">
+            <button class="btn btn-gradient rounded-pill w-100" type="submit" :disabled="form.processing">
               {{ form.processing ? 'Subiendo...' : 'Subir archivo' }}
             </button>
           </div>
@@ -54,14 +54,14 @@
               <td class="text-muted">{{ file.created_at }}</td>
               <td class="text-end">
                 <div class="d-inline-flex gap-2">
-                  <Link :href="`/member/files/${file.id}`" class="btn btn-sm btn-outline-secondary">Ver</Link>
+                  <Link :href="`/member/files/${file.id}`" class="btn btn-outline-dark rounded-pill btn-sm">Ver</Link>
                   <Link
                     :href="`/member/files/${file.id}/download`"
-                    class="btn btn-sm btn-outline-primary"
+                    class="btn btn-outline-primary rounded-pill btn-sm"
                   >
                     Descargar
                   </Link>
-                  <button class="btn btn-sm btn-outline-danger" type="button" @click="remove(file)">
+                  <button class="btn btn-outline-danger rounded-pill btn-sm" type="button" @click="remove(file)">
                     Eliminar
                   </button>
                 </div>

@@ -11,11 +11,11 @@
         <Link
           v-if="canCreateMore"
           :href="`/member/listings/${listing?.id}/contact-forms/create`"
-          class="btn btn-primary"
+          class="btn btn-gradient rounded-pill"
         >
           <i class="bi bi-plus me-1"></i>Nuevo Formulario
         </Link>
-        <span v-else class="btn btn-secondary" disabled>
+        <span v-else class="btn btn-outline-dark rounded-pill" disabled>
           Limite alcanzado ({{ forms.length }}/{{ maxForms }})
         </span>
       </template>
@@ -35,7 +35,7 @@
           <Link
             v-if="canCreateMore"
             :href="`/member/listings/${listing?.id}/contact-forms/create`"
-            class="btn btn-primary"
+            class="btn btn-gradient rounded-pill"
           >
             <i class="bi bi-plus me-1"></i>Crear Primer Formulario
           </Link>
@@ -72,21 +72,21 @@
                 </td>
                 <td>{{ formatDate(form.created_at) }}</td>
                 <td class="text-end">
-                  <div class="btn-group">
+                  <div class="actions">
                     <Link
                       :href="`/member/listings/${listing?.id}/contact-forms/${form.id}/edit`"
-                      class="btn btn-sm btn-outline-primary"
+                      class="btn btn-outline-primary rounded-pill"
                     >
                       <i class="bi bi-pencil"></i>
                     </Link>
                     <Link
                       :href="`/member/listings/${listing?.id}/contact-forms/${form.id}/submissions`"
-                      class="btn btn-sm btn-outline-secondary"
+                      class="btn btn-outline-dark rounded-pill"
                     >
                       <i class="bi bi-envelope"></i>
                     </Link>
                     <button
-                      class="btn btn-sm btn-outline-danger"
+                      class="btn btn-outline-danger rounded-pill"
                       @click="deleteForm(form)"
                     >
                       <i class="bi bi-trash"></i>
@@ -170,3 +170,11 @@ const deleteForm = (form) => {
   }
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

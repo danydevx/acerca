@@ -242,7 +242,7 @@
               <div class="col-1">
                 <button
                   type="button"
-                  class="btn btn-outline-danger btn-sm w-100"
+                  class="btn btn-outline-danger rounded-pill w-100"
                   @click="removeOption(index)"
                 >
                   <i class="bi bi-trash"></i>
@@ -252,17 +252,17 @@
             <div v-if="optionsArray.length === 0" class="text-muted small text-center py-2 border rounded">
               Sin opciones. Agrega una abajo.
             </div>
-            <button type="button" class="btn btn-outline-primary btn-sm mt-2" @click="addOption">
+            <button type="button" class="btn btn-gradient rounded-pill mt-2" @click="addOption">
               <i class="bi bi-plus me-1"></i>Agregar opción
             </button>
           </div>
         </div>
 
         <div class="d-flex justify-content-end gap-2 px-4 py-3 border-top bg-light">
-          <button type="button" class="btn btn-outline-secondary" @click="close">
+          <button type="button" class="btn btn-outline-dark rounded-pill" @click="close">
             Cancelar
           </button>
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="btn btn-gradient rounded-pill">
             {{ field?.id ? 'Actualizar' : 'Agregar' }}
           </button>
         </div>

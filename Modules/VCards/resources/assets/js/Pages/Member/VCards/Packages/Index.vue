@@ -17,7 +17,7 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
           <p class="text-muted mb-0">Administra los paquetes de tu vCard</p>
-          <button class="btn btn-primary btn-sm" @click="showCreateModal = true">
+          <button class="btn btn-gradient rounded-pill btn-sm" @click="showCreateModal = true">
             <i class="bi bi-plus-lg me-1"></i>
             Nuevo Paquete
           </button>
@@ -43,10 +43,10 @@
                   <span v-if="pkg.duration_days" class="text-muted small"> / {{ pkg.duration_days }} dias</span>
                 </div>
                 <div class="d-flex gap-2">
-                  <button class="btn btn-outline-primary btn-sm" @click="editPackage(pkg)">
+                  <button class="btn btn-outline-primary rounded-pill btn-sm" @click="editPackage(pkg)">
                     <i class="bi bi-pencil"></i>
                   </button>
-                  <button class="btn btn-outline-danger btn-sm" @click="deletePackage(pkg.id)">
+                  <button class="btn btn-outline-danger rounded-pill btn-sm" @click="deletePackage(pkg.id)">
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
@@ -105,8 +105,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" @click="closeModal">Cancelar</button>
-              <button type="submit" class="btn btn-primary">{{ editingPackage ? 'Actualizar' : 'Crear' }}</button>
+              <button type="button" class="btn btn-outline-dark rounded-pill" @click="closeModal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill">{{ editingPackage ? 'Actualizar' : 'Crear' }}</button>
             </div>
           </form>
         </div>

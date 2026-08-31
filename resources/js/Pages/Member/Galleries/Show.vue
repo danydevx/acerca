@@ -14,7 +14,7 @@
         <div class="dropdown">
           <button
             type="button"
-            class="btn btn-outline-primary btn-sm dropdown-toggle"
+            class="btn btn-outline-primary rounded-pill dropdown-toggle"
             data-bs-toggle="dropdown"
           >
             <i class="bi bi-arrow-left-right me-1"></i>
@@ -34,14 +34,14 @@
         </div>
         <button
           v-if="selectedIds.length > 0"
-          class="btn btn-danger btn-sm"
+          class="btn btn-outline-danger rounded-pill"
           @click="deleteSelected"
           :disabled="deleting"
         >
           <i class="bi bi-trash me-1"></i>
           Eliminar ({{ selectedIds.length }})
         </button>
-        <button class="btn btn-primary btn-sm" @click="openUploadModal">
+        <button class="btn btn-gradient rounded-pill" @click="openUploadModal">
           <i class="bi bi-plus-lg me-1"></i>
           Subir imagenes
         </button>
@@ -53,7 +53,7 @@
         <i class="bi bi-images display-1 text-muted"></i>
         <h3 class="h5 mt-3">No hay imagenes en esta galería</h3>
         <p class="text-muted">Sube tu primera imagen para empezar.</p>
-        <button class="btn btn-primary" @click="openUploadModal">
+        <button class="btn btn-gradient rounded-pill" @click="openUploadModal">
           <i class="bi bi-plus-lg me-1"></i>
           Subir imagenes
         </button>
@@ -83,10 +83,10 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <button class="btn btn-sm btn-outline-primary" @click="openEditModal(row)">
+          <button class="btn btn-outline-primary rounded-pill" @click="openEditModal(row)">
             <i class="bi bi-pencil"></i>
           </button>
-          <button class="btn btn-sm btn-outline-danger" @click="deleteImage(row)">
+          <button class="btn btn-outline-danger rounded-pill" @click="deleteImage(row)">
             <i class="bi bi-trash"></i>
           </button>
         </div>
@@ -150,8 +150,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary" :disabled="saving">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="saving">
                 {{ saving ? 'Guardando...' : 'Guardar' }}
               </button>
             </div>
@@ -200,6 +200,7 @@ const columns = [
 ]
 
 const imageUploadRef = ref(null)
+const dataTableRef = ref(null)
 const editModalElement = ref(null)
 let editModal = null
 
@@ -310,3 +311,11 @@ onMounted(() => {
   editModal = editModalElement.value ? new Modal(editModalElement.value) : null
 })
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

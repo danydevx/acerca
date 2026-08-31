@@ -8,10 +8,10 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <button class="btn btn-outline-primary btn-sm" @click="openImportModal">
+        <button class="btn btn-outline-primary rounded-pill" @click="openImportModal">
           <i class="bi bi-download me-1"></i>Importar
         </button>
-        <button class="btn btn-primary btn-sm" @click="openCreateModal">
+        <button class="btn btn-gradient rounded-pill" @click="openCreateModal">
           <i class="bi bi-plus me-1"></i>Nuevo
         </button>
       </template>
@@ -24,10 +24,10 @@
           <p class="text-muted mt-3">No hay caracteristicas configuradas.</p>
           <p class="text-muted small">Puedes importar caracteristicas predefinidas o crear las tuyas propias.</p>
           <div class="d-flex gap-2 justify-content-center">
-            <button class="btn btn-outline-primary btn-sm" @click="showImportModal = true">
+            <button class="btn btn-outline-primary rounded-pill" @click="showImportModal = true">
               <i class="bi bi-download me-1"></i>Importar predefinidas
             </button>
-            <button class="btn btn-primary btn-sm" @click="openCreateModal">
+            <button class="btn btn-gradient rounded-pill" @click="openCreateModal">
               <i class="bi bi-plus me-1"></i>Crear caracteristica
             </button>
           </div>
@@ -45,11 +45,11 @@
         <div class="mb-3 d-flex justify-content-between align-items-center">
           <div class="d-flex gap-2">
             <span class="text-muted small">Arrastra las cards para reordenar</span>
-            <button v-if="businessFeatures.length > 0" class="btn btn-outline-danger btn-sm" @click="unlinkAll">
+            <button v-if="businessFeatures.length > 0" class="btn btn-outline-danger rounded-pill" @click="unlinkAll">
               <i class="bi bi-trash me-1"></i>Desvincular todas
             </button>
           </div>
-          <button class="btn btn-outline-primary btn-sm" @click="openImportModal" v-if="availableFeaturesCount > 0">
+          <button class="btn btn-outline-primary rounded-pill" @click="openImportModal" v-if="availableFeaturesCount > 0">
             <i class="bi bi-download me-1"></i>Importar ({{ availableFeaturesCount }})
           </button>
         </div>
@@ -163,8 +163,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary" :disabled="createSending">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="createSending">
                 <span v-if="createSending">Guardando...</span>
                 <span v-else>Crear</span>
               </button>
@@ -213,8 +213,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary" :disabled="editSending">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="editSending">
                 <span v-if="editSending">Guardando...</span>
                 <span v-else>Actualizar</span>
               </button>
@@ -282,8 +282,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" @click="submitImport" :disabled="importForm.feature_ids.length === 0 || importSending">
+            <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-gradient rounded-pill" @click="submitImport" :disabled="importForm.feature_ids.length === 0 || importSending">
               <span v-if="importSending">Importando...</span>
               <span v-else>Importar ({{ importForm.feature_ids.length }})</span>
             </button>

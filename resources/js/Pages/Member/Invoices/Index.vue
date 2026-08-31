@@ -7,7 +7,7 @@
       :breadcrumbs="breadcrumbs"
     >
       <template #actions>
-        <Link href="/member/payments" class="btn btn-outline-secondary btn-sm">
+        <Link href="/member/payments" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-credit-card me-1"></i>Ver pagos
         </Link>
       </template>
@@ -43,7 +43,7 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <Link :href="`/member/invoices/${row.id}`" class="btn btn-sm btn-outline-primary">
+          <Link :href="`/member/invoices/${row.id}`" class="btn btn-outline-primary rounded-pill">
             <i class="bi bi-eye"></i>
           </Link>
         </div>
@@ -109,3 +109,11 @@ const statusLabel = (value) => {
   return labels[value] || value
 }
 </script>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+</style>

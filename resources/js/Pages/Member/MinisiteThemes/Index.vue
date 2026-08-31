@@ -10,7 +10,7 @@
         <h1 class="h4 mb-1 mt-1">{{ listing.name }} - Theme del Minisite</h1>
       </div>
       <div>
-        <a :href="`/b/${listing.slug}`" target="_blank" class="btn btn-outline-secondary btn-sm">
+        <a :href="`/b/${listing.slug}`" target="_blank" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-eye me-1"></i>Ver minisite
         </a>
       </div>
@@ -73,7 +73,7 @@
             <button
               v-if="listing.theme?.id !== theme.id"
               @click="selectTheme(theme)"
-              class="btn btn-outline-primary w-100"
+              class="btn btn-outline-primary rounded-pill w-100"
               :disabled="selecting"
             >
               <i class="bi bi-check2 me-1"></i>Seleccionar este theme

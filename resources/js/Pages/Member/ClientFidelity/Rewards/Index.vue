@@ -7,7 +7,7 @@
       :breadcrumbs="breadcrumbs"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/fidelity-rewards/create`" class="btn btn-primary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/fidelity-rewards/create`" class="btn btn-gradient rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
           Nueva recompensa
         </Link>
@@ -33,7 +33,7 @@
           <i class="bi bi-gift text-muted" style="font-size: 3rem;"></i>
           <h3 class="h5 mt-3">No hay recompensas</h3>
           <p class="text-muted">Crea tu primera recompensa para empezar.</p>
-          <Link :href="`/member/listings/${listing?.id}/fidelity-rewards/create`" class="btn btn-primary">
+          <Link :href="`/member/listings/${listing?.id}/fidelity-rewards/create`" class="btn btn-gradient rounded-pill">
             <i class="bi bi-plus-lg me-1"></i>
             Crear recompensa
           </Link>
@@ -80,14 +80,14 @@
                   <div class="btn-group btn-group-sm">
                     <Link
                       :href="`/member/listings/${listing?.id}/fidelity-rewards/${reward.id}/edit`"
-                      class="btn btn-outline-secondary"
+                      class="btn btn-outline-dark rounded-pill"
                       title="Editar"
                     >
                       <i class="bi bi-pencil"></i>
                     </Link>
                     <button
                       type="button"
-                      class="btn btn-outline-danger"
+                      class="btn btn-outline-danger rounded-pill"
                       title="Eliminar"
                       :disabled="reward.cards_count > 0"
                       @click="confirmDelete(reward)"
@@ -107,8 +107,8 @@
             v-for="link in rewards.links"
             :key="link.label"
             :href="link.url || '#'"
-            class="btn btn-sm mx-1"
-            :class="[link.active ? 'btn-primary' : 'btn-outline-secondary', !link.url ? 'disabled' : '']"
+            class="btn btn-sm mx-1 rounded-pill"
+            :class="[link.active ? 'btn-gradient' : 'btn-outline-dark', !link.url ? 'disabled' : '']"
             v-html="link.label"
           />
         </div>

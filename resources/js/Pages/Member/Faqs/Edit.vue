@@ -44,7 +44,7 @@
                     :formError="errors.category_id"
                   />
                 </div>
-                <button type="button" class="btn btn-outline-primary btn-sm mb-3" @click="openCategoryModal">
+                <button type="button" class="btn btn-outline-primary rounded-pill mb-3" @click="openCategoryModal">
                   <i class="bi bi-plus"></i>
                 </button>
               </div>
@@ -70,10 +70,10 @@
           </div>
 
           <div class="col-12 d-flex gap-2 mt-4">
-            <button type="submit" class="btn btn-primary" :disabled="sending">
+            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
               {{ sending ? 'Guardando...' : 'Guardar Cambios' }}
             </button>
-            <Link :href="`/member/listings/${listing.id}/faqs`" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link :href="`/member/listings/${listing.id}/faqs`" class="btn btn-outline-dark rounded-pill">Cancelar</Link>
           </div>
         </form>
       </div>
@@ -106,8 +106,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary" :disabled="categorySending">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="categorySending">
                 {{ categorySending ? 'Creando...' : 'Crear Categoria' }}
               </button>
             </div>
@@ -193,8 +193,8 @@ const form = ref({
 
 const breadcrumbs = computed(() => [
   { label: 'Inicio', href: '/member/dashboard' },
-  { label: 'Preguntas Frecuentes', href: `/member/listings/${listing.id}/faqs` },
-  { label: faq?.question || 'Editar' },
+  { label: 'Preguntas Frecuentes', href: `/member/listings/${props.listing.id}/faqs` },
+  { label: props.faq?.question || 'Editar' },
 ])
 
 const submit = () => {

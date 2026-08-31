@@ -8,7 +8,7 @@
       :backHref="`/member/listings/${listing?.id}/appointments`"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/appointments`" class="btn btn-outline-secondary btn-sm">
+        <Link :href="`/member/listings/${listing?.id}/appointments`" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-arrow-left me-1"></i>
           Volver a Citas
         </Link>

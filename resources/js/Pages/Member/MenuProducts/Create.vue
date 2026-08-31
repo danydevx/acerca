@@ -111,7 +111,7 @@
             <div class="card mb-4">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Variantes</h5>
-                <button type="button" class="btn btn-sm btn-outline-secondary" @click="addVariant">
+                <button type="button" class="btn btn-gradient rounded-pill" @click="addVariant">
                   <i class="bi bi-plus me-1"></i>Agregar
                 </button>
               </div>
@@ -133,7 +133,7 @@
                         <span v-if="variant.price" class="text-muted">${{ variant.price }}</span>
                       </div>
                       <div class="d-flex align-items-center gap-2">
-                        <button type="button" class="btn btn-sm btn-outline-danger" @click.stop="removeVariant(index)">
+                        <button type="button" class="btn btn-outline-danger rounded-pill" @click.stop="removeVariant(index)">
                           <i class="bi bi-trash"></i>
                         </button>
                         <i :class="isVariantExpanded(index) ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>

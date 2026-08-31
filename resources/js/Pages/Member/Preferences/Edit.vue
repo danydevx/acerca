@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">Preferencias</h1>
         <p class="text-muted mb-0">Personaliza tu experiencia en el panel.</p>
       </div>
-      <Link href="/member/account" class="btn btn-outline-secondary btn-sm">Ver cuenta</Link>
+      <Link href="/member/account" class="btn btn-outline-dark rounded-pill">Ver cuenta</Link>
     </div>
 
     <div class="card border-0 shadow-sm">
@@ -55,10 +55,10 @@
           </div>
 
           <div class="col-12 d-flex gap-2">
-            <button type="submit" class="btn btn-primary" :disabled="form.processing">
+            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="form.processing">
               {{ form.processing ? 'Guardando...' : 'Guardar cambios' }}
             </button>
-            <Link href="/member" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link href="/member" class="btn btn-outline-dark rounded-pill">Cancelar</Link>
           </div>
         </form>
       </div>

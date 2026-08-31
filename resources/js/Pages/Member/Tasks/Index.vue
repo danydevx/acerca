@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <button class="btn btn-primary btn-sm" @click="openCreateModal">
+        <button class="btn btn-gradient rounded-pill" @click="openCreateModal">
           <i class="bi bi-plus-lg me-1"></i>
           Nueva Tarea
         </button>
@@ -245,8 +245,8 @@
               </FieldSelect>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary" :disabled="sending">
+              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
                 {{ sending ? 'Guardando...' : 'Guardar' }}
               </button>
             </div>

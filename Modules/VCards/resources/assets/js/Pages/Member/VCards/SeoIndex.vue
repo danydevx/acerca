@@ -13,7 +13,7 @@
         <div v-if="vcards.length === 0" class="text-center py-5">
           <i class="bi bi-person-vcard display-1 text-muted"></i>
           <p class="text-muted mt-3">No hay vCards creadas.</p>
-          <Link :href="`/member/listings/${listing?.id}/vcards/create`" class="btn btn-primary">
+          <Link :href="`/member/listings/${listing?.id}/vcards/create`" class="btn btn-gradient rounded-pill">
             Crear primera vCard
           </Link>
         </div>
@@ -60,7 +60,7 @@
                 <td class="text-end">
                   <Link
                     :href="`/member/listings/${listing?.id}/vcards/${vcard.id}/seo`"
-                    class="btn btn-outline-primary btn-sm"
+                    class="btn btn-outline-primary rounded-pill btn-sm"
                   >
                     <i class="bi bi-graph-up me-1"></i>
                     Configurar SEO

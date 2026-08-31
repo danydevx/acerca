@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">Comprobante</h1>
         <p class="text-muted mb-0">Detalle del comprobante de pago.</p>
       </div>
-      <Link href="/member/invoices" class="btn btn-outline-secondary btn-sm">Volver</Link>
+      <Link href="/member/invoices" class="btn btn-outline-dark rounded-pill">Volver</Link>
     </div>
 
     <div class="card border-0 shadow-sm">
@@ -35,7 +35,7 @@
           <a
             v-if="invoice.file_url"
             :href="invoice.file_url"
-            class="btn btn-outline-primary"
+            class="btn btn-outline-primary rounded-pill"
             target="_blank"
             rel="noreferrer"
           >
@@ -43,7 +43,7 @@
           </a>
           <Link
             :href="`/member/invoices/${invoice.id}/download`"
-            class="btn btn-primary"
+            class="btn btn-gradient rounded-pill"
           >
             Descargar
           </Link>

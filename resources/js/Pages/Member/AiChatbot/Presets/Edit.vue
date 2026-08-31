@@ -6,7 +6,7 @@
       :breadcrumbs="breadcrumbs"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing.id}/ai-chatbot/presets`" class="btn btn-outline-secondary">
+        <Link :href="`/member/listings/${listing.id}/ai-chatbot/presets`" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
       </template>
@@ -119,13 +119,13 @@
                   />
                   <button
                     type="button"
-                    class="btn btn-outline-danger"
+                    class="btn btn-outline-danger rounded-pill"
                     @click="removeSuggestion(index)"
                   >
                     <i class="bi bi-x"></i>
                   </button>
                 </div>
-                <button type="button" class="btn btn-outline-primary btn-sm w-100" @click="addSuggestion">
+                <button type="button"                 class="btn btn-gradient rounded-pill w-100" @click="addSuggestion">
                   <i class="bi bi-plus-lg me-1"></i>Agregar Sugerencia
                 </button>
               </div>

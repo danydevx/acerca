@@ -126,7 +126,7 @@ const rewards = computed(() => page.props.rewards || [])
 
 const rewardOptions = computed(() => [
   { value: '', label: 'Sin recompensa' },
-  ...rewards.value.map(r => ({ value: r.id, label: `${r.title} (${r.max_visits} visitas)` })),
+  ...rewards.value.map(r => ({ value: r.id, label: `${r.title || r.name || 'Sin titulo'} (${r.max_visits} visitas)` })),
 ])
 
 const visitOptions = [

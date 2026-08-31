@@ -8,7 +8,7 @@
         <p class="text-muted mb-0">Historial de eventos de tu cuenta.</p>
       </div>
       <div class="d-flex flex-wrap gap-2">
-        <Link href="/member/account" class="btn btn-outline-secondary btn-sm">Ver cuenta</Link>
+        <Link href="/member/account" class="btn btn-outline-dark rounded-pill">Ver cuenta</Link>
       </div>
     </div>
 

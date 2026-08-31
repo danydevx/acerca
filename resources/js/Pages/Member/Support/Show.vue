@@ -4,7 +4,7 @@
 
     <PageHeader :title="ticket.subject" :breadcrumbs="breadcrumbs">
       <template #actions>
-        <Link href="/member/support" class="btn btn-outline-secondary btn-sm">
+        <Link href="/member/support" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
       </template>
@@ -98,7 +98,7 @@
                 />
               </div>
               <div class="d-flex justify-content-end gap-2">
-                <button type="submit" class="btn btn-primary" :disabled="form.processing || !form.message">
+                <button type="submit" class="btn btn-gradient rounded-pill" :disabled="form.processing || !form.message">
                   <i class="bi bi-send me-1"></i>
                   {{ form.processing ? 'Enviando...' : 'Enviar respuesta' }}
                 </button>

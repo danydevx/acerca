@@ -105,7 +105,7 @@
                   />
                 </div>
                 <div class="col-md-6 d-flex align-items-end">
-                  <button type="button" class="btn btn-outline-secondary" @click="useDefaultWhatsapp">
+                  <button type="button" class="btn btn-outline-dark rounded-pill" @click="useDefaultWhatsapp">
                     Usar WhatsApp del negocio
                   </button>
                 </div>
@@ -136,7 +136,7 @@
                 >
                   <template #item="{ element, index }">
                     <div class="d-flex align-items-center gap-2 mb-2">
-                      <button type="button" class="btn btn-outline-secondary btn-sm drag-handle">
+                      <button type="button" class="btn btn-outline-dark rounded-pill drag-handle">
                         <i class="bi bi-arrows-move"></i>
                       </button>
                       <input
@@ -145,9 +145,9 @@
                         v-model="form.features[index]"
                         :placeholder="`Característica ${index + 1}`"
                       />
-                      <button 
-                        type="button" 
-                        class="btn btn-outline-danger btn-sm"
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger rounded-pill"
                         @click="removeFeature(index)"
                         :disabled="form.features.length <= 1"
                       >
@@ -157,9 +157,9 @@
                   </template>
                 </draggable>
 
-                <button 
-                  type="button" 
-                  class="btn btn-outline-primary btn-sm mt-2"
+                <button
+                  type="button"
+                  class="btn btn-gradient rounded-pill mt-2"
                   @click="addFeature"
                   :disabled="form.features.length >= 30"
                 >

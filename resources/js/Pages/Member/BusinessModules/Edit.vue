@@ -8,10 +8,10 @@
         <p class="text-muted mb-0">Gestiona el contenido de cada modulo.</p>
       </div>
       <div class="d-flex gap-2">
-        <Link :href="`/member/listings/${listing.id}/edit`" class="btn btn-outline-primary btn-sm">
+        <Link :href="`/member/listings/${listing.id}/edit`" class="btn btn-outline-primary rounded-pill">
           <i class="bi bi-pencil me-1"></i>Editar negocio
         </Link>
-        <Link href="/member/listings" class="btn btn-outline-secondary btn-sm">
+        <Link href="/member/listings" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
       </div>
@@ -47,7 +47,7 @@
             <p v-if="mod.module_description" class="text-muted small mb-3 text-truncate">{{ mod.module_description }}</p>
             <div class="d-flex flex-column gap-2">
               <button
-                class="btn btn-primary btn-sm"
+                class="btn btn-gradient rounded-pill"
                 :class="{ 'disabled': !mod.is_enabled }"
                 @click="mod.is_enabled && goToModule(mod)"
               >
@@ -64,7 +64,7 @@
         <i class="bi bi-grid display-1 text-muted"></i>
         <h3 class="h5 mt-3">No hay modulos activos</h3>
         <p class="text-muted">Este negocio no tiene modulos activos disponibles.</p>
-        <Link href="/member/listings" class="btn btn-outline-secondary">
+        <Link href="/member/listings" class="btn btn-outline-dark rounded-pill">
           <i class="bi bi-arrow-left me-1"></i>Volver a negocios
         </Link>
       </div>

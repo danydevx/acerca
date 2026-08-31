@@ -14,8 +14,8 @@
         </p>
 
         <div class="d-flex flex-wrap gap-2 mt-4">
-          <Link href="/pricing" class="btn btn-primary">Ver planes</Link>
-          <Link href="/member/plan-selection" class="btn btn-outline-secondary">Volver</Link>
+          <Link href="/pricing" class="btn btn-gradient rounded-pill">Ver planes</Link>
+          <Link href="/member/plan-selection" class="btn btn-outline-dark rounded-pill">Volver</Link>
         </div>
       </div>
     </div>
