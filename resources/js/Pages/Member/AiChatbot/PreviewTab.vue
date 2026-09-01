@@ -70,6 +70,15 @@
                 <i class="bi bi-calendar-check me-1"></i>
                 {{ msg.showCta.text || 'Ver más' }}
               </a>
+              <a
+                v-if="msg.showWhatsApp && !whatsappAccepted"
+                href="#"
+                @click.prevent="openWhatsApp"
+                class="message-cta-btn whatsapp-btn"
+              >
+                <i class="bi bi-whatsapp me-1"></i>
+                Continuar en WhatsApp
+              </a>
             </div>
 
             <div v-if="isTyping" class="chat-message assistant">
@@ -132,6 +141,13 @@ const CTA_MIN_EXCHANGES = 3
 const ctaTriggeredAt = ref(null)
 const ctaVisible = ref(false)
 
+const whatsappEnabled = ref(false)
+const whatsappNumber = ref('')
+const whatsappPrefillMessage = ref('')
+const whatsappTriggerAfter = ref(7)
+const whatsappOfferShown = ref(false)
+const whatsappAccepted = ref(false)
+
 const sessionId = ref('preview-' + Math.random().toString(36).substring(7))
 
 const themeClass = computed(() => {
@@ -169,6 +185,41 @@ const shouldShowCta = (content, serverIntentCta) => {
   }
 
   return null
+}
+
+const buildWhatsAppMessage = () => {
+  let message = (props.settings?.whatsapp_prefill_message || '') ? props.settings.whatsapp_prefill_message + '\n\n' : ''
+  message += '--- Conversación del chat ---\n'
+  messages.value.forEach((msg) => {
+    const role = msg.role === 'user' ? 'Cliente' : 'Asistente'
+    message += `${role}: ${msg.content}\n\n`
+  })
+  return message.trim()
+}
+
+const openWhatsApp = () => {
+  if (!props.settings?.whatsapp_number) return
+  whatsappAccepted.value = true
+  const message = buildWhatsAppMessage()
+  const url = `https://wa.me/${props.settings.whatsapp_number}?text=${encodeURIComponent(message)}`
+  window.open(url, '_blank')
+}
+
+const containsWhatsAppKeyword = (msg) => {
+  const text = msg.toLowerCase()
+  return text.includes('whatsapp') || text.includes('wa.me')
+}
+
+const checkWhatsAppOffer = (aiMessage, msgIndex) => {
+  if (!props.settings?.whatsapp_enabled) return
+  if (whatsappAccepted.value) return
+
+  const exchangeCount = messages.value.length / 2
+  if (exchangeCount < (props.settings.whatsapp_trigger_after || 7)) return
+
+  if (containsWhatsAppKeyword(aiMessage)) {
+    messages.value[msgIndex].showWhatsApp = true
+  }
 }
 
 const sendMessage = () => {
@@ -228,6 +279,8 @@ const sendMessage = () => {
         if (data.intent_cta && typeof data.intent_cta === 'object') {
           localIntentCta.value = data.intent_cta
         }
+
+        checkWhatsAppOffer(data.message, messages.value.length - 1)
       } else {
         messages.value.push({
           role: 'assistant',
@@ -495,6 +548,14 @@ const resetChat = () => {
       &:hover {
         opacity: 0.9;
         color: #fff;
+      }
+
+      &.whatsapp-btn {
+        background: #25D366;
+
+        &:hover {
+          background: #20bd5a;
+        }
       }
     }
   }

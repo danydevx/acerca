@@ -52,6 +52,15 @@ class ChatController extends Controller
                 $deviceType
             );
 
+            if ($result['success']) {
+                $result['whatsapp'] = $settings->whatsapp_enabled ? [
+                    'enabled' => true,
+                    'number' => $settings->whatsapp_number,
+                    'prefill_message' => $settings->whatsapp_prefill_message,
+                    'trigger_after' => $settings->whatsapp_trigger_after ?? 7,
+                ] : null;
+            }
+
             return response()->json($result);
         } catch (\Exception $e) {
             return response()->json([
@@ -228,6 +237,12 @@ class ChatController extends Controller
                 'trigger' => $settings->lead_capture_trigger ?? 'after_3_messages',
                 'title' => $settings->lead_capture_title ?? '¿Te gustaría recibir noticias sobre nosotros?',
                 'description' => $settings->lead_capture_description ?? 'Déjanos tu correo y te mantendremos informado.',
+            ] : null,
+            'whatsapp' => $settings->whatsapp_enabled ? [
+                'enabled' => true,
+                'number' => $settings->whatsapp_number,
+                'prefill_message' => $settings->whatsapp_prefill_message,
+                'trigger_after' => $settings->whatsapp_trigger_after ?? 7,
             ] : null,
         ]);
     }

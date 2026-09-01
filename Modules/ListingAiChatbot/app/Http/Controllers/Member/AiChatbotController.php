@@ -80,6 +80,10 @@ class AiChatbotController extends Controller
                 'lead_capture_enabled' => $settings->lead_capture_enabled ?? false,
                 'lead_capture_title' => $settings->lead_capture_title ?? '¿Te gustaría recibir noticias sobre nosotros?',
                 'lead_capture_description' => $settings->lead_capture_description ?? 'Déjanos tu correo y te mantendremos informado.',
+                'whatsapp_enabled' => $settings->whatsapp_enabled ?? false,
+                'whatsapp_number' => $settings->whatsapp_number ?? '',
+                'whatsapp_prefill_message' => $settings->whatsapp_prefill_message ?? '',
+                'whatsapp_trigger_after' => $settings->whatsapp_trigger_after ?? 7,
                 'scheduled_pause_enabled' => $settings->scheduled_pause_enabled ?? false,
                 'scheduled_pause_start' => $settings->scheduled_pause_start ?? '22:00',
                 'scheduled_pause_end' => $settings->scheduled_pause_end ?? '08:00',
@@ -121,6 +125,7 @@ class AiChatbotController extends Controller
             'rag_min_similarity' => 'nullable|numeric|min:0|max:1',
             'rag_max_results' => 'nullable|integer|min:1|max:20',
             'intent_cta' => 'nullable|string',
+            'whatsapp_settings' => 'nullable|string',
             'lead_capture_settings' => 'nullable|string',
             'scheduled_pause_enabled' => 'boolean',
             'scheduled_pause_start' => 'nullable|date_format:H:i',
@@ -169,6 +174,14 @@ class AiChatbotController extends Controller
             $updateData['lead_capture_enabled'] = $lcSettings['enabled'] ?? false;
             $updateData['lead_capture_title'] = $lcSettings['title'] ?? '¿Te gustaría recibir noticias sobre nosotros?';
             $updateData['lead_capture_description'] = $lcSettings['description'] ?? 'Déjanos tu correo y te mantendremos informado.';
+        }
+
+        if (!empty($data['whatsapp_settings'])) {
+            $waSettings = json_decode($data['whatsapp_settings'], true);
+            $updateData['whatsapp_enabled'] = $waSettings['enabled'] ?? false;
+            $updateData['whatsapp_number'] = $waSettings['number'] ?? null;
+            $updateData['whatsapp_prefill_message'] = $waSettings['prefill_message'] ?? null;
+            $updateData['whatsapp_trigger_after'] = (int) ($waSettings['trigger_after'] ?? 7);
         }
 
         if ($request->hasFile('chatbot_avatar')) {

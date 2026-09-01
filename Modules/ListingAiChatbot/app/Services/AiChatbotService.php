@@ -284,6 +284,11 @@ class AiChatbotService
             $systemPrompt .= "\n\n" . $personalityInstructions;
         }
 
+        $whatsappInstructions = $this->getWhatsAppInstructions();
+        if ($whatsappInstructions) {
+            $systemPrompt .= "\n\n" . $whatsappInstructions;
+        }
+
         $responseLengthInstructions = $this->getResponseLengthInstructions();
         if ($responseLengthInstructions) {
             $systemPrompt .= "\n\n" . $responseLengthInstructions;
@@ -323,6 +328,30 @@ class AiChatbotService
             'long' => "Responde de manera DETALLADA y exhaustiva. Incluye ejemplos, contexto adicional y explicaciones completas cuando sea necesario.",
             default => '',
         };
+    }
+
+    private function getWhatsAppInstructions(): string
+    {
+        if (!$this->settings->whatsapp_enabled) {
+            return '';
+        }
+
+        $number = $this->settings->whatsapp_number ?? '';
+        $message = $this->settings->whatsapp_prefill_message ?? '';
+        $triggerAfter = $this->settings->whatsapp_trigger_after ?? 7;
+
+        if (empty($number)) {
+            return '';
+        }
+
+        $instructions = "Información de WhatsApp disponible: ";
+        $instructions .= "Después de aproximadamente {$triggerAfter} intercambios de mensajes, puedes ofrecer al usuario continuar la conversación por WhatsApp. ";
+        $instructions .= "Número de WhatsApp: {$number}. ";
+        if (!empty($message)) {
+            $instructions .= "Mensaje sugerido: \"{$message}\"";
+        }
+
+        return $instructions;
     }
 
     private function buildMessages(string $systemPrompt, array $history, string $userMessage): array

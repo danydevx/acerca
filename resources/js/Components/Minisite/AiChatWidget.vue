@@ -108,6 +108,17 @@
               </a>
             </div>
 
+            <div v-if="msg.showWhatsApp && !whatsappAccepted" class="message-cta">
+              <a
+                href="#"
+                @click.prevent="openWhatsApp"
+                class="cta-btn cta-whatsapp"
+              >
+                <i class="bi bi-whatsapp"></i>
+                Continuar en WhatsApp
+              </a>
+            </div>
+
             <div class="message-time" v-if="msg.timestamp">
               {{ formatTime(msg.timestamp) }}
             </div>
@@ -270,6 +281,13 @@ const leadCaptureSubmitted = ref(false)
 const leadEmail = ref('')
 const leadName = ref('')
 
+const whatsappEnabled = ref(false)
+const whatsappNumber = ref('')
+const whatsappPrefillMessage = ref('')
+const whatsappTriggerAfter = ref(7)
+const whatsappOfferShown = ref(false)
+const whatsappAccepted = ref(false)
+
 function generateSessionId() {
   const id = 'chat_' + Math.random().toString(36).substring(2) + Date.now().toString(36)
   localStorage.setItem(`chat_session_${props.businessSlug}`, id)
@@ -299,6 +317,41 @@ const resetChat = () => {
 const containsCtaKeyword = (msg) => {
   const text = msg.toLowerCase()
   return CTA_KEYWORDS.some(kw => text.includes(kw))
+})
+
+const buildWhatsAppMessage = () => {
+  let message = whatsappPrefillMessage.value ? whatsappPrefillMessage.value + '\n\n' : ''
+  message += '--- Conversación del chat ---\n'
+  messages.value.forEach((msg, idx) => {
+    const role = msg.role === 'user' ? 'Cliente' : 'Asistente'
+    message += `${role}: ${msg.content}\n\n`
+  })
+  return message.trim()
+}
+
+const openWhatsApp = () => {
+  if (!whatsappNumber.value) return
+  whatsappAccepted.value = true
+  const message = buildWhatsAppMessage()
+  const url = `https://wa.me/${whatsappNumber.value}?text=${encodeURIComponent(message)}`
+  window.open(url, '_blank')
+}
+
+const containsWhatsAppKeyword = (msg) => {
+  const text = msg.toLowerCase()
+  return text.includes('whatsapp') || text.includes('wa.me')
+}
+
+const checkWhatsAppOffer = (aiMessage, msgIndex) => {
+  if (!whatsappEnabled.value) return
+  if (whatsappAccepted.value) return
+
+  const exchangeCount = messages.value.length / 2
+  if (exchangeCount < whatsappTriggerAfter.value) return
+
+  if (containsWhatsAppKeyword(aiMessage)) {
+    messages.value[msgIndex].showWhatsApp = true
+  }
 }
 
 const loadHistory = () => {
@@ -410,6 +463,10 @@ const sendMessage = () => {
 
         if (data.intent_cta && typeof data.intent_cta === 'object') {
           localIntentCta.value = data.intent_cta
+        }
+
+        if (data.success && data.message) {
+          checkWhatsAppOffer(data.message, msgIndex)
         }
       } else {
         messages.value[msgIndex].content = data.message || 'Disculpa, estoy teniendo problemas para responder.'
@@ -593,6 +650,12 @@ const checkAvailability = () => {
         leadCaptureEnabled.value = true
         leadCaptureTitle.value = data.lead_capture.title || '¿Te gustaría recibir noticias sobre nosotros?'
         leadCaptureDescription.value = data.lead_capture.description || 'Déjanos tu correo y te mantendremos informado.'
+      }
+      if (data.whatsapp && data.whatsapp.enabled) {
+        whatsappEnabled.value = true
+        whatsappNumber.value = data.whatsapp.number || ''
+        whatsappPrefillMessage.value = data.whatsapp.prefill_message || ''
+        whatsappTriggerAfter.value = data.whatsapp.trigger_after || 7
       }
     })
     .catch(() => {
@@ -1057,6 +1120,22 @@ onMounted(() => {
 
       &:hover {
         background: rgba(0, 0, 0, 0.03);
+      }
+    }
+
+    .cta-whatsapp {
+      background: #25D366;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      i {
+        font-size: 1.1rem;
+      }
+
+      &:hover {
+        background: #20bd5a;
       }
     }
   }

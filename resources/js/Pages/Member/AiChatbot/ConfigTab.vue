@@ -450,6 +450,83 @@
 
         <div class="card mb-4">
           <div class="card-header">
+            <h5 class="mb-0"><i class="bi bi-whatsapp me-2"></i>WhatsApp</h5>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-info small mb-3">
+              <i class="bi bi-info-circle me-1"></i>
+              Ofrece al usuario continuar la conversación por WhatsApp. El botón aparecerá automáticamente cuando el chatbot lo mencione.
+            </div>
+            <div class="row g-4">
+              <div class="col-12">
+                <div class="form-check form-switch mb-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    v-model="form.whatsapp_enabled"
+                    id="whatsappEnabled"
+                  />
+                  <label class="form-check-label" for="whatsappEnabled">
+                    <strong>Habilitar oferta de WhatsApp</strong>
+                    <small class="d-block text-muted">El chatbot podrá ofrecer continuar por WhatsApp</small>
+                  </label>
+                </div>
+              </div>
+
+              <div v-if="form.whatsapp_enabled" class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label">
+                    Número de WhatsApp
+                    <i class="bi bi-question-circle text-muted ms-1" style="cursor: help;" title="Número con código de país, ej: 521234567890"></i>
+                  </label>
+                  <input
+                    type="text"
+                    v-model="form.whatsapp_number"
+                    class="form-control"
+                    placeholder="521234567890"
+                  />
+                </div>
+              </div>
+
+              <div v-if="form.whatsapp_enabled" class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label">
+                    Mensaje pre-llenado
+                    <i class="bi bi-question-circle text-muted ms-1" style="cursor: help;" title="Mensaje que aparecerá pre-llenado en WhatsApp"></i>
+                  </label>
+                  <input
+                    type="text"
+                    v-model="form.whatsapp_prefill_message"
+                    class="form-control"
+                    placeholder="Hola, vengo del chat de..."
+                  />
+                </div>
+              </div>
+
+              <div v-if="form.whatsapp_enabled" class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">
+                    Activar después de
+                    <i class="bi bi-question-circle text-muted ms-1" style="cursor: help;" title="Número de intercambios de mensajes antes de permitir ofrecer WhatsApp"></i>
+                  </label>
+                  <div class="input-group">
+                    <input
+                      type="number"
+                      v-model.number="form.whatsapp_trigger_after"
+                      class="form-control"
+                      min="1"
+                      max="20"
+                    />
+                    <span class="input-group-text">mensajes</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header">
             <h5 class="mb-0"><i class="bi bi-person-plus me-2"></i>Captura de Leads</h5>
           </div>
           <div class="card-body">
@@ -662,6 +739,10 @@ const defaultForm = {
   intent_support_text: 'Obtener ayuda',
   intent_support_url: '',
   intent_support_keywords: 'ayuda, soporte, problema',
+  whatsapp_enabled: false,
+  whatsapp_number: '',
+  whatsapp_prefill_message: '',
+  whatsapp_trigger_after: 7,
   scheduled_pause_enabled: false,
   scheduled_pause_start: '22:00',
   scheduled_pause_end: '08:00',
@@ -721,6 +802,11 @@ const form = reactive({ ...defaultForm })
       form.lead_capture_enabled = newSettings.lead_capture_enabled || false
       form.lead_capture_title = newSettings.lead_capture_title || '¿Te gustaría recibir noticias sobre nosotros?'
       form.lead_capture_description = newSettings.lead_capture_description || 'Déjanos tu correo y te mantendremos informado.'
+
+      form.whatsapp_enabled = newSettings.whatsapp_enabled || false
+      form.whatsapp_number = newSettings.whatsapp_number || ''
+      form.whatsapp_prefill_message = newSettings.whatsapp_prefill_message || ''
+      form.whatsapp_trigger_after = newSettings.whatsapp_trigger_after || 7
 
       form.scheduled_pause_enabled = newSettings.scheduled_pause_enabled || false
       form.scheduled_pause_start = newSettings.scheduled_pause_start || '22:00'
@@ -819,6 +905,14 @@ const saveSettings = () => {
     support: { enabled: form.intent_support_enabled, text: form.intent_support_text, url: form.intent_support_url, keywords: form.intent_support_keywords },
   })
   formData.append('intent_cta', intentCta)
+
+  const whatsappSettings = JSON.stringify({
+    enabled: form.whatsapp_enabled,
+    number: form.whatsapp_number,
+    prefill_message: form.whatsapp_prefill_message,
+    trigger_after: form.whatsapp_trigger_after,
+  })
+  formData.append('whatsapp_settings', whatsappSettings)
 
   const leadCaptureSettings = JSON.stringify({
     enabled: form.lead_capture_enabled,
