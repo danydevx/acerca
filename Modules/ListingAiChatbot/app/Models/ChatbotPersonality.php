@@ -4,12 +4,14 @@ namespace Modules\ListingAiChatbot\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Listings\Models\Listing;
 
 class ChatbotPersonality extends Model
 {
     protected $table = 'chatbot_personalities';
 
     protected $fillable = [
+        'listing_id',
         'key',
         'display_name',
         'description',
@@ -26,6 +28,11 @@ class ChatbotPersonality extends Model
         'sort_order' => 'integer',
     ];
 
+    public function listing()
+    {
+        return $this->belongsTo(Listing::class);
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
@@ -36,14 +43,32 @@ class ChatbotPersonality extends Model
         return $query->orderBy('sort_order')->orderBy('display_name');
     }
 
-    public static function getActiveForSelect()
+    public function scopeGlobal(Builder $query): Builder
     {
-        return self::active()->sorted()->get();
+        return $query->whereNull('listing_id');
     }
 
-    public static function keyExists(string $key, ?int $exceptId = null): bool
+    public function scopeForListing(Builder $query, int $listingId): Builder
     {
-        $query = self::where('key', $key);
+        return $query->where('listing_id', $listingId);
+    }
+
+    public static function getActiveForSelect(?int $listingId = null)
+    {
+        return self::active()
+            ->where(function ($q) use ($listingId) {
+                $q->whereNull('listing_id');
+                if ($listingId) {
+                    $q->orWhere('listing_id', $listingId);
+                }
+            })
+            ->sorted()
+            ->get();
+    }
+
+    public static function keyExists(string $key, ?int $exceptId = null, ?int $listingId = null): bool
+    {
+        $query = self::where('key', $key)->where('listing_id', $listingId);
         if ($exceptId) {
             $query->where('id', '!=', $exceptId);
         }

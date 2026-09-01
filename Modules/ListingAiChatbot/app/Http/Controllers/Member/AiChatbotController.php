@@ -76,14 +76,7 @@ class AiChatbotController extends Controller
                 'url_import_max_chars' => $settings->url_import_max_chars ?? 5000,
                 'rag_min_similarity' => $settings->rag_min_similarity ?? 0.250,
                 'rag_max_results' => $settings->rag_max_results ?? 5,
-                'cta_settings' => [
-                    'enabled' => $settings->cta_enabled ?? false,
-                    'primary_text' => $settings->cta_primary_text ?? '',
-                    'primary_url' => $settings->cta_primary_url ?? '',
-                    'secondary_text' => $settings->cta_secondary_text ?? '',
-                    'secondary_url' => $settings->cta_secondary_url ?? '',
-                    'intent_cta' => $settings->intent_cta,
-                ],
+                'intent_cta' => $settings->intent_cta,
                 'lead_capture_enabled' => $settings->lead_capture_enabled ?? false,
                 'lead_capture_title' => $settings->lead_capture_title ?? '¿Te gustaría recibir noticias sobre nosotros?',
                 'lead_capture_description' => $settings->lead_capture_description ?? 'Déjanos tu correo y te mantendremos informado.',
@@ -127,7 +120,7 @@ class AiChatbotController extends Controller
             'url_import_max_chars' => 'nullable|integer|min:100|max:50000',
             'rag_min_similarity' => 'nullable|numeric|min:0|max:1',
             'rag_max_results' => 'nullable|integer|min:1|max:20',
-            'cta_settings' => 'nullable|string',
+            'intent_cta' => 'nullable|string',
             'lead_capture_settings' => 'nullable|string',
             'scheduled_pause_enabled' => 'boolean',
             'scheduled_pause_start' => 'nullable|date_format:H:i',
@@ -164,14 +157,11 @@ class AiChatbotController extends Controller
             'scheduled_pause_days' => $data['scheduled_pause_days'] ?? [],
         ];
 
-        if (!empty($data['cta_settings'])) {
-            $ctaSettings = json_decode($data['cta_settings'], true);
-            $updateData['cta_enabled'] = $ctaSettings['enabled'] ?? false;
-            $updateData['cta_primary_text'] = $ctaSettings['primary_text'] ?? '';
-            $updateData['cta_primary_url'] = $ctaSettings['primary_url'] ?? '';
-            $updateData['cta_secondary_text'] = $ctaSettings['secondary_text'] ?? '';
-            $updateData['cta_secondary_url'] = $ctaSettings['secondary_url'] ?? '';
-            $updateData['intent_cta'] = isset($ctaSettings['intent_cta']) ? json_encode($ctaSettings['intent_cta']) : null;
+        if (!empty($data['intent_cta'])) {
+            $intentCta = is_string($data['intent_cta'])
+                ? json_decode($data['intent_cta'], true)
+                : $data['intent_cta'];
+            $updateData['intent_cta'] = json_encode($intentCta);
         }
 
         if (!empty($data['lead_capture_settings'])) {
@@ -444,7 +434,6 @@ class AiChatbotController extends Controller
                 $aiSettings = new \Modules\ListingAiChatbot\Models\ListingAiSetting(['listing_id' => $business->id]);
             }
             $aiSettings->intent_cta = $validated['intent_cta'];
-            $aiSettings->cta_enabled = !empty(array_filter($validated['intent_cta'], fn($i) => $i['enabled'] ?? false));
             $aiSettings->save();
         }
 

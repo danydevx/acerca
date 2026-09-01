@@ -21,39 +21,55 @@
           </svg>
         </div>
 
-        <div class="chat-window" :style="{ borderColor: settings?.widget_color || '#3B82F6' }">
-          <div class="chat-header" :style="{ backgroundColor: settings?.widget_color || '#3B82F6' }">
+        <div class="chat-window">
+          <div class="chat-header">
             <div class="chat-header-info">
               <div class="chat-avatar">
-                <i class="bi bi-robot"></i>
+                <img v-if="settings?.chatbot_avatar" :src="settings.chatbot_avatar" alt="Avatar" />
+                <i v-else class="bi bi-robot"></i>
               </div>
               <div>
-                <div class="chat-title">Asistente {{ business?.name || '' }}</div>
+                <div class="chat-title">{{ settings?.chatbot_name || 'Asistente ' + business?.name }}</div>
                 <div class="chat-status">
                   <span class="status-dot"></span> En línea
                 </div>
               </div>
             </div>
-            <button class="chat-close-btn">
-              <i class="bi bi-x"></i>
-            </button>
+            <div class="chat-header-actions">
+              <button v-if="settings?.allow_reset_chat && messages.length > 0" class="chat-action-btn" @click="resetChat" title="Reiniciar chat">
+                <i class="bi bi-arrow-counterclockwise"></i>
+              </button>
+              <button class="chat-close-btn">
+                <i class="bi bi-x"></i>
+              </button>
+            </div>
           </div>
 
           <div class="chat-messages" ref="messagesContainer">
             <div v-if="messages.length === 0" class="chat-empty">
               <i class="bi bi-chat-dots"></i>
-              <p>¡Hola! Soy el asistente virtual de {{ business?.name }}. ¿En qué puedo ayudarte?</p>
+              <p>¡Hola! Soy {{ settings?.chatbot_name || 'el asistente virtual' }} de {{ business?.name }}. ¿En qué puedo ayudarte?</p>
             </div>
 
             <div
               v-for="(msg, index) in messages"
               :key="index"
-              class="chat-message"
+              class="chat-message-wrapper"
               :class="msg.role"
             >
               <div class="message-content">
                 {{ msg.content }}
               </div>
+              <a
+                v-if="msg.showCta && msg.showCta.url"
+                :href="msg.showCta.url"
+                target="_blank"
+                class="message-cta-btn"
+                :style="{ backgroundColor: settings?.widget_color || '#3B82F6' }"
+              >
+                <i class="bi bi-calendar-check me-1"></i>
+                {{ msg.showCta.text || 'Ver más' }}
+              </a>
             </div>
 
             <div v-if="isTyping" class="chat-message assistant">
@@ -75,7 +91,6 @@
             />
             <button
               class="send-btn"
-              :style="{ backgroundColor: settings?.widget_color || '#3B82F6' }"
               :disabled="!inputMessage.trim() || sending"
               @click="sendMessage"
             >
@@ -110,12 +125,51 @@ const inputMessage = ref('')
 const sending = ref(false)
 const isTyping = ref(false)
 const messagesContainer = ref(null)
+const localIntentCta = ref(null)
+
+const CTA_KEYWORDS = ['agendar', 'reserva', 'cita', 'turno', 'reservar']
+const CTA_MIN_EXCHANGES = 3
+const ctaTriggeredAt = ref(null)
+const ctaVisible = ref(false)
 
 const sessionId = ref('preview-' + Math.random().toString(36).substring(7))
 
 const themeClass = computed(() => {
   return props.settings?.widget_theme === 'dark' ? 'theme-dark' : 'theme-light'
 })
+
+const containsCtaKeyword = (msg) => {
+  const text = msg.toLowerCase()
+  return CTA_KEYWORDS.some(kw => text.includes(kw))
+}
+
+const shouldShowCta = (content, serverIntentCta) => {
+  const intentCta = serverIntentCta || localIntentCta.value
+
+  if (!intentCta || typeof intentCta !== 'object') {
+    return null
+  }
+
+  const intentMap = [
+    { intent: 'appointment', keywords: ['reserva', 'agendar', 'cita', 'turno', 'horario', 'disponible', 'agenda'] },
+    { intent: 'purchase', keywords: ['precio', 'cost', 'comprar', 'venta', 'producto', 'cuanto cuesta', 'cuánto vale'] },
+    { intent: 'contact', keywords: ['contacto', 'telefono', 'email', 'correo', 'hablar', 'comunicar'] },
+    { intent: 'support', keywords: ['ayuda', 'soporte', 'problema', 'error', 'no funciona', 'ayudame'] },
+  ]
+
+  const lowerContent = content.toLowerCase()
+
+  for (const item of intentMap) {
+    if (item.keywords.some(kw => lowerContent.includes(kw))) {
+      const intentConfig = intentCta[item.intent]
+      if (intentConfig && typeof intentConfig === 'object' && intentConfig.enabled && intentConfig.url) {
+        return intentConfig
+      }
+    }
+  }
+
+  return null
+}
 
 const sendMessage = () => {
   if (!inputMessage.value.trim() || sending.value || !props.settings?.is_enabled) return
@@ -125,6 +179,11 @@ const sendMessage = () => {
     role: 'user',
     content: userMessage,
   })
+
+  if (containsCtaKeyword(userMessage) && ctaTriggeredAt.value === null) {
+    ctaTriggeredAt.value = messages.value.length - 1
+  }
+
   inputMessage.value = ''
   scrollToBottom()
 
@@ -148,14 +207,32 @@ const sendMessage = () => {
       sending.value = false
 
       if (data.success && data.message) {
+        const currentIndex = messages.value.length
+        let showCta = null
+
+        if (ctaVisible.value) {
+          showCta = localIntentCta.value?.appointment || null
+        } else if (ctaTriggeredAt.value !== null) {
+          const exchanges = Math.floor((currentIndex - ctaTriggeredAt.value) / 2)
+          if (exchanges >= CTA_MIN_EXCHANGES) {
+            ctaVisible.value = true
+            showCta = localIntentCta.value?.appointment || null
+          }
+        }
+
         messages.value.push({
           role: 'assistant',
           content: data.message,
+          showCta,
         })
+        if (data.intent_cta && typeof data.intent_cta === 'object') {
+          localIntentCta.value = data.intent_cta
+        }
       } else {
         messages.value.push({
           role: 'assistant',
           content: data.message || 'Disculpa, estoy teniendo problemas para responder.',
+          showCta: null,
         })
       }
       scrollToBottom()
@@ -177,6 +254,13 @@ const scrollToBottom = () => {
       messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
     }
   })
+}
+
+const resetChat = () => {
+  if (confirm('¿Reiniciar la conversación?')) {
+    messages.value = []
+    sessionId.value = 'preview-' + Math.random().toString(36).substring(7)
+  }
 }
 </script>
 
@@ -237,7 +321,7 @@ const scrollToBottom = () => {
     flex: 1;
     max-width: 350px;
     height: 400px;
-    border: 2px solid;
+    border: 2px solid v-bind('settings?.widget_color || "#3B82F6"');
     border-radius: 16px;
     display: flex;
     flex-direction: column;
@@ -251,6 +335,7 @@ const scrollToBottom = () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: v-bind('settings?.widget_color || "#3B82F6"');
     color: #fff;
 
     .chat-header-info {
@@ -268,6 +353,13 @@ const scrollToBottom = () => {
       align-items: center;
       justify-content: center;
       font-size: 1.25rem;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     .chat-title {
@@ -303,6 +395,26 @@ const scrollToBottom = () => {
         opacity: 1;
       }
     }
+
+    .chat-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chat-action-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      opacity: 0.8;
+      padding: 4px;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 
   .chat-messages {
@@ -329,12 +441,13 @@ const scrollToBottom = () => {
     }
   }
 
-  .chat-message {
+  .chat-message-wrapper {
     margin-bottom: 12px;
     display: flex;
+    flex-direction: column;
 
     &.user {
-      justify-content: flex-end;
+      align-items: flex-end;
 
       .message-content {
         background: #0d6efd;
@@ -344,45 +457,45 @@ const scrollToBottom = () => {
     }
 
     &.assistant {
-      justify-content: flex-start;
+      align-items: flex-start;
 
       .message-content {
         background: #fff;
         color: #212529;
         border-radius: 16px 16px 16px 4px;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-
-        &.typing {
-          display: flex;
-          gap: 4px;
-          padding: 12px 16px;
-
-          span {
-            width: 8px;
-            height: 8px;
-            background: #6c757d;
-            border-radius: 50%;
-            animation: typing 1.4s infinite;
-
-            &:nth-child(2) {
-              animation-delay: 0.2s;
-            }
-
-            &:nth-child(3) {
-              animation-delay: 0.4s;
-            }
-          }
-        }
       }
     }
 
     .message-content {
-      max-width: 80%;
+      max-width: 85%;
       padding: 10px 14px;
       font-size: 0.9rem;
       line-height: 1.4;
       white-space: pre-wrap;
       word-break: break-word;
+    }
+
+    .message-cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 100%;
+      margin-top: 8px;
+      padding: 12px 16px;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: opacity 0.2s;
+      box-sizing: border-box;
+
+      &:hover {
+        opacity: 0.9;
+        color: #fff;
+      }
     }
   }
 
@@ -431,6 +544,7 @@ const scrollToBottom = () => {
       justify-content: center;
       cursor: pointer;
       transition: opacity 0.2s;
+      background-color: v-bind('settings?.widget_color || "#3B82F6"');
 
       &:disabled {
         opacity: 0.5;
@@ -443,14 +557,17 @@ const scrollToBottom = () => {
     }
   }
 
-  // Dark theme styles
-  &.theme-dark {
+  // Dark theme styles - uses widget color
+  .chat-widget-preview.theme-dark {
+    --widget-color: v-bind('settings?.widget_color || "#3B82F6"');
+
     .chat-window {
       background: #1a1a2e;
-      border-color: #3a3a5a;
+      border-color: v-bind('settings?.widget_color || "#3B82F6"');
     }
 
     .chat-header {
+      background-color: v-bind('settings?.widget_color || "#3B82F6"');
       color: #fff;
     }
 
@@ -466,7 +583,7 @@ const scrollToBottom = () => {
       }
     }
 
-    .chat-message {
+    .chat-message-wrapper {
       &.assistant {
         .message-content {
           background: #2a2a4a;
@@ -477,7 +594,7 @@ const scrollToBottom = () => {
 
       &.user {
         .message-content {
-          background: var(--widget-color, #3B82F6);
+          background: v-bind('settings?.widget_color || "#3B82F6"');
           color: #fff;
         }
       }
@@ -485,15 +602,15 @@ const scrollToBottom = () => {
 
     .chat-input {
       background: #1a1a2e;
-      border-top-color: #3a3a5a;
+      border-top-color: v-bind('settings?.widget_color || "#3B82F6"');
 
       input {
         background: #2a2a4a;
-        border-color: #3a3a5a;
+        border-color: v-bind('settings?.widget_color || "#3B82F6"');
         color: #e5e5e5;
 
         &:focus {
-          border-color: var(--widget-color, #3B82F6);
+          border-color: v-bind('settings?.widget_color || "#3B82F6"');
         }
 
         &::placeholder {

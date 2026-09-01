@@ -81,6 +81,14 @@
             <i class="bi bi-robot me-2"></i>Presets
           </Link>
         </li>
+        <li class="nav-item" role="presentation">
+          <Link
+            :href="`/member/listings/${listing?.id}/ai-chatbot/personalities`"
+            class="nav-link"
+          >
+            <i class="bi bi-person-badge me-2"></i>Personalidades
+          </Link>
+        </li>
       </ul>
 
       <div class="tab-content">
@@ -200,7 +208,7 @@ const onReindex = () => {
 }
 
 const refreshPage = () => {
-  router.reload({ preserveScroll: true })
+  router.reload({ preserveScroll: true, only: ['settings'] })
 }
 
 const loadAnalyticsData = (period = '30days') => {

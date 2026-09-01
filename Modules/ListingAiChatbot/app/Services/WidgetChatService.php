@@ -152,11 +152,15 @@ class WidgetChatService
             }
 
             $activeIntentCta = null;
-            if ($showCta && $intent && $this->settings->intent_cta) {
+            if ($intent && $this->settings->intent_cta) {
                 $intentCta = is_string($this->settings->intent_cta)
                     ? json_decode($this->settings->intent_cta, true)
                     : $this->settings->intent_cta;
-                $activeIntentCta = $intentCta[$intent] ?? null;
+                $intentConfig = $intentCta[$intent] ?? null;
+                if ($intentConfig && ($intentConfig['enabled'] ?? false)) {
+                    $activeIntentCta = $intentConfig;
+                    $showCta = true;
+                }
             }
 
             echo "data: " . json_encode([

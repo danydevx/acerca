@@ -4,6 +4,7 @@ use Modules\ListingAiChatbot\Http\Controllers\Member\AiChatbotController;
 use Modules\ListingAiChatbot\Http\Controllers\Member\ConversationHistoryController;
 use Modules\ListingAiChatbot\Http\Controllers\Member\ChatbotAnalyticsController;
 use Modules\ListingAiChatbot\Http\Controllers\Member\ChatbotPresetsController;
+use Modules\ListingAiChatbot\Http\Controllers\Member\ChatbotPersonalityController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified', 'active', 'role:member'])
@@ -32,4 +33,11 @@ Route::middleware(['auth', 'verified', 'active', 'role:member'])
         Route::put('/presets/{preset}', [ChatbotPresetsController::class, 'update'])->name('presets.update');
         Route::delete('/presets/{preset}', [ChatbotPresetsController::class, 'destroy'])->name('presets.destroy');
         Route::post('/presets/{preset}/duplicate', [ChatbotPresetsController::class, 'duplicate'])->name('presets.duplicate');
+
+        Route::get('/personalities', [ChatbotPersonalityController::class, 'index'])->name('personalities.index');
+        Route::get('/personalities/create', [ChatbotPersonalityController::class, 'create'])->name('personalities.create');
+        Route::post('/personalities', [ChatbotPersonalityController::class, 'store'])->name('personalities.store');
+        Route::get('/personalities/{personality}/edit', [ChatbotPersonalityController::class, 'edit'])->name('personalities.edit');
+        Route::put('/personalities/{personality}', [ChatbotPersonalityController::class, 'update'])->name('personalities.update');
+        Route::delete('/personalities/{personality}', [ChatbotPersonalityController::class, 'destroy'])->name('personalities.destroy');
     });

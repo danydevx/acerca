@@ -15,10 +15,12 @@ class AiChatbotService
 {
     private ListingAiSetting $settings;
     private VectorStoreService $vectorStore;
+    private $listing;
 
     public function __construct(ListingAiSetting $settings)
     {
         $this->settings = $settings;
+        $this->listing = $settings->listing;
         $this->vectorStore = new VectorStoreService($settings);
     }
 
@@ -139,7 +141,43 @@ class AiChatbotService
             'expandable_responses' => $this->settings->expandable_responses ?? true,
             'show_citations' => $this->settings->show_citations ?? true,
             'sources' => $sources,
+            'intent_cta' => $this->getIntentCta(),
         ];
+    }
+
+    private function getIntentCta()
+    {
+        $intentCta = $this->settings->intent_cta;
+        if (is_string($intentCta)) {
+            $decoded = json_decode($intentCta, true);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $intentCta = $decoded;
+            }
+        }
+        if (!is_array($intentCta)) {
+            return null;
+        }
+
+        $filtered = [];
+        foreach ($intentCta as $intent => $config) {
+            if ($intent === 'appointment' && !$this->isModuleEnabled('appointments')) {
+                continue;
+            }
+            $filtered[$intent] = $config;
+        }
+
+        return empty($filtered) ? null : $filtered;
+    }
+
+    private function isModuleEnabled(string $moduleKey): bool
+    {
+        if (!$this->listing) {
+            return false;
+        }
+        return $this->listing->modules()
+            ->where('module_key', $moduleKey)
+            ->where('is_enabled', true)
+            ->exists();
     }
 
     public function checkLimits(string $sessionId): bool
@@ -515,31 +553,17 @@ class AiChatbotService
                 }
             }
 
-            $intentCta = null;
-        if ($this->settings->intent_cta) {
-            $intentCta = is_string($this->settings->intent_cta)
-                ? json_decode($this->settings->intent_cta, true)
-                : $this->settings->intent_cta;
-        }
+            $intentCta = $this->getIntentCta();
 
-        $ctaSettings = null;
-        if ($this->settings->cta_enabled) {
-            $ctaSettings = [
-                'enabled' => true,
+            echo "data: " . json_encode([
+                'type' => 'done',
+                'content' => $fullContent,
+                'tokens' => $totalTokens,
+                'sources' => $sources,
+                'expandable_responses' => $this->settings->expandable_responses ?? true,
+                'show_citations' => $this->settings->show_citations ?? true,
                 'intent_cta' => $intentCta,
-            ];
-        }
-
-        echo "data: " . json_encode([
-            'type' => 'done',
-            'content' => $fullContent,
-            'tokens' => $totalTokens,
-            'sources' => $sources,
-            'expandable_responses' => $this->settings->expandable_responses ?? true,
-            'show_citations' => $this->settings->show_citations ?? true,
-            'intent_cta' => $intentCta,
-            'cta_settings' => $ctaSettings,
-        ]) . "\n\n";
+            ]) . "\n\n";
 
         }, 200, [
             'Content-Type' => 'text/event-stream',

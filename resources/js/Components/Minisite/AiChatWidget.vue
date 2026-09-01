@@ -40,8 +40,20 @@
         <div class="chat-messages" ref="messagesContainer">
           <div v-if="messages.length === 0" class="chat-empty">
             <i class="bi bi-chat-dots"></i>
-            <p v-if="!localSuggestions.length">¡Hola! Soy {{ localChatbotName }}. ¿En qué puedo ayudarte?</p>
-            <div v-else class="suggestions-container">
+            <p v-if="!localSuggestions.length && !localIntentButtons.length">¡Hola! Soy {{ localChatbotName }}. ¿En qué puedo ayudarte?</p>
+            <div v-if="localIntentButtons.length" class="intent-buttons-container">
+              <button
+                v-for="(btn, idx) in localIntentButtons"
+                :key="idx"
+                class="intent-btn"
+                :style="{ borderColor: widgetColor, color: widgetColor }"
+                @click="selectIntent(btn)"
+              >
+                <i :class="'bi bi-' + btn.icon"></i>
+                {{ btn.text }}
+              </button>
+            </div>
+            <div v-if="localSuggestions.length" class="suggestions-container">
               <p class="suggestions-title">Sugerencias:</p>
               <button
                 v-for="(suggestion, idx) in localSuggestions"
@@ -150,6 +162,20 @@
           </div>
         </div>
 
+        <div v-if="localIntentButtons.length" class="intent-buttons-bar">
+          <button
+            v-for="(btn, idx) in localIntentButtons"
+            :key="idx"
+            class="intent-bar-btn"
+            :class="{ active: selectedIntent === btn.key }"
+            :style="{ borderColor: widgetColor, color: selectedIntent === btn.key ? '#fff' : widgetColor, backgroundColor: selectedIntent === btn.key ? widgetColor : 'transparent' }"
+            @click="selectIntent(btn)"
+          >
+            <i :class="'bi bi-' + btn.icon"></i>
+            <span>{{ btn.text }}</span>
+          </button>
+        </div>
+
         <div class="chat-input">
           <input
             type="text"
@@ -208,6 +234,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  intentButtons: {
+    type: Array,
+    default: () => [],
+  },
 })
 
 const isOpen = ref(false)
@@ -225,6 +255,13 @@ const localSuggestions = ref([])
 const localExpandableResponses = ref(true)
 const localShowCitations = ref(true)
 const localIntentCta = ref(null)
+const localIntentButtons = ref([])
+const selectedIntent = ref(null)
+
+const CTA_KEYWORDS = ['agendar', 'reserva', 'cita', 'turno', 'reservar']
+const CTA_MIN_EXCHANGES = 3
+const ctaTriggeredAt = ref(null)
+const ctaVisible = ref(false)
 const leadCaptureEnabled = ref(false)
 const leadCaptureTitle = ref('')
 const leadCaptureDescription = ref('')
@@ -253,9 +290,15 @@ const closeChat = () => {
 const resetChat = () => {
   if (confirm('¿Quieres reiniciar la conversación? Se borrarán todos los mensajes.')) {
     messages.value = []
+    selectedIntent.value = null
     sessionStorage.removeItem(`chat_messages_${props.businessSlug}_${sessionId.value}`)
     sessionId.value = generateSessionId()
   }
+}
+
+const containsCtaKeyword = (msg) => {
+  const text = msg.toLowerCase()
+  return CTA_KEYWORDS.some(kw => text.includes(kw))
 }
 
 const loadHistory = () => {
@@ -276,6 +319,18 @@ const saveMessages = () => {
   )
 }
 
+const selectIntent = (intent) => {
+  selectedIntent.value = intent.key
+  inputMessage.value = ''
+  const defaultMessages = {
+    appointment: 'Quiero agendar una cita',
+    purchase: 'Quiero ver los precios y productos',
+    contact: 'Quiero contactar con el negocio',
+    support: 'Necesito ayuda con un problema',
+  }
+  inputMessage.value = defaultMessages[intent.key] || intent.text
+}
+
 const sendMessage = () => {
   if (!inputMessage.value.trim() || sending.value) return
 
@@ -285,6 +340,11 @@ const sendMessage = () => {
     content: userMessage,
     timestamp: new Date().toISOString(),
   })
+
+  if (containsCtaKeyword(userMessage) && ctaTriggeredAt.value === null) {
+    ctaTriggeredAt.value = messages.value.length - 1
+  }
+
   inputMessage.value = ''
   saveMessages()
   scrollToBottom()
@@ -307,16 +367,20 @@ const sendMessage = () => {
 
   const url = `/m/${props.businessSlug}/ai-chatbot/chat`
   console.log('[Chat] fetching:', url)
+  const body = {
+    message: userMessage,
+    session_id: sessionId.value,
+  }
+  if (selectedIntent.value) {
+    body.intent = selectedIntent.value
+  }
   fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
     },
-    body: JSON.stringify({
-      message: userMessage,
-      session_id: sessionId.value,
-    }),
+    body: JSON.stringify(body),
   })
     .then((res) => res.json())
     .then((data) => {
@@ -330,9 +394,22 @@ const sendMessage = () => {
         messages.value[msgIndex].isLong = data.message.length > 300
         messages.value[msgIndex].sources = data.sources || []
         messages.value[msgIndex].expanded = !data.expandable_responses
-        messages.value[msgIndex].showCta = shouldShowCta(data.message, data.intent_cta)
-        if (data.cta_settings?.intent_cta) {
-          localIntentCta.value = data.cta_settings.intent_cta
+        console.log('[Chat] response data:', { intent_cta: data.intent_cta, cta_settings: data.cta_settings })
+
+        let showCta = null
+        if (ctaVisible.value) {
+          showCta = localIntentCta.value?.appointment || null
+        } else if (ctaTriggeredAt.value !== null) {
+          const exchanges = Math.floor((msgIndex - ctaTriggeredAt.value) / 2)
+          if (exchanges >= CTA_MIN_EXCHANGES) {
+            ctaVisible.value = true
+            showCta = localIntentCta.value?.appointment || null
+          }
+        }
+        messages.value[msgIndex].showCta = showCta
+
+        if (data.intent_cta && typeof data.intent_cta === 'object') {
+          localIntentCta.value = data.intent_cta
         }
       } else {
         messages.value[msgIndex].content = data.message || 'Disculpa, estoy teniendo problemas para responder.'
@@ -384,6 +461,7 @@ const checkLeadCaptureTrigger = () => {
 }
 
 const useSuggestion = (suggestion) => {
+  selectedIntent.value = null
   inputMessage.value = suggestion
   sendMessage()
 }
@@ -421,9 +499,18 @@ const formatTime = (timestamp) => {
 
 const shouldShowCta = (content, serverIntentCta) => {
   const intentCta = serverIntentCta || localIntentCta.value
+  console.log('[shouldShowCta] selectedIntent:', selectedIntent.value, 'intentCta:', intentCta, 'type:', typeof intentCta)
 
   if (!intentCta || typeof intentCta !== 'object') {
+    console.log('[shouldShowCta] returning null: intentCta is null or not object')
     return null
+  }
+
+  if (selectedIntent.value && intentCta[selectedIntent.value]) {
+    const intentConfig = intentCta[selectedIntent.value]
+    if (intentConfig && intentConfig.enabled && intentConfig.url) {
+      return intentConfig
+    }
   }
 
   const intentMap = [
@@ -489,6 +576,19 @@ const checkAvailability = () => {
       if (data.intent_cta && typeof data.intent_cta === 'object') {
         localIntentCta.value = data.intent_cta
       }
+      if (data.intent_buttons && Array.isArray(data.intent_buttons)) {
+        localIntentButtons.value = data.intent_buttons
+      } else if (localIntentCta.value) {
+        const buttons = []
+        const icons = { appointment: 'calendar', purchase: 'bag', contact: 'telephone', support: 'question-circle' }
+        const defaults = { appointment: 'Agendar cita', purchase: 'Ver precios', contact: 'Contactar', support: 'Obtener ayuda' }
+        for (const [key, config] of Object.entries(localIntentCta.value)) {
+          if (config && config.enabled) {
+            buttons.push({ key, text: config.text || defaults[key], icon: icons[key] || 'chat' })
+          }
+        }
+        localIntentButtons.value = buttons
+      }
       if (data.lead_capture && data.lead_capture.enabled) {
         leadCaptureEnabled.value = true
         leadCaptureTitle.value = data.lead_capture.title || '¿Te gustaría recibir noticias sobre nosotros?'
@@ -505,6 +605,12 @@ watch(isOpen, (open) => {
     loadHistory()
   }
 })
+
+watch(() => props.intentButtons, (newButtons) => {
+  if (newButtons && newButtons.length > 0) {
+    localIntentButtons.value = newButtons
+  }
+}, { immediate: true })
 
 watch(() => messages.value.length, () => {
   if (isOpen.value) {
@@ -751,6 +857,35 @@ onMounted(() => {
         font-size: 0.85rem;
         cursor: pointer;
         transition: all 0.2s;
+
+        &:hover {
+          background: rgba(59, 130, 246, 0.1);
+        }
+      }
+    }
+
+    .intent-buttons-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      justify-content: center;
+
+      .intent-btn {
+        background: transparent;
+        border: 1px solid;
+        border-radius: 20px;
+        padding: 10px 16px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        i {
+          font-size: 1rem;
+        }
 
         &:hover {
           background: rgba(59, 130, 246, 0.1);
@@ -1018,6 +1153,47 @@ onMounted(() => {
   }
   30% {
     transform: translateY(-4px);
+  }
+}
+
+.intent-buttons-bar {
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #dee2e6;
+    border-radius: 2px;
+  }
+
+  .intent-bar-btn {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    i {
+      font-size: 0.9rem;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 

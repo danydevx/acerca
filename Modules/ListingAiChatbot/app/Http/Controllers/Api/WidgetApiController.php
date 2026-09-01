@@ -52,7 +52,6 @@ class WidgetApiController extends Controller
             'widget_color' => $settings->widget_color ?: '#3B82F6',
             'widget_theme' => $settings->widget_theme ?? 'light',
             'initial_suggestions' => $this->parseInitialSuggestions($settings),
-            'cta_enabled' => $settings->cta_enabled ?? false,
             'intent_cta' => $this->parseIntentCta($settings),
             'intent_buttons' => $this->buildIntentButtons($settings),
             'is_paused' => false,

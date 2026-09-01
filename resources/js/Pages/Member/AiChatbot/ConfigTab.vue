@@ -381,86 +381,6 @@
 
         <div class="card mb-4">
           <div class="card-header">
-            <h5 class="mb-0"><i class="bi bi-cursor-fill me-2"></i>Llamadas a la Accion (CTA)</h5>
-          </div>
-          <div class="card-body">
-            <div class="row g-4">
-              <div class="col-12">
-                <div class="form-check form-switch mb-3">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    v-model="form.cta_enabled"
-                    id="ctaEnabled"
-                  />
-                  <label class="form-check-label" for="ctaEnabled">
-                    Mostrar botones de accion despues de respuestas
-                  </label>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label class="form-label">Texto del boton principal</label>
-                  <input
-                    type="text"
-                    v-model="form.cta_primary_text"
-                    class="form-control"
-                    placeholder="Ej: Agendar cita"
-                    maxlength="50"
-                  />
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label class="form-label">URL del boton principal</label>
-                  <input
-                    type="text"
-                    v-model="form.cta_primary_url"
-                    class="form-control"
-                    placeholder="Ej: /contacto o https://..."
-                  />
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label class="form-label">Texto del boton secundario</label>
-                  <input
-                    type="text"
-                    v-model="form.cta_secondary_text"
-                    class="form-control"
-                    placeholder="Ej: Ver productos"
-                    maxlength="50"
-                  />
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label class="form-label">URL del boton secundario</label>
-                  <input
-                    type="text"
-                    v-model="form.cta_secondary_url"
-                    class="form-control"
-                    placeholder="Ej: /productos"
-                  />
-                </div>
-              </div>
-
-              <div class="col-12">
-                <div class="alert alert-info small">
-                  <i class="bi bi-info-circle me-1"></i>
-                  Los botones CTA apareceran en respuestas relacionadas con: reservas, productos, precios, horarios y consultas generales.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card mb-4">
-          <div class="card-header">
             <h5 class="mb-0"><i class="bi bi-link-45deg me-2"></i>CTA por Intencion</h5>
           </div>
           <div class="card-body">
@@ -723,11 +643,6 @@ const defaultForm = {
   url_import_max_chars: 5000,
   rag_min_similarity: 0.25,
   rag_max_results: 5,
-  cta_enabled: false,
-  cta_primary_text: '',
-  cta_primary_url: '',
-  cta_secondary_text: '',
-  cta_secondary_url: '',
   lead_capture_enabled: false,
   lead_capture_title: '¿Te gustaría recibir noticias sobre nosotros?',
   lead_capture_description: 'Déjanos tu correo y te mantendremos informado.',
@@ -784,14 +699,8 @@ const form = reactive({ ...defaultForm })
       form.rag_min_similarity = newSettings.rag_min_similarity ?? 0.25
       form.rag_max_results = newSettings.rag_max_results || 5
 
-      const cta = newSettings.cta_settings || {}
-      form.cta_enabled = cta.enabled || false
-      form.cta_primary_text = cta.primary_text || ''
-      form.cta_primary_url = cta.primary_url || ''
-      form.cta_secondary_text = cta.secondary_text || ''
-      form.cta_secondary_url = cta.secondary_url || ''
-
-      const intentCta = cta.intent_cta || {}
+      const rawIntentCta = newSettings?.intent_cta
+      const intentCta = typeof rawIntentCta === 'string' ? JSON.parse(rawIntentCta) : (rawIntentCta || {})
       form.intent_appointment_enabled = intentCta.appointment?.enabled || false
       form.intent_appointment_text = intentCta.appointment?.text || 'Agendar cita'
       form.intent_appointment_url = intentCta.appointment?.url || ''
@@ -903,20 +812,13 @@ const saveSettings = () => {
     formData.append('scheduled_pause_days[]', day)
   })
 
-  const ctaSettings = JSON.stringify({
-    enabled: form.cta_enabled,
-    primary_text: form.cta_primary_text,
-    primary_url: form.cta_primary_url,
-    secondary_text: form.cta_secondary_text,
-    secondary_url: form.cta_secondary_url,
-    intent_cta: {
-      appointment: { enabled: form.intent_appointment_enabled, text: form.intent_appointment_text, url: form.intent_appointment_url, keywords: form.intent_appointment_keywords },
-      purchase: { enabled: form.intent_purchase_enabled, text: form.intent_purchase_text, url: form.intent_purchase_url, keywords: form.intent_purchase_keywords },
-      contact: { enabled: form.intent_contact_enabled, text: form.intent_contact_text, url: form.intent_contact_url, keywords: form.intent_contact_keywords },
-      support: { enabled: form.intent_support_enabled, text: form.intent_support_text, url: form.intent_support_url, keywords: form.intent_support_keywords },
-    },
+  const intentCta = JSON.stringify({
+    appointment: { enabled: form.intent_appointment_enabled, text: form.intent_appointment_text, url: form.intent_appointment_url, keywords: form.intent_appointment_keywords },
+    purchase: { enabled: form.intent_purchase_enabled, text: form.intent_purchase_text, url: form.intent_purchase_url, keywords: form.intent_purchase_keywords },
+    contact: { enabled: form.intent_contact_enabled, text: form.intent_contact_text, url: form.intent_contact_url, keywords: form.intent_contact_keywords },
+    support: { enabled: form.intent_support_enabled, text: form.intent_support_text, url: form.intent_support_url, keywords: form.intent_support_keywords },
   })
-  formData.append('cta_settings', ctaSettings)
+  formData.append('intent_cta', intentCta)
 
   const leadCaptureSettings = JSON.stringify({
     enabled: form.lead_capture_enabled,

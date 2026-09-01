@@ -14,7 +14,7 @@ class ChatController extends Controller
     {
         $business = \Modules\Listings\Models\Listing::where('slug', $slug)->firstOrFail();
 
-        $settings = ListingAiSetting::where('listing_id', $business->id)->first();
+        $settings = ListingAiSetting::with('listing')->where('listing_id', $business->id)->first();
 
         if (!$settings || !$settings->is_enabled) {
             return response()->json([
@@ -27,6 +27,7 @@ class ChatController extends Controller
         $data = $request->validate([
             'message' => 'required|string|max:2000',
             'session_id' => 'nullable|string|max:100',
+            'intent' => 'nullable|string|max:50',
         ]);
 
         $moderated = $this->moderateInput($data['message']);
@@ -65,7 +66,7 @@ class ChatController extends Controller
     {
         $business = \Modules\Listings\Models\Listing::where('slug', $slug)->firstOrFail();
 
-        $settings = ListingAiSetting::where('listing_id', $business->id)->first();
+        $settings = ListingAiSetting::with('listing')->where('listing_id', $business->id)->first();
 
         if (!$settings || !$settings->is_enabled) {
             return response()->stream(function () {
@@ -168,7 +169,7 @@ class ChatController extends Controller
     {
         $business = \Modules\Listings\Models\Listing::where('slug', $slug)->firstOrFail();
 
-        $settings = ListingAiSetting::where('listing_id', $business->id)->first();
+        $settings = ListingAiSetting::with('listing')->where('listing_id', $business->id)->first();
 
         if (!$settings || !$settings->is_enabled) {
             return response()->json([
@@ -220,14 +221,8 @@ class ChatController extends Controller
             'initial_suggestions' => $initialSuggestions,
             'expandable_responses' => $settings->expandable_responses ?? true,
             'show_citations' => $settings->show_citations ?? true,
-            'cta_settings' => $settings->cta_enabled ? [
-                'enabled' => $settings->cta_enabled,
-                'primary_text' => $settings->cta_primary_text,
-                'primary_url' => $settings->cta_primary_url,
-                'secondary_text' => $settings->cta_secondary_text,
-                'secondary_url' => $settings->cta_secondary_url,
-                'intent_cta' => $settings->intent_cta,
-            ] : null,
+            'intent_cta' => $settings->intent_cta,
+            'intent_buttons' => $this->buildIntentButtons($settings),
             'lead_capture' => $settings->lead_capture_enabled ? [
                 'enabled' => true,
                 'trigger' => $settings->lead_capture_trigger ?? 'after_3_messages',
@@ -241,7 +236,7 @@ class ChatController extends Controller
     {
         $business = \Modules\Listings\Models\Listing::where('slug', $slug)->firstOrFail();
 
-        $settings = ListingAiSetting::where('listing_id', $business->id)->first();
+        $settings = ListingAiSetting::with('listing')->where('listing_id', $business->id)->first();
 
         if (!$settings || !$settings->is_enabled) {
             return response()->json([
@@ -280,7 +275,7 @@ class ChatController extends Controller
     {
         $business = \Modules\Listings\Models\Listing::where('slug', $slug)->firstOrFail();
 
-        $settings = ListingAiSetting::where('listing_id', $business->id)->first();
+        $settings = ListingAiSetting::with('listing')->where('listing_id', $business->id)->first();
 
         if (!$settings || !$settings->is_enabled || !$settings->lead_capture_enabled) {
             return response()->json(['success' => false, 'error' => 'Lead capture not available'], 400);
@@ -310,5 +305,54 @@ class ChatController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error' => 'Could not save lead'], 500);
         }
+    }
+
+    private function buildIntentButtons($settings): array
+    {
+        $intentCta = $settings->intent_cta;
+        if (!$intentCta) {
+            return [];
+        }
+
+        if (is_string($intentCta)) {
+            $intentCta = json_decode($intentCta, true);
+        }
+
+        if (!is_array($intentCta)) {
+            return [];
+        }
+
+        $buttons = [];
+        $icons = [
+            'appointment' => 'calendar',
+            'purchase' => 'bag',
+            'contact' => 'telephone',
+            'support' => 'question-circle',
+        ];
+
+        $intentOrder = ['appointment', 'purchase', 'contact', 'support'];
+
+        foreach ($intentOrder as $key) {
+            if (isset($intentCta[$key]['enabled']) && $intentCta[$key]['enabled']) {
+                $buttons[] = [
+                    'key' => $key,
+                    'text' => $intentCta[$key]['text'] ?: $this->getDefaultIntentText($key),
+                    'icon' => $icons[$key] ?? 'chat',
+                ];
+            }
+        }
+
+        return $buttons;
+    }
+
+    private function getDefaultIntentText(string $intent): string
+    {
+        return match ($intent) {
+            'appointment' => 'Agendar cita',
+            'purchase' => 'Ver precios',
+            'contact' => 'Contactar',
+            'support' => 'Obtener ayuda',
+            default => 'Seleccionar',
+        };
     }
 }

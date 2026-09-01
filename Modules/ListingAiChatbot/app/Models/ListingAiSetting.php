@@ -38,11 +38,6 @@ class ListingAiSetting extends Model
         'lead_capture_trigger',
         'lead_capture_title',
         'lead_capture_description',
-        'cta_enabled',
-        'cta_primary_text',
-        'cta_primary_url',
-        'cta_secondary_text',
-        'cta_secondary_url',
         'intent_cta',
         'additional_preset_ids',
         'scheduled_pause_enabled',
@@ -63,10 +58,10 @@ class ListingAiSetting extends Model
         'rag_min_similarity' => 'float',
         'rag_max_results' => 'integer',
         'lead_capture_enabled' => 'boolean',
-        'cta_enabled' => 'boolean',
         'additional_preset_ids' => 'array',
         'scheduled_pause_enabled' => 'boolean',
         'scheduled_pause_days' => 'array',
+        'intent_cta' => 'array',
     ];
 
     protected $hidden = [
