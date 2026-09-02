@@ -5,7 +5,7 @@
       <h3 v-if="subtitle" class="section-locations__subtitle">{{ subtitle }}</h3>
       <p v-if="description" class="section-locations__description-text">{{ description }}</p>
 
-      <div v-if="items.length === 0" class="text-muted text-center py-4">
+      <div v-if="items.length === 0" class="orp-text-muted orp-text-center orp-p-4">
         No hay ubicaciones disponibles.
       </div>
 
@@ -13,7 +13,7 @@
         <div
           v-for="item in items"
           :key="item.id"
-          class="section-locations__item"
+          class="section-locations__item orp-card"
         >
           <div class="section-locations__main">
             <div class="section-locations__icon">
@@ -59,8 +59,8 @@
           v-for="(btn, index) in buttons"
           :key="index"
           :href="btn.url"
-          class="btn"
-          :class="'btn-' + (btn.style || 'primary')"
+          class="orp-btn"
+          :class="'orp-btn--' + (btn.style || 'primary')"
         >
           {{ btn.text }}
         </a>
@@ -104,7 +104,7 @@ export default defineComponent({ name: 'SectionLocations' })
 
 <style lang="less">
 .section-locations {
-  padding: 48px 16px;
+  padding: var(--orp-space-6) var(--orp-space-2);
 
   &__inner {
     max-width: 1024px;
@@ -113,41 +113,38 @@ export default defineComponent({ name: 'SectionLocations' })
 
   &__title {
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 var(--orp-space-1);
     text-align: center;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--orp-space-3);
   }
 
   &__item {
-    padding: 20px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: var(--orp-space-4);
   }
 
   &__main {
     display: flex;
-    gap: 16px;
+    gap: var(--orp-space-3);
   }
 
   &__icon {
@@ -157,9 +154,9 @@ export default defineComponent({ name: 'SectionLocations' })
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #e7f1ff;
+    background: color-mix(in srgb, var(--orp-primary) 15%, transparent);
     border-radius: 50%;
-    color: #0d6efd;
+    color: var(--orp-primary);
     font-size: 1.25rem;
   }
 
@@ -169,27 +166,27 @@ export default defineComponent({ name: 'SectionLocations' })
   }
 
   &__name {
-    font-size: 1.125rem;
+    font-size: var(--orp-font-size-lg);
     font-weight: 600;
-    margin: 0 0 8px;
-    color: #212529;
+    margin: 0 0 var(--orp-space-2);
+    color: var(--orp-surface-foreground);
   }
 
   &__address {
-    font-size: 0.875rem;
-    color: #6c757d;
-    margin: 0 0 12px;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__contact {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--orp-space-1);
   }
 
   &__contact-item {
-    font-size: 0.875rem;
-    color: #0d6efd;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-primary);
     text-decoration: none;
 
     &:hover {
@@ -197,40 +194,31 @@ export default defineComponent({ name: 'SectionLocations' })
     }
 
     i {
-      margin-right: 6px;
+      margin-right: var(--orp-space-2);
     }
   }
 
   &__schedules {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid #e9ecef;
+    margin-top: var(--orp-space-3);
+    padding-top: var(--orp-space-3);
+    border-top: 1px solid var(--orp-border);
   }
 
   &__schedule {
-    font-size: 0.875rem;
-    color: #495057;
-    margin-bottom: 4px;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin-bottom: var(--orp-space-1);
 
     &:last-child {
       margin-bottom: 0;
     }
   }
 
-  &__hours {
-    font-size: 0.875rem;
-    color: #6c757d;
-
-    i {
-      margin-right: 4px;
-    }
-  }
-
   &__buttons {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-top: 24px;
+    gap: var(--orp-space-2);
+    margin-top: var(--orp-space-4);
   }
 }
 </style>

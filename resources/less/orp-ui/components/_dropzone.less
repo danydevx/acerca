@@ -37,6 +37,11 @@
         background: color-mix(in srgb, var(--orp-primary) 8%, transparent);
     }
 
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+
     &--compact {
         padding: var(--orp-space-4);
         min-height: 100px;

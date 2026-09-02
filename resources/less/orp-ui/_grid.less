@@ -1,0 +1,48 @@
+// =============================================
+// ORP UI — Grid Primitive
+// =============================================
+
+.orp-grid {
+    display: grid;
+    gap: var(--orp-space-2);
+}
+
+.orp-grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.orp-grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.orp-grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.orp-grid--auto-sm {
+    grid-template-columns: repeat(auto-fit, minmax(var(--orp-grid-min-sm), 1fr));
+}
+
+.orp-grid--auto-md {
+    grid-template-columns: repeat(auto-fit, minmax(var(--orp-grid-min-md), 1fr));
+}
+
+.orp-grid--auto-lg {
+    grid-template-columns: repeat(auto-fit, minmax(var(--orp-grid-min-lg), 1fr));
+}
+
+.orp-grid--gap-1 {
+    gap: var(--orp-space-1);
+}
+
+.orp-grid--gap-2 {
+    gap: var(--orp-space-2);
+}
+
+.orp-grid--gap-3 {
+    gap: var(--orp-space-3);
+}
+
+.orp-grid--gap-4 {
+    gap: var(--orp-space-4);
+}

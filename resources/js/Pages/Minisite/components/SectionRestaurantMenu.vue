@@ -5,7 +5,7 @@
       <h3 v-if="subtitle" class="section-restaurant-menu__subtitle">{{ subtitle }}</h3>
       <p v-if="description" class="section-restaurant-menu__description-text">{{ description }}</p>
 
-      <div v-if="items.length === 0" class="text-muted text-center py-4">
+      <div v-if="items.length === 0" class="orp-text-muted orp-text-center orp-p-4">
         No hay opciones disponibles en el menú.
       </div>
 
@@ -38,7 +38,7 @@
               <template v-if="viewMode === 'full'">
                 <div class="section-restaurant-menu__full-section">
                   <h4 class="section-restaurant-menu__full-title">
-                    <i class="bi bi-collection me-2"></i>Carrusel
+                    <i class="bi bi-collection"></i>Carrusel
                   </h4>
                   <div class="section-restaurant-menu__carousel">
                     <div
@@ -64,7 +64,7 @@
                           {{ formatCurrency(product.price) }}
                         </div>
                         <div v-if="product.has_variants" class="section-restaurant-menu__product-variants">
-                          <span class="badge bg-secondary">
+                          <span class="orp-badge orp-badge--secondary">
                             <i class="bi bi-list-ul me-1"></i>Con variantes
                           </span>
                         </div>
@@ -75,7 +75,7 @@
 
                 <div class="section-restaurant-menu__full-section">
                   <h4 class="section-restaurant-menu__full-title">
-                    <i class="bi bi-grid-3x3-gap me-2"></i>Cuadrícula
+                    <i class="bi bi-grid-3x3-gap"></i>Cuadrícula
                   </h4>
                   <div class="section-restaurant-menu__grid">
                     <div
@@ -101,7 +101,7 @@
                           {{ formatCurrency(product.price) }}
                         </div>
                         <div v-if="product.has_variants" class="section-restaurant-menu__product-variants">
-                          <span class="badge bg-secondary">
+                          <span class="orp-badge orp-badge--secondary">
                             <i class="bi bi-list-ul me-1"></i>Con variantes
                           </span>
                         </div>
@@ -133,7 +133,7 @@
                           {{ formatCurrency(product.price) }}
                         </div>
                         <div v-if="product.has_variants" class="section-restaurant-menu__product-variants">
-                          <span class="badge bg-secondary">
+                          <span class="orp-badge orp-badge--secondary">
                             <i class="bi bi-list-ul me-1"></i>Con variantes
                           </span>
                         </div>
@@ -171,7 +171,7 @@
                         {{ formatCurrency(product.price) }}
                       </div>
                       <div v-if="product.has_variants" class="section-restaurant-menu__product-variants">
-                        <span class="badge bg-secondary">
+                        <span class="orp-badge orp-badge--secondary">
                           <i class="bi bi-list-ul me-1"></i>Con variantes
                         </span>
                       </div>
@@ -203,7 +203,7 @@
                         {{ formatCurrency(product.price) }}
                       </div>
                       <div v-if="product.has_variants" class="section-restaurant-menu__product-variants">
-                        <span class="badge bg-secondary">
+                        <span class="orp-badge orp-badge--secondary">
                           <i class="bi bi-list-ul me-1"></i>Con variantes
                         </span>
                       </div>
@@ -230,7 +230,7 @@
                         {{ formatCurrency(product.price) }}
                       </div>
                       <div v-if="product.has_variants" class="section-restaurant-menu__product-variants">
-                        <span class="badge bg-secondary">
+                        <span class="orp-badge orp-badge--secondary">
                           <i class="bi bi-list-ul me-1"></i>Con variantes
                         </span>
                       </div>
@@ -243,7 +243,7 @@
               </template>
 
               <div v-if="hasMoreItems(category) && viewMode !== 'full'" class="section-restaurant-menu__show-all">
-                <button class="btn btn-outline-primary" @click="showAllCategory(category.id)">
+                <button class="orp-btn orp-btn--ghost" @click="showAllCategory(category.id)">
                   Ver todos ({{ category.products.length }})
                 </button>
               </div>
@@ -258,15 +258,15 @@
           v-for="(btn, index) in buttons"
           :key="index"
           :href="btn.url"
-          class="btn"
-          :class="'btn-' + (btn.style || 'primary')"
+          class="orp-btn"
+          :class="'orp-btn--' + (btn.style || 'primary')"
         >
           {{ btn.text }}
         </a>
         <a
           v-if="businessSlug"
           :href="`/m/${businessSlug}/menu`"
-          class="btn btn-outline-primary"
+          class="orp-btn orp-btn--ghost"
         >
           <i class="bi bi-cup-hot me-2"></i>Ver menú completo
         </a>
@@ -398,8 +398,8 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
 
 <style lang="less">
 .section-restaurant-menu {
-  padding: 48px 16px;
-  background: #fff;
+  padding: var(--orp-space-6) var(--orp-space-2);
+  background: var(--orp-surface);
 
   &__inner {
     max-width: 1024px;
@@ -408,64 +408,64 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
 
   &__title {
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 var(--orp-space-1);
     text-align: center;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--orp-space-2);
     justify-content: center;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #e9ecef;
+    margin-bottom: var(--orp-space-4);
+    padding-bottom: var(--orp-space-3);
+    border-bottom: 1px solid var(--orp-border);
   }
 
   &__tab {
-    padding: 8px 16px;
-    border: 1px solid #dee2e6;
-    border-radius: 20px;
-    background: #fff;
-    color: #495057;
-    font-size: 0.875rem;
+    padding: var(--orp-space-2) var(--orp-space-3);
+    border: 1px solid var(--orp-border);
+    border-radius: var(--orp-radius-full, 20px);
+    background: var(--orp-surface);
+    color: var(--orp-muted-foreground);
+    font-size: var(--orp-font-size-sm);
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
-      background: #f8f9fa;
-      border-color: #adb5bd;
+      background: var(--orp-surface-muted);
+      border-color: var(--orp-muted-foreground);
     }
 
     &.active {
-      background: #0d6efd;
-      border-color: #0d6efd;
-      color: #fff;
+      background: var(--orp-primary);
+      border-color: var(--orp-primary);
+      color: var(--orp-primary-foreground);
     }
   }
 
   &__category-content {
-    margin-bottom: 24px;
+    margin-bottom: var(--orp-space-4);
   }
 
   &__category {
-    margin-bottom: 32px;
+    margin-bottom: var(--orp-space-5);
 
     &:last-child {
       margin-bottom: 0;
@@ -473,40 +473,40 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
   }
 
   &__category-header {
-    margin-bottom: 16px;
+    margin-bottom: var(--orp-space-3);
   }
 
   &__category-title {
-    font-size: 1.25rem;
+    font-size: var(--orp-font-size-lg);
     font-weight: 600;
-    color: #212529;
-    margin: 0 0 4px;
+    color: var(--orp-foreground);
+    margin: 0 0 var(--orp-space-1);
   }
 
   &__category-desc {
-    font-size: 0.875rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
     margin: 0;
   }
 
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--orp-space-2);
   }
 
   &__product {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px;
-    border-radius: 8px;
-    background: #f8f9fa;
+    gap: var(--orp-space-3);
+    padding: var(--orp-space-3);
+    border-radius: var(--orp-radius-md);
+    background: var(--orp-surface-muted);
     cursor: pointer;
     transition: background 0.2s;
 
     &:hover {
-      background: #e9ecef;
+      background: var(--orp-border);
     }
   }
 
@@ -514,7 +514,7 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
     flex: 0 0 64px;
     width: 64px;
     height: 64px;
-    border-radius: 8px;
+    border-radius: var(--orp-radius-md);
     overflow: hidden;
 
     img {
@@ -527,12 +527,12 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
   &__product-image-placeholder {
     width: 64px;
     height: 64px;
-    border-radius: 8px;
-    background: #e9ecef;
+    border-radius: var(--orp-radius-md);
+    background: var(--orp-border);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #adb5bd;
+    color: var(--orp-muted-foreground);
     font-size: 1.5rem;
   }
 
@@ -542,19 +542,19 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
   }
 
   &__product-name {
-    font-size: 1rem;
+    font-size: var(--orp-font-size-md);
     font-weight: 600;
-    color: #212529;
-    margin: 0 0 4px;
+    color: var(--orp-surface-foreground);
+    margin: 0 0 var(--orp-space-1);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   &__product-desc {
-    font-size: 0.8125rem;
-    color: #6c757d;
-    margin: 0 0 4px;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin: 0 0 var(--orp-space-1);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -562,13 +562,13 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
   }
 
   &__product-price {
-    font-size: 0.9375rem;
+    font-size: var(--orp-font-size-md);
     font-weight: 600;
-    color: #198754;
+    color: var(--orp-success);
   }
 
   &__product-variants {
-    margin-top: 4px;
+    margin-top: var(--orp-space-1);
   }
 
   &__product-btn {
@@ -576,8 +576,8 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: #0d6efd;
-    color: #fff;
+    background: var(--orp-primary);
+    color: var(--orp-primary-foreground);
     border: none;
     display: flex;
     align-items: center;
@@ -586,26 +586,26 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
     transition: background 0.2s;
 
     &:hover {
-      background: #0b5ed7;
+      background: color-mix(in srgb, var(--orp-primary) 85%, black);
     }
   }
 
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
+    gap: var(--orp-space-3);
   }
 
   &__grid-card {
-    background: #f8f9fa;
-    border-radius: 12px;
+    background: var(--orp-surface-muted);
+    border-radius: var(--orp-radius-lg);
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--orp-shadow-md);
     }
 
     .section-restaurant-menu__card-image {
@@ -623,32 +623,32 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
     .section-restaurant-menu__card-image-placeholder {
       width: 100%;
       height: 140px;
-      background: #e9ecef;
+      background: var(--orp-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #adb5bd;
+      color: var(--orp-muted-foreground);
       font-size: 2.5rem;
     }
 
     .section-restaurant-menu__card-body {
-      padding: 16px;
+      padding: var(--orp-space-3);
     }
 
     .section-restaurant-menu__product-name {
-      font-size: 0.9375rem;
+      font-size: var(--orp-font-size-md);
       font-weight: 600;
-      color: #212529;
-      margin: 0 0 8px;
+      color: var(--orp-surface-foreground);
+      margin: 0 0 var(--orp-space-2);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .section-restaurant-menu__product-desc {
-      font-size: 0.8125rem;
-      color: #6c757d;
-      margin: 0 0 8px;
+      font-size: var(--orp-font-size-sm);
+      color: var(--orp-muted-foreground);
+      margin: 0 0 var(--orp-space-2);
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -656,17 +656,17 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
     }
 
     .section-restaurant-menu__product-price {
-      font-size: 0.9375rem;
+      font-size: var(--orp-font-size-md);
       font-weight: 600;
-      color: #198754;
+      color: var(--orp-success);
     }
   }
 
   &__carousel {
     display: flex;
-    gap: 16px;
+    gap: var(--orp-space-3);
     overflow-x: auto;
-    padding-bottom: 16px;
+    padding-bottom: var(--orp-space-3);
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
 
@@ -675,20 +675,20 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
     }
 
     &::-webkit-scrollbar-track {
-      background: #f1f1f1;
+      background: var(--orp-border);
       border-radius: 2px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #dee2e6;
+      background: var(--orp-muted-foreground);
       border-radius: 2px;
     }
   }
 
   &__carousel-card {
     flex: 0 0 220px;
-    background: #f8f9fa;
-    border-radius: 12px;
+    background: var(--orp-surface-muted);
+    border-radius: var(--orp-radius-lg);
     overflow: hidden;
     scroll-snap-align: start;
     cursor: pointer;
@@ -696,7 +696,7 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
 
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--orp-shadow-md);
     }
 
     .section-restaurant-menu__card-image {
@@ -714,32 +714,32 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
     .section-restaurant-menu__card-image-placeholder {
       width: 100%;
       height: 140px;
-      background: #e9ecef;
+      background: var(--orp-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #adb5bd;
+      color: var(--orp-muted-foreground);
       font-size: 2.5rem;
     }
 
     .section-restaurant-menu__card-body {
-      padding: 16px;
+      padding: var(--orp-space-3);
     }
 
     .section-restaurant-menu__product-name {
-      font-size: 0.9375rem;
+      font-size: var(--orp-font-size-md);
       font-weight: 600;
-      color: #212529;
-      margin: 0 0 8px;
+      color: var(--orp-surface-foreground);
+      margin: 0 0 var(--orp-space-2);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .section-restaurant-menu__product-desc {
-      font-size: 0.8125rem;
-      color: #6c757d;
-      margin: 0 0 8px;
+      font-size: var(--orp-font-size-sm);
+      color: var(--orp-muted-foreground);
+      margin: 0 0 var(--orp-space-2);
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -747,22 +747,22 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
     }
 
     .section-restaurant-menu__product-price {
-      font-size: 0.9375rem;
+      font-size: var(--orp-font-size-md);
       font-weight: 600;
-      color: #198754;
+      color: var(--orp-success);
     }
   }
 
   &__show-all {
     display: flex;
     justify-content: center;
-    margin-top: 16px;
+    margin-top: var(--orp-space-3);
   }
 
   &__full-section {
-    margin-bottom: 32px;
-    padding-bottom: 24px;
-    border-bottom: 1px dashed #dee2e6;
+    margin-bottom: var(--orp-space-5);
+    padding-bottom: var(--orp-space-4);
+    border-bottom: 1px dashed var(--orp-border);
 
     &:last-of-type {
       border-bottom: none;
@@ -771,23 +771,23 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
   }
 
   &__full-title {
-    font-size: 1rem;
+    font-size: var(--orp-font-size-md);
     font-weight: 600;
-    color: #495057;
-    margin: 0 0 16px;
+    color: var(--orp-muted-foreground);
+    margin: 0 0 var(--orp-space-3);
     display: flex;
     align-items: center;
 
     i {
-      color: #0d6efd;
+      color: var(--orp-primary);
     }
   }
 
   &__buttons {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-top: 24px;
+    gap: var(--orp-space-2);
+    margin-top: var(--orp-space-4);
   }
 }
 
@@ -802,11 +802,11 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: var(--orp-space-2);
 
   &__content {
-    background: #fff;
-    border-radius: 16px;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-xl);
     max-width: 500px;
     width: 100%;
     max-height: 90vh;
@@ -816,8 +816,8 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
 
   &__close {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: var(--orp-space-2);
+    right: var(--orp-space-2);
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -828,11 +828,11 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
     justify-content: center;
     cursor: pointer;
     z-index: 10;
-    color: #495057;
+    color: var(--orp-muted-foreground);
 
     &:hover {
-      background: #fff;
-      color: #dc3545;
+      background: var(--orp-surface);
+      color: var(--orp-danger);
     }
   }
 
@@ -849,50 +849,50 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
   }
 
   &__info {
-    padding: 24px;
+    padding: var(--orp-space-6);
   }
 
   &__name {
-    font-size: 1.5rem;
+    font-size: var(--orp-font-size-xl);
     font-weight: 700;
-    margin: 0 0 12px;
-    color: #212529;
+    margin: 0 0 var(--orp-space-2);
+    color: var(--orp-surface-foreground);
   }
 
   &__price {
-    font-size: 1.25rem;
+    font-size: var(--orp-font-size-lg);
     font-weight: 700;
-    color: #198754;
-    margin-bottom: 16px;
+    color: var(--orp-success);
+    margin-bottom: var(--orp-space-3);
   }
 
   &__description {
-    font-size: 0.9375rem;
-    color: #495057;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     line-height: 1.6;
-    margin: 0 0 24px;
+    margin: 0 0 var(--orp-space-4);
   }
 
   &__variants {
-    border-top: 1px solid #e9ecef;
-    padding-top: 16px;
+    border-top: 1px solid var(--orp-border);
+    padding-top: var(--orp-space-3);
   }
 
   &__variants-title {
-    font-size: 1rem;
+    font-size: var(--orp-font-size-md);
     font-weight: 600;
-    color: #212529;
-    margin: 0 0 12px;
+    color: var(--orp-surface-foreground);
+    margin: 0 0 var(--orp-space-2);
   }
 
   &__variant {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    margin-bottom: 8px;
+    padding: var(--orp-space-2);
+    background: var(--orp-surface-muted);
+    border-radius: var(--orp-radius-md);
+    margin-bottom: var(--orp-space-2);
 
     &:last-child {
       margin-bottom: 0;
@@ -907,17 +907,17 @@ export default defineComponent({ name: 'SectionRestaurantMenu' })
 
   &__variant-name {
     font-weight: 500;
-    color: #212529;
+    color: var(--orp-surface-foreground);
   }
 
   &__variant-desc {
-    font-size: 0.8125rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
   }
 
   &__variant-price {
     font-weight: 600;
-    color: #198754;
+    color: var(--orp-success);
   }
 }
 </style>

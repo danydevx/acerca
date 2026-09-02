@@ -5,7 +5,7 @@
       <h3 v-if="subtitle" class="section-contact__subtitle">{{ subtitle }}</h3>
       <p v-if="description" class="section-contact__description-text">{{ description }}</p>
 
-      <div v-if="!form" class="text-muted text-center py-4">
+      <div v-if="!form" class="orp-text-muted orp-text-center orp-p-4">
         Formulario no disponible.
       </div>
 
@@ -13,7 +13,7 @@
         <div v-for="field in form.fields" :key="field.name" class="section-contact__field">
           <label :for="field.name" class="section-contact__label">
             {{ field.label }}
-            <span v-if="field.required" class="text-danger">*</span>
+            <span v-if="field.required" class="section-contact__required">*</span>
           </label>
 
           <input
@@ -23,7 +23,7 @@
             :name="field.name"
             :placeholder="field.placeholder"
             :required="field.required"
-            class="form-control"
+            class="orp-input"
             v-model="formData[field.name]"
           />
 
@@ -33,7 +33,7 @@
             :name="field.name"
             :placeholder="field.placeholder"
             :required="field.required"
-            class="form-control"
+            class="orp-textarea"
             rows="3"
             v-model="formData[field.name]"
           ></textarea>
@@ -43,7 +43,7 @@
             :id="field.name"
             :name="field.name"
             :required="field.required"
-            class="form-control"
+            class="orp-select"
             v-model="formData[field.name]"
           >
             <option value="">{{ field.placeholder || 'Selecciona...' }}</option>
@@ -51,11 +51,11 @@
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100" :disabled="sending">
+        <button type="submit" class="orp-btn orp-btn--primary orp-btn--block" :disabled="sending">
           {{ sending ? 'Enviando...' : 'Enviar' }}
         </button>
 
-        <div v-if="successMessage" class="alert alert-success mt-3">
+        <div v-if="successMessage" class="section-contact__success orp-alert orp-alert--success">
           {{ successMessage }}
         </div>
       </form>
@@ -103,8 +103,8 @@ const submitForm = async () => {
 
 <style lang="less">
 .section-contact {
-  padding: 48px 16px;
-  background: #fff;
+  padding: var(--orp-space-6) var(--orp-space-2);
+  background: var(--orp-background);
 
   &__inner {
     max-width: 1024px;
@@ -113,41 +113,49 @@ const submitForm = async () => {
 
   &__title {
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 var(--orp-space-1);
     text-align: center;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--orp-space-3);
   }
 
   &__field {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--orp-space-1);
   }
 
   &__label {
-    font-size: 0.875rem;
+    font-size: var(--orp-font-size-sm);
     font-weight: 500;
-    color: #212529;
+    color: var(--orp-foreground);
+  }
+
+  &__required {
+    color: var(--orp-danger);
+  }
+
+  &__success {
+    margin-top: var(--orp-space-3);
   }
 }
 </style>

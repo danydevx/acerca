@@ -5,23 +5,25 @@
       <h3 v-if="subtitle" class="section-reviews__subtitle">{{ subtitle }}</h3>
       <p v-if="description" class="section-reviews__description-text">{{ description }}</p>
 
-      <div v-if="items.length === 0" class="text-muted text-center py-4">
+      <div v-if="items.length === 0" class="orp-text-muted orp-text-center orp-p-4">
         No hay reseñas disponibles.
       </div>
 
       <div v-else-if="viewMode === 'carousel'" class="section-reviews__carousel">
-        <div
+        <article
           v-for="review in displayedItems"
           :key="review.id"
-          class="section-reviews__card"
+          class="section-reviews__card orp-card"
         >
-          <div class="section-reviews__stars">
-            <i
-              v-for="star in 5"
-              :key="star"
-              class="bi"
-              :class="star <= review.rating ? 'bi-star-fill' : 'bi-star'"
-            ></i>
+          <div class="orp-rating">
+            <div class="orp-rating__icons">
+              <i
+                v-for="star in 5"
+                :key="star"
+                class="bi"
+                :class="star <= review.rating ? 'bi-star-fill' : 'bi-star'"
+              ></i>
+            </div>
           </div>
 
           <p v-if="showComment && review.comment" class="section-reviews__comment">
@@ -37,26 +39,28 @@
             v-if="review.google_link"
             :href="review.google_link"
             target="_blank"
-            class="section-reviews__google-link"
+            class="orp-btn orp-btn--ghost orp-btn--sm"
           >
             <i class="bi bi-google"></i> Ver en Google
           </a>
-        </div>
+        </article>
       </div>
 
       <div v-else-if="viewMode === 'list'" class="section-reviews__list">
-        <div
+        <article
           v-for="review in displayedItems"
           :key="review.id"
-          class="section-reviews__list-item"
+          class="section-reviews__list-item orp-card"
         >
-          <div class="section-reviews__stars">
-            <i
-              v-for="star in 5"
-              :key="star"
-              class="bi"
-              :class="star <= review.rating ? 'bi-star-fill' : 'bi-star'"
-            ></i>
+          <div class="orp-rating">
+            <div class="orp-rating__icons">
+              <i
+                v-for="star in 5"
+                :key="star"
+                class="bi"
+                :class="star <= review.rating ? 'bi-star-fill' : 'bi-star'"
+              ></i>
+            </div>
           </div>
 
           <p v-if="showComment && review.comment" class="section-reviews__comment">
@@ -72,26 +76,28 @@
             v-if="review.google_link"
             :href="review.google_link"
             target="_blank"
-            class="section-reviews__google-link"
+            class="orp-btn orp-btn--ghost orp-btn--sm"
           >
             <i class="bi bi-google"></i> Ver en Google
           </a>
-        </div>
+        </article>
       </div>
 
       <div v-else class="section-reviews__grid">
-        <div
+        <article
           v-for="review in displayedItems"
           :key="review.id"
-          class="section-reviews__card"
+          class="section-reviews__card orp-card"
         >
-          <div class="section-reviews__stars">
-            <i
-              v-for="star in 5"
-              :key="star"
-              class="bi"
-              :class="star <= review.rating ? 'bi-star-fill' : 'bi-star'"
-            ></i>
+          <div class="orp-rating">
+            <div class="orp-rating__icons">
+              <i
+                v-for="star in 5"
+                :key="star"
+                class="bi"
+                :class="star <= review.rating ? 'bi-star-fill' : 'bi-star'"
+              ></i>
+            </div>
           </div>
 
           <p v-if="showComment && review.comment" class="section-reviews__comment">
@@ -107,15 +113,15 @@
             v-if="review.google_link"
             :href="review.google_link"
             target="_blank"
-            class="section-reviews__google-link"
+            class="orp-btn orp-btn--ghost orp-btn--sm"
           >
             <i class="bi bi-google"></i> Ver en Google
           </a>
-        </div>
+        </article>
       </div>
 
       <div v-if="hasMoreItems" class="section-reviews__show-all">
-        <a :href="allReviewsUrl" class="btn btn-outline-primary">
+        <a :href="allReviewsUrl" class="orp-btn orp-btn--ghost">
           Ver todas las reseñas ({{ items.length }})
         </a>
       </div>
@@ -178,8 +184,8 @@ export default {
 
 <style lang="less">
 .section-reviews {
-  padding: 48px 16px;
-  background: #fff;
+  padding: var(--orp-space-6) var(--orp-space-2);
+  background: var(--orp-background);
 
   &__inner {
     max-width: 1024px;
@@ -188,36 +194,36 @@ export default {
 
   &__title {
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 var(--orp-space-1);
     text-align: center;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
+    gap: var(--orp-space-4);
   }
 
   &__carousel {
     display: flex;
-    gap: 16px;
+    gap: var(--orp-space-3);
     overflow-x: auto;
-    padding-bottom: 16px;
+    padding-bottom: var(--orp-space-3);
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
 
@@ -226,12 +232,12 @@ export default {
     }
 
     &::-webkit-scrollbar-track {
-      background: #f1f1f1;
+      background: var(--orp-surface-muted);
       border-radius: 2px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #dee2e6;
+      background: var(--orp-border);
       border-radius: 2px;
     }
   }
@@ -244,67 +250,42 @@ export default {
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--orp-space-3);
   }
 
   &__list-item {
-    background: #f8f9fa;
-    border-radius: 12px;
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--orp-space-2);
   }
 
   &__card {
-    background: #f8f9fa;
-    border-radius: 12px;
-    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-  }
-
-  &__stars {
-    color: #ffc107;
-    font-size: 1.25rem;
+    gap: var(--orp-space-3);
   }
 
   &__comment {
-    font-size: 0.95rem;
-    color: #495057;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     line-height: 1.6;
     margin: 0;
     font-style: italic;
   }
 
   &__author {
-    font-size: 0.9rem;
-    color: #212529;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-foreground);
 
     strong {
-      color: #212529;
-    }
-  }
-
-  &__google-link {
-    font-size: 0.85rem;
-    color: #4285f4;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    margin-top: auto;
-
-    &:hover {
-      text-decoration: underline;
+      color: var(--orp-foreground);
     }
   }
 
   &__show-all {
     display: flex;
     justify-content: center;
-    margin-top: 24px;
+    margin-top: var(--orp-space-4);
   }
 }
 </style>

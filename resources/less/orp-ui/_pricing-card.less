@@ -1,0 +1,103 @@
+// =============================================
+// ORP UI — Pricing Card Pattern
+// =============================================
+
+.orp-pricing-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-lg);
+    border: 1px solid var(--orp-border);
+    padding: var(--orp-space-5);
+}
+
+.orp-pricing-card__eyebrow {
+    margin-bottom: var(--orp-space-3);
+}
+
+.orp-pricing-card__header {
+    margin-bottom: var(--orp-space-4);
+}
+
+.orp-pricing-card__title {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-xl);
+    font-weight: 700;
+    color: var(--orp-surface-foreground);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.orp-pricing-card__description {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin: var(--orp-space-1) 0 0;
+    line-height: 1.5;
+}
+
+.orp-pricing-card__value-section {
+    margin-bottom: var(--orp-space-4);
+    text-align: center;
+}
+
+.orp-pricing-card__value {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-xl);
+    font-weight: 700;
+    color: var(--orp-surface-foreground);
+    line-height: 1;
+}
+
+.orp-pricing-card__value-meta {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin-top: var(--orp-space-1);
+}
+
+.orp-pricing-card__features {
+    flex: 1;
+    margin-bottom: var(--orp-space-4);
+}
+
+.orp-pricing-card__feature-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--orp-space-2);
+}
+
+.orp-pricing-card__feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--orp-space-2);
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-surface-foreground);
+}
+
+.orp-pricing-card__feature-icon {
+    flex-shrink: 0;
+    color: var(--orp-success);
+    margin-top: 2px;
+}
+
+.orp-pricing-card__actions {
+    margin-top: auto;
+}
+
+// Emphasized variant
+.orp-pricing-card--emphasized {
+    border-color: var(--orp-primary);
+    box-shadow: var(--orp-shadow-md);
+    position: relative;
+}
+
+// Disabled variant
+.orp-pricing-card--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}

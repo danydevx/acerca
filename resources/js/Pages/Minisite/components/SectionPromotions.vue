@@ -10,14 +10,14 @@
           v-for="(btn, idx) in buttons"
           :key="idx"
           :href="btn.url || '#'"
-          class="btn btn-primary me-2 mb-2"
+          class="orp-btn orp-btn--primary"
           :target="btn.open_in_new_tab ? '_blank' : '_self'"
         >
           {{ btn.text }}
         </a>
       </div>
 
-      <div v-if="items.length === 0" class="text-muted text-center py-4">
+      <div v-if="items.length === 0" class="orp-text-muted orp-text-center orp-p-4">
         No hay promociones disponibles.
       </div>
 
@@ -137,8 +137,8 @@
             {{ selectedPromotion.description }}
           </p>
           <div class="promotion-modal__actions">
-            <button class="btn btn-outline-primary" @click="closePromotionModal">
-              <i class="bi bi-x me-2"></i>Cerrar
+            <button class="orp-btn orp-btn--ghost" @click="closePromotionModal">
+              <i class="bi bi-x"></i>Cerrar
             </button>
           </div>
         </div>
@@ -232,8 +232,8 @@ const closePromotionModal = () => {
 
 <style lang="less">
 .section-promotions {
-  padding: 48px 16px;
-  background: #f8f9fa;
+  padding: var(--orp-space-6) var(--orp-space-2);
+  background: var(--orp-surface-muted);
 
   &__inner {
     max-width: 1024px;
@@ -242,38 +242,38 @@ const closePromotionModal = () => {
 
   &__title {
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 var(--orp-space-1);
     text-align: center;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__buttons {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 24px;
+    gap: var(--orp-space-2);
+    margin-bottom: var(--orp-space-4);
   }
 
   &__carousel {
     display: flex;
-    gap: 16px;
+    gap: var(--orp-space-3);
     overflow-x: auto;
-    padding-bottom: 16px;
+    padding-bottom: var(--orp-space-3);
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
 
@@ -282,7 +282,7 @@ const closePromotionModal = () => {
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #dee2e6;
+      background: var(--orp-border);
       border-radius: 2px;
     }
   }
@@ -290,16 +290,16 @@ const closePromotionModal = () => {
   &__carousel-item {
     flex: 0 0 280px;
     scroll-snap-align: start;
-    background: #fff;
-    border-radius: 8px;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-md);
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--orp-shadow-sm);
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      box-shadow: var(--orp-shadow-md);
     }
   }
 
@@ -316,29 +316,29 @@ const closePromotionModal = () => {
   }
 
   &__item-content {
-    padding: 16px;
+    padding: var(--orp-space-3);
   }
 
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--orp-space-3);
   }
 
   &__list-item {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 16px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    gap: var(--orp-space-3);
+    padding: var(--orp-space-3);
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-lg);
+    box-shadow: var(--orp-shadow-sm);
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 
     &:hover {
       transform: translateX(4px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      box-shadow: var(--orp-shadow-md);
     }
   }
 
@@ -350,19 +350,19 @@ const closePromotionModal = () => {
     width: 80px;
     height: 80px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: var(--orp-radius-md);
   }
 
   &__list-image-placeholder {
     width: 80px;
     height: 80px;
-    background: #f8f9fa;
+    background: var(--orp-surface-muted);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #adb5bd;
+    color: var(--orp-muted-foreground);
     font-size: 1.75rem;
-    border-radius: 8px;
+    border-radius: var(--orp-radius-md);
   }
 
   &__list-content {
@@ -374,32 +374,32 @@ const closePromotionModal = () => {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 4px;
+    gap: var(--orp-space-2);
+    margin-bottom: var(--orp-space-1);
   }
 
   &__list-title {
-    font-size: 1.125rem;
+    font-size: var(--orp-font-size-lg);
     font-weight: 600;
     margin: 0;
-    color: #212529;
+    color: var(--orp-surface-foreground);
   }
 
   &__list-discount {
-    background: #dc3545;
-    color: #fff;
-    font-size: 0.75rem;
+    background: var(--orp-danger);
+    color: var(--orp-on-color, #fff);
+    font-size: var(--orp-font-size-xs);
     font-weight: 700;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: var(--orp-space-1) var(--orp-space-2);
+    border-radius: var(--orp-radius-sm);
     white-space: nowrap;
     flex-shrink: 0;
   }
 
   &__list-desc {
-    font-size: 0.875rem;
-    color: #6c757d;
-    margin: 0 0 8px;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin: 0 0 var(--orp-space-2);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -408,21 +408,21 @@ const closePromotionModal = () => {
 
   &__list-meta {
     display: flex;
-    gap: 16px;
+    gap: var(--orp-space-3);
     flex-wrap: wrap;
     align-items: center;
   }
 
   &__list-price {
-    font-size: 1.125rem;
+    font-size: var(--orp-font-size-lg);
     font-weight: 700;
-    color: #dc3545;
+    color: var(--orp-danger);
     white-space: nowrap;
   }
 
   &__list-price-original {
-    font-size: 0.875rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
     text-decoration: line-through;
     white-space: nowrap;
   }
@@ -430,25 +430,25 @@ const closePromotionModal = () => {
   &__list-valid {
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 0.8125rem;
-    color: #6c757d;
+    gap: var(--orp-space-1);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
 
     i {
-      color: #adb5bd;
+      color: var(--orp-muted-foreground);
     }
   }
 
   &__list-coupon {
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 0.8125rem;
-    color: #0d6efd;
+    gap: var(--orp-space-1);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-primary);
     font-weight: 600;
 
     i {
-      color: #adb5bd;
+      color: var(--orp-muted-foreground);
     }
   }
 
@@ -462,13 +462,13 @@ const closePromotionModal = () => {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #f8f9fa;
+    background: var(--orp-surface-muted);
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     transition: all 0.2s;
 
     i {
@@ -476,8 +476,8 @@ const closePromotionModal = () => {
     }
 
     &:hover {
-      background: #0d6efd;
-      color: #fff;
+      background: var(--orp-primary);
+      color: var(--orp-primary-foreground);
     }
   }
 }
@@ -493,12 +493,12 @@ const closePromotionModal = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: var(--orp-space-3);
   overflow-y: auto;
 
   &__content {
-    background: #fff;
-    border-radius: 16px;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-xl);
     max-width: 600px;
     width: 100%;
     max-height: 90vh;
@@ -508,8 +508,8 @@ const closePromotionModal = () => {
 
   &__close {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: var(--orp-space-2);
+    right: var(--orp-space-2);
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -520,12 +520,12 @@ const closePromotionModal = () => {
     justify-content: center;
     cursor: pointer;
     z-index: 10;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     transition: all 0.2s;
 
     &:hover {
-      background: #fff;
-      color: #dc3545;
+      background: var(--orp-surface);
+      color: var(--orp-danger);
     }
   }
 
@@ -534,7 +534,7 @@ const closePromotionModal = () => {
     height: 240px;
     overflow: hidden;
     position: relative;
-    background: #f8f9fa;
+    background: var(--orp-surface-muted);
 
     img {
       width: 100%;
@@ -545,102 +545,102 @@ const closePromotionModal = () => {
 
   &__discount {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    background: #dc3545;
-    color: #fff;
-    font-size: 1rem;
+    top: var(--orp-space-3);
+    right: var(--orp-space-3);
+    background: var(--orp-danger);
+    color: var(--orp-on-color, #fff);
+    font-size: var(--orp-font-size-md);
     font-weight: 700;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: var(--orp-space-2) var(--orp-space-3);
+    border-radius: var(--orp-radius-md);
   }
 
   &__info {
-    padding: 24px;
+    padding: var(--orp-space-4);
   }
 
   &__name {
-    font-size: 1.5rem;
+    font-size: var(--orp-font-size-xl);
     font-weight: 700;
-    margin: 0 0 16px;
-    color: #212529;
+    margin: 0 0 var(--orp-space-3);
+    color: var(--orp-surface-foreground);
   }
 
   &__prices {
     display: flex;
-    gap: 16px;
+    gap: var(--orp-space-3);
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: var(--orp-space-3);
   }
 
   &__price-original {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-decoration: line-through;
   }
 
   &__price-promotion {
-    font-size: 1.75rem;
+    font-size: var(--orp-font-size-xl);
     font-weight: 700;
-    color: #dc3545;
+    color: var(--orp-danger);
   }
 
   &__meta {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 20px;
+    background: var(--orp-surface-muted);
+    border-radius: var(--orp-radius-md);
+    padding: var(--orp-space-3);
+    margin-bottom: var(--orp-space-4);
   }
 
   &__meta-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.9375rem;
-    color: #495057;
-    margin-bottom: 8px;
+    gap: var(--orp-space-2);
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
+    margin-bottom: var(--orp-space-2);
 
     &:last-child {
       margin-bottom: 0;
     }
 
     i {
-      color: #6c757d;
+      color: var(--orp-muted-foreground);
       font-size: 1rem;
     }
 
     strong {
-      color: #212529;
+      color: var(--orp-surface-foreground);
     }
 
     &--coupon {
       i {
-        color: #0d6efd;
+        color: var(--orp-primary);
       }
       strong {
-        color: #0d6efd;
-        font-size: 1.125rem;
+        color: var(--orp-primary);
+        font-size: var(--orp-font-size-lg);
       }
     }
   }
 
   &__description {
-    font-size: 0.9375rem;
-    color: #495057;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-surface-foreground);
     line-height: 1.6;
-    margin-bottom: 24px;
+    margin-bottom: var(--orp-space-4);
   }
 
   &__actions {
     display: flex;
-    gap: 10px;
+    gap: var(--orp-space-2);
 
     .btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 12px 24px;
-      font-size: 1rem;
+      padding: var(--orp-space-3) var(--orp-space-4);
+      font-size: var(--orp-font-size-md);
       font-weight: 600;
     }
   }

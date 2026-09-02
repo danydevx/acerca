@@ -1,0 +1,93 @@
+// =============================================
+// ORP UI — Stat Card Pattern
+// =============================================
+
+.orp-stat-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-lg);
+    border: 1px solid var(--orp-border);
+    padding: var(--orp-space-4);
+    gap: var(--orp-space-2);
+}
+
+.orp-stat-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--orp-space-2);
+}
+
+.orp-stat-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--orp-radius-md);
+    background: var(--orp-surface-muted);
+    color: var(--orp-muted-foreground);
+    flex-shrink: 0;
+}
+
+.orp-stat-card__label {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    line-height: 1.4;
+}
+
+.orp-stat-card__value {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-xl);
+    font-weight: 700;
+    color: var(--orp-surface-foreground);
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+
+.orp-stat-card__context {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--orp-space-2);
+}
+
+.orp-stat-card__trend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--orp-space-1);
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    font-weight: 500;
+
+    &--up {
+        color: var(--orp-success);
+    }
+
+    &--down {
+        color: var(--orp-danger);
+    }
+
+    &--neutral {
+        color: var(--orp-muted-foreground);
+    }
+}
+
+.orp-stat-card__meta {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+}
+
+.orp-stat-card__visual {
+    margin-top: var(--orp-space-1);
+}
+
+.orp-stat-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--orp-space-2);
+    margin-top: var(--orp-space-1);
+}

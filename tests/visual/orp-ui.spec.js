@@ -89,8 +89,115 @@ test.describe('ORP UI Visual Regression', () => {
 
         if (await themeToggle.isVisible()) {
             await themeToggle.click()
-            // Theme should change
         }
+    })
+
+    test('Sheet opens and closes correctly', async ({ page }) => {
+        const sheetSection = page.locator('h2:has-text("Sheet")')
+        await sheetSection.scrollIntoViewIfNeeded()
+
+        await page.click('button:has-text("Auto")')
+        const sheet = page.locator('.orp-sheet')
+        await expect(sheet).toBeVisible()
+
+        await page.click('.orp-sheet__close')
+        await expect(sheet).not.toBeVisible()
+    })
+
+    test('Drawer opens and closes correctly', async ({ page }) => {
+        const drawerSection = page.locator('h2:has-text("Drawer")')
+        await drawerSection.scrollIntoViewIfNeeded()
+
+        await page.click('button:has-text("Left")')
+        const drawer = page.locator('.orp-drawer')
+        await expect(drawer).toBeVisible()
+
+        await page.click('.orp-drawer__close')
+        await expect(drawer).not.toBeVisible()
+    })
+
+    test('Tabs switch correctly', async ({ page }) => {
+        const tabsSection = page.locator('h2:has-text("Tabs")')
+        await tabsSection.scrollIntoViewIfNeeded()
+
+        const tabs = page.locator('.orp-tabs')
+        await expect(tabs).toBeVisible()
+
+        const tabButtons = page.locator('.orp-tabs__tab')
+        await expect(tabButtons.first()).toBeVisible()
+
+        await tabButtons.nth(1).click()
+        await expect(tabButtons.nth(1)).toHaveClass(/orp-tabs__tab--active/)
+    })
+
+    test('Dialog opens and closes correctly', async ({ page }) => {
+        const dialogSection = page.locator('h2:has-text("Dialogs")')
+        await dialogSection.scrollIntoViewIfNeeded()
+
+        await page.click('button:has-text("Neutral Alert")')
+        const dialog = page.locator('.orp-dialog')
+        await expect(dialog).toBeVisible()
+
+        await page.click('.orp-dialog__close')
+        await expect(dialog).not.toBeVisible()
+    })
+
+    test('ActionSheet opens and closes correctly', async ({ page }) => {
+        const actionSheetSection = page.locator('h2:has-text("ActionSheet")')
+        await actionSheetSection.scrollIntoViewIfNeeded()
+
+        await page.click('button:has-text("Open ActionSheet")')
+        const actionSheet = page.locator('.orp-action-sheet')
+        await expect(actionSheet).toBeVisible()
+
+        await page.click('.orp-action-sheet__overlay')
+        await expect(actionSheet).not.toBeVisible()
+    })
+
+    test('Notifications section renders correctly', async ({ page }) => {
+        const notificationsSection = page.locator('h2:has-text("Notifications")')
+        await notificationsSection.scrollIntoViewIfNeeded()
+
+        await expect(notificationsSection).toBeVisible()
+        await expect(page.locator('.orp-notification').first()).toBeVisible()
+    })
+
+    test('Notification banners render correctly', async ({ page }) => {
+        const bannerSection = page.locator('h2:has-text("Notification Banners")')
+        await bannerSection.scrollIntoViewIfNeeded()
+
+        await expect(bannerSection).toBeVisible()
+        await expect(page.locator('.orp-notification-banner').first()).toBeVisible()
+    })
+
+    test('Dropdown opens on click', async ({ page }) => {
+        const dropdownSection = page.locator('h2:has-text("Dropdown")')
+        await dropdownSection.scrollIntoViewIfNeeded()
+
+        await page.click('button:has-text("Menu")')
+        const dropdown = page.locator('.orp-dropdown')
+        await expect(dropdown).toBeVisible()
+    })
+
+    test('Keyboard shortcut (Kbd) renders correctly', async ({ page }) => {
+        const kbdSection = page.locator('h2:has-text("Keyboard")')
+        await kbdSection.scrollIntoViewIfNeeded()
+
+        await expect(page.locator('.orp-kbd').first()).toBeVisible()
+    })
+
+    test('No Bootstrap CSS classes in playground', async ({ page }) => {
+        const playgroundContent = await page.content()
+
+        const bootstrapClasses = ['.btn', '.card', '.modal', '.alert', '.badge', '.container', '.row', '.col-', '.d-flex', '.gap-', '.p-', '.m-', '.table']
+        const foundBootstrapClasses = bootstrapClasses.filter(cls => {
+            if (cls.endsWith('-')) {
+                return playgroundContent.includes(cls)
+            }
+            return playgroundContent.includes(cls)
+        })
+
+        expect(foundBootstrapClasses).toHaveLength(0)
     })
 })
 

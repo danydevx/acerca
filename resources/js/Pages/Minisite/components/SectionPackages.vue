@@ -5,15 +5,15 @@
       <h3 v-if="subtitle" class="section-packages__subtitle">{{ subtitle }}</h3>
       <p v-if="description" class="section-packages__description-text">{{ description }}</p>
 
-      <div v-if="items.length === 0" class="text-muted text-center py-4">
+      <div v-if="items.length === 0" class="orp-text-muted orp-text-center orp-p-4">
         No hay paquetes disponibles.
       </div>
 
       <div v-else class="section-packages__grid">
-        <div
+        <article
           v-for="item in displayedItems"
           :key="item.id"
-          class="section-packages__card"
+          class="section-packages__card orp-card"
         >
           <div class="section-packages__card-image-wrapper">
             <img
@@ -26,7 +26,7 @@
             <div v-else class="section-packages__card-image-placeholder">
               <i class="bi bi-box-seam"></i>
             </div>
-            <span v-if="item.promo_price" class="section-packages__discount-badge">
+            <span v-if="item.promo_price" class="section-packages__discount-badge orp-badge orp-badge--danger">
               -{{ discountPercent(item) }}%
             </span>
           </div>
@@ -35,42 +35,42 @@
             <p v-if="item.short_description" class="section-packages__card-desc">
               {{ truncateText(item.short_description, 80) }}
             </p>
-            <ul v-if="item.features && item.features.length" class="section-packages__features">
-              <li v-for="(feature, index) in item.features.slice(0, 4)" :key="index">
+            <ul v-if="item.features && item.features.length" class="section-packages__features orp-list orp-list--divided orp-list--inset">
+              <li v-for="(feature, index) in item.features.slice(0, 4)" :key="index" class="orp-list__item">
                 <i class="bi bi-check-circle"></i> {{ feature }}
               </li>
             </ul>
             <div class="section-packages__card-footer">
               <div class="section-packages__card-prices">
-                <span v-if="showPrice && item.promo_price" class="section-packages__card-price">
-                  {{ formatCurrency(item.promo_price) }}
+                <span v-if="showPrice && item.promo_price" class="section-packages__card-price orp-price">
+                  <span class="orp-price__value">{{ formatCurrency(item.promo_price) }}</span>
                 </span>
                 <span v-if="showPrice && item.promo_price" class="section-packages__card-price-compare">
                   {{ formatCurrency(item.price) }}
                 </span>
-                <span v-else-if="showPrice && item.price" class="section-packages__card-price">
-                  {{ formatCurrency(item.price) }}
+                <span v-else-if="showPrice && item.price" class="section-packages__card-price orp-price">
+                  <span class="orp-price__value">{{ formatCurrency(item.price) }}</span>
                 </span>
               </div>
               <a
                 v-if="item.whatsapp"
                 :href="`https://wa.me/${item.whatsapp}?text=${encodeURIComponent(item.whatsapp_message || 'Hola, me interesa este paquete')}`"
                 target="_blank"
-                class="section-packages__card-btn"
+                class="orp-btn btn-whatsapp orp-btn--sm"
               >
                 <i class="bi bi-whatsapp"></i> Contactar
               </a>
             </div>
           </div>
-        </div>
+        </article>
       </div>
 
-      <div v-if="buttons && buttons.length" class="section-packages__buttons mt-4">
+      <div v-if="buttons && buttons.length" class="section-packages__buttons orp-mt-4">
         <a
           v-for="(btn, index) in buttons"
           :key="index"
           :href="btn.url"
-          class="btn btn-primary me-2 mb-2"
+          class="orp-btn orp-btn--primary orp-mr-2 orp-mb-2"
         >
           {{ btn.text }}
         </a>
@@ -138,7 +138,7 @@ export default defineComponent({ name: 'SectionPackages' })
 
 <style lang="less">
 .section-packages {
-  padding: 48px 16px;
+  padding: var(--orp-space-6) var(--orp-space-2);
 
   &__inner {
     max-width: 1024px;
@@ -147,36 +147,36 @@ export default defineComponent({ name: 'SectionPackages' })
 
   &__title {
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 var(--orp-space-1);
     text-align: center;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__buttons {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--orp-space-2);
   }
 
   &__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: var(--orp-space-3);
 
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
@@ -188,25 +188,15 @@ export default defineComponent({ name: 'SectionPackages' })
   }
 
   &__card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     flex-direction: column;
-
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    }
 
     &-image-wrapper {
       position: relative;
     }
 
     &-body {
-      padding: 16px;
+      padding: var(--orp-space-3);
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -217,34 +207,13 @@ export default defineComponent({ name: 'SectionPackages' })
       align-items: center;
       justify-content: space-between;
       margin-top: auto;
-      padding-top: 12px;
+      padding-top: var(--orp-space-2);
     }
 
     &-prices {
       display: flex;
       flex-direction: column;
       gap: 2px;
-    }
-
-    &-btn {
-      background: #25d366;
-      color: #fff;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-
-      &:hover {
-        background: #128c7e;
-        color: #fff;
-      }
     }
   }
 
@@ -257,37 +226,33 @@ export default defineComponent({ name: 'SectionPackages' })
   &__card-image-placeholder {
     width: 100%;
     height: 140px;
-    background: #f8f9fa;
+    background: var(--orp-surface-muted);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #adb5bd;
+    color: var(--orp-muted-foreground);
     font-size: 2.5rem;
   }
 
   &__discount-badge {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    background: #dc3545;
-    color: #fff;
-    font-size: 0.75rem;
+    top: var(--orp-space-2);
+    right: var(--orp-space-2);
+    font-size: var(--orp-font-size-xs);
     font-weight: 700;
-    padding: 4px 8px;
-    border-radius: 4px;
   }
 
   &__card-title {
-    font-size: 1rem;
+    font-size: var(--orp-font-size-md);
     font-weight: 600;
-    margin: 0 0 8px;
-    color: #212529;
+    margin: 0 0 var(--orp-space-2);
+    color: var(--orp-surface-foreground);
   }
 
   &__card-desc {
-    font-size: 0.875rem;
-    color: #6c757d;
-    margin: 0 0 8px;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin: 0 0 var(--orp-space-2);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -298,32 +263,32 @@ export default defineComponent({ name: 'SectionPackages' })
   &__features {
     list-style: none;
     padding: 0;
-    margin: 0 0 12px;
-    font-size: 0.8125rem;
-    color: #495057;
+    margin: 0 0 var(--orp-space-3);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
 
     li {
       display: flex;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 4px;
+      gap: var(--orp-space-2);
+      margin-bottom: var(--orp-space-1);
 
       i {
-        color: #198754;
+        color: var(--orp-success);
       }
     }
   }
 
   &__card-price {
-    font-size: 1.125rem;
+    font-size: var(--orp-font-size-lg);
     font-weight: 700;
-    color: #198754;
+    color: var(--orp-success);
     margin: 0;
   }
 
   &__card-price-compare {
-    font-size: 0.8125rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
     text-decoration: line-through;
     margin: 0;
   }

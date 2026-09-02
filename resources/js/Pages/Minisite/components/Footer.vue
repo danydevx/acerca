@@ -1,14 +1,15 @@
 <template>
   <footer class="minisite-footer">
     <div class="minisite-footer__inner">
-      <div v-if="showSocial && socialNetworks.length" class="minisite-footer__social">
+      <div v-if="showSocial && socialNetworks.length" class="minisite-footer__social orp-cluster orp-cluster--4">
         <a
           v-for="network in socialNetworks"
           :key="network.platform"
           :href="network.url"
           target="_blank"
           rel="noopener noreferrer"
-          class="minisite-footer__social-link"
+          class="orp-icon-btn orp-icon-btn--ghost orp-icon-btn--md"
+          :aria-label="network.platform"
         >
           <i :class="getIcon(network.platform)"></i>
         </a>
@@ -46,9 +47,9 @@ const getIcon = (platform) => {
 
 <style lang="less">
 .minisite-footer {
-  background: #212529;
-  color: #fff;
-  padding: 32px 16px;
+  background: var(--orp-foreground);
+  color: var(--orp-background);
+  padding: var(--orp-space-5) var(--orp-space-2);
   margin-top: auto;
 
   &__inner {
@@ -58,38 +59,20 @@ const getIcon = (platform) => {
   }
 
   &__social {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-
-  &__social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    font-size: 1.25rem;
-    transition: background 0.2s ease;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
+    margin-bottom: var(--orp-space-3);
   }
 
   &__text {
-    font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 8px;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-background);
+    opacity: 0.7;
+    margin-bottom: var(--orp-space-1);
   }
 
   &__copyright {
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: var(--orp-font-size-xs);
+    color: var(--orp-background);
+    opacity: 0.5;
     margin: 0;
   }
 }

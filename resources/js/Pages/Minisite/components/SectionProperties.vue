@@ -5,7 +5,7 @@
       <h3 v-if="subtitle" class="section-properties__subtitle">{{ subtitle }}</h3>
       <p v-if="description" class="section-properties__description-text">{{ description }}</p>
 
-      <div v-if="items.length === 0" class="text-muted text-center py-4">
+      <div v-if="items.length === 0" class="orp-text-muted orp-text-center orp-p-4">
         No hay propiedades disponibles.
       </div>
 
@@ -126,7 +126,7 @@
       </div>
 
       <div v-if="hasMoreItems && showAllButton" class="section-properties__show-all">
-        <a :href="allPropertiesUrl" class="btn btn-outline-primary">
+        <a :href="allPropertiesUrl" class="orp-btn orp-btn--ghost">
           Ver todas las propiedades ({{ items.length }})
         </a>
       </div>
@@ -252,8 +252,8 @@ export default defineComponent({ name: 'SectionProperties' })
 
 <style lang="less">
 .section-properties {
-  padding: 48px 16px;
-  background: #fff;
+  padding: var(--orp-space-6) var(--orp-space-2);
+  background: var(--orp-surface);
 
   &__inner {
     max-width: 1024px;
@@ -262,30 +262,30 @@ export default defineComponent({ name: 'SectionProperties' })
 
   &__title {
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 var(--orp-space-1);
     text-align: center;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__carousel {
     display: flex;
-    gap: 16px;
+    gap: var(--orp-space-3);
     overflow-x: auto;
-    padding-bottom: 16px;
+    padding-bottom: var(--orp-space-3);
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
 
@@ -294,12 +294,12 @@ export default defineComponent({ name: 'SectionProperties' })
     }
 
     &::-webkit-scrollbar-track {
-      background: #f1f1f1;
+      background: var(--orp-border);
       border-radius: 2px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #dee2e6;
+      background: var(--orp-muted-foreground);
       border-radius: 2px;
     }
   }
@@ -312,20 +312,20 @@ export default defineComponent({ name: 'SectionProperties' })
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
+    gap: var(--orp-space-4);
   }
 
   &__card {
-    background: #fff;
-    border-radius: 12px;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-lg);
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--orp-shadow-sm);
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--orp-shadow-md);
     }
 
     &-image-wrapper {
@@ -333,30 +333,30 @@ export default defineComponent({ name: 'SectionProperties' })
     }
 
     &-body {
-      padding: 16px;
+      padding: var(--orp-space-3);
     }
 
     &-title {
-      font-size: 1rem;
+      font-size: var(--orp-font-size-md);
       font-weight: 600;
-      color: #212529;
-      margin: 0 0 8px;
+      color: var(--orp-surface-foreground);
+      margin: 0 0 var(--orp-space-2);
     }
 
     &-location {
-      font-size: 0.875rem;
-      color: #6c757d;
-      margin: 0 0 8px;
+      font-size: var(--orp-font-size-sm);
+      color: var(--orp-muted-foreground);
+      margin: 0 0 var(--orp-space-2);
 
       i {
-        margin-right: 4px;
+        margin-right: var(--orp-space-1);
       }
     }
 
     &-desc {
-      font-size: 0.875rem;
-      color: #6c757d;
-      margin: 0 0 12px;
+      font-size: var(--orp-font-size-sm);
+      color: var(--orp-muted-foreground);
+      margin: 0 0 var(--orp-space-3);
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -364,23 +364,23 @@ export default defineComponent({ name: 'SectionProperties' })
     }
 
     &-price {
-      font-size: 1.125rem;
+      font-size: var(--orp-font-size-lg);
       font-weight: 700;
-      color: #198754;
+      color: var(--orp-success);
     }
   }
 
   &__grid-card {
-    background: #fff;
-    border-radius: 12px;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-lg);
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--orp-shadow-sm);
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--orp-shadow-md);
     }
 
     .section-properties__card-image-wrapper {
@@ -388,30 +388,30 @@ export default defineComponent({ name: 'SectionProperties' })
     }
 
     .section-properties__card-body {
-      padding: 16px;
+      padding: var(--orp-space-3);
     }
 
     .section-properties__card-title {
-      font-size: 1rem;
+      font-size: var(--orp-font-size-md);
       font-weight: 600;
-      color: #212529;
-      margin: 0 0 8px;
+      color: var(--orp-surface-foreground);
+      margin: 0 0 var(--orp-space-2);
     }
 
     .section-properties__card-location {
-      font-size: 0.875rem;
-      color: #6c757d;
-      margin: 0 0 8px;
+      font-size: var(--orp-font-size-sm);
+      color: var(--orp-muted-foreground);
+      margin: 0 0 var(--orp-space-2);
 
       i {
-        margin-right: 4px;
+        margin-right: var(--orp-space-1);
       }
     }
 
     .section-properties__card-desc {
-      font-size: 0.875rem;
-      color: #6c757d;
-      margin: 0 0 12px;
+      font-size: var(--orp-font-size-sm);
+      color: var(--orp-muted-foreground);
+      margin: 0 0 var(--orp-space-3);
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -419,9 +419,9 @@ export default defineComponent({ name: 'SectionProperties' })
     }
 
     .section-properties__card-price {
-      font-size: 1.125rem;
+      font-size: var(--orp-font-size-lg);
       font-weight: 700;
-      color: #198754;
+      color: var(--orp-success);
     }
   }
 
@@ -434,23 +434,23 @@ export default defineComponent({ name: 'SectionProperties' })
   &__card-image-placeholder {
     width: 100%;
     height: 180px;
-    background: #f8f9fa;
+    background: var(--orp-surface-muted);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #adb5bd;
+    color: var(--orp-muted-foreground);
     font-size: 3rem;
   }
 
   &__operation-badge {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    background: #0d6efd;
-    color: #fff;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
+    top: var(--orp-space-2);
+    left: var(--orp-space-2);
+    background: var(--orp-primary);
+    color: var(--orp-primary-foreground);
+    padding: var(--orp-space-1) var(--orp-space-2);
+    border-radius: var(--orp-radius-full, 20px);
+    font-size: var(--orp-font-size-xs);
     font-weight: 600;
     text-transform: uppercase;
   }
@@ -458,21 +458,21 @@ export default defineComponent({ name: 'SectionProperties' })
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--orp-space-3);
   }
 
   &__list-item {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 16px;
-    background: #f8f9fa;
-    border-radius: 12px;
+    gap: var(--orp-space-3);
+    padding: var(--orp-space-3);
+    background: var(--orp-surface-muted);
+    border-radius: var(--orp-radius-lg);
     cursor: pointer;
     transition: background 0.2s;
 
     &:hover {
-      background: #e9ecef;
+      background: var(--orp-border);
     }
   }
 
@@ -480,7 +480,7 @@ export default defineComponent({ name: 'SectionProperties' })
     flex: 0 0 120px;
     width: 120px;
     height: 90px;
-    border-radius: 8px;
+    border-radius: var(--orp-radius-md);
     overflow: hidden;
   }
 
@@ -493,11 +493,11 @@ export default defineComponent({ name: 'SectionProperties' })
   &__list-image-placeholder {
     width: 100%;
     height: 100%;
-    background: #e9ecef;
+    background: var(--orp-border);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #adb5bd;
+    color: var(--orp-muted-foreground);
     font-size: 2rem;
   }
 
@@ -508,36 +508,36 @@ export default defineComponent({ name: 'SectionProperties' })
 
   &__list-operation {
     display: inline-block;
-    background: #e7f1ff;
-    color: #0d6efd;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.75rem;
+    background: color-mix(in srgb, var(--orp-primary) 15%, transparent);
+    color: var(--orp-primary);
+    padding: 2px var(--orp-space-2);
+    border-radius: var(--orp-radius-sm);
+    font-size: var(--orp-font-size-xs);
     font-weight: 600;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: var(--orp-space-1);
   }
 
   &__list-title {
-    font-size: 1rem;
+    font-size: var(--orp-font-size-md);
     font-weight: 600;
-    color: #212529;
-    margin: 0 0 4px;
+    color: var(--orp-surface-foreground);
+    margin: 0 0 var(--orp-space-1);
   }
 
   &__list-location {
-    font-size: 0.875rem;
-    color: #6c757d;
-    margin: 0 0 8px;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin: 0 0 var(--orp-space-2);
 
     i {
-      margin-right: 4px;
+      margin-right: var(--orp-space-1);
     }
   }
 
   &__list-desc {
-    font-size: 0.875rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -551,31 +551,31 @@ export default defineComponent({ name: 'SectionProperties' })
   }
 
   &__list-price {
-    font-size: 1.125rem;
+    font-size: var(--orp-font-size-lg);
     font-weight: 700;
-    color: #198754;
-    margin-bottom: 8px;
+    color: var(--orp-success);
+    margin-bottom: var(--orp-space-2);
   }
 
   &__list-btn {
-    padding: 8px 16px;
-    background: #0d6efd;
-    color: #fff;
+    padding: var(--orp-space-2) var(--orp-space-3);
+    background: var(--orp-primary);
+    color: var(--orp-primary-foreground);
     border: none;
-    border-radius: 6px;
-    font-size: 0.875rem;
+    border-radius: var(--orp-radius-md);
+    font-size: var(--orp-font-size-sm);
     cursor: pointer;
     transition: background 0.2s;
 
     &:hover {
-      background: #0b5ed7;
+      background: color-mix(in srgb, var(--orp-primary) 85%, black);
     }
   }
 
   &__show-all {
     display: flex;
     justify-content: center;
-    margin-top: 24px;
+    margin-top: var(--orp-space-4);
   }
 }
 
@@ -590,12 +590,12 @@ export default defineComponent({ name: 'SectionProperties' })
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: var(--orp-space-2);
   overflow-y: auto;
 
   &__content {
-    background: #fff;
-    border-radius: 16px;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-xl);
     max-width: 600px;
     width: 100%;
     max-height: 90vh;
@@ -605,8 +605,8 @@ export default defineComponent({ name: 'SectionProperties' })
 
   &__close {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: var(--orp-space-2);
+    right: var(--orp-space-2);
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -617,11 +617,11 @@ export default defineComponent({ name: 'SectionProperties' })
     justify-content: center;
     cursor: pointer;
     z-index: 10;
-    color: #495057;
+    color: var(--orp-muted-foreground);
 
     &:hover {
-      background: #fff;
-      color: #dc3545;
+      background: var(--orp-surface);
+      color: var(--orp-danger);
     }
   }
 
@@ -638,79 +638,79 @@ export default defineComponent({ name: 'SectionProperties' })
   }
 
   &__info {
-    padding: 24px;
+    padding: var(--orp-space-4);
   }
 
   &__header {
-    margin-bottom: 16px;
+    margin-bottom: var(--orp-space-3);
   }
 
   &__operation {
     display: inline-block;
-    background: #e7f1ff;
-    color: #0d6efd;
-    padding: 4px 12px;
-    border-radius: 6px;
-    font-size: 0.875rem;
+    background: color-mix(in srgb, var(--orp-primary) 15%, transparent);
+    color: var(--orp-primary);
+    padding: var(--orp-space-1) var(--orp-space-2);
+    border-radius: var(--orp-radius-sm);
+    font-size: var(--orp-font-size-sm);
     font-weight: 600;
     text-transform: uppercase;
-    margin-bottom: 8px;
+    margin-bottom: var(--orp-space-2);
   }
 
   &__name {
-    font-size: 1.5rem;
+    font-size: var(--orp-font-size-xl);
     font-weight: 700;
     margin: 0;
-    color: #212529;
+    color: var(--orp-surface-foreground);
   }
 
   &__location {
-    font-size: 1rem;
-    color: #6c757d;
-    margin: 0 0 16px;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
+    margin: 0 0 var(--orp-space-3);
 
     i {
-      margin-right: 4px;
+      margin-right: var(--orp-space-1);
     }
   }
 
   &__price {
-    font-size: 1.5rem;
+    font-size: var(--orp-font-size-xl);
     font-weight: 700;
-    color: #198754;
-    margin-bottom: 16px;
+    color: var(--orp-success);
+    margin-bottom: var(--orp-space-3);
   }
 
   &__description {
-    font-size: 0.9375rem;
-    color: #495057;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     line-height: 1.6;
-    margin: 0 0 24px;
+    margin: 0 0 var(--orp-space-4);
   }
 
   &__gallery {
-    border-top: 1px solid #e9ecef;
-    padding-top: 16px;
+    border-top: 1px solid var(--orp-border);
+    padding-top: var(--orp-space-3);
   }
 
   &__gallery-title {
-    font-size: 1rem;
+    font-size: var(--orp-font-size-md);
     font-weight: 600;
-    color: #212529;
-    margin: 0 0 12px;
+    color: var(--orp-surface-foreground);
+    margin: 0 0 var(--orp-space-2);
   }
 
   &__gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 8px;
+    gap: var(--orp-space-2);
   }
 
   &__gallery-image {
     width: 100%;
     height: 80px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: var(--orp-radius-md);
     cursor: pointer;
     transition: opacity 0.2s;
 

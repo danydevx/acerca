@@ -1,0 +1,79 @@
+// =============================================
+// ORP UI — Profile Card Pattern
+// =============================================
+
+.orp-profile-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-lg);
+    border: 1px solid var(--orp-border);
+    padding: var(--orp-space-4);
+    gap: var(--orp-space-3);
+}
+
+.orp-profile-card--horizontal {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.orp-profile-card__media {
+    display: flex;
+    justify-content: center;
+}
+
+.orp-profile-card--horizontal .orp-profile-card__media {
+    flex-shrink: 0;
+}
+
+.orp-profile-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--orp-space-2);
+    flex: 1;
+    min-width: 0;
+}
+
+.orp-profile-card__title {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-md);
+    font-weight: 600;
+    color: var(--orp-surface-foreground);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.orp-profile-card__subtitle {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.orp-profile-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--orp-space-2);
+    margin-top: var(--orp-space-1);
+}
+
+.orp-profile-card__status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--orp-space-1);
+    margin-top: var(--orp-space-1);
+}
+
+.orp-profile-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--orp-space-2);
+    margin-top: var(--orp-space-2);
+}
+
+.orp-profile-card--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}

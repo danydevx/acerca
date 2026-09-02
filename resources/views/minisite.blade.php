@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title inertia>{{ config('app.name', 'Acerca.site') }}</title>
 
-    @vite(['resources/less/minisite.less', 'resources/js/app.js'])
+    @vite(['resources/less/minisite.less', 'resources/js/minisite-orp.js'])
     @inertiaHead
 </head>
 <body>

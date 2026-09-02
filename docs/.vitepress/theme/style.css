@@ -1,0 +1,11 @@
+@import '../../../resources/less/orp-ui/orp-ui.less';
+
+:root {
+  --vp-c-brand-1: #3B82F6;
+  --vp-c-brand-2: #2563EB;
+  --vp-c-brand-3: #1D4ED8;
+}
+
+.VPHome {
+  padding: 0;
+}

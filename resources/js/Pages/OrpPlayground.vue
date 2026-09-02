@@ -8,11 +8,22 @@ import {
     OrpDropzone, OrpCommandMenu, OrpContextMenu,
     OrpDataTable, OrpVideoPlayer, OrpAudioPlayer,
     OrpDialog, OrpDialogHost,
-    useOrpDialog
+    useOrpDialog,
+    OrpNotification, OrpNotificationHost,
+    OrpCatalogCard,
+    OrpPricingCard,
+    OrpProfileCard,
+    OrpContentCard,
+    OrpStatCard,
+    OrpMap,
+    OrpMapMarker,
+    OrpContactCard
 } from '@/orp-ui'
 import { useOrpTheme } from '@/Composables/OrpUI/useOrpTheme'
+import { useOrpNotifications } from '@/Composables/OrpUI/useOrpNotifications'
 
 const { theme, toggleTheme } = useOrpTheme()
+const { notifications, show, neutral, info, success, warning, danger, remove, clear } = useOrpNotifications()
 
 const tabs = [
     { value: 'profile', label: 'Perfil' },
@@ -119,6 +130,12 @@ const actionSheetActions = [
     { value: 'share', label: 'Compartir' },
     { value: 'delete', label: 'Eliminar', variant: 'danger' }
 ]
+
+// Image Variants Interactive Playground
+const imgRadius = ref('md')
+const imgRatio = ref('landscape')
+const imgOpacity = ref(1)
+const imgFilter = ref('none')
 
 // DataTable
 const tableColumns = [
@@ -1069,6 +1086,428 @@ const showDialogLg = async () => {
     <OrpToast v-model="showToastWarning" message="Atención: Revisa los datos" variant="warning" position="top" />
     <OrpToast v-model="showToastDanger" message="Error: No se pudo guardar" variant="danger" position="bottom" :duration="0" closable />
 
+    <!-- Notifications Section -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Notifications</h2>
+
+      <p class="orp-mb-3"><strong>Basic</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            title="New message"
+            message="You have a new message from Sarah Chen"
+            time="now"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Compact</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            layout="compact"
+            title="Order shipped"
+            message="Your order #1234 is on its way"
+            time="2m"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Full Layout</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            layout="full"
+            title="Sarah Chen"
+            subtitle="Product Designer"
+            message="Just published a new design update for the mobile app. Check it out!"
+            time="5 min ago"
+            :actions="[
+              { label: 'View', variant: 'primary' },
+              { label: 'Dismiss' }
+            ]"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>With Icon</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            tone="info"
+            icon="bi bi-info-circle"
+            title="Information"
+            message="Your trial period ends in 3 days"
+            time="1h"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>With Avatar</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            avatar="https://i.pravatar.cc/100?img=11"
+            title="Sarah Chen"
+            message="Mentioned you in a comment"
+            time="10m"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>With Image</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            avatar="https://i.pravatar.cc/100?img=5"
+            title="John Smith"
+            message="Shared a new photo"
+            image="https://picsum.photos/400/200"
+            time="2h"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Tones</strong></p>
+      <div class="orp-flex-row orp-gap-3 orp-flex-wrap orp-mb-4">
+        <OrpNotification
+          tone="neutral"
+          icon="bi bi-bell"
+          title="Neutral"
+          message="General notification"
+          time="now"
+          :visible="true"
+        />
+        <OrpNotification
+          tone="success"
+          icon="bi bi-check-circle"
+          title="Success"
+          message="Your changes have been saved"
+          time="now"
+          :visible="true"
+        />
+        <OrpNotification
+          tone="warning"
+          icon="bi bi-exclamation-triangle"
+          title="Warning"
+          message="Please review your information"
+          time="now"
+          :visible="true"
+        />
+        <OrpNotification
+          tone="danger"
+          icon="bi bi-x-circle"
+          title="Danger"
+          message="An error occurred"
+          time="now"
+          :visible="true"
+        />
+      </div>
+
+      <p class="orp-mb-3"><strong>With Actions</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            title="Update available"
+            message="A new version of the app is ready to download"
+            time="now"
+            :actions="[
+              { label: 'Update Now', variant: 'primary' },
+              { label: 'Later' }
+            ]"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Vertical Actions</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            title="Confirm action"
+            message="Are you sure you want to delete this item? This action cannot be undone."
+            time="now"
+            :actions="[
+              { label: 'Delete', variant: 'danger' },
+              { label: 'Cancel' }
+            ]"
+            :vertical-actions="true"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Loading</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            tone="info"
+            icon="bi bi-arrow-repeat"
+            title="Uploading..."
+            message="Please wait while we upload your files"
+            time="now"
+            :loading="true"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Progress</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            tone="info"
+            icon="bi bi-cloud-arrow-up"
+            title="Uploading file..."
+            message="invoice_2024.pdf"
+            :progress="65"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Dismissible</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            title="Dismissible notification"
+            message="Click the X button to close this notification"
+            time="now"
+            :closable="true"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Clickable</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            title="Clickable notification"
+            message="Click anywhere on this notification to interact"
+            time="now"
+            :clickable="true"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Unread / Read</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpNotification
+            title="Unread notification"
+            message="This notification has an unread indicator"
+            time="now"
+            :unread="true"
+            :visible="true"
+          />
+          <div class="orp-height-3"></div>
+          <OrpNotification
+            title="Read notification"
+            message="This notification is marked as read"
+            time="now"
+            :read="true"
+            :visible="true"
+          />
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Stack (live demo)</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-flex-row orp-gap-2 orp-flex-wrap">
+            <button class="orp-btn orp-btn--primary orp-btn--sm" @click="info({ title: 'Info notification', message: 'This is an info message', time: 'now' })">Info</button>
+            <button class="orp-btn orp-btn--primary orp-btn--sm" @click="success({ title: 'Success!', message: 'Your action was successful', time: 'now' })">Success</button>
+            <button class="orp-btn orp-btn--primary orp-btn--sm" @click="warning({ title: 'Warning', message: 'Please review your data', time: 'now' })">Warning</button>
+            <button class="orp-btn orp-btn--danger orp-btn--sm" @click="danger({ title: 'Error', message: 'Something went wrong', time: 'now' })">Danger</button>
+            <button class="orp-btn orp-btn--secondary orp-btn--sm" @click="clear">Clear All</button>
+          </div>
+        </div>
+      </div>
+
+      <OrpNotificationHost position="bottom-end" :max-visible="3" />
+    </section>
+
+    <!-- Notification Banner Section -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Notification Banners</h2>
+
+      <p class="orp-mb-3"><strong>Inline Banner (in-flow)</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-notification-banner orp-notification-banner--in-flow orp-notification-banner--info">
+            <div class="orp-notification-banner__icon">
+              <i class="bi bi-info-circle"></i>
+            </div>
+            <div class="orp-notification-banner__content">
+              <div class="orp-notification-banner__title">New update available</div>
+              <div class="orp-notification-banner__message">Version 2.0 is ready to download</div>
+            </div>
+            <div class="orp-notification-banner__actions">
+              <button class="orp-notification-banner__action orp-notification-banner__action--primary">Update</button>
+              <button class="orp-notification-banner__action">Later</button>
+            </div>
+            <button class="orp-notification-banner__close" aria-label="Dismiss">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Tones</strong></p>
+      <div class="orp-flex-row orp-gap-3 orp-flex-wrap orp-mb-4">
+        <div class="orp-notification-banner orp-notification-banner--in-flow orp-notification-banner--neutral">
+          <div class="orp-notification-banner__icon"><i class="bi bi-bell"></i></div>
+          <div class="orp-notification-banner__content">
+            <div class="orp-notification-banner__title">Neutral</div>
+            <div class="orp-notification-banner__message">General announcement</div>
+          </div>
+        </div>
+        <div class="orp-notification-banner orp-notification-banner--in-flow orp-notification-banner--success">
+          <div class="orp-notification-banner__icon"><i class="bi bi-check-circle"></i></div>
+          <div class="orp-notification-banner__content">
+            <div class="orp-notification-banner__title">Success</div>
+            <div class="orp-notification-banner__message">Action completed</div>
+          </div>
+        </div>
+        <div class="orp-notification-banner orp-notification-banner--in-flow orp-notification-banner--warning">
+          <div class="orp-notification-banner__icon"><i class="bi bi-exclamation-triangle"></i></div>
+          <div class="orp-notification-banner__content">
+            <div class="orp-notification-banner__title">Warning</div>
+            <div class="orp-notification-banner__message">Review required</div>
+          </div>
+        </div>
+        <div class="orp-notification-banner orp-notification-banner--in-flow orp-notification-banner--danger">
+          <div class="orp-notification-banner__icon"><i class="bi bi-x-circle"></i></div>
+          <div class="orp-notification-banner__content">
+            <div class="orp-notification-banner__title">Danger</div>
+            <div class="orp-notification-banner__message">Critical alert</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notification Center Section -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Notification Center</h2>
+
+      <p class="orp-mb-3"><strong>List</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-list orp-list--bordered">
+            <div class="orp-notification orp-notification--unread orp-notification--compact" style="max-width: 100%; border-radius: 0; box-shadow: none;">
+              <div class="orp-notification__avatar">
+                <img src="https://i.pravatar.cc/100?img=11" alt="Sarah" />
+              </div>
+              <div class="orp-notification__content">
+                <div class="orp-notification__header">
+                  <div class="orp-notification__meta">
+                    <span class="orp-notification__title">Sarah Chen</span>
+                    <span class="orp-notification__time">2 min ago</span>
+                  </div>
+                </div>
+                <span class="orp-notification__message">Mentioned you in a comment</span>
+              </div>
+            </div>
+            <div class="orp-list__divider"></div>
+            <div class="orp-notification orp-notification--read orp-notification--compact" style="max-width: 100%; border-radius: 0; box-shadow: none;">
+              <div class="orp-notification__icon" style="background: color-mix(in srgb, var(--orp-success) 15%, transparent); color: var(--orp-success);">
+                <i class="bi bi-check-circle"></i>
+              </div>
+              <div class="orp-notification__content">
+                <div class="orp-notification__header">
+                  <div class="orp-notification__meta">
+                    <span class="orp-notification__title">Task completed</span>
+                    <span class="orp-notification__time">1 hour ago</span>
+                  </div>
+                </div>
+                <span class="orp-notification__message">Invoice #1234 has been paid</span>
+              </div>
+            </div>
+            <div class="orp-list__divider"></div>
+            <div class="orp-notification orp-notification--read .orp-notification--compact" style="max-width: 100%; border-radius: 0; box-shadow: none;">
+              <div class="orp-notification__icon" style="background: color-mix(in srgb, var(--orp-warning) 15%, transparent); color: var(--orp-warning);">
+                <i class="bi bi-exclamation-triangle"></i>
+              </div>
+              <div class="orp-notification__content">
+                <div class="orp-notification__header">
+                  <div class="orp-notification__meta">
+                    <span class="orp-notification__title">Reminder</span>
+                    <span class="orp-notification__time">3 hours ago</span>
+                  </div>
+                </div>
+                <span class="orp-notification__message">Meeting starts in 30 minutes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>With Groups</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-section orp-section--bordered orp-mb-4">
+            <div class="orp-section__header">
+              <span class="orp-section__title">Today</span>
+            </div>
+            <div class="orp-list orp-list--bordered">
+              <div class="orp-notification orp-notification--unread .orp-notification--compact" style="max-width: 100%; border-radius: 0; box-shadow: none;">
+                <div class="orp-notification__avatar">
+                  <img src="https://i.pravatar.cc/100?img=3" alt="User" />
+                </div>
+                <div class="orp-notification__content">
+                  <div class="orp-notification__header">
+                    <div class="orp-notification__meta">
+                      <span class="orp-notification__title">New order received</span>
+                      <span class="orp-notification__time">10 min ago</span>
+                    </div>
+                  </div>
+                  <span class="orp-notification__message">Order #5678 - $120.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="orp-section orp-section--bordered">
+            <div class="orp-section__header">
+              <span class="orp-section__title">Yesterday</span>
+            </div>
+            <div class="orp-list orp-list--bordered">
+              <div class="orp-notification orp-notification--read .orp-notification--compact" style="max-width: 100%; border-radius: 0; box-shadow: none;">
+                <div class="orp-notification__icon" style="background: color-mix(in srgb, var(--orp-info) 15%, transparent); color: var(--orp-info);">
+                  <i class="bi bi-info-circle"></i>
+                </div>
+                <div class="orp-notification__content">
+                  <div class="orp-notification__header">
+                    <div class="orp-notification__meta">
+                      <span class="orp-notification__title">System update</span>
+                      <span class="orp-notification__time">Yesterday</span>
+                    </div>
+                  </div>
+                  <span class="orp-notification__message">Version 1.9.2 is now available</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="orp-mb-3"><strong>Empty State</strong></p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body" style="text-align: center; padding: 3rem;">
+          <i class="bi bi-bell" style="font-size: 3rem; color: var(--orp-muted-foreground);"></i>
+          <p style="margin-top: 1rem; color: var(--orp-muted-foreground);">No notifications yet</p>
+          <p style="font-size: var(--orp-font-size-sm); color: var(--orp-muted-foreground);">We'll notify you when something happens</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Alert Section -->
     <section class="orp-playground__section">
       <h2 class="orp-h2 orp-mb-4">Alert</h2>
@@ -1256,6 +1695,81 @@ const showDialogLg = async () => {
                 <path d="M18 6L6 18M6 6l12 12"/>
               </svg>
             </OrpIconButton>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Icon List Primitive -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Icon List</h2>
+      <p class="orp-text-muted orp-mb-4">Primitive for organizing icon buttons in rows or columns with consistent gaps.</p>
+
+      <h3 class="orp-h3 orp-mb-3">Horizontal</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-icon-list orp-icon-list--horizontal orp-icon-list--gap-md">
+            <OrpIconButton aria-label="Email" variant="ghost" size="sm">
+              <i class="bi bi-envelope"></i>
+            </OrpIconButton>
+            <OrpIconButton aria-label="Website" variant="ghost" size="sm">
+              <i class="bi bi-globe"></i>
+            </OrpIconButton>
+            <OrpIconButton aria-label="LinkedIn" variant="ghost" size="sm">
+              <i class="bi bi-linkedin"></i>
+            </OrpIconButton>
+            <OrpIconButton aria-label="Twitter" variant="ghost" size="sm">
+              <i class="bi bi-twitter-x"></i>
+            </OrpIconButton>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Vertical</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-icon-list orp-icon-list--vertical orp-icon-list--gap-md">
+            <OrpIconButton aria-label="Email" variant="ghost" size="sm">
+              <i class="bi bi-envelope"></i>
+            </OrpIconButton>
+            <OrpIconButton aria-label="Website" variant="ghost" size="sm">
+              <i class="bi bi-globe"></i>
+            </OrpIconButton>
+            <OrpIconButton aria-label="LinkedIn" variant="ghost" size="sm">
+              <i class="bi bi-linkedin"></i>
+            </OrpIconButton>
+            <OrpIconButton aria-label="Twitter" variant="ghost" size="sm">
+              <i class="bi bi-twitter-x"></i>
+            </OrpIconButton>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Gap Variants</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-stack orp-stack--4">
+            <div>
+              <p class="orp-text-sm orp-text-muted orp-mb-2">Gap none</p>
+              <div class="orp-icon-list orp-icon-list--horizontal orp-icon-list--gap-none">
+                <OrpIconButton aria-label="Email" variant="ghost" size="sm"><i class="bi bi-envelope"></i></OrpIconButton>
+                <OrpIconButton aria-label="Website" variant="ghost" size="sm"><i class="bi bi-globe"></i></OrpIconButton>
+              </div>
+            </div>
+            <div>
+              <p class="orp-text-sm orp-text-muted orp-mb-2">Gap sm</p>
+              <div class="orp-icon-list orp-icon-list--horizontal orp-icon-list--gap-sm">
+                <OrpIconButton aria-label="Email" variant="ghost" size="sm"><i class="bi bi-envelope"></i></OrpIconButton>
+                <OrpIconButton aria-label="Website" variant="ghost" size="sm"><i class="bi bi-globe"></i></OrpIconButton>
+              </div>
+            </div>
+            <div>
+              <p class="orp-text-sm orp-text-muted orp-mb-2">Gap lg</p>
+              <div class="orp-icon-list orp-icon-list--horizontal orp-icon-list--gap-lg">
+                <OrpIconButton aria-label="Email" variant="ghost" size="sm"><i class="bi bi-envelope"></i></OrpIconButton>
+                <OrpIconButton aria-label="Website" variant="ghost" size="sm"><i class="bi bi-globe"></i></OrpIconButton>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1601,6 +2115,157 @@ const showDialogLg = async () => {
             <span class="orp-badge orp-badge--success">Success</span>
             <span class="orp-badge orp-badge--warning">Warning</span>
             <span class="orp-badge orp-badge--danger">Danger</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid Section -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Grid</h2>
+      <p class="orp-text-muted orp-mb-4">Primitive for two-dimensional layouts. Use for repeated items in rows/columns.</p>
+
+      <h3 class="orp-h3 orp-mb-3">Auto Grid</h3>
+      <p class="orp-text-sm orp-text-muted orp-mb-3">Responds to container width automatically. No media queries needed.</p>
+
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-grid orp-grid--auto-md">
+            <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);">
+              <p class="orp-text-sm">Item 1</p>
+            </div>
+            <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);">
+              <p class="orp-text-sm">Item 2</p>
+            </div>
+            <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);">
+              <p class="orp-text-sm">Item 3</p>
+            </div>
+            <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);">
+              <p class="orp-text-sm">Item 4</p>
+            </div>
+            <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);">
+              <p class="orp-text-sm">Item 5</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Fixed Columns</h3>
+      <div class="orp-grid orp-grid--3 orp-grid--gap-4 orp-mb-4">
+        <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);">
+          <p class="orp-text-sm">Column 1</p>
+        </div>
+        <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);">
+          <p class="orp-text-sm">Column 2</p>
+        </div>
+        <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);">
+          <p class="orp-text-sm">Column 3</p>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Gap Variants</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-stack orp-stack--4">
+            <div>
+              <p class="orp-text-sm orp-text-muted orp-mb-2">Gap sm</p>
+              <div class="orp-grid orp-grid--auto-md orp-grid--gap-1">
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-2);"><p class="orp-text-xs">Item</p></div>
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-2);"><p class="orp-text-xs">Item</p></div>
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-2);"><p class="orp-text-xs">Item</p></div>
+              </div>
+            </div>
+            <div>
+              <p class="orp-text-sm orp-text-muted orp-mb-2">Gap lg</p>
+              <div class="orp-grid orp-grid--auto-md orp-grid--gap-4">
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);"><p class="orp-text-sm">Item</p></div>
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);"><p class="orp-text-sm">Item</p></div>
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);"><p class="orp-text-sm">Item</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Auto Grid Sizes</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-stack orp-stack--4">
+            <div>
+              <p class="orp-text-sm orp-text-muted orp-mb-2">auto-sm (140px min)</p>
+              <div class="orp-grid orp-grid--auto-sm">
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-3);"><p class="orp-text-xs">Small</p></div>
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-3);"><p class="orp-text-xs">Small</p></div>
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-3);"><p class="orp-text-xs">Small</p></div>
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-3);"><p class="orp-text-xs">Small</p></div>
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-3);"><p class="orp-text-xs">Small</p></div>
+              </div>
+            </div>
+            <div>
+              <p class="orp-text-sm orp-text-muted orp-mb-2">auto-lg (280px min)</p>
+              <div class="orp-grid orp-grid--auto-lg">
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-3);"><p class="orp-text-sm">Large item</p></div>
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-3);"><p class="orp-text-sm">Large item</p></div>
+                <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-3);"><p class="orp-text-sm">Large item</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Nested Container</h3>
+      <p class="orp-text-sm orp-text-muted orp-mb-3">Grid responds to its container, not just viewport.</p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div style="max-width: 400px;">
+            <div class="orp-grid orp-grid--auto-md orp-grid--gap-2">
+              <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-3);"><p class="orp-text-xs">Nested 1</p></div>
+              <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-3);"><p class="orp-text-xs">Nested 2</p></div>
+              <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-3);"><p class="orp-text-xs">Nested 3</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Long Content</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-grid orp-grid--auto-md orp-grid--gap-3">
+            <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);">
+              <p class="orp-text-sm orp-mb-2"><strong>Short title</strong></p>
+              <p class="orp-text-xs orp-text-muted">Brief description</p>
+            </div>
+            <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);">
+              <p class="orp-text-sm orp-mb-2"><strong>A much longer title that wraps to multiple lines</strong></p>
+              <p class="orp-text-xs orp-text-muted">And a longer description that provides more context about this item</p>
+            </div>
+            <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4);">
+              <p class="orp-text-sm orp-mb-2"><strong>Medium length</strong></p>
+              <p class="orp-text-xs orp-text-muted">Description</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">With CatalogCard</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-grid orp-grid--auto-md orp-grid--gap-4">
+            <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4); text-align: center;">
+              <div style="width: 48px; height: 48px; background: var(--orp-surface-muted); border-radius: var(--orp-radius-md); margin: 0 auto var(--orp-space-2);"></div>
+              <p class="orp-text-sm orp-mb-1"><strong>Servicio A</strong></p>
+              <p class="orp-text-xs orp-text-muted">Descripción del servicio</p>
+            </div>
+            <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4); text-align: center;">
+              <div style="width: 48px; height: 48px; background: var(--orp-surface-muted); border-radius: var(--orp-radius-md); margin: 0 auto var(--orp-space-2);"></div>
+              <p class="orp-text-sm orp-mb-1"><strong>Servicio B</strong></p>
+              <p class="orp-text-xs orp-text-muted">Descripción del servicio</p>
+            </div>
+            <div class="orp-card orp-card--outlined" style="padding: var(--orp-space-4); text-align: center;">
+              <div style="width: 48px; height: 48px; background: var(--orp-surface-muted); border-radius: var(--orp-radius-md); margin: 0 auto var(--orp-space-2);"></div>
+              <p class="orp-text-sm orp-mb-1"><strong>Servicio C</strong></p>
+              <p class="orp-text-xs orp-text-muted">Descripción del servicio</p>
+            </div>
           </div>
         </div>
       </div>
@@ -5153,6 +5818,2524 @@ const showDialogLg = async () => {
 
     <!-- Dialog Host (uses Teleport) -->
     <OrpDialogHost />
+
+    <!-- Image Variants -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Image Variants</h2>
+
+      <!-- Border Radius -->
+      <h3 class="orp-h3 orp-mb-3">Border Radius</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/radius1/200/200" alt="No radius" class="orp-img orp-img--radius-none">
+              </div>
+              <small class="orp-text-muted">none</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/radius2/200/200" alt="Radius sm" class="orp-img orp-img--radius-sm">
+              </div>
+              <small class="orp-text-muted">sm (8px)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/radius3/200/200" alt="Radius md" class="orp-img orp-img--radius-md">
+              </div>
+              <small class="orp-text-muted">md (12px)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/radius4/200/200" alt="Radius lg" class="orp-img orp-img--radius-lg">
+              </div>
+              <small class="orp-text-muted">lg (18px)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/radius5/200/200" alt="Radius xl" class="orp-img orp-img--radius-xl">
+              </div>
+              <small class="orp-text-muted">xl (24px)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/radius6/200/200" alt="Radius pill" class="orp-img orp-img--radius-pill">
+              </div>
+              <small class="orp-text-muted">pill</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/radius7/200/200" alt="Radius circle" class="orp-img orp-img--radius-circle">
+              </div>
+              <small class="orp-text-muted">circle</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aspect Ratios -->
+      <h3 class="orp-h3 orp-mb-3">Aspect Ratio</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-square" style="width: 120px;">
+                <img src="https://picsum.photos/seed/ratio1/400" alt="Square" class="orp-img orp-img--cover">
+              </div>
+              <small class="orp-text-muted">1:1 (square)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-portrait" style="width: 120px;">
+                <img src="https://picsum.photos/seed/ratio2/400" alt="Portrait" class="orp-img orp-img--cover">
+              </div>
+              <small class="orp-text-muted">3:4 (portrait)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-landscape" style="width: 120px;">
+                <img src="https://picsum.photos/seed/ratio3/400" alt="Landscape" class="orp-img orp-img--cover">
+              </div>
+              <small class="orp-text-muted">4:3 (landscape)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-wide" style="width: 120px;">
+                <img src="https://picsum.photos/seed/ratio4/400" alt="Wide" class="orp-img orp-img--cover">
+              </div>
+              <small class="orp-text-muted">16:9 (wide)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-cinema" style="width: 120px;">
+                <img src="https://picsum.photos/seed/ratio5/400" alt="Cinema" class="orp-img orp-img--cover">
+              </div>
+              <small class="orp-text-muted">21:9 (cinema)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Opacity / Alpha -->
+      <h3 class="orp-h3 orp-mb-3">Opacity / Alpha</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap; align-items: flex-end;">
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/alpha1/200/200" alt="100% opacity" class="orp-img orp-img--radius-md" style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">100%</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/alpha2/200/200" alt="80% opacity" class="orp-img orp-img--radius-md" style="width: 100px; height: 100px; object-fit: cover; opacity: 0.8;">
+              </div>
+              <small class="orp-text-muted">80%</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/alpha3/200/200" alt="60% opacity" class="orp-img orp-img--radius-md" style="width: 100px; height: 100px; object-fit: cover; opacity: 0.6;">
+              </div>
+              <small class="orp-text-muted">60%</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/alpha4/200/200" alt="40% opacity" class="orp-img orp-img--radius-md" style="width: 100px; height: 100px; object-fit: cover; opacity: 0.4;">
+              </div>
+              <small class="orp-text-muted">40%</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/alpha5/200/200" alt="20% opacity" class="orp-img orp-img--radius-md" style="width: 100px; height: 100px; object-fit: cover; opacity: 0.2;">
+              </div>
+              <small class="orp-text-muted">20%</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Object Fit -->
+      <h3 class="orp-h3 orp-mb-3">Object Fit</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-landscape" style="width: 160px;">
+                <img src="https://picsum.photos/seed/fit1/400/600" alt="Cover" class="orp-img orp-img--cover">
+              </div>
+              <small class="orp-text-muted">cover</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-landscape" style="width: 160px;">
+                <img src="https://picsum.photos/seed/fit2/400/600" alt="Contain" class="orp-img orp-img--contain">
+              </div>
+              <small class="orp-text-muted">contain</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-landscape" style="width: 160px;">
+                <img src="https://picsum.photos/seed/fit3/400/600" alt="Fill" class="orp-img orp-img--fill">
+              </div>
+              <small class="orp-text-muted">fill</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-landscape" style="width: 160px;">
+                <img src="https://picsum.photos/seed/fit4/400/600" alt="None" class="orp-img orp-img--none">
+              </div>
+              <small class="orp-text-muted">none</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-landscape" style="width: 160px;">
+                <img src="https://picsum.photos/seed/fit5/400/600" alt="Scale down" class="orp-img orp-img--scale-down">
+              </div>
+              <small class="orp-text-muted">scale-down</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <h3 class="orp-h3 orp-mb-3">Filters</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/filter1/200/200" alt="None" class="orp-img orp-img--radius-md" style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">none</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/filter2/200/200" alt="Grayscale" class="orp-img orp-img--radius-md orp-img--filter-grayscale" style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">grayscale</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/filter3/200/200" alt="Sepia" class="orp-img orp-img--radius-md orp-img--filter-sepia" style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">sepia</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/filter4/200/200" alt="Blur" class="orp-img orp-img--radius-md orp-img--filter-blur" style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">blur (2px)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/filter5/200/200" alt="Brightness" class="orp-img orp-img--radius-md orp-img--filter-brightness" style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">brightness</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/filter6/200/200" alt="Contrast" class="orp-img orp-img--radius-md orp-img--filter-contrast" style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">contrast</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Size Variants -->
+      <h3 class="orp-h3 orp-mb-3">Sizes</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap; align-items: flex-end;">
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/size1/200/200" alt="xs" class="orp-img orp-img--radius-sm" style="width: 40px; height: 40px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">xs (40px)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/size2/200/200" alt="sm" class="orp-img orp-img--radius-sm" style="width: 56px; height: 56px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">sm (56px)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/size3/200/200" alt="md" class="orp-img orp-img--radius-sm" style="width: 80px; height: 80px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">md (80px)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/size4/200/200" alt="lg" class="orp-img orp-img--radius-md" style="width: 120px; height: 120px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">lg (120px)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://picsum.photos/seed/size5/200/200" alt="xl" class="orp-img orp-img--radius-md" style="width: 160px; height: 160px; object-fit: cover;">
+              </div>
+              <small class="orp-text-muted">xl (160px)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative Overlays -->
+      <h3 class="orp-h3 orp-mb-3">Decorative Overlays</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-square orp-img--radius-lg" style="width: 140px;">
+                <img src="https://picsum.photos/seed/overlay1/400" alt="Gradient overlay" class="orp-img orp-img--cover">
+                <div class="orp-img__overlay orp-img__overlay--gradient-bottom orp-img__overlay--full"></div>
+              </div>
+              <small class="orp-text-muted">gradient bottom</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-square orp-img--radius-lg" style="width: 140px;">
+                <img src="https://picsum.photos/seed/overlay2/400" alt="Gradient overlay" class="orp-img orp-img--cover">
+                <div class="orp-img__overlay orp-img__overlay--gradient-top orp-img__overlay--full"></div>
+              </div>
+              <small class="orp-text-muted">gradient top</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-square orp-img--radius-lg" style="width: 140px;">
+                <img src="https://picsum.photos/seed/overlay3/400" alt="Solid overlay" class="orp-img orp-img--cover">
+                <div class="orp-img__overlay orp-img__overlay--solid-dark orp-img__overlay--full"></div>
+              </div>
+              <small class="orp-text-muted">solid dark (50%)</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2 orp-img-container orp-img--ratio-square orp-img--radius-lg" style="width: 140px;">
+                <img src="https://picsum.photos/seed/overlay4/400" alt="Solid overlay" class="orp-img orp-img--cover">
+                <div class="orp-img__overlay orp-img__overlay--solid-light orp-img__overlay--full"></div>
+              </div>
+              <small class="orp-text-muted">solid light (30%)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Image Card -->
+      <h3 class="orp-h3 orp-mb-3">Image Card Composition</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-stack orp-stack--5">
+            <div class="orp-img-card orp-img--radius-lg orp-shadow-md" style="width: 100%; max-width: 320px; overflow: hidden; background: var(--orp-surface);">
+              <div class="orp-img-container orp-img--ratio-landscape" style="width: 100%;">
+                <img src="https://picsum.photos/seed/card1/600/400" alt="Card image" class="orp-img orp-img--cover">
+              </div>
+              <div class="orp-p-3">
+                <h4 class="orp-h4 orp-mb-1">Card Title</h4>
+                <p class="orp-text-sm orp-text-muted orp-mb-0">Description text for this card component.</p>
+              </div>
+            </div>
+            <div class="orp-img-card orp-img--radius-lg orp-shadow-md" style="width: 100%; max-width: 320px; overflow: hidden; background: var(--orp-surface);">
+              <div class="orp-img-container orp-img--ratio-square orp-img--radius-lg orp-overflow-hidden" style="width: 100%;">
+                <img src="https://picsum.photos/seed/card2/400" alt="Card image" class="orp-img orp-img--cover">
+                <div class="orp-img__overlay orp-img__overlay--gradient-bottom orp-img__overlay--bottom"></div>
+                <div class="orp-text-white orp-overlay-content">
+                  <h4 class="orp-h4 orp-mb-1">Overlay Card</h4>
+                  <p class="orp-text-sm orp-mb-0" style="opacity: 0.9;">With gradient overlay</p>
+                </div>
+              </div>
+            </div>
+            <div class="orp-img-card orp-img--radius-lg orp-shadow-md orp-img-card--horizontal" style="width: 100%; max-width: 360px; overflow: hidden; background: var(--orp-surface); display: flex;">
+              <div class="orp-img-container orp-img--ratio-square orp-img--radius-lg" style="width: 120px; flex-shrink: 0;">
+                <img src="https://picsum.photos/seed/card3/400" alt="Card image" class="orp-img orp-img--cover">
+              </div>
+              <div class="orp-p-3">
+                <h4 class="orp-h4 orp-mb-1">Horizontal Card</h4>
+                <p class="orp-text-sm orp-text-muted orp-mb-0">Side by side layout.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avatar Variants -->
+      <h3 class="orp-h3 orp-mb-3">Avatar Variants</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://i.pravatar.cc/100?img=1" alt="Avatar" class="orp-img orp-img--avatar orp-img--avatar-xs">
+              </div>
+              <small class="orp-text-muted">xs</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://i.pravatar.cc/100?img=2" alt="Avatar" class="orp-img orp-img--avatar orp-img--avatar-sm">
+              </div>
+              <small class="orp-text-muted">sm</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://i.pravatar.cc/100?img=3" alt="Avatar" class="orp-img orp-img--avatar orp-img--avatar-md">
+              </div>
+              <small class="orp-text-muted">md</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://i.pravatar.cc/100?img=4" alt="Avatar" class="orp-img orp-img--avatar orp-img--avatar-lg">
+              </div>
+              <small class="orp-text-muted">lg</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://i.pravatar.cc/100?img=5" alt="Avatar" class="orp-img orp-img--avatar orp-img--avatar-xl">
+              </div>
+              <small class="orp-text-muted">xl</small>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-mb-2">
+                <img src="https://i.pravatar.cc/100?img=6" alt="Avatar" class="orp-img orp-img--avatar orp-img--avatar-2xl">
+              </div>
+              <small class="orp-text-muted">2xl</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image with Status Badge -->
+      <h3 class="orp-h3 orp-mb-3">With Status Badge</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <div class="orp-text-center" style="position: relative; display: inline-block;">
+              <img src="https://i.pravatar.cc/100?img=10" alt="User" class="orp-img orp-img--avatar orp-img--avatar-lg orp-img--radius-circle">
+              <span class="orp-img__status orp-img__status--online"></span>
+              <small class="orp-text-muted d-block orp-mt-2">online</small>
+            </div>
+            <div class="orp-text-center" style="position: relative; display: inline-block;">
+              <img src="https://i.pravatar.cc/100?img=11" alt="User" class="orp-img orp-img--avatar orp-img--avatar-lg orp-img--radius-circle">
+              <span class="orp-img__status orp-img__status--offline"></span>
+              <small class="orp-text-muted d-block orp-mt-2">offline</small>
+            </div>
+            <div class="orp-text-center" style="position: relative; display: inline-block;">
+              <img src="https://i.pravatar.cc/100?img=12" alt="User" class="orp-img orp-img--avatar orp-img--avatar-lg orp-img--radius-circle">
+              <span class="orp-img__status orp-img__status--busy"></span>
+              <small class="orp-text-muted d-block orp-mt-2">busy</small>
+            </div>
+            <div class="orp-text-center" style="position: relative; display: inline-block;">
+              <img src="https://i.pravatar.cc/100?img=13" alt="User" class="orp-img orp-img--avatar orp-img--avatar-lg orp-img--radius-circle">
+              <span class="orp-img__status orp-img__status--away"></span>
+              <small class="orp-text-muted d-block orp-mt-2">away</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thumbnail Grid -->
+      <h3 class="orp-h3 orp-mb-3">Thumbnail Grid</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-img-grid orp-img-grid--cols-3 orp-img-grid--gap-2">
+            <div class="orp-img-grid__item orp-img--radius-md orp-overflow-hidden">
+              <img src="https://picsum.photos/seed/thumb1/300" alt="Thumbnail" class="orp-img orp-img--cover orp-img--hover-zoom">
+            </div>
+            <div class="orp-img-grid__item orp-img--radius-md orp-overflow-hidden">
+              <img src="https://picsum.photos/seed/thumb2/300" alt="Thumbnail" class="orp-img orp-img--cover orp-img--hover-zoom">
+            </div>
+            <div class="orp-img-grid__item orp-img--radius-md orp-overflow-hidden">
+              <img src="https://picsum.photos/seed/thumb3/300" alt="Thumbnail" class="orp-img orp-img--cover orp-img--hover-zoom">
+            </div>
+            <div class="orp-img-grid__item orp-img--radius-md orp-overflow-hidden">
+              <img src="https://picsum.photos/seed/thumb4/300" alt="Thumbnail" class="orp-img orp-img--cover orp-img--hover-zoom">
+            </div>
+            <div class="orp-img-grid__item orp-img--radius-md orp-overflow-hidden">
+              <img src="https://picsum.photos/seed/thumb5/300" alt="Thumbnail" class="orp-img orp-img--cover orp-img--hover-zoom">
+            </div>
+            <div class="orp-img-grid__item orp-img--radius-md orp-overflow-hidden">
+              <img src="https://picsum.photos/seed/thumb6/300" alt="Thumbnail" class="orp-img orp-img--cover orp-img--hover-zoom">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Playground -->
+      <h3 class="orp-h3 orp-mb-3">Interactive Playground</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-stack orp-stack--4">
+            <div class="orp-flex-row orp-gap-3 orp-flex-wrap">
+              <div class="orp-form-group orp-form-group--inline">
+                <label class="orp-form-label orp-text-sm">Radius:</label>
+                <select v-model="imgRadius" class="orp-select orp-select--sm orp-w-auto">
+                  <option value="none">none</option>
+                  <option value="sm">sm</option>
+                  <option value="md">md</option>
+                  <option value="lg">lg</option>
+                  <option value="xl">xl</option>
+                  <option value="pill">pill</option>
+                  <option value="circle">circle</option>
+                </select>
+              </div>
+              <div class="orp-form-group orp-form-group--inline">
+                <label class="orp-form-label orp-text-sm">Ratio:</label>
+                <select v-model="imgRatio" class="orp-select orp-select--sm orp-w-auto">
+                  <option value="square">1:1</option>
+                  <option value="portrait">3:4</option>
+                  <option value="landscape">4:3</option>
+                  <option value="wide">16:9</option>
+                  <option value="cinema">21:9</option>
+                </select>
+              </div>
+              <div class="orp-form-group orp-form-group--inline">
+                <label class="orp-form-label orp-text-sm">Opacity:</label>
+                <input type="range" v-model="imgOpacity" min="0.1" max="1" step="0.1" class="orp-range orp-range--sm" style="width: 100px;">
+                <span class="orp-text-sm orp-text-muted">{{ Math.round(imgOpacity * 100) }}%</span>
+              </div>
+              <div class="orp-form-group orp-form-group--inline">
+                <label class="orp-form-label orp-text-sm">Filter:</label>
+                <select v-model="imgFilter" class="orp-select orp-select--sm orp-w-auto">
+                  <option value="none">none</option>
+                  <option value="grayscale">grayscale</option>
+                  <option value="sepia">sepia</option>
+                  <option value="blur">blur</option>
+                  <option value="brightness">brightness</option>
+                  <option value="contrast">contrast</option>
+                </select>
+              </div>
+            </div>
+            <div class="orp-text-center">
+              <div class="orp-img-container" :class="'orp-img--ratio-' + imgRatio" style="width: 280px; margin: 0 auto;">
+                <img
+                  src="https://picsum.photos/seed/interactive/600"
+                  alt="Interactive preview"
+                  class="orp-img orp-img--cover"
+                  :class="[
+                    'orp-img--radius-' + imgRadius,
+                    'orp-img--filter-' + imgFilter
+                  ]"
+                  :style="{ opacity: imgOpacity }"
+                >
+              </div>
+            </div>
+            <div class="orp-text-center">
+              <small class="orp-text-muted">
+                Selected: radius={{ imgRadius }}, ratio={{ imgRatio }}, opacity={{ Math.round(imgOpacity * 100) }}%, filter={{ imgFilter }}
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catalog Card -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Catalog Card</h2>
+      <p class="orp-text-muted orp-mb-4">Generic composition pattern for catalog/listing entities. Compose with slots for media, title, description, meta, value, and actions.</p>
+
+      <!-- EXAMPLE 1: Generic merchandise -->
+      <h3 class="orp-h3 orp-mb-3">Generic Merchandise</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpCatalogCard class="orp-demo-card-lg">
+              <template #media>
+                <img src="https://picsum.photos/seed/headphones/400/300" alt="Wireless headphones">
+              </template>
+              <template #overlay>
+                <span class="orp-badge orp-badge--danger">-20%</span>
+              </template>
+              <template #title>
+                <div class="orp-catalog-card__title">Wireless Headphones Pro</div>
+              </template>
+              <template #description>
+                <div class="orp-catalog-card__description orp-catalog-card__description--clamp">Active noise cancellation, 30h battery life</div>
+              </template>
+              <template #value>
+                <div class="orp-price">
+                  <span class="orp-price__currency">$</span>
+                  <span class="orp-price__value">1,499</span>
+                  <span class="orp-price__previous">$1,899</span>
+                </div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--sm">Add to cart</button>
+                <button class="orp-btn orp-btn--ghost orp-btn--sm">Details</button>
+              </template>
+            </OrpCatalogCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 2: Appointment offering -->
+      <h3 class="orp-h3 orp-mb-3">Appointment Offering</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpCatalogCard class="orp-demo-card-md" mediaRatio="portrait">
+              <template #media>
+                <img src="https://picsum.photos/seed/haircut/400/500" alt="Haircut service">
+              </template>
+              <template #overlay>
+                <span class="orp-badge orp-badge--success">Available</span>
+              </template>
+              <template #title>
+                <div class="orp-catalog-card__title">Premium Haircut</div>
+              </template>
+              <template #meta>
+                <div class="orp-catalog-card__meta">
+                  <span class="orp-badge orp-badge--outline">45 min</span>
+                  <span class="orp-text-sm orp-text-muted">Barber Studio</span>
+                </div>
+              </template>
+              <template #value>
+                <div class="orp-price">
+                  <span class="orp-price__currency">$</span>
+                  <span class="orp-price__value">450</span>
+                </div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--sm orp-btn--block">Book now</button>
+              </template>
+            </OrpCatalogCard>
+            <OrpCatalogCard class="orp-demo-card-md" mediaRatio="portrait">
+              <template #media>
+                <img src="https://picsum.photos/seed/spa/400/500" alt="Spa service">
+              </template>
+              <template #overlay>
+                <span class="orp-badge orp-badge--warning">Popular</span>
+              </template>
+              <template #title>
+                <div class="orp-catalog-card__title">Relaxing Massage</div>
+              </template>
+              <template #meta>
+                <div class="orp-catalog-card__meta">
+                  <span class="orp-badge orp-badge--outline">60 min</span>
+                  <span class="orp-text-sm orp-text-muted">Spa Center</span>
+                </div>
+              </template>
+              <template #value>
+                <div class="orp-price">
+                  <span class="orp-price__currency">$</span>
+                  <span class="orp-price__value">800</span>
+                </div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--sm orp-btn--block">Book now</button>
+              </template>
+            </OrpCatalogCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 3: Property/Listing -->
+      <h3 class="orp-h3 orp-mb-3">Property / Listing</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpCatalogCard class="orp-demo-card-xl">
+              <template #media>
+                <img src="https://picsum.photos/seed/apartment/500/300" alt="Apartment">
+              </template>
+              <template #overlay>
+                <span class="orp-badge orp-badge--primary">Featured</span>
+              </template>
+              <template #title>
+                <div class="orp-catalog-card__title">Modern Loft Centro</div>
+              </template>
+              <template #meta>
+                <div class="orp-catalog-card__meta">
+                  <span class="orp-text-sm orp-text-muted">2 hab · 1 baño</span>
+                  <span class="orp-text-sm orp-text-muted">·</span>
+                  <span class="orp-text-sm orp-text-muted">80 m²</span>
+                </div>
+              </template>
+              <template #value>
+                <div class="orp-price">
+                  <span class="orp-price__value">$18,000</span>
+                  <span class="orp-price__suffix">/ mes</span>
+                </div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--ghost orp-btn--sm">Contact</button>
+                <button class="orp-btn orp-btn--primary orp-btn--sm">Schedule visit</button>
+              </template>
+            </OrpCatalogCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 4: No image -->
+      <h3 class="orp-h3 orp-mb-3">No Image</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpCatalogCard class="orp-demo-card-lg">
+              <template #title>
+                <div class="orp-catalog-card__title">Basic Plan</div>
+              </template>
+              <template #description>
+                <div class="orp-catalog-card__description">Essential features for small teams. Includes 5 users, 10GB storage, and email support.</div>
+              </template>
+              <template #meta>
+                <div class="orp-catalog-card__meta">
+                  <span class="orp-badge orp-badge--outline">5 users</span>
+                  <span class="orp-badge orp-badge--outline">10GB</span>
+                </div>
+              </template>
+              <template #value>
+                <div class="orp-price">
+                  <span class="orp-price__value">Free</span>
+                </div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--sm orp-btn--block">Get started</button>
+              </template>
+            </OrpCatalogCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 5: Minimal -->
+      <h3 class="orp-h3 orp-mb-3">Minimal (Title + Value)</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpCatalogCard class="orp-demo-card-sm">
+              <template #media>
+                <img src="https://picsum.photos/seed/coffee/400/400" alt="Coffee">
+              </template>
+              <template #title>
+                <div class="orp-catalog-card__title">Espresso</div>
+              </template>
+              <template #value>
+                <div class="orp-price">
+                  <span class="orp-price__currency">$</span>
+                  <span class="orp-price__value">85</span>
+                </div>
+              </template>
+            </OrpCatalogCard>
+            <OrpCatalogCard class="orp-demo-card-sm">
+              <template #media>
+                <img src="https://picsum.photos/seed/cake/400/400" alt="Cake">
+              </template>
+              <template #title>
+                <div class="orp-catalog-card__title">Cheesecake</div>
+              </template>
+              <template #value>
+                <div class="orp-price">
+                  <span class="orp-price__value">Gratis</span>
+                </div>
+              </template>
+            </OrpCatalogCard>
+            <OrpCatalogCard class="orp-demo-card-sm">
+              <template #media>
+                <img src="https://picsum.photos/seed/consulting/400/400" alt="Consulting">
+              </template>
+              <template #title>
+                <div class="orp-catalog-card__title">Consulting</div>
+              </template>
+              <template #value>
+                <div class="orp-text-muted orp-text-sm">Consultar</div>
+              </template>
+            </OrpCatalogCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATES -->
+      <h3 class="orp-h3 orp-mb-3">Interactive State</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpCatalogCard :interactive="true" style="width: 280px;">
+              <template #media>
+                <img src="https://picsum.photos/seed/interactive1/400/300" alt="Interactive card">
+              </template>
+              <template #title>
+                <div class="orp-catalog-card__title">Interactive Card</div>
+              </template>
+              <template #description>
+                <div class="orp-catalog-card__description">Hover to see lift effect, focus and click.</div>
+              </template>
+              <template #value>
+                <div class="orp-price">
+                  <span class="orp-price__currency">$</span>
+                  <span class="orp-price__value">299</span>
+                </div>
+              </template>
+            </OrpCatalogCard>
+            <OrpCatalogCard :interactive="true" style="width: 280px;">
+              <template #media>
+                <img src="https://picsum.photos/seed/interactive2/400/300" alt="Another interactive">
+              </template>
+              <template #title>
+                <div class="orp-catalog-card__title">Product with Actions</div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--sm">Buy</button>
+                <button class="orp-btn orp-btn--ghost orp-btn--sm">Details</button>
+              </template>
+            </OrpCatalogCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- Long content -->
+      <h3 class="orp-h3 orp-mb-3">Long Title & Description</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpCatalogCard class="orp-demo-card-lg">
+              <template #media>
+                <img src="https://picsum.photos/seed/longtitle/400/300" alt="Long title">
+              </template>
+              <template #title>
+                <div class="orp-catalog-card__title orp-catalog-card__title--clamp">Super Premium Wireless Headphones with Active Noise Cancellation and Superior Sound Quality</div>
+              </template>
+              <template #description>
+                <div class="orp-catalog-card__description orp-catalog-card__description--clamp">This is a very long description that should be clamped to two lines maximum. It includes many details about the product features and specifications.</div>
+              </template>
+              <template #value>
+                <div class="orp-price">
+                  <span class="orp-price__currency">$</span>
+                  <span class="orp-price__value">2,499</span>
+                </div>
+              </template>
+            </OrpCatalogCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- Multiple meta items -->
+      <h3 class="orp-h3 orp-mb-3">Multiple Meta Items</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpCatalogCard class="orp-demo-card-xl">
+              <template #media>
+                <img src="https://picsum.photos/seed/multipletags/400/300" alt="Restaurant">
+              </template>
+              <template #title>
+                <div class="orp-catalog-card__title">La Trattoria Italiana</div>
+              </template>
+              <template #meta>
+                <div class="orp-catalog-card__meta">
+                  <span class="orp-badge orp-badge--success">Open</span>
+                  <span class="orp-badge orp-badge--outline">Italian</span>
+                  <span class="orp-badge orp-badge--outline">$$</span>
+                  <span class="orp-badge orp-badge--outline">4.5 ★</span>
+                </div>
+              </template>
+              <template #description>
+                <div class="orp-catalog-card__description">Authentic Italian cuisine with fresh ingredients imported directly from Italy.</div>
+              </template>
+            </OrpCatalogCard>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Card -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Pricing Card</h2>
+      <p class="orp-text-muted orp-mb-4">Generic pattern for pricing tiers, memberships, packages, and value propositions intended for comparison or selection.</p>
+
+      <!-- EXAMPLE 1: Simple Free Plan -->
+      <h3 class="orp-h3 orp-mb-3">Simple Free Plan</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpPricingCard class="orp-demo-card-lg">
+              <template #title>
+                <div class="orp-pricing-card__title">Starter</div>
+              </template>
+              <template #description>
+                <div class="orp-pricing-card__description">For individuals getting started</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">Gratis</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>3 projects</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>1 user</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Basic support</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--block">Get started</button>
+              </template>
+            </OrpPricingCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 2: Recommended Plan -->
+      <h3 class="orp-h3 orp-mb-3">Recommended Plan</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpPricingCard :emphasized="true" style="width: 280px;">
+              <template #eyebrow>
+                <span class="orp-badge orp-badge--primary">Recommended</span>
+              </template>
+              <template #title>
+                <div class="orp-pricing-card__title">Pro</div>
+              </template>
+              <template #description>
+                <div class="orp-pricing-card__description">For small teams growing fast</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$499</div>
+              </template>
+              <template #valueMeta>
+                <div class="orp-pricing-card__value-meta">/ mes</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>20 projects</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>5 users</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Analytics</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Priority support</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>API access</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--block">Choose Pro</button>
+              </template>
+            </OrpPricingCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 3: Multiple Plans Comparison -->
+      <h3 class="orp-h3 orp-mb-3">Pricing Tiers</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpPricingCard class="orp-demo-card-md">
+              <template #title>
+                <div class="orp-pricing-card__title">Basic</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$99</div>
+              </template>
+              <template #valueMeta>
+                <div class="orp-pricing-card__value-meta">/ mes · por usuario</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>10 projects</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>3 users</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Email support</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--ghost orp-btn--block">Start trial</button>
+              </template>
+            </OrpPricingCard>
+            <OrpPricingCard :emphasized="true" style="width: 240px;">
+              <template #eyebrow>
+                <span class="orp-badge orp-badge--primary">Popular</span>
+              </template>
+              <template #title>
+                <div class="orp-pricing-card__title">Business</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$299</div>
+              </template>
+              <template #valueMeta>
+                <div class="orp-pricing-card__value-meta">/ mes · por usuario</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Unlimited projects</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>10 users</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Analytics</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Priority support</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--block">Get started</button>
+              </template>
+            </OrpPricingCard>
+            <OrpPricingCard class="orp-demo-card-md">
+              <template #title>
+                <div class="orp-pricing-card__title">Enterprise</div>
+              </template>
+              <template #description>
+                <div class="orp-pricing-card__description">For large organizations</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">Custom</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Everything in Business</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Unlimited users</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Dedicated support</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Custom integrations</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--ghost orp-btn--block">Contact sales</button>
+              </template>
+            </OrpPricingCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 4: One-time Payment -->
+      <h3 class="orp-h3 orp-mb-3">One-time Payment</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpPricingCard class="orp-demo-card-xl">
+              <template #eyebrow>
+                <span class="orp-badge orp-badge--success">Best value</span>
+              </template>
+              <template #title>
+                <div class="orp-pricing-card__title">Lifetime License</div>
+              </template>
+              <template #description>
+                <div class="orp-pricing-card__description">Pay once, use forever. No recurring fees.</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$1,499</div>
+              </template>
+              <template #valueMeta>
+                <div class="orp-pricing-card__value-meta">pago único</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Permanent license</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>All future updates</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Priority support</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--block">Buy now</button>
+              </template>
+            </OrpPricingCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 5: Non-monetary -->
+      <h3 class="orp-h3 orp-mb-3">Non-monetary Value</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpPricingCard class="orp-demo-card-md">
+              <template #title>
+                <div class="orp-pricing-card__title">Consulting</div>
+              </template>
+              <template #description>
+                <div class="orp-pricing-card__description">Expert guidance for your project</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">Consultar</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>1-on-1 session</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Custom roadmap</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Follow-up email</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--block">Contact</button>
+              </template>
+            </OrpPricingCard>
+            <OrpPricingCard class="orp-demo-card-md">
+              <template #title>
+                <div class="orp-pricing-card__title">Credits</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">500</div>
+              </template>
+              <template #valueMeta>
+                <div class="orp-pricing-card__value-meta">créditos</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>No expiration</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Can be shared</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--ghost orp-btn--block">Buy credits</button>
+              </template>
+            </OrpPricingCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 6: Gym Membership -->
+      <h3 class="orp-h3 orp-mb-3">Gym Membership</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpPricingCard class="orp-demo-card-md">
+              <template #title>
+                <div class="orp-pricing-card__title">Basic</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$299</div>
+              </template>
+              <template #valueMeta>
+                <div class="orp-pricing-card__value-meta">/ mes</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Gym access</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Locker room</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--ghost orp-btn--block">Join</button>
+              </template>
+            </OrpPricingCard>
+            <OrpPricingCard :emphasized="true" style="width: 240px;">
+              <template #eyebrow>
+                <span class="orp-badge orp-badge--warning">Most popular</span>
+              </template>
+              <template #title>
+                <div class="orp-pricing-card__title">Premium</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$599</div>
+              </template>
+              <template #valueMeta>
+                <div class="orp-pricing-card__value-meta">/ mes</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Everything in Basic</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>All classes</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Pool access</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Personal trainer</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--block">Join Premium</button>
+              </template>
+            </OrpPricingCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 7: Photography Package -->
+      <h3 class="orp-h3 orp-mb-3">Photography Package</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpPricingCard class="orp-demo-card-lg">
+              <template #title>
+                <div class="orp-pricing-card__title">Session</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$450</div>
+              </template>
+              <template #valueMeta>
+                <div class="orp-pricing-card__value-meta">2 horas</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>20 edited photos</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Online gallery</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--block">Book</button>
+              </template>
+            </OrpPricingCard>
+            <OrpPricingCard :emphasized="true" style="width: 280px;">
+              <template #eyebrow>
+                <span class="orp-badge orp-badge--primary">Best seller</span>
+              </template>
+              <template #title>
+                <div class="orp-pricing-card__title">Wedding</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$2,499</div>
+              </template>
+              <template #valueMeta>
+                <div class="orp-pricing-card__value-meta">cobertura completa</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>8 hours coverage</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>500+ photos</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Photo album</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Engagement session included</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--block">Book now</button>
+              </template>
+            </OrpPricingCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATES -->
+      <h3 class="orp-h3 orp-mb-3">States</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpPricingCard class="orp-demo-card-md">
+              <template #title>
+                <div class="orp-pricing-card__title">Default</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$99</div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--block">Action</button>
+              </template>
+            </OrpPricingCard>
+            <OrpPricingCard :emphasized="true" style="width: 240px;">
+              <template #title>
+                <div class="orp-pricing-card__title">Emphasized</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$199</div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--block">Action</button>
+              </template>
+            </OrpPricingCard>
+            <OrpPricingCard :disabled="true" style="width: 240px;">
+              <template #title>
+                <div class="orp-pricing-card__title">Disabled</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$299</div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--block">Action</button>
+              </template>
+            </OrpPricingCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- Multiple Actions -->
+      <h3 class="orp-h3 orp-mb-3">Multiple Actions</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpPricingCard class="orp-demo-card-xl">
+              <template #eyebrow>
+                <span class="orp-badge orp-badge--outline">Save 20%</span>
+              </template>
+              <template #title>
+                <div class="orp-pricing-card__title">Annual Plan</div>
+              </template>
+              <template #value>
+                <div class="orp-pricing-card__value">$1,990</div>
+              </template>
+              <template #valueMeta>
+                <div class="orp-pricing-card__value-meta">/ año (ahorra $598)</div>
+              </template>
+              <template #features>
+                <ul class="orp-pricing-card__feature-list">
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>Everything in monthly</span>
+                  </li>
+                  <li class="orp-pricing-card__feature-item">
+                    <i class="bi bi-check orp-pricing-card__feature-icon"></i>
+                    <span>2 months free</span>
+                  </li>
+                </ul>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--sm">Subscribe</button>
+                <button class="orp-btn orp-btn--ghost orp-btn--sm">Learn more</button>
+              </template>
+            </OrpPricingCard>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profile Card -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Profile Card</h2>
+      <p class="orp-text-muted orp-mb-4">Generic pattern for representing persons, identities, or profiles.</p>
+
+      <!-- EXAMPLE 1: Professional -->
+      <h3 class="orp-h3 orp-mb-3">Professional</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpProfileCard class="orp-demo-card-md">
+              <template #media>
+                <div class="orp-avatar orp-avatar--lg">
+                  <img src="https://i.pravatar.cc/150?img=11" alt="Daniel López" class="orp-avatar__image">
+                </div>
+              </template>
+              <template #title>
+                <div class="orp-profile-card__title">Daniel López</div>
+              </template>
+              <template #subtitle>
+                <div class="orp-profile-card__subtitle">Desarrollador Web</div>
+              </template>
+              <template #meta>
+                <div class="orp-profile-card__meta">
+                  <span class="orp-text-sm orp-text-muted">Guadalajara, MX</span>
+                </div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--sm">Contact</button>
+                <button class="orp-btn orp-btn--ghost orp-btn--sm">View profile</button>
+              </template>
+            </OrpProfileCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 2: Instructor with status -->
+      <h3 class="orp-h3 orp-mb-3">Instructor with Status</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpProfileCard class="orp-demo-card-md">
+              <template #media>
+                <div class="orp-avatar orp-avatar--lg">
+                  <img src="https://i.pravatar.cc/150?img=5" alt="María García" class="orp-avatar__image">
+                </div>
+              </template>
+              <template #title>
+                <div class="orp-profile-card__title">María García</div>
+              </template>
+              <template #subtitle>
+                <div class="orp-profile-card__subtitle">Instructora de Yoga</div>
+              </template>
+              <template #status>
+                <div class="orp-profile-card__status">
+                  <span class="orp-badge orp-badge--success">Verified</span>
+                  <span class="orp-badge orp-badge--outline">Available</span>
+                </div>
+              </template>
+              <template #meta>
+                <div class="orp-profile-card__meta">
+                  <span class="orp-text-sm orp-text-muted">500+ students</span>
+                  <span class="orp-text-sm orp-text-muted">·</span>
+                  <span class="orp-text-sm orp-text-muted">4.9 ★</span>
+                </div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--sm orp-btn--block">Book class</button>
+              </template>
+            </OrpProfileCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 3: Author with meta -->
+      <h3 class="orp-h3 orp-mb-3">Author</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpProfileCard class="orp-demo-card-md">
+              <template #media>
+                <div class="orp-avatar orp-avatar--lg">
+                  <img src="https://i.pravatar.cc/150?img=8" alt="Carlos Ruiz" class="orp-avatar__image">
+                </div>
+              </template>
+              <template #title>
+                <div class="orp-profile-card__title">Carlos Ruiz</div>
+              </template>
+              <template #subtitle>
+                <div class="orp-profile-card__subtitle">Autor</div>
+              </template>
+              <template #meta>
+                <div class="orp-profile-card__meta">
+                  <span class="orp-text-sm orp-text-muted">12 books published</span>
+                  <span class="orp-text-sm orp-text-muted">·</span>
+                  <span class="orp-text-sm orp-text-muted">Best seller 2025</span>
+                </div>
+              </template>
+              <template #actions>
+                <button class="orp-icon-btn orp-icon-btn--ghost orp-icon-btn--sm" aria-label="Email">
+                  <i class="bi bi-envelope"></i>
+                </button>
+                <button class="orp-icon-btn orp-icon-btn--ghost orp-icon-btn--sm" aria-label="Website">
+                  <i class="bi bi-globe"></i>
+                </button>
+                <button class="orp-icon-btn orp-icon-btn--ghost orp-icon-btn--sm" aria-label="Follow">
+                  <i class="bi bi-heart"></i>
+                </button>
+              </template>
+            </OrpProfileCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 4: Minimal -->
+      <h3 class="orp-h3 orp-mb-3">Minimal</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpProfileCard class="orp-demo-card-sm">
+              <template #media>
+                <div class="orp-avatar orp-avatar--md">
+                  <img src="https://i.pravatar.cc/150?img=15" alt="Ana Torres" class="orp-avatar__image">
+                </div>
+              </template>
+              <template #title>
+                <div class="orp-profile-card__title">Ana Torres</div>
+              </template>
+              <template #subtitle>
+                <div class="orp-profile-card__subtitle">Diseñadora</div>
+              </template>
+            </OrpProfileCard>
+            <OrpProfileCard class="orp-demo-card-sm">
+              <template #media>
+                <div class="orp-avatar orp-avatar--md">
+                  <div class="orp-avatar__fallback">JP</div>
+                </div>
+              </template>
+              <template #title>
+                <div class="orp-profile-card__title">Juan Pérez</div>
+              </template>
+              <template #subtitle>
+                <div class="orp-profile-card__subtitle">Developer</div>
+              </template>
+            </OrpProfileCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 5: No image (initials) -->
+      <h3 class="orp-h3 orp-mb-3">No Image (Initials)</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpProfileCard class="orp-demo-card-sm">
+              <template #media>
+                <div class="orp-avatar orp-avatar--lg">
+                  <div class="orp-avatar__fallback">DR</div>
+                </div>
+              </template>
+              <template #title>
+                <div class="orp-profile-card__title">Diana Reyes</div>
+              </template>
+              <template #subtitle>
+                <div class="orp-profile-card__subtitle">Consultora</div>
+              </template>
+              <template #meta>
+                <div class="orp-profile-card__meta">
+                  <span class="orp-text-sm orp-text-muted">8 years experience</span>
+                </div>
+              </template>
+            </OrpProfileCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 6: Horizontal -->
+      <h3 class="orp-h3 orp-mb-3">Horizontal Layout</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-stack orp-stack--4">
+            <OrpProfileCard layout="horizontal" class="orp-demo-card-horizontal">
+              <template #media>
+                <div class="orp-avatar orp-avatar--lg">
+                  <img src="https://i.pravatar.cc/150?img=20" alt="Luis Mendez" class="orp-avatar__image">
+                </div>
+              </template>
+              <template #title>
+                <div class="orp-profile-card__title">Luis Méndez</div>
+              </template>
+              <template #subtitle>
+                <div class="orp-profile-card__subtitle">Agente Inmobiliario</div>
+              </template>
+              <template #meta>
+                <div class="orp-profile-card__meta">
+                  <span class="orp-text-sm orp-text-muted">Ciudad de México</span>
+                </div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--sm">Contactar</button>
+              </template>
+            </OrpProfileCard>
+            <OrpProfileCard layout="horizontal" class="orp-demo-card-horizontal">
+              <template #media>
+                <div class="orp-avatar orp-avatar--lg">
+                  <img src="https://i.pravatar.cc/150?img=25" alt="Elena Vasco" class="orp-avatar__image">
+                </div>
+              </template>
+              <template #title>
+                <div class="orp-profile-card__title">Elena Vasco</div>
+              </template>
+              <template #subtitle>
+                <div class="orp-profile-card__subtitle">Especialista en Marketing</div>
+              </template>
+              <template #meta>
+                <div class="orp-profile-card__meta">
+                  <span class="orp-text-sm orp-text-muted">Madrid, ES</span>
+                </div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--ghost orp-btn--sm">Ver perfil</button>
+              </template>
+            </OrpProfileCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXAMPLE 7: Long content -->
+      <h3 class="orp-h3 orp-mb-3">Long Content</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpProfileCard class="orp-demo-card-lg">
+              <template #media>
+                <div class="orp-avatar orp-avatar--xl">
+                  <img src="https://i.pravatar.cc/150?img=33" alt="Profile" class="orp-avatar__image">
+                </div>
+              </template>
+              <template #title>
+                <div class="orp-profile-card__title">Gabriela Michelle Hernández López</div>
+              </template>
+              <template #subtitle>
+                <div class="orp-profile-card__subtitle">Directora Creativa y Diseñadora UX/UI Senior</div>
+              </template>
+              <template #status>
+                <div class="orp-profile-card__status">
+                  <span class="orp-badge orp-badge--primary">Premium</span>
+                  <span class="orp-badge orp-badge--outline">Remote</span>
+                </div>
+              </template>
+              <template #meta>
+                <div class="orp-profile-card__meta">
+                  <span class="orp-text-sm orp-text-muted">10+ years experience</span>
+                  <span class="orp-text-sm orp-text-muted">·</span>
+                  <span class="orp-text-sm orp-text-muted">English, Spanish, Portuguese</span>
+                  <span class="orp-text-sm orp-text-muted">·</span>
+                  <span class="orp-text-sm orp-text-muted">Top rated 2024</span>
+                </div>
+              </template>
+              <template #actions>
+                <button class="orp-btn orp-btn--primary orp-btn--sm">Hire</button>
+                <button class="orp-btn orp-btn--ghost orp-btn--sm">Message</button>
+                <button class="orp-icon-btn orp-icon-btn--ghost orp-icon-btn--sm" aria-label="LinkedIn">
+                  <i class="bi bi-linkedin"></i>
+                </button>
+                <button class="orp-icon-btn orp-icon-btn--ghost orp-icon-btn--sm" aria-label="Portfolio">
+                  <i class="bi bi-globe"></i>
+                </button>
+              </template>
+            </OrpProfileCard>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATES -->
+      <h3 class="orp-h3 orp-mb-3">States</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-cluster orp-gap-4" style="flex-wrap: wrap;">
+            <OrpProfileCard class="orp-demo-card-sm">
+              <template #media>
+                <div class="orp-avatar orp-avatar--md">
+                  <img src="https://i.pravatar.cc/150?img=40" alt="Active" class="orp-avatar__image">
+                </div>
+              </template>
+              <template #title>
+                <div class="orp-profile-card__title">Active Member</div>
+              </template>
+            </OrpProfileCard>
+            <OrpProfileCard :disabled="true" class="orp-demo-card-sm">
+              <template #media>
+                <div class="orp-avatar orp-avatar--md">
+                  <img src="https://i.pravatar.cc/150?img=41" alt="Disabled" class="orp-avatar__image">
+                </div>
+              </template>
+              <template #title>
+                <div class="orp-profile-card__title">Disabled</div>
+              </template>
+            </OrpProfileCard>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ContentCard Section -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Content Card</h2>
+      <p class="orp-text-muted orp-mb-4">For editorial/informational content: articles, tutorials, news, resources, case studies.</p>
+
+      <h3 class="orp-h3 orp-mb-3">Article</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContentCard style="max-width: 320px;">
+            <template #media>
+              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=250&fit=crop" alt="Article cover" style="width: 100%; height: 100%; object-fit: cover;">
+            </template>
+            <template #eyebrow>
+              <span class="orp-badge orp-badge--primary">Tecnología</span>
+            </template>
+            <template #title>
+              <h3 class="orp-content-card__title">Cómo mejorar Core Web Vitals</h3>
+            </template>
+            <template #excerpt>
+              <p class="orp-content-card__excerpt">Aprende a optimizar Largest Contentful Paint, First Input Delay y Cumulative Layout Shift para mejorar el rendimiento de tu sitio web.</p>
+            </template>
+            <template #byline>
+              <div class="orp-cluster orp-cluster--2">
+                <div class="orp-avatar orp-avatar--sm">
+                  <span>DL</span>
+                </div>
+                <span class="orp-text-sm">Daniel López</span>
+                <span class="orp-text-muted">·</span>
+                <span class="orp-text-sm orp-text-muted">8 min</span>
+              </div>
+            </template>
+            <template #actions>
+              <button class="orp-btn orp-btn--primary orp-btn--sm">Leer artículo</button>
+            </template>
+          </OrpContentCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Tutorial</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContentCard style="max-width: 320px;">
+            <template #media>
+              <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=400&h=250&fit=crop" alt="Tutorial cover" style="width: 100%; height: 100%; object-fit: cover;">
+            </template>
+            <template #eyebrow>
+              <span class="orp-badge orp-badge--secondary">Tutorial</span>
+            </template>
+            <template #title>
+              <h3 class="orp-content-card__title">Integrando una API REST con Laravel</h3>
+            </template>
+            <template #meta>
+              <div class="orp-cluster orp-cluster--3">
+                <span class="orp-text-sm orp-text-muted"><i class="bi bi-clock me-1"></i>12 min</span>
+                <span class="orp-text-sm orp-text-muted"><i class="bi bi-bar-chart me-1"></i>Intermedio</span>
+              </div>
+            </template>
+            <template #actions>
+              <button class="orp-btn orp-btn--ghost orp-btn--sm">Ver tutorial</button>
+            </template>
+          </OrpContentCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Case Study</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContentCard style="max-width: 320px;">
+            <template #media>
+              <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=250&fit=crop" alt="Case study cover" style="width: 100%; height: 100%; object-fit: cover;">
+            </template>
+            <template #title>
+              <h3 class="orp-content-card__title">Caso de estudio: Academia Internacional de Globos</h3>
+            </template>
+            <template #excerpt>
+              <p class="orp-content-card__excerpt">Cómo una pequeña academia de balloon art aumentó sus reservas un 300% en seis meses mediante una estrategia digital integral.</p>
+            </template>
+            <template #meta>
+              <span class="orp-text-sm orp-text-muted">5 min de lectura</span>
+            </template>
+            <template #actions>
+              <button class="orp-btn orp-btn--primary orp-btn--sm">Leer caso</button>
+            </template>
+          </OrpContentCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">No Media</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContentCard style="max-width: 320px;">
+            <template #eyebrow>
+              <span class="orp-badge orp-badge--outline">Artículo</span>
+            </template>
+            <template #title>
+              <h3 class="orp-content-card__title">Guía completa de diseño atómico</h3>
+            </template>
+            <template #excerpt>
+              <p class="orp-content-card__excerpt">Todo lo que necesitas saber sobre diseño atómico y cómo aplicarlo en tus proyectos.</p>
+            </template>
+            <template #meta>
+              <span class="orp-text-sm orp-text-muted">6 min</span>
+            </template>
+          </OrpContentCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Minimal</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContentCard style="max-width: 280px;">
+            <template #title>
+              <h3 class="orp-content-card__title">Introducción a CSS Grid</h3>
+            </template>
+            <template #meta>
+              <span class="orp-text-sm orp-text-muted">4 min</span>
+            </template>
+          </OrpContentCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Long Content</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContentCard style="max-width: 320px;">
+            <template #media>
+              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=250&fit=crop" alt="Cover" style="width: 100%; height: 100%; object-fit: cover;">
+            </template>
+            <template #eyebrow>
+              <span class="orp-badge orp-badge--primary">Artículo</span>
+              <span class="orp-badge orp-badge--outline">Destacado</span>
+            </template>
+            <template #title>
+              <h3 class="orp-content-card__title">Estrategias avanzadas de optimización de rendimiento en aplicaciones web modernas con React y Vue</h3>
+            </template>
+            <template #excerpt>
+              <p class="orp-content-card__excerpt">Una guía exhaustiva que cubre desde lazy loading y code splitting hasta memoización, virtualización de listas y técnicas avanzadas de caching que pueden mejorar dramáticamente la experiencia del usuario y los metrics de Core Web Vitals.</p>
+            </template>
+            <template #meta>
+              <div class="orp-cluster orp-cluster--3">
+                <span class="orp-text-sm orp-text-muted">15 min</span>
+                <span class="orp-text-sm orp-text-muted">Avanzado</span>
+              </div>
+            </template>
+            <template #byline>
+              <div class="orp-cluster orp-cluster--2">
+                <div class="orp-avatar orp-avatar--sm">
+                  <span>MG</span>
+                </div>
+                <span class="orp-text-sm">María García</span>
+              </div>
+            </template>
+            <template #actions>
+              <button class="orp-btn orp-btn--primary orp-btn--sm">Leer más</button>
+              <OrpIconButton aria-label="Guardar" variant="ghost" size="sm">
+                <i class="bi bi-bookmark"></i>
+              </OrpIconButton>
+            </template>
+          </OrpContentCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Collection with Grid</h3>
+      <div class="orp-grid orp-grid--auto-md orp-grid--gap-4">
+        <OrpContentCard>
+          <template #media>
+            <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=180&fit=crop" alt="Article" style="width: 100%; height: 100%; object-fit: cover;">
+          </template>
+          <template #eyebrow>
+            <span class="orp-badge orp-badge--primary" style="font-size: 0.65rem;">Código</span>
+          </template>
+          <template #title>
+            <h4 class="orp-content-card__title">Introducción a Vue 3 Composition API</h4>
+          </template>
+          <template #meta>
+            <span class="orp-text-xs orp-text-muted">10 min</span>
+          </template>
+        </OrpContentCard>
+
+        <OrpContentCard>
+          <template #media>
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300&h=180&fit=crop" alt="Article" style="width: 100%; height: 100%; object-fit: cover;">
+          </template>
+          <template #eyebrow>
+            <span class="orp-badge orp-badge--secondary" style="font-size: 0.65rem;">Tutorial</span>
+          </template>
+          <template #title>
+            <h4 class="orp-content-card__title">Debugging efficace in VS Code</h4>
+          </template>
+          <template #meta>
+            <span class="orp-text-xs orp-text-muted">8 min</span>
+          </template>
+        </OrpContentCard>
+
+        <OrpContentCard>
+          <template #media>
+            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=300&h=180&fit=crop" alt="Article" style="width: 100%; height: 100%; object-fit: cover;">
+          </template>
+          <template #eyebrow>
+            <span class="orp-badge orp-badge--primary" style="font-size: 0.65rem;">DevOps</span>
+          </template>
+          <template #title>
+            <h4 class="orp-content-card__title">CI/CD con GitHub Actions</h4>
+          </template>
+          <template #meta>
+            <span class="orp-text-xs orp-text-muted">12 min</span>
+          </template>
+        </OrpContentCard>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Horizontal Layout</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContentCard layout="horizontal" style="max-width: 500px;">
+            <template #media>
+              <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=200&h=150&fit=crop" alt="Article" style="width: 100%; height: 100%; object-fit: cover;">
+            </template>
+            <template #eyebrow>
+              <span class="orp-badge orp-badge--primary">Podcast</span>
+            </template>
+            <template #title>
+              <h3 class="orp-content-card__title">El futuro del desarrollo web</h3>
+            </template>
+            <template #excerpt>
+              <p class="orp-content-card__excerpt">Conversación con expertos sobre tendencias y tecnologías emergentes.</p>
+            </template>
+            <template #meta>
+              <span class="orp-text-sm orp-text-muted">45 min</span>
+            </template>
+          </OrpContentCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Interactive</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContentCard interactive style="max-width: 320px;">
+            <template #media>
+              <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=400&h=250&fit=crop" alt="Article" style="width: 100%; height: 100%; object-fit: cover;">
+            </template>
+            <template #eyebrow>
+              <span class="orp-badge orp-badge--primary">Artículo</span>
+            </template>
+            <template #title>
+              <h3 class="orp-content-card__title">Haz clic para leer más</h3>
+            </template>
+            <template #excerpt>
+              <p class="orp-content-card__excerpt">Esta card es interactiva. Puedes hacer hover y click para navegar al contenido completo.</p>
+            </template>
+          </OrpContentCard>
+        </div>
+      </div>
+    </section>
+
+    <!-- StatCard Section -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Stat Card</h2>
+      <p class="orp-text-muted orp-mb-4">For metrics, KPIs, and quantitative indicators.</p>
+
+      <h3 class="orp-h3 orp-mb-3">Basic Metric</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-grid orp-grid--auto-sm orp-grid--gap-4" style="max-width: 600px;">
+            <OrpStatCard>
+              <template #label>
+                <span>Visitas</span>
+              </template>
+              <template #value>
+                <span>18,429</span>
+              </template>
+            </OrpStatCard>
+
+            <OrpStatCard>
+              <template #label>
+                <span>Usuarios</span>
+              </template>
+              <template #value>
+                <span>842</span>
+              </template>
+            </OrpStatCard>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">With Trend</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-grid orp-grid--auto-sm orp-grid--gap-4" style="max-width: 600px;">
+            <OrpStatCard>
+              <template #icon>
+                <i class="bi bi-currency-dollar"></i>
+              </template>
+              <template #label>
+                <span>Ventas</span>
+              </template>
+              <template #value>
+                <span>$128,450</span>
+              </template>
+              <template #trend>
+                <span class="orp-stat-card__trend orp-stat-card__trend--up">
+                  <i class="bi bi-arrow-up"></i>
+                  12.5%
+                </span>
+              </template>
+              <template #meta>
+                <span class="orp-text-sm orp-text-muted">vs. mes anterior</span>
+              </template>
+            </OrpStatCard>
+
+            <OrpStatCard>
+              <template #icon>
+                <i class="bi bi-graph-up"></i>
+              </template>
+              <template #label>
+                <span>Conversión</span>
+              </template>
+              <template #value>
+                <span>4.8%</span>
+              </template>
+              <template #trend>
+                <span class="orp-stat-card__trend orp-stat-card__trend--down">
+                  <i class="bi bi-arrow-down"></i>
+                  0.6%
+                </span>
+              </template>
+              <template #meta>
+                <span class="orp-text-sm orp-text-muted">últimos 30 días</span>
+              </template>
+            </OrpStatCard>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Direction vs Semantic Intent</h3>
+      <p class="orp-text-sm orp-text-muted orp-mb-3">Direction (up/down) is separate from meaning. In some contexts down can be positive.</p>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-grid orp-grid--auto-sm orp-grid--gap-4" style="max-width: 600px;">
+            <OrpStatCard>
+              <template #icon>
+                <i class="bi bi-exclamation-triangle"></i>
+              </template>
+              <template #label>
+                <span>Errores</span>
+              </template>
+              <template #value>
+                <span>32</span>
+              </template>
+              <template #trend>
+                <span class="orp-stat-card__trend orp-stat-card__trend--down">
+                  <i class="bi bi-arrow-down"></i>
+                  18%
+                </span>
+              </template>
+              <template #meta>
+                <span class="orp-text-sm">Positive - fewer errors is good</span>
+              </template>
+            </OrpStatCard>
+
+            <OrpStatCard>
+              <template #icon>
+                <i class="bi bi-clock"></i>
+              </template>
+              <template #label>
+                <span>Tiempo de respuesta</span>
+              </template>
+              <template #value>
+                <span>480 ms</span>
+              </template>
+              <template #trend>
+                <span class="orp-stat-card__trend orp-stat-card__trend--up">
+                  <i class="bi bi-arrow-up"></i>
+                  12%
+                </span>
+              </template>
+              <template #meta>
+                <span class="orp-text-sm">Negative - more latency is bad</span>
+              </template>
+            </OrpStatCard>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">With Status</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-grid orp-grid--auto-sm orp-grid--gap-4" style="max-width: 600px;">
+            <OrpStatCard>
+              <template #icon>
+                <i class="bi bi-server"></i>
+              </template>
+              <template #label>
+                <span>Servicios activos</span>
+              </template>
+              <template #value>
+                <span>24</span>
+              </template>
+              <template #meta>
+                <span class="orp-badge orp-badge--success">Healthy</span>
+              </template>
+            </OrpStatCard>
+
+            <OrpStatCard>
+              <template #icon>
+                <i class="bi bi-people"></i>
+              </template>
+              <template #label>
+                <span>Conectados</span>
+              </template>
+              <template #value>
+                <span>124</span>
+              </template>
+              <template #meta>
+                <span class="orp-text-sm orp-text-muted">de 1,000 usuarios</span>
+              </template>
+            </OrpStatCard>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">With Visual</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-grid orp-grid--auto-sm orp-grid--gap-4" style="max-width: 600px;">
+            <OrpStatCard>
+              <template #icon>
+                <i class="bi bi-check-circle"></i>
+              </template>
+              <template #label>
+                <span>Completado</span>
+              </template>
+              <template #value>
+                <span>78%</span>
+              </template>
+              <template #visual>
+                <div class="orp-progress orp-progress--md">
+                  <div class="orp-progress__bar orp-progress__bar--success" style="width: 78%;"></div>
+                </div>
+              </template>
+            </OrpStatCard>
+
+            <OrpStatCard>
+              <template #icon>
+                <i class="bi bi-cloud-arrow-up"></i>
+              </template>
+              <template #label>
+                <span>Almacenamiento</span>
+              </template>
+              <template #value>
+                <span>1.4 GB</span>
+              </template>
+              <template #visual>
+                <div class="orp-progress orp-progress--md">
+                  <div class="orp-progress__bar orp-progress__bar--warning" style="width: 65%;"></div>
+                </div>
+              </template>
+            </OrpStatCard>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Collection - Dashboard Grid</h3>
+      <div class="orp-grid orp-grid--auto-md orp-grid--gap-4">
+        <OrpStatCard>
+          <template #icon>
+            <i class="bi bi-eye"></i>
+          </template>
+          <template #label>
+            <span>Visitas totales</span>
+          </template>
+          <template #value>
+            <span>128,450</span>
+          </template>
+          <template #trend>
+            <span class="orp-stat-card__trend orp-stat-card__trend--up">
+              <i class="bi bi-arrow-up"></i>
+              8.2%
+            </span>
+          </template>
+        </OrpStatCard>
+
+        <OrpStatCard>
+          <template #icon>
+            <i class="bi bi-person-check"></i>
+          </template>
+          <template #label>
+            <span>Leads</span>
+          </template>
+          <template #value>
+            <span>2,847</span>
+          </template>
+          <template #trend>
+            <span class="orp-stat-card__trend orp-stat-card__trend--up">
+              <i class="bi bi-arrow-up"></i>
+              15.3%
+            </span>
+          </template>
+        </OrpStatCard>
+
+        <OrpStatCard>
+          <template #icon>
+            <i class="bi bi-cart-check"></i>
+          </template>
+          <template #label>
+            <span>Conversiones</span>
+          </template>
+          <template #value>
+            <span>4.8%</span>
+          </template>
+          <template #trend>
+            <span class="orp-stat-card__trend orp-stat-card__trend--down">
+              <i class="bi bi-arrow-down"></i>
+              0.4%
+            </span>
+          </template>
+        </OrpStatCard>
+
+        <OrpStatCard>
+          <template #icon>
+            <i class="bi bi-currency-dollar"></i>
+          </template>
+          <template #label>
+            <span>Ingresos</span>
+          </template>
+          <template #value>
+            <span>$48,290</span>
+          </template>
+          <template #trend>
+            <span class="orp-stat-card__trend orp-stat-card__trend--up">
+              <i class="bi bi-arrow-up"></i>
+              22.1%
+            </span>
+          </template>
+        </OrpStatCard>
+
+        <OrpStatCard>
+          <template #icon>
+            <i class="bi bi-clock"></i>
+          </template>
+          <template #label>
+            <span>Tiempo avg</span>
+          </template>
+          <template #value>
+            <span>2m 34s</span>
+          </template>
+          <template #trend>
+            <span class="orp-stat-card__trend orp-stat-card__trend--neutral">
+              <i class="bi bi-arrow-right"></i>
+              0%
+            </span>
+          </template>
+        </OrpStatCard>
+
+        <OrpStatCard>
+          <template #icon>
+            <i class="bi bi-star"></i>
+          </template>
+          <template #label>
+            <span>Rating</span>
+          </template>
+          <template #value>
+            <span>4.7</span>
+          </template>
+          <template #meta>
+            <span class="orp-text-sm orp-text-muted">de 5.0</span>
+          </template>
+        </OrpStatCard>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Long Values</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-grid orp-grid--auto-sm orp-grid--gap-4" style="max-width: 600px;">
+            <OrpStatCard>
+              <template #label>
+                <span>Ventas totales</span>
+              </template>
+              <template #value>
+                <span>$1,234,567,890</span>
+              </template>
+              <template #trend>
+                <span class="orp-stat-card__trend orp-stat-card__trend--up">
+                  <i class="bi bi-arrow-up"></i>
+                  12.5%
+                </span>
+              </template>
+            </OrpStatCard>
+
+            <OrpStatCard>
+              <template #label>
+                <span>Usuarios registrados</span>
+              </template>
+              <template #value>
+                <span>1,024,384</span>
+              </template>
+              <template #meta>
+                <span class="orp-text-sm orp-text-muted">usuarios</span>
+              </template>
+            </OrpStatCard>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Minimal</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-grid orp-grid--auto-sm orp-grid--gap-4" style="max-width: 600px;">
+            <OrpStatCard>
+              <template #value>
+                <span>98</span>
+              </template>
+            </OrpStatCard>
+
+            <OrpStatCard>
+              <template #value>
+                <span>$499</span>
+              </template>
+            </OrpStatCard>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Map</h2>
+      <p class="orp-text-muted orp-mb-4">Leaflet + OpenStreetMap integration for geographic visualization.</p>
+
+      <h3 class="orp-h3 orp-mb-3">Basic Map</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpMap :center="[20.6736, -103.344]" :zoom="14" height="250px" />
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Single Marker</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpMap :center="[20.6736, -103.344]" :zoom="15" height="300px">
+            <OrpMapMarker :position="[20.6736, -103.344]" />
+          </OrpMap>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Multiple Markers</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpMap :center="[20.6736, -103.344]" :zoom="13" height="300px">
+            <OrpMapMarker :position="[20.6736, -103.344]" />
+            <OrpMapMarker :position="[20.6636, -103.354]" />
+            <OrpMapMarker :position="[20.6836, -103.334]" />
+          </OrpMap>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">In Card Composition</h3>
+      <div class="orp-grid orp-grid--auto-md orp-grid--gap-4">
+        <div class="orp-card orp-card--outlined">
+          <div class="orp-card__body">
+            <p class="orp-text-sm orp-mb-2"><strong>Sucursal Centro</strong></p>
+            <p class="orp-text-xs orp-text-muted orp-mb-3">Av. Juárez 123, Centro</p>
+            <OrpMap :center="[20.6736, -103.344]" :zoom="15" height="180px">
+              <OrpMapMarker :position="[20.6736, -103.344]" />
+            </OrpMap>
+          </div>
+        </div>
+
+        <div class="orp-card orp-card--outlined">
+          <div class="orp-card__body">
+            <p class="orp-text-sm orp-mb-2"><strong>Sucursal Zapopan</strong></p>
+            <p class="orp-text-xs orp-text-muted orp-mb-3">Av. Vallarta 456, Zapopan</p>
+            <OrpMap :center="[20.6636, -103.354]" :zoom="15" height="180px">
+              <OrpMapMarker :position="[20.6636, -103.354]" />
+            </OrpMap>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Options</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <div class="orp-stack orp-stack--4">
+            <div>
+              <p class="orp-text-sm orp-text-muted orp-mb-2">scrollWheelZoom: false</p>
+              <OrpMap :center="[20.6736, -103.344]" :zoom="14" height="200px" :scroll-wheel-zoom="false">
+                <OrpMapMarker :position="[20.6736, -103.344]" />
+              </OrpMap>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ContactCard Section -->
+    <section class="orp-playground__section">
+      <h2 class="orp-h2 orp-mb-4">Contact Card</h2>
+      <p class="orp-text-muted orp-mb-4">For contact points, locations, branches and communication channels.</p>
+
+      <h3 class="orp-h3 orp-mb-3">Basic</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContactCard style="max-width: 320px;">
+            <template #title>
+              <h3 class="orp-contact-card__title">Oficina Guadalajara</h3>
+            </template>
+            <template #subtitle>
+              <p>Sucursal principal</p>
+            </template>
+          </OrpContactCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">With Details</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContactCard style="max-width: 320px;">
+            <template #title>
+              <h3 class="orp-contact-card__title">Oficina Centro</h3>
+            </template>
+            <template #details>
+              <div class="orp-cluster orp-cluster--2">
+                <span class="orp-text-sm"><i class="bi bi-geo-alt me-1"></i>Av. Juárez 123, Centro</span>
+                <span class="orp-text-sm"><i class="bi bi-telephone me-1"></i>33 1234 5678</span>
+                <span class="orp-text-sm"><i class="bi bi-envelope me-1"></i>centro@ejemplo.com</span>
+                <span class="orp-text-sm"><i class="bi bi-clock me-1"></i>Lun–Vie · 9–18 h</span>
+              </div>
+            </template>
+          </OrpContactCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">With Map</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContactCard style="max-width: 400px;">
+            <template #title>
+              <h3 class="orp-contact-card__title">Sucursal Vallarta</h3>
+            </template>
+            <template #subtitle>
+              <p>Zapopan</p>
+            </template>
+            <template #details>
+              <div class="orp-cluster orp-cluster--2">
+                <span class="orp-text-sm"><i class="bi bi-geo-alt me-1"></i>Av. Vallarta 456</span>
+                <span class="orp-text-sm"><i class="bi bi-telephone me-1"></i>33 8765 4321</span>
+              </div>
+            </template>
+            <template #map>
+              <OrpMap :center="[20.6636, -103.354]" :zoom="15" height="200px">
+                <OrpMapMarker :position="[20.6636, -103.354]" />
+              </OrpMap>
+            </template>
+            <template #actions>
+              <button class="orp-btn orp-btn--primary orp-btn--sm">Cómo llegar</button>
+              <button class="orp-btn orp-btn--outline orp-btn--sm">Contactar</button>
+            </template>
+          </OrpContactCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">With Status</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContactCard style="max-width: 320px;">
+            <template #title>
+              <h3 class="orp-contact-card__title">Atención telefónica</h3>
+            </template>
+            <template #meta>
+              <span class="orp-badge orp-badge--success">Abierto</span>
+            </template>
+            <template #details>
+              <div class="orp-cluster orp-cluster--2">
+                <span class="orp-text-sm"><i class="bi bi-telephone me-1"></i>800 123 4567</span>
+                <span class="orp-text-sm"><i class="bi bi-clock me-1"></i>24/7</span>
+              </div>
+            </template>
+          </OrpContactCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Long Content</h3>
+      <div class="orp-card orp-card--outlined orp-mb-4">
+        <div class="orp-card__body">
+          <OrpContactCard style="max-width: 400px;">
+            <template #title>
+              <h3 class="orp-contact-card__title">Dirección de la sede central de la empresa en Guadalajara</h3>
+            </template>
+            <template #subtitle>
+              <p>Sucursal principal y oficinas administrativas</p>
+            </template>
+            <template #details>
+              <div class="orp-cluster orp-cluster--2">
+                <span class="orp-text-sm"><i class="bi bi-geo-alt me-1"></i>Av. Agustín de Iturbide 1234, Interior 501, Col. Centro, Guadalajara, Jalisco, México, C.P. 44100</span>
+                <span class="orp-text-sm"><i class="bi bi-telephone me-1"></i>+52 33 1234 5678 ext. 101</span>
+                <span class="orp-text-sm"><i class="bi bi-envelope me-1"></i>contacto@sedeprincipal.ejemplo.com</span>
+                <span class="orp-text-sm"><i class="bi bi-globe me-1"></i>www.ejemplo.com</span>
+                <span class="orp-text-sm"><i class="bi bi-clock me-1"></i>Lunes a viernes · 8:00 a 18:00 horas</span>
+              </div>
+            </template>
+            <template #actions>
+              <button class="orp-btn orp-btn--primary orp-btn--sm">Cómo llegar</button>
+              <button class="orp-btn orp-btn--outline orp-btn--sm">Contactar</button>
+              <button class="orp-btn orp-btn--ghost orp-btn--sm">Visitar sitio</button>
+            </template>
+          </OrpContactCard>
+        </div>
+      </div>
+
+      <h3 class="orp-h3 orp-mb-3">Collection with Grid</h3>
+      <div class="orp-grid orp-grid--auto-md orp-grid--gap-4">
+        <OrpContactCard>
+          <template #title>
+            <h4 class="orp-contact-card__title">Sucursal Centro</h4>
+          </template>
+          <template #details>
+            <div class="orp-cluster orp-cluster--2">
+              <span class="orp-text-xs"><i class="bi bi-geo-alt me-1"></i>Av. Juárez 123</span>
+              <span class="orp-text-xs"><i class="bi bi-telephone me-1"></i>33 1234 5678</span>
+            </div>
+          </template>
+          <template #map>
+            <OrpMap :center="[20.6736, -103.344]" :zoom="14" height="150px">
+              <OrpMapMarker :position="[20.6736, -103.344]" />
+            </OrpMap>
+          </template>
+        </OrpContactCard>
+
+        <OrpContactCard>
+          <template #title>
+            <h4 class="orp-contact-card__title">Sucursal Zapopan</h4>
+          </template>
+          <template #details>
+            <div class="orp-cluster orp-cluster--2">
+              <span class="orp-text-xs"><i class="bi bi-geo-alt me-1"></i>Av. Vallarta 456</span>
+              <span class="orp-text-xs"><i class="bi bi-telephone me-1"></i>33 8765 4321</span>
+            </div>
+          </template>
+          <template #map>
+            <OrpMap :center="[20.6636, -103.354]" :zoom="14" height="150px">
+              <OrpMapMarker :position="[20.6636, -103.354]" />
+            </OrpMap>
+          </template>
+        </OrpContactCard>
+
+        <OrpContactCard>
+          <template #title>
+            <h4 class="orp-contact-card__title">Punto de servicio Tonalá</h4>
+          </template>
+          <template #details>
+            <div class="orp-cluster orp-cluster--2">
+              <span class="orp-text-xs"><i class="bi bi-geo-alt me-1"></i>Av. Tonalá 789</span>
+              <span class="orp-text-xs"><i class="bi bi-clock me-1"></i>Lun–Sáb</span>
+            </div>
+          </template>
+          <template #map>
+            <OrpMap :center="[20.6536, -103.284]" :zoom="14" height="150px">
+              <OrpMapMarker :position="[20.6536, -103.284]" />
+            </OrpMap>
+          </template>
+        </OrpContactCard>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -5285,6 +8468,220 @@ const showDialogLg = async () => {
   color: var(--orp-muted-foreground);
   min-height: 200px;
 }
+
+/* Image Variants Styles */
+.orp-img {
+  display: block;
+  max-width: 100%;
+}
+
+.orp-img-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.orp-img--ratio-square { aspect-ratio: 1 / 1; }
+.orp-img--ratio-portrait { aspect-ratio: 3 / 4; }
+.orp-img--ratio-landscape { aspect-ratio: 4 / 3; }
+.orp-img--ratio-wide { aspect-ratio: 16 / 9; }
+.orp-img--ratio-cinema { aspect-ratio: 21 / 9; }
+
+.orp-img-container > .orp-img,
+.orp-img-container > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.orp-img--cover { object-fit: cover; }
+.orp-img--contain { object-fit: contain; }
+.orp-img--fill { object-fit: fill; }
+.orp-img--none { object-fit: none; }
+.orp-img--scale-down { object-fit: scale-down; }
+
+.orp-img--radius-none { border-radius: 0; }
+.orp-img--radius-sm { border-radius: var(--orp-radius-sm); }
+.orp-img--radius-md { border-radius: var(--orp-radius-md); }
+.orp-img--radius-lg { border-radius: var(--orp-radius-lg); }
+.orp-img--radius-xl { border-radius: var(--orp-radius-xl); }
+.orp-img--radius-pill { border-radius: var(--orp-radius-pill); }
+.orp-img--radius-circle { border-radius: 50%; }
+
+.orp-img--filter-grayscale { filter: grayscale(100%); }
+.orp-img--filter-sepia { filter: sepia(100%); }
+.orp-img--filter-blur { filter: blur(2px); }
+.orp-img--filter-brightness { filter: brightness(1.2); }
+.orp-img--filter-contrast { filter: contrast(1.2); }
+
+.orp-img__overlay {
+  position: absolute;
+  pointer-events: none;
+}
+
+.orp-img__overlay--full {
+  inset: 0;
+}
+
+.orp-img__overlay--gradient-bottom {
+  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
+}
+
+.orp-img__overlay--gradient-top {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 60%);
+}
+
+.orp-img__overlay--solid-dark {
+  background: rgba(0,0,0,0.5);
+}
+
+.orp-img__overlay--solid-light {
+  background: rgba(255,255,255,0.3);
+}
+
+.orp-img__overlay--bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+}
+
+.orp-overlay-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--orp-space-3);
+}
+
+.orp-img--hover-zoom {
+  transition: transform 0.3s ease;
+}
+
+.orp-img--hover-zoom:hover {
+  transform: scale(1.05);
+}
+
+.orp-img-card {
+  transition: box-shadow 0.2s ease;
+}
+
+.orp-img-card:hover {
+  box-shadow: var(--orp-shadow-lg);
+}
+
+.orp-img-card--horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+.orp-img-grid {
+  display: grid;
+}
+
+.orp-img-grid--gap-2 { gap: var(--orp-space-2); }
+.orp-img-grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.orp-img-grid__item {
+  aspect-ratio: 1 / 1;
+}
+
+.orp-img__status {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--orp-surface);
+}
+
+.orp-img__status--online { background: var(--orp-success); }
+.orp-img__status--offline { background: var(--orp-muted-foreground); }
+.orp-img__status--busy { background: var(--orp-danger); }
+.orp-img__status--away { background: var(--orp-warning); }
+
+.orp-img--avatar {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.orp-img--avatar-xs { width: 24px; height: 24px; }
+.orp-img--avatar-sm { width: 32px; height: 32px; }
+.orp-img--avatar-md { width: 40px; height: 40px; }
+.orp-img--avatar-lg { width: 56px; height: 56px; }
+.orp-img--avatar-xl { width: 72px; height: 72px; }
+.orp-img--avatar-2xl { width: 96px; height: 96px; }
+
+.orp-form-group--inline {
+  display: flex;
+  align-items: center;
+  gap: var(--orp-space-2);
+}
+
+.orp-form-group--inline .orp-select,
+.orp-form-group--inline .orp-range {
+  min-width: 80px;
+}
+
+.orp-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--orp-border);
+  border-radius: 2px;
+  outline: none;
+}
+
+.orp-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--orp-primary);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.orp-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--orp-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.orp-range--sm {
+  height: 3px;
+}
+
+.orp-range--sm::-webkit-slider-thumb {
+  width: 12px;
+  height: 12px;
+}
+
+.orp-range--sm::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+}
+
+/* Demo sizing classes for CatalogCard and PricingCard */
+.orp-demo-card-sm { width: 200px; }
+.orp-demo-card-md { width: 240px; }
+.orp-demo-card-lg { width: 280px; }
+.orp-demo-card-xl { width: 300px; }
+.orp-demo-card-horizontal { width: 100%; max-width: 400px; }
+
+/* Demo sizing for image containers */
+.orp-demo-img-sm { width: 100px; height: 100px; }
+.orp-demo-img-md { width: 120px; height: 120px; }
+.orp-demo-img-lg { width: 140px; height: 140px; }
+.orp-demo-img-xl { width: 160px; height: 160px; }
+.orp-demo-img-container-sm { width: 120px; }
+.orp-demo-img-container-md { width: 160px; }
 </style>
 
 <style>

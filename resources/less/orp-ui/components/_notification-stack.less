@@ -1,0 +1,105 @@
+// =============================================
+// ORP UI — Notification Stack
+// =============================================
+
+.orp-notification-stack {
+    position: fixed;
+    z-index: var(--orp-z-notification);
+    display: flex;
+    flex-direction: column;
+    gap: var(--orp-space-3);
+    max-width: calc(100% - var(--orp-space-4) * 2);
+    width: 420px;
+    pointer-events: none;
+
+    & > * {
+        pointer-events: auto;
+    }
+
+    // Positions
+    &--top-start {
+        top: calc(var(--orp-space-4) + env(safe-area-inset-top, 0px));
+        left: var(--orp-space-4);
+        align-items: flex-start;
+    }
+
+    &--top-center {
+        top: calc(var(--orp-space-4) + env(safe-area-inset-top, 0px));
+        left: 50%;
+        transform: translateX(-50%);
+        align-items: center;
+    }
+
+    &--top-end {
+        top: calc(var(--orp-space-4) + env(safe-area-inset-top, 0px));
+        right: var(--orp-space-4);
+        align-items: flex-end;
+    }
+
+    &--bottom-start {
+        bottom: calc(var(--orp-space-4) + env(safe-area-inset-bottom, 0px));
+        left: var(--orp-space-4);
+        align-items: flex-start;
+    }
+
+    &--bottom-center {
+        bottom: calc(var(--orp-space-4) + env(safe-area-inset-bottom, 0px));
+        left: 50%;
+        transform: translateX(-50%);
+        align-items: center;
+    }
+
+    &--bottom-end {
+        bottom: calc(var(--orp-space-4) + env(safe-area-inset-bottom, 0px));
+        right: var(--orp-space-4);
+        align-items: flex-end;
+    }
+
+    // Mobile: full-width on edges
+    @media (max-width: 576px) {
+        width: calc(100% - var(--orp-space-4) * 2);
+        max-width: none;
+
+        &--top-start,
+        &--top-end {
+            left: var(--orp-space-4);
+            right: var(--orp-space-4);
+            align-items: stretch;
+        }
+
+        &--bottom-start,
+        &--bottom-end {
+            left: var(--orp-space-4);
+            right: var(--orp-space-4);
+            align-items: stretch;
+        }
+    }
+}
+
+// Stack entry animation
+.orp-notification-stack-enter-active,
+.orp-notification-stack-leave-active {
+    transition: opacity var(--orp-duration-normal), transform var(--orp-duration-normal);
+}
+
+.orp-notification-stack-enter-from {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.orp-notification-stack-leave-to {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.orp-notification-stack-move {
+    transition: transform var(--orp-duration-normal) var(--orp-easing-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-notification-stack-enter-active,
+    .orp-notification-stack-leave-active,
+    .orp-notification-stack-move {
+        transition: none;
+    }
+}

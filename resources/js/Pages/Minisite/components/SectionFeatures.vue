@@ -5,15 +5,15 @@
       <h3 v-if="subtitle" class="section-features__subtitle">{{ subtitle }}</h3>
       <p v-if="description" class="section-features__description-text">{{ description }}</p>
 
-      <div v-if="items.length === 0" class="text-muted text-center py-4">
+      <div v-if="items.length === 0" class="orp-text-muted orp-text-center orp-p-4">
         No hay características disponibles.
       </div>
 
       <div v-else class="section-features__grid">
-        <div
+        <article
           v-for="item in items"
           :key="item.id"
-          class="section-features__item"
+          class="section-features__item orp-card"
         >
           <div v-if="showIcon && item.icon" class="section-features__icon">
             <i :class="item.icon"></i>
@@ -26,7 +26,7 @@
               {{ item.description }}
             </p>
           </div>
-        </div>
+        </article>
       </div>
 
       <div v-if="buttons && buttons.length" class="section-features__buttons">
@@ -34,8 +34,8 @@
           v-for="(btn, index) in buttons"
           :key="index"
           :href="btn.url"
-          class="btn"
-          :class="'btn-' + (btn.style || 'primary')"
+          class="orp-btn"
+          :class="'orp-btn--' + (btn.style || 'primary')"
         >
           {{ btn.text }}
         </a>
@@ -75,8 +75,8 @@ export default defineComponent({ name: 'SectionFeatures' })
 
 <style lang="less">
 .section-features {
-  padding: 48px 16px;
-  background: #f8f9fa;
+  padding: var(--orp-space-6) var(--orp-space-2);
+  background: var(--orp-surface-muted);
 
   &__inner {
     max-width: 1024px;
@@ -85,29 +85,29 @@ export default defineComponent({ name: 'SectionFeatures' })
 
   &__title {
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 var(--orp-space-1);
     text-align: center;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 16px;
+    gap: var(--orp-space-3);
   }
 
   &__item {
@@ -115,10 +115,7 @@ export default defineComponent({ name: 'SectionFeatures' })
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 16px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: var(--orp-space-4);
   }
 
   &__icon {
@@ -127,11 +124,11 @@ export default defineComponent({ name: 'SectionFeatures' })
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #e7f1ff;
+    background: color-mix(in srgb, var(--orp-primary) 15%, transparent);
     border-radius: 50%;
-    color: #0d6efd;
+    color: var(--orp-primary);
     font-size: 1.25rem;
-    margin-bottom: 12px;
+    margin-bottom: var(--orp-space-3);
   }
 
   &__content {
@@ -139,15 +136,15 @@ export default defineComponent({ name: 'SectionFeatures' })
   }
 
   &__item-title {
-    font-size: 0.875rem;
+    font-size: var(--orp-font-size-sm);
     font-weight: 600;
-    margin: 0 0 8px;
-    color: #212529;
+    margin: 0 0 var(--orp-space-2);
+    color: var(--orp-surface-foreground);
   }
 
   &__item-desc {
-    font-size: 0.75rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-xs);
+    color: var(--orp-muted-foreground);
     margin: 0;
     line-height: 1.4;
   }
@@ -155,8 +152,8 @@ export default defineComponent({ name: 'SectionFeatures' })
   &__buttons {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-top: 24px;
+    gap: var(--orp-space-2);
+    margin-top: var(--orp-space-4);
   }
 }
 </style>

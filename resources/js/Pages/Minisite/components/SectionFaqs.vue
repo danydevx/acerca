@@ -5,33 +5,23 @@
       <h3 v-if="subtitle" class="section-faqs__subtitle">{{ subtitle }}</h3>
       <p v-if="description" class="section-faqs__description-text">{{ description }}</p>
 
-      <div v-if="items.length === 0" class="text-muted text-center py-4">
+      <div v-if="items.length === 0" class="orp-text-muted orp-text-center orp-p-4">
         No hay preguntas frecuentes disponibles.
       </div>
 
-      <div v-else class="section-faqs__list">
-        <div
-          v-for="item in items"
-          :key="item.id"
-          class="section-faqs__item"
-        >
-          <div class="section-faqs__question">
-            <i class="bi bi-question-circle"></i>
-            <span>{{ item.question }}</span>
-          </div>
-          <div v-if="showQuestions && item.answer" class="section-faqs__answer">
-            {{ item.answer }}
-          </div>
-        </div>
-      </div>
+      <OrpAccordion
+        v-else
+        :items="accordionItems"
+        v-model="openFaq"
+      />
 
       <div v-if="buttons && buttons.length" class="section-faqs__buttons">
         <a
           v-for="(btn, index) in buttons"
           :key="index"
           :href="btn.url"
-          class="btn"
-          :class="'btn-' + (btn.style || 'primary')"
+          class="orp-btn"
+          :class="'orp-btn--' + (btn.style || 'primary')"
         >
           {{ btn.text }}
         </a>
@@ -42,6 +32,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import OrpAccordion from '@/Components/OrpUI/OrpAccordion.vue'
 
 const props = defineProps({
   title: String,
@@ -62,6 +53,16 @@ const props = defineProps({
 })
 
 const showQuestions = computed(() => props.config?.show_questions !== false)
+
+const accordionItems = computed(() =>
+  props.items.map((item) => ({
+    value: String(item.id),
+    title: item.question,
+    content: item.answer,
+  }))
+)
+
+const openFaq = defineModel()
 </script>
 
 <script>
@@ -71,7 +72,7 @@ export default defineComponent({ name: 'SectionFaqs' })
 
 <style lang="less">
 .section-faqs {
-  padding: 48px 16px;
+  padding: var(--orp-space-5) var(--orp-space-2);
 
   &__inner {
     max-width: 1024px;
@@ -80,65 +81,30 @@ export default defineComponent({ name: 'SectionFaqs' })
 
   &__title {
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 var(--orp-space-1);
     text-align: center;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-foreground);
     text-align: center;
-    margin: 0 0 16px;
-  }
-
-  &__list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  &__item {
-    background: #fff;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
-  &__question {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    font-weight: 600;
-    color: #212529;
-    margin-bottom: 8px;
-
-    i {
-      color: #0d6efd;
-      font-size: 1.25rem;
-      flex-shrink: 0;
-    }
-  }
-
-  &__answer {
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: #6c757d;
-    padding-left: 36px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__buttons {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-top: 24px;
+    gap: var(--orp-space-2);
+    margin-top: var(--orp-space-4);
   }
 }
 </style>

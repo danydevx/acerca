@@ -6,15 +6,15 @@
       <p v-if="description" class="section-appointments__description-text">{{ description }}</p>
 
       <form @submit.prevent="submitForm" class="section-appointments__form">
-        <div class="row g-3">
-          <div class="col-md-6" v-if="showServiceSelector && services.length">
-            <label for="service_id" class="form-label">
-              Servicio <span class="text-danger">*</span>
+        <div class="appointments-form__grid">
+          <div v-if="showServiceSelector && services.length" class="appointments-form__field">
+            <label for="service_id" class="appointments-form__label">
+              Servicio <span class="appointments-form__required">*</span>
             </label>
             <select
               id="service_id"
               v-model="form.service_id"
-              class="form-select"
+              class="orp-select"
               required
               @change="onServiceChange"
             >
@@ -26,14 +26,14 @@
             </select>
           </div>
 
-          <div class="col-md-6" v-if="showLocationSelector && locations.length">
-            <label for="location_id" class="form-label">
+          <div v-if="showLocationSelector && locations.length" class="appointments-form__field">
+            <label for="location_id" class="appointments-form__label">
               Ubicación
             </label>
             <select
               id="location_id"
               v-model="form.location_id"
-              class="form-select"
+              class="orp-select"
             >
               <option value="">Cualquier ubicación</option>
               <option v-for="loc in locations" :key="loc.id" :value="loc.id">
@@ -42,45 +42,43 @@
             </select>
           </div>
 
-          <div class="col-md-6" v-if="!showServiceSelector || !services.length">
-            <label for="service_simple" class="form-label">
-              Servicio requerido <span class="text-danger">*</span>
+          <div v-if="!showServiceSelector || !services.length" class="appointments-form__field">
+            <label for="service_simple" class="appointments-form__label">
+              Servicio requerido <span class="appointments-form__required">*</span>
             </label>
             <input
               id="service_simple"
               type="text"
               v-model="form.service_name"
-              class="form-control"
+              class="orp-input"
               placeholder="¿Qué servicio necesitas?"
               required
             />
           </div>
-        </div>
 
-        <div class="row g-3 mt-2">
-          <div class="col-md-6">
-            <label for="appointment_date" class="form-label">
-              Fecha <span class="text-danger">*</span>
+          <div class="appointments-form__field">
+            <label for="appointment_date" class="appointments-form__label">
+              Fecha <span class="appointments-form__required">*</span>
             </label>
             <input
               id="appointment_date"
               type="date"
               v-model="form.appointment_date"
-              class="form-control"
+              class="orp-input"
               :min="minDate"
               required
               @change="onDateChange"
             />
           </div>
 
-          <div class="col-md-6">
-            <label for="start_time" class="form-label">
-              Hora <span class="text-danger">*</span>
+          <div class="appointments-form__field">
+            <label for="start_time" class="appointments-form__label">
+              Hora <span class="appointments-form__required">*</span>
             </label>
             <select
               id="start_time"
               v-model="form.start_time"
-              class="form-select"
+              class="orp-select"
               required
               :disabled="!form.appointment_date || loadingSlots"
             >
@@ -97,89 +95,85 @@
                 <template v-if="!slot.available"> (No disponible)</template>
               </option>
             </select>
-            <div v-if="form.appointment_date && !loadingSlots && availableSlots.length === 0" class="form-text text-danger">
+            <div v-if="form.appointment_date && !loadingSlots && availableSlots.length === 0" class="appointments-form__error">
               No hay horarios disponibles para esta fecha.
             </div>
           </div>
-        </div>
 
-        <hr class="my-4" />
-
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label for="customer_name" class="form-label">
-              Nombre <span class="text-danger">*</span>
+          <div class="appointments-form__field">
+            <label for="customer_name" class="appointments-form__label">
+              Nombre <span class="appointments-form__required">*</span>
             </label>
             <input
               id="customer_name"
               type="text"
               v-model="form.customer_name"
-              class="form-control"
+              class="orp-input"
               placeholder="Tu nombre completo"
               required
             />
           </div>
 
-          <div class="col-md-6">
-            <label for="customer_email" class="form-label">
-              Correo electrónico <span class="text-danger">*</span>
+          <div class="appointments-form__field">
+            <label for="customer_email" class="appointments-form__label">
+              Correo electrónico <span class="appointments-form__required">*</span>
             </label>
             <input
               id="customer_email"
               type="email"
               v-model="form.customer_email"
-              class="form-control"
+              class="orp-input"
               placeholder="tu@email.com"
               required
             />
           </div>
-        </div>
 
-        <div class="row g-3 mt-2">
-          <div class="col-md-6">
-            <label for="customer_phone" class="form-label">
+          <div class="appointments-form__field">
+            <label for="customer_phone" class="appointments-form__label">
               Teléfono
             </label>
             <input
               id="customer_phone"
               type="tel"
               v-model="form.customer_phone"
-              class="form-control"
+              class="orp-input"
               placeholder="(555) 123-4567"
             />
           </div>
 
-          <div class="col-md-6">
-            <label for="notes" class="form-label">
+          <div class="appointments-form__field appointments-form__field--full">
+            <label for="notes" class="appointments-form__label">
               Notas adicionales
             </label>
             <textarea
               id="notes"
               v-model="form.notes"
-              class="form-control"
+              class="orp-textarea"
               rows="2"
               placeholder="Comentarios o instrucciones especiales"
             ></textarea>
           </div>
         </div>
 
-        <div class="mt-4 text-center">
+        <div class="appointments-form__divider"></div>
+
+        <div class="appointments-form__submit">
           <button
             type="submit"
-            class="btn btn-primary btn-lg px-5"
+            class="orp-btn orp-btn--primary orp-btn--lg"
             :disabled="sending || !isFormValid"
           >
             {{ sending ? 'Reservando...' : 'Reservar cita' }}
           </button>
         </div>
 
-        <div v-if="successMessage" class="alert alert-success mt-3">
-          <i class="bi bi-check-circle me-2"></i>
+        <div v-if="successMessage" class="appointments-form__success">
+          <i class="bi bi-check-circle"></i>
           {{ successMessage }}
         </div>
 
-        <div v-if="errorMessage" class="alert alert-danger mt-3">
-          <i class="bi bi-exclamation-triangle me-2"></i>
+        <div v-if="errorMessage" class="appointments-form__error">
+          <i class="bi bi-exclamation-triangle"></i>
           {{ errorMessage }}
         </div>
       </form>
@@ -382,8 +376,8 @@ const resetForm = () => {
 
 <style lang="less">
 .section-appointments {
-  padding: 48px 16px;
-  background: #f8f9fa;
+  padding: var(--orp-space-6) var(--orp-space-2);
+  background: var(--orp-surface-muted);
 
   &__inner {
     max-width: 1024px;
@@ -392,30 +386,86 @@ const resetForm = () => {
 
   &__title {
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 var(--orp-space-1);
     text-align: center;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__form {
-    background: #fff;
-    padding: 32px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background: var(--orp-surface);
+    padding: var(--orp-space-5);
+    border-radius: var(--orp-radius-lg);
+    box-shadow: var(--orp-shadow-sm);
   }
+}
+
+.appointments-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--orp-space-3);
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.appointments-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--orp-space-1);
+
+  &--full {
+    grid-column: 1 / -1;
+  }
+}
+
+.appointments-form__required {
+  color: var(--orp-danger);
+}
+
+.appointments-form__divider {
+  height: 1px;
+  background: var(--orp-border);
+  margin: var(--orp-space-4) 0;
+}
+
+.appointments-form__submit {
+  text-align: center;
+}
+
+.appointments-form__success {
+  margin-top: var(--orp-space-3);
+  padding: var(--orp-space-3);
+  background: color-mix(in srgb, var(--orp-success) 15%, transparent);
+  color: var(--orp-success);
+  border-radius: var(--orp-radius-md);
+  font-size: var(--orp-font-size-sm);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: var(--orp-space-1);
+}
+
+.appointments-form__error {
+  margin-top: var(--orp-space-1);
+  font-size: var(--orp-font-size-sm);
+  color: var(--orp-danger);
+  display: flex;
+  align-items: center;
+  gap: var(--orp-space-1);
 }
 </style>

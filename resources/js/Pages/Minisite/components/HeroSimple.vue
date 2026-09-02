@@ -43,12 +43,12 @@ const heroStyle = computed(() => {
 
 <style lang="less">
 .hero-simple {
-  height: 200px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 16px 32px;
-  margin-top: 64px;
+  padding: var(--orp-space-6) var(--orp-space-2) var(--orp-space-4);
+  margin-top: var(--orp-app-bar-height, 64px);
   position: relative;
   z-index: 10;
 
@@ -60,18 +60,18 @@ const heroStyle = computed(() => {
   }
 
   &__title {
-    font-size: 2rem;
+    font-size: var(--orp-font-size-2xl);
     font-weight: 700;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   &__breadcrumbs {
-    font-size: 0.95rem;
+    font-size: var(--orp-font-size-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: var(--orp-space-2);
   }
 
   &__breadcrumb-link {

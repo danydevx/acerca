@@ -1,0 +1,79 @@
+// =============================================
+// ORP UI — Contact Card
+// =============================================
+
+.orp-contact-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--orp-surface);
+    color: var(--orp-surface-foreground);
+    border-radius: var(--orp-radius-lg);
+    border: 1px solid var(--orp-border);
+    overflow: hidden;
+
+    &--horizontal {
+        flex-direction: row;
+
+        .orp-contact-card__body {
+            flex: 1;
+        }
+
+        .orp-contact-card__map {
+            width: 40%;
+            min-width: 200px;
+        }
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--orp-space-3);
+        padding: var(--orp-space-4);
+    }
+
+    &__title {
+        font-family: var(--orp-font-family);
+        font-size: var(--orp-font-size-lg);
+        font-weight: 600;
+        line-height: 1.3;
+        color: var(--orp-surface-foreground);
+        margin: 0;
+    }
+
+    &__subtitle {
+        font-family: var(--orp-font-family);
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-muted-foreground);
+        margin: 0;
+        margin-top: calc(var(--orp-space-1) * -1);
+    }
+
+    &__details {
+        display: flex;
+        flex-direction: column;
+        gap: var(--orp-space-2);
+    }
+
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--orp-space-2);
+    }
+
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--orp-space-2);
+        margin-top: var(--orp-space-1);
+    }
+
+    &__map {
+        border-top: 1px solid var(--orp-border);
+
+        .orp-contact-card--horizontal & {
+            border-top: none;
+            border-left: 1px solid var(--orp-border);
+        }
+    }
+}

@@ -56,15 +56,31 @@
     &__action {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: var(--orp-space-1);
+        padding: var(--orp-space-1) var(--orp-space-3);
         font-size: var(--orp-font-size-xs);
         font-weight: 500;
         color: var(--orp-muted-foreground);
+        background: var(--orp-surface-muted);
+        border: 1px solid var(--orp-border);
+        border-radius: var(--orp-radius-pill);
         cursor: pointer;
-        transition: color var(--orp-duration-fast) var(--orp-easing-standard);
+        transition: all var(--orp-duration-fast) var(--orp-easing-standard);
 
         &:hover {
             color: var(--orp-surface-foreground);
+            background: var(--orp-surface);
+            border-color: var(--orp-border);
+        }
+
+        &:active {
+            transform: scale(0.97);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--orp-ring);
+            outline-offset: 2px;
         }
     }
 

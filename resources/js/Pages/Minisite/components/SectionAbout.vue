@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div v-else class="text-muted text-center py-4">
+      <div v-else class="orp-text-muted orp-text-center orp-p-4">
         No hay información disponible.
       </div>
 
@@ -28,8 +28,8 @@
           v-for="(btn, index) in buttons"
           :key="index"
           :href="btn.url"
-          class="btn"
-          :class="'btn-' + (btn.style || 'primary')"
+          class="orp-btn"
+          :class="'orp-btn--' + (btn.style || 'primary')"
         >
           {{ btn.text }}
         </a>
@@ -72,7 +72,7 @@ export default defineComponent({ name: 'SectionAbout' })
 
 <style lang="less">
 .section-about {
-  padding: 48px 16px;
+  padding: var(--orp-space-6) var(--orp-space-2);
 
   &__inner {
     max-width: 1024px;
@@ -82,25 +82,25 @@ export default defineComponent({ name: 'SectionAbout' })
 
   &__title {
     font-weight: 700;
-    margin: 0 0 24px;
-    color: #212529;
+    margin: 0 0 var(--orp-space-4);
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    margin: 0 0 16px;
-    color: #495057;
+    margin: 0 0 var(--orp-space-3);
+    color: var(--orp-muted-foreground);
   }
 
   &__description-text {
-    font-size: 1rem;
+    font-size: var(--orp-font-size-md);
     line-height: 1.6;
-    color: #6c757d;
-    margin: 0 0 16px;
+    color: var(--orp-muted-foreground);
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__image-wrapper {
-    margin-bottom: 24px;
+    margin-bottom: var(--orp-space-4);
   }
 
   &__image {
@@ -111,9 +111,9 @@ export default defineComponent({ name: 'SectionAbout' })
   }
 
   &__description {
-    font-size: 1rem;
+    font-size: var(--orp-font-size-md);
     line-height: 1.6;
-    color: #6c757d;
+    color: var(--orp-muted-foreground);
 
     p {
       margin: 0;
@@ -123,8 +123,8 @@ export default defineComponent({ name: 'SectionAbout' })
   &__buttons {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-top: 24px;
+    gap: var(--orp-space-2);
+    margin-top: var(--orp-space-4);
   }
 }
 </style>

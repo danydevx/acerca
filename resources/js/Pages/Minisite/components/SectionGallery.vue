@@ -5,52 +5,48 @@
       <h3 v-if="subtitle" class="section-gallery__subtitle">{{ subtitle }}</h3>
       <p v-if="description" class="section-gallery__description-text">{{ description }}</p>
 
-      <div v-if="items.length === 0" class="text-muted text-center py-4">
+      <div v-if="items.length === 0" class="section-gallery__empty orp-text-muted orp-text-center orp-p-4">
         No hay imágenes en la galería.
       </div>
 
       <div v-else-if="viewMode === 'carousel'" class="section-gallery__carousel">
-        <div
-          v-for="item in items"
-          :key="item.id"
-          class="section-gallery__carousel-item"
-        >
-          <a
-            :href="item.path"
-            class="section-gallery__item glightbox"
-            data-gallery="gallery"
-            :data-title="item.title || 'Imagen'"
-          >
-            <img :src="item.path" :alt="item.title || 'Imagen'" class="section-gallery__image" loading="lazy" />
-            <div v-if="showCaptions && item.title" class="section-gallery__overlay">
-              <span>{{ item.title }}</span>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <div v-else class="section-gallery__grid">
         <a
           v-for="item in items"
           :key="item.id"
           :href="item.path"
-          class="section-gallery__item glightbox"
+          class="orp-gallery__item orp-gallery__item--square glightbox"
           data-gallery="gallery"
           :data-title="item.title || 'Imagen'"
         >
-          <img :src="item.path" :alt="item.title || 'Imagen'" class="section-gallery__image" loading="lazy" />
-          <div v-if="showCaptions && item.title" class="section-gallery__overlay">
+          <img :src="item.path" :alt="item.title || 'Imagen'" loading="lazy" />
+          <div v-if="showCaptions && item.title" class="orp-gallery__overlay">
             <span>{{ item.title }}</span>
           </div>
         </a>
       </div>
 
-      <div v-if="buttons && buttons.length" class="section-gallery__buttons mt-4">
+      <div v-else class="orp-gallery orp-gallery--cols-3 orp-gallery--gap-sm">
+        <a
+          v-for="item in items"
+          :key="item.id"
+          :href="item.path"
+          class="orp-gallery__item orp-gallery__item--square glightbox"
+          data-gallery="gallery"
+          :data-title="item.title || 'Imagen'"
+        >
+          <img :src="item.path" :alt="item.title || 'Imagen'" loading="lazy" />
+          <div v-if="showCaptions && item.title" class="orp-gallery__overlay">
+            <span>{{ item.title }}</span>
+          </div>
+        </a>
+      </div>
+
+      <div v-if="buttons && buttons.length" class="section-gallery__buttons orp-mt-4">
         <a
           v-for="(btn, idx) in buttons"
           :key="idx"
           :href="btn.url || '#'"
-          class="btn btn-primary me-2 mb-2"
+          class="orp-btn orp-btn--primary"
           :target="btn.open_in_new_tab ? '_blank' : '_self'"
         >
           {{ btn.text }}
@@ -100,8 +96,8 @@ onMounted(() => {
 
 <style lang="less">
 .section-gallery {
-  padding: 48px 16px;
-  background: #fff;
+  padding: var(--orp-space-6) var(--orp-space-2);
+  background: var(--orp-background);
 
   &__inner {
     max-width: 1024px;
@@ -110,43 +106,41 @@ onMounted(() => {
 
   &__title {
     font-weight: 700;
-    margin: 0 0 8px;
+    margin: 0 0 var(--orp-space-1);
     text-align: center;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__buttons {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--orp-space-2);
   }
 
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+  &__empty {
+    color: var(--orp-muted-foreground);
   }
 
   &__carousel {
     display: flex;
-    gap: 12px;
+    gap: var(--orp-space-3);
     overflow-x: auto;
-    padding-bottom: 16px;
+    padding-bottom: var(--orp-space-3);
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
 
@@ -155,59 +149,8 @@ onMounted(() => {
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #dee2e6;
+      background: var(--orp-border);
       border-radius: 2px;
-    }
-  }
-
-  &__carousel-item {
-    flex: 0 0 200px;
-    scroll-snap-align: start;
-
-    .section-gallery__item {
-      height: 200px;
-    }
-  }
-
-  &__item {
-    position: relative;
-    aspect-ratio: 1;
-    overflow: hidden;
-    border-radius: 4px;
-    cursor: pointer;
-    display: block;
-
-    &:hover .section-gallery__overlay {
-      opacity: 1;
-    }
-
-    &:hover .section-gallery__image {
-      transform: scale(1.05);
-    }
-  }
-
-  &__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.2s ease;
-  }
-
-  &__overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-
-    span {
-      color: #fff;
-      font-size: 0.875rem;
-      text-align: center;
-      padding: 8px;
     }
   }
 }

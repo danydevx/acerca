@@ -15,7 +15,7 @@ class HandleInertiaRequests extends Middleware
 {
     public function rootView(Request $request): string
     {
-        if ($request->is('b/*')) {
+        if ($request->is('b/*') || $request->is('m/*')) {
             return 'minisite.minisite';
         }
 

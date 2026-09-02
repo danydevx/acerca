@@ -1,0 +1,1350 @@
+
+# ORP UI — GENERIC COMPOSITION PATTERNS
+# THIRD PATTERN: OrpProfileCard
+# + COMPONENT DISCOVERY / EXTRACTION RULE
+
+Vamos a continuar desarrollando la capa de Patterns de ORP UI.
+
+Actualmente tenemos o estamos construyendo:
+
+1. OrpCatalogCard
+2. OrpPricingCard
+3. OrpProfileCard ← IMPLEMENTAR AHORA
+
+Esta fase introduce además una regla arquitectónica importante:
+
+> Mientras construimos Patterns, debemos detectar piezas visuales o funcionales repetidas que todavía no existan como componentes/primitives ORP.
+
+NO queremos seguir copiando pequeñas estructuras entre CatalogCard, PricingCard, ProfileCard y futuros Patterns.
+
+Si durante el audit aparece una pieza claramente reusable, se debe evaluar si merece convertirse en un nuevo primitive/component ORP y, si está justificado, CREARLO e IMPLEMENTARLO antes de duplicarlo.
+
+La meta no es solamente crear Cards.
+
+La meta es hacer crecer ORP como un sistema coherente de UI.
+
+==================================================
+1. OBJETIVO PRINCIPAL
+==================================================
+
+Crear:
+
+OrpProfileCard.vue
+
+como Pattern genérico para representar una persona, identidad o perfil.
+
+Debe poder utilizarse para:
+
+- miembros de equipo
+- profesionales
+- autores
+- instructores
+- speakers
+- agentes
+- vendedores
+- especialistas
+- colaboradores
+- contactos
+- perfiles públicos
+- perfiles de organizaciones cuando la composición sea equivalente
+
+SIN conocer el dominio.
+
+NO crear:
+
+EmployeeCard
+DoctorCard
+AgentCard
+AuthorCard
+TeamMemberCard
+InstructorCard
+
+==================================================
+2. PRINCIPIO NUEVO: DISCOVER → EXTRACT → REUSE
+==================================================
+
+A partir de esta fase, antes de crear CSS o markup nuevo:
+
+1. Buscar si ORP ya resuelve el problema.
+2. Buscar si otro Pattern ya contiene la misma estructura.
+3. Identificar si esa estructura aparece repetida.
+4. Determinar a qué nivel pertenece.
+5. Reutilizarla o extraerla.
+6. Solo después escribir CSS específico del Pattern.
+
+Flujo:
+
+NECESIDAD VISUAL
+      ↓
+¿Ya existe en ORP?
+      │
+   YES ──→ REUSE
+      │
+      NO
+      ↓
+¿Es específica de ProfileCard?
+      │
+   YES ──→ mantener en ProfileCard
+      │
+      NO
+      ↓
+¿Es una pieza genérica y repetible?
+      │
+   YES
+      ↓
+CREAR PRIMITIVE / COMPONENT ORP
+      ↓
+REUTILIZARLO EN EL PATTERN
+
+==================================================
+3. NO EXTRAER TODO
+==================================================
+
+CRÍTICO:
+
+No convertir cada:
+
+<div>
+<span>
+wrapper
+fila
+texto
+
+en un componente Vue.
+
+Un nuevo componente ORP solamente debe crearse cuando exista evidencia clara de reutilización.
+
+Antes de crear uno nuevo responder:
+
+1. ¿Tiene una responsabilidad clara?
+2. ¿Es independiente del dominio?
+3. ¿Puede aparecer en al menos 2 contextos diferentes?
+4. ¿Tiene comportamiento, semántica o styling suficientemente estable?
+5. ¿Reduce duplicación real?
+6. ¿Su API puede mantenerse pequeña?
+7. ¿No existe ya otra primitive/component que lo resuelva?
+
+Si la mayoría de respuestas no son YES:
+
+NO EXTRAER.
+
+==================================================
+4. AUDIT GLOBAL OBLIGATORIO
+==================================================
+
+ANTES de implementar ProfileCard:
+
+Auditar físicamente ORP UI.
+
+Revisar:
+
+resources/js/Components/OrpUI/
+
+LESS ORP
+
+Playground
+
+OrpCatalogCard
+
+OrpPricingCard
+
+y los componentes/primitives existentes relacionados.
+
+Buscar específicamente:
+
+- Card
+- Avatar
+- Media
+- Badge
+- Icon
+- IconButton
+- Button
+- Stack
+- Cluster
+- List
+- Divider
+- Link
+- Social actions
+- metadata rows
+- labels
+- heading/text patterns
+- status indicators
+- action groups
+
+No asumir APIs.
+
+Verificar físicamente:
+
+- props
+- slots
+- events
+- variants
+- classes
+- tokens
+- responsive
+- accessibility
+
+==================================================
+5. INVENTARIO DE REPETICIÓN
+==================================================
+
+Antes de modificar código, generar internamente un pequeño inventario:
+
+REPEATED UI INVENTORY
+
+Para cada pieza encontrada:
+
+NAME / CONCEPT:
+USED IN:
+CURRENT IMPLEMENTATION:
+REPEATED:
+DOMAIN SPECIFIC:
+EXISTING ORP SOLUTION:
+EXTRACTION CANDIDATE:
+DECISION:
+
+Ejemplo conceptual:
+
+Concept:
+Avatar + fallback initials
+
+Used in:
+ProfileCard
+Reviews
+Navigation
+
+Existing ORP solution:
+OrpAvatar
+
+Decision:
+REUSE
+
+Otro ejemplo:
+
+Concept:
+icon + label/value metadata row
+
+Used in:
+CatalogCard examples
+ProfileCard
+Contact interfaces
+
+Existing ORP solution:
+NONE
+
+Extraction candidate:
+YES
+
+Decision:
+Evaluate new OrpMetaItem
+
+IMPORTANTE:
+
+Los nombres anteriores son ejemplos.
+
+NO crear `OrpMetaItem` automáticamente.
+
+==================================================
+6. COMPONENTES EMERGENTES
+==================================================
+
+Si el audit descubre componentes faltantes, se permite crearlos.
+
+Ejemplos de piezas que PODRÍAN aparecer:
+
+OrpMetaItem
+OrpMetaList
+OrpStatus
+OrpActionGroup
+OrpIdentity
+OrpSocialLinks
+OrpLabelValue
+OrpAspectMedia
+
+PERO estos nombres NO son requisitos.
+
+Son únicamente ejemplos de abstracciones posibles.
+
+No implementar ninguno sin evidencia.
+
+==================================================
+7. CLASIFICAR CORRECTAMENTE
+==================================================
+
+Todo nuevo elemento debe clasificarse.
+
+FOUNDATION
+→ tokens, typography, foundations
+
+PRIMITIVE
+→ pieza visual pequeña y reusable
+
+COMPONENT
+→ unidad reusable con estructura/comportamiento propio
+
+PATTERN
+→ composición de varios primitives/components para resolver un patrón frecuente
+
+Ejemplo conceptual:
+
+Avatar
+→ Primitive/Component
+
+MetaItem
+→ Primitive/Component
+
+ProfileCard
+→ Pattern
+
+No colocar todo bajo Patterns.
+
+==================================================
+8. REGLA DE 2+ CONTEXTOS
+==================================================
+
+Como regla práctica:
+
+No crear un nuevo componente genérico únicamente porque ProfileCard lo necesita.
+
+Debe existir evidencia de que puede ser utilizado en al menos DOS contextos reales.
+
+Por ejemplo:
+
+ProfileCard + ContactCard
+
+ProfileCard + Reviews
+
+CatalogCard + ProfileCard
+
+PricingCard + futuros comparadores
+
+No hace falta migrar esos otros contextos ahora.
+
+Pero documentar dónde sería reusable.
+
+==================================================
+9. NO HACER REFACTOR MASIVO
+==================================================
+
+Aunque encontremos un nuevo componente reusable:
+
+NO migrar todo Acerca.
+
+Ejemplo:
+
+si se crea OrpMetaItem porque es claramente reusable:
+
+se puede usar en:
+
+OrpProfileCard
+
+y, si es estrictamente necesario para validar ORP, en demos del Playground.
+
+NO modificar automáticamente:
+
+SectionServices
+SectionProducts
+SectionReviews
+SectionLocations
+SectionPackages
+
+El dogfooding llegará después.
+
+==================================================
+10. OBJETIVO DE OrpProfileCard
+==================================================
+
+OrpProfileCard representa:
+
+"Una identidad o perfil acompañado de información secundaria y acciones."
+
+Anatomía conceptual:
+
+┌──────────────────────────────┐
+│                              │
+│           MEDIA              │
+│          / AVATAR            │
+│                              │
+│ TITLE                        │
+│ SUBTITLE                     │
+│                              │
+│ META                         │
+│                              │
+│ STATUS / BADGES              │
+│                              │
+│ ACTIONS                      │
+└──────────────────────────────┘
+
+También debe poder funcionar horizontalmente si existe evidencia suficiente para soportarlo.
+
+==================================================
+11. NO CONFUNDIR CON CatalogCard
+==================================================
+
+CatalogCard:
+
+representa una entidad dentro de un catálogo.
+
+ProfileCard:
+
+representa identidad.
+
+Ejemplo:
+
+"Corte premium — $450"
+→ CatalogCard
+
+"Daniel López — Desarrollador Web"
+→ ProfileCard
+
+"Departamento Centro — $18,000"
+→ CatalogCard
+
+"María García — Agente inmobiliaria"
+→ ProfileCard
+
+==================================================
+12. API GENÉRICA
+==================================================
+
+NO crear props de dominio como:
+
+firstName
+lastName
+jobTitle
+company
+doctor
+specialty
+agent
+employee
+email
+phone
+linkedin
+instagram
+department
+employeeId
+
+Preferir slots semánticos.
+
+Dirección conceptual:
+
+<OrpProfileCard>
+    <template #media>
+        ...
+    </template>
+
+    <template #title>
+        ...
+    </template>
+
+    <template #subtitle>
+        ...
+    </template>
+
+    <template #meta>
+        ...
+    </template>
+
+    <template #status>
+        ...
+    </template>
+
+    <template #actions>
+        ...
+    </template>
+</OrpProfileCard>
+
+Los nombres exactos deben respetar convenciones establecidas por CatalogCard/PricingCard.
+
+==================================================
+13. MEDIA / AVATAR
+==================================================
+
+ProfileCard debe poder trabajar con:
+
+- OrpAvatar
+- imagen
+- iniciales
+- icono
+- custom media
+
+NO implementar otro sistema de avatar si OrpAvatar ya existe.
+
+Auditar OrpAvatar.
+
+Si OrpAvatar tiene gaps, documentarlos.
+
+Solo extenderlo si el cambio:
+
+- es genérico
+- no rompe API
+- beneficia múltiples usos
+- pertenece realmente al Avatar
+
+==================================================
+14. TITLE
+==================================================
+
+Representa identidad principal.
+
+Ejemplos:
+
+Daniel López
+María García
+Studio Norte
+Equipo Creativo
+
+ProfileCard no interpreta el contenido.
+
+Mantener estrategia de headings consistente con otros Patterns.
+
+==================================================
+15. SUBTITLE
+==================================================
+
+Información secundaria principal.
+
+Ejemplos:
+
+Desarrollador Web
+Fotógrafa
+Consultor
+Instructor
+Diseñadora
+
+No llamarlo:
+
+jobTitle
+
+porque sería demasiado específico.
+
+==================================================
+16. META
+==================================================
+
+Meta puede contener:
+
+ubicación
+especialidad
+organización
+experiencia
+rating
+idiomas
+categorías
+disponibilidad
+
+ProfileCard no interpreta esos datos.
+
+Aquí debe prestarse especial atención a componentes repetidos.
+
+Si encontramos repetidamente estructuras:
+
+[icon] texto
+
+[icon] label + value
+
+label · label · label
+
+NO copiarlas automáticamente.
+
+Evaluar si ORP necesita una primitive/component genérica.
+
+==================================================
+17. STATUS
+==================================================
+
+Debe ser posible mostrar estados como:
+
+Disponible
+Online
+Verificado
+Nuevo
+Premium
+
+pero ProfileCard NO interpreta esos valores.
+
+El consumidor puede usar OrpBadge u otra primitive.
+
+No crear:
+
+verified
+online
+available
+
+como props específicas salvo que exista una abstracción genérica realmente justificada.
+
+==================================================
+18. ACTIONS
+==================================================
+
+Debe permitir:
+
+- Button
+- IconButton
+- links
+- action groups
+- ninguna acción
+
+Ejemplos del consumidor:
+
+Contactar
+Ver perfil
+Seguir
+Mensaje
+Reservar
+
+ProfileCard no debe conocerlos.
+
+==================================================
+19. ACTION GROUP DISCOVERY
+==================================================
+
+Revisar si CatalogCard, PricingCard y ProfileCard repiten:
+
+orp-cluster + botones
+
+o una composición equivalente para acciones.
+
+Si existe duplicación consistente, evaluar si ORP necesita algo como:
+
+OrpActionGroup
+
+Pero NO crearlo automáticamente.
+
+Debe aportar algo más que envolver:
+
+display:flex
+
+Por ejemplo podría justificar existencia si estandariza:
+
+- wrapping
+- alignment
+- mobile stacking
+- spacing
+- primary/secondary action relationship
+
+Si solo reemplaza una línea de `.orp-cluster`, NO crear componente.
+
+==================================================
+20. METADATA DISCOVERY
+==================================================
+
+Este audit debe prestar atención especial a metadata.
+
+Muchos Patterns probablemente necesitarán:
+
+icon + text
+label + value
+compact information
+groups of metadata
+
+Revisar si ya existe solución ORP.
+
+Si no existe y se repite suficientemente:
+
+proponer/crear una primitive pequeña.
+
+Debe ser útil para futuros:
+
+CatalogCard
+ProfileCard
+ContactCard
+ContentCard
+
+sin conocer dominio.
+
+==================================================
+21. SOCIAL LINKS
+==================================================
+
+NO crear SocialLinks automáticamente.
+
+Primero revisar:
+
+Footer
+ProfileCard
+Contact patterns
+Navigation
+
+Si realmente existe un patrón común de:
+
+lista de links icon-only
+accessible labels
+consistent hit area
+
+podría justificar una primitive/component.
+
+Pero:
+
+Facebook
+Instagram
+LinkedIn
+
+NO deben hardcodearse en ORP.
+
+Un eventual componente debe recibir contenido/slots/links genéricos.
+
+==================================================
+22. VARIANTES
+==================================================
+
+Mantener pocas variantes.
+
+Evaluar:
+
+vertical
+horizontal
+
+solo si ambos layouts tienen utilidad real.
+
+No crear:
+
+doctor
+agent
+employee
+author
+compactDoctor
+team
+
+Las variantes describen presentación, nunca dominio.
+
+==================================================
+23. VERTICAL
+==================================================
+
+Conceptualmente:
+
+┌─────────────────────┐
+│       AVATAR        │
+│                     │
+│ Nombre              │
+│ Rol                 │
+│ Metadata            │
+│                     │
+│ Actions             │
+└─────────────────────┘
+
+==================================================
+24. HORIZONTAL
+==================================================
+
+Solo si se justifica:
+
+┌───────┬──────────────────────┐
+│AVATAR │ Nombre               │
+│       │ Rol                  │
+│       │ Metadata             │
+│       │ Actions              │
+└───────┴──────────────────────┘
+
+Revisar si OrpMediaCard ya resuelve parte de esto.
+
+No duplicar MediaCard.
+
+==================================================
+25. INTERACTIVIDAD
+==================================================
+
+No hacer toda ProfileCard clickable por defecto.
+
+Normalmente la interacción debe vivir en actions.
+
+Si se soporta card interactiva:
+
+- keyboard
+- focus-visible
+- semantic element
+- nested interactive safety
+
+deben estar resueltos.
+
+==================================================
+26. TOKENS
+==================================================
+
+Usar tokens ORP existentes.
+
+PROHIBIDO hardcodear arbitrariamente:
+
+colors
+spacing
+radius
+shadow
+font sizes
+transitions
+
+si existe token equivalente.
+
+==================================================
+27. CSS
+==================================================
+
+ProfileCard debe componer OrpCard.
+
+NO recrear:
+
+surface
+border
+shadow
+radius
+
+si OrpCard ya lo proporciona.
+
+CSS específico solo para:
+
+- composición
+- internal layout
+- media placement
+- hierarchy
+- responsive behavior
+
+Conceptualmente:
+
+.orp-profile-card
+.orp-profile-card__media
+.orp-profile-card__header
+.orp-profile-card__title
+.orp-profile-card__subtitle
+.orp-profile-card__meta
+.orp-profile-card__status
+.orp-profile-card__actions
+
+Pero seguir naming real del repo.
+
+==================================================
+28. ACCESSIBILITY
+==================================================
+
+Auditar:
+
+- semantic HTML
+- headings
+- avatar alt
+- decorative images
+- keyboard
+- focus
+- action labels
+- icon-only controls
+- contrast
+- disabled
+- reduced motion
+
+Icon-only actions requieren accessible name.
+
+==================================================
+29. MOBILE FIRST
+==================================================
+
+Diseñar primero:
+
+320
+375
+390
+430
+
+Luego:
+
+768
+1200
+1440
+
+Revisar especialmente:
+
+- avatar size
+- long names
+- long subtitles
+- metadata wrapping
+- multiple actions
+- icon actions
+- horizontal layout
+
+==================================================
+30. PLAYGROUND
+==================================================
+
+Agregar:
+
+Patterns → Profile Card
+
+al Playground existente:
+
+http://acerca.local/orp-playground
+
+No crear otro playground.
+
+==================================================
+31. EJEMPLOS
+==================================================
+
+Mostrar ejemplos suficientes para demostrar genericidad.
+
+EXAMPLE 1 — Professional
+
+Avatar
+Daniel López
+Desarrollador Web
+Guadalajara
+actions
+
+EXAMPLE 2 — Instructor
+
+Avatar
+María García
+Instructora
+badge/status
+metadata
+
+EXAMPLE 3 — Author
+
+Avatar
+Carlos Ruiz
+Autor
+metadata
+social/icon actions
+
+EXAMPLE 4 — Minimal
+
+Avatar
+Name
+Subtitle
+
+EXAMPLE 5 — No image
+
+Fallback/avatar initials
+Name
+Metadata
+
+EXAMPLE 6 — Long content
+
+Long name
+Long subtitle
+multiple metadata
+multiple actions
+
+Los ejemplos NO deben generar lógica de dominio.
+
+==================================================
+32. DEMOSTRAR COMPONENTES EMERGENTES
+==================================================
+
+Si durante esta fase se crea una nueva primitive/component ORP:
+
+también debe agregarse al Playground en su categoría correcta.
+
+Ejemplo:
+
+Components → Meta Item
+
+o:
+
+Primitives → Status
+
+según corresponda.
+
+Debe tener demos independientes.
+
+No esconder un nuevo componente solamente dentro de ProfileCard.
+
+==================================================
+33. TESTS
+==================================================
+
+Agregar tests consistentes con infraestructura actual.
+
+ProfileCard:
+
+- render
+- slots
+- optional regions
+- variants si existen
+- accessibility básica
+
+Cualquier nuevo component emergente:
+
+- render
+- API
+- states
+- accessibility
+- edge cases relevantes
+
+No introducir framework nuevo de tests.
+
+==================================================
+34. BROWSER QA
+==================================================
+
+Usar browser QA existente.
+
+Preferir Puppeteer/Chrome headless si está disponible.
+
+Probar:
+
+320
+375
+390
+430
+768
+1200
+1440
+
+Revisar:
+
+- overflow
+- avatar
+- long text
+- metadata
+- actions
+- focus
+- touch targets
+- vertical/horizontal si aplica
+
+No declarar PASS sin inspección real.
+
+==================================================
+35. BUILD
+==================================================
+
+Ejecutar:
+
+npm run build
+
+y tests existentes.
+
+Todo debe pasar.
+
+==================================================
+36. DOCUMENTACIÓN
+==================================================
+
+Documentar:
+
+PURPOSE
+
+Represent a person, identity or profile.
+
+USE FOR
+
+- professionals
+- team members
+- authors
+- instructors
+- speakers
+- agents
+- public profiles
+
+DO NOT USE FOR
+
+catalog entities → OrpCatalogCard
+
+pricing/value propositions → OrpPricingCard
+
+generic containers → OrpCard
+
+editorial content → futuro OrpContentCard
+
+==================================================
+37. DOCUMENTAR NUEVAS ABSTRACCIONES
+==================================================
+
+Por cada nuevo component/primitive creado durante el proceso:
+
+documentar:
+
+NAME
+
+LAYER:
+Foundation / Primitive / Component / Pattern
+
+PROBLEM SOLVED
+
+WHY IT IS GENERIC
+
+REUSED BY
+
+WHY EXISTING ORP DID NOT SOLVE IT
+
+API
+
+PLAYGROUND LOCATION
+
+No crear abstracciones sin esta justificación.
+
+==================================================
+38. NO DOGFOODING TODAVÍA
+==================================================
+
+NO modificar todavía:
+
+SectionServices
+SectionProducts
+SectionPackages
+SectionReviews
+SectionLocations
+Navigation
+Footer
+Minisite themes
+
+Solo ORP UI + Playground.
+
+==================================================
+39. NO BUSINESS LOGIC
+==================================================
+
+No modificar:
+
+Controllers
+Routes
+Models
+Database
+API
+Inertia payloads
+business logic
+
+==================================================
+40. CRITERIO DE ÉXITO DEL PROFILE CARD
+==================================================
+
+Debe ser posible representar con el mismo Pattern:
+
+profesional
+autor
+instructor
+agente
+miembro de equipo
+
+sin que OrpProfileCard conozca esos dominios.
+
+==================================================
+41. CRITERIO DE ÉXITO DEL SISTEMA
+==================================================
+
+Al terminar esta fase debemos haber mejorado ORP como SISTEMA.
+
+No solamente agregar:
+
+"otra card".
+
+Debemos poder responder:
+
+¿Qué piezas compartidas encontramos?
+
+¿Cuáles ya resolvía ORP?
+
+¿Cuáles estaban duplicadas?
+
+¿Cuáles merecieron convertirse en nuevos components?
+
+¿Cuáles decidimos NO abstraer y por qué?
+
+==================================================
+42. REGLA PARA LAS SIGUIENTES FASES
+==================================================
+
+Esta regla queda establecida para futuros Patterns:
+
+OrpContentCard
+OrpStatCard
+OrpContactCard
+OrpActionCard
+etc.
+
+Cada Pattern nuevo debe servir también como:
+
+ARCHITECTURAL DISCOVERY PASS
+
+para encontrar piezas genéricas faltantes.
+
+Pero:
+
+NO usar esto como excusa para construir un framework gigantesco anticipadamente.
+
+La abstracción debe aparecer por evidencia.
+
+==================================================
+43. REPORTE FINAL
+==================================================
+
+Entregar:
+
+# ORP PROFILE CARD — IMPLEMENTATION REPORT
+
+## Existing ORP Audit
+
+Reviewed:
+
+- OrpCard
+- OrpAvatar
+- OrpMedia
+- OrpMediaCard
+- OrpBadge
+- OrpButton
+- OrpIconButton
+- OrpStack
+- OrpCluster
+- OrpList
+- OrpCatalogCard
+- OrpPricingCard
+
+## Repeated UI Inventory
+
+Para cada pieza repetida:
+
+Concept:
+Seen in:
+Existing ORP solution:
+Extraction candidate:
+Decision:
+Reason:
+
+## New ORP Components Created
+
+Si ninguno:
+
+NONE
+
+Si existen:
+
+Component:
+Layer:
+Problem:
+Generic use cases:
+API:
+Playground:
+Tests:
+
+## Abstractions Rejected
+
+Listar elementos considerados pero NO extraídos.
+
+Explicar por qué.
+
+## OrpProfileCard Architecture
+
+Layer:
+Pattern
+
+Purpose:
+
+Internal composition:
+
+## API
+
+Props:
+Slots:
+Events:
+Variants:
+
+## Generic Validation
+
+Professional:
+PASS / FAIL
+
+Instructor:
+PASS / FAIL
+
+Author:
+PASS / FAIL
+
+Minimal:
+PASS / FAIL
+
+No image:
+PASS / FAIL
+
+Long content:
+PASS / FAIL
+
+## Accessibility
+
+Semantics:
+Avatar:
+Keyboard:
+Focus:
+Icon actions:
+Contrast:
+Reduced motion:
+
+PASS / FAIL / NOT VERIFIED
+
+## Responsive QA
+
+320:
+375:
+390:
+430:
+768:
+1200:
+1440:
+
+## Playground
+
+ProfileCard added:
+YES / NO
+
+New primitives/components added:
+YES / NO
+
+Locations:
+
+## Tests
+
+ProfileCard:
+PASS / FAIL
+
+New components:
+PASS / FAIL / NONE
+
+## Build
+
+npm run build:
+
+PASS / FAIL
+
+## Acerca Changes
+
+NONE
+
+## Business Logic Changes
+
+NONE
+
+## ORP Architecture Result
+
+Did this phase reduce duplication?
+
+YES / NO
+
+Did we discover reusable missing pieces?
+
+YES / NO
+
+Were they implemented only when justified?
+
+YES / NO
+
+## Final Status
+
+READY FOR HUMAN REVIEW
+
+or
+
+NEEDS MORE WORK
+
+STOP.
+
+==================================================
+FINAL INSTRUCTION
+==================================================
+
+Implementa:
+
+1. OrpProfileCard.
+2. Su integración en ORP Playground.
+3. Tests.
+4. Documentación.
+5. Un audit explícito de piezas repetidas.
+6. Si y SOLO SI existe evidencia suficiente, crea los primitives/components ORP genéricos faltantes necesarios para evitar duplicación real.
+7. Cualquier componente nuevo debe tener API propia, tests y demo independiente en Playground.
+8. No migres todavía componentes de Acerca.
+9. No crees abstracciones hipotéticas.
+10. STOP después de completar ProfileCard y las abstracciones genéricas estrictamente justificadas descubiertas durante esta fase.

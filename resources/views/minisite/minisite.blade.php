@@ -306,8 +306,9 @@
       <link href="https://fonts.googleapis.com/css2?family={{ urlencode($vars['fonts']['font_body']) }}:wght@400;500;600&display=swap" rel="stylesheet">
     @endif
 
-    <link rel="stylesheet" href="{{ asset('build/assets/minisite-D0rvqTkn.css') }}">
-    @vite(['resources/js/minisite.js'])
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    @vite(['resources/less/minisite.less', 'resources/js/minisite-orp.js'])
 
     <style>
       :root {

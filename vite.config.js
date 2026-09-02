@@ -12,6 +12,7 @@ export default defineConfig({
             'resources/js/app.js', 
              'resources/less/app.less',
             'resources/js/minisite.js', 
+            'resources/js/minisite-orp.js', 
             'resources/js/booking-widget.js',
             'resources/less/orp-ui/orp-ui.less'],
             refresh: true,

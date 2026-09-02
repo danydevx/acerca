@@ -12,8 +12,8 @@
         :appointment-counts="{}"
       />
 
-      <div v-else class="alert alert-info mb-0">
-        <i class="bi bi-info-circle me-2"></i>
+      <div v-else class="section-availability__empty orp-text-muted orp-text-center">
+        <i class="bi bi-info-circle"></i>
         Horarios de atención no disponibles.
       </div>
     </div>
@@ -46,34 +46,38 @@ const exceptions = props.availability?.exceptions || []
 
 <style lang="less" scoped>
 .section-availability {
-  padding: 60px 0;
-  background: #f8f9fa;
+  padding: var(--orp-space-6) 0;
+  background: var(--orp-surface-muted);
 
   &__inner {
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--orp-space-4);
   }
 
   &__title {
     text-align: center;
-    margin-bottom: 8px;
+    margin-bottom: var(--orp-space-1);
     font-weight: 700;
-    color: #212529;
+    color: var(--orp-foreground);
   }
 
   &__subtitle {
     font-weight: 600;
-    color: #495057;
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
   }
 
   &__description-text {
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-muted-foreground);
     text-align: center;
-    margin: 0 0 16px;
+    margin: 0 0 var(--orp-space-3);
+  }
+
+  &__empty {
+    padding: var(--orp-space-4);
   }
 }
 </style>
