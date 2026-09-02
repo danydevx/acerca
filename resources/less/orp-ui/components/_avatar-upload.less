@@ -1,0 +1,41 @@
+// =============================================
+// ORP UI — Avatar Upload
+// =============================================
+
+.orp-avatar-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--orp-space-4);
+
+    &__actions {
+        display: flex;
+        gap: var(--orp-space-2);
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--orp-space-2);
+    }
+
+    &__status {
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-muted-foreground);
+    }
+}
+
+.orp-avatar--loading {
+    position: relative;
+
+    .orp-avatar__spinner {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--orp-surface-muted);
+        border-radius: inherit;
+    }
+}

@@ -1,0 +1,99 @@
+// =============================================
+// ORP UI — Meter
+// =============================================
+
+.orp-meter {
+    width: 100%;
+
+    // Native meter element styling
+    meter {
+        width: 100%;
+        height: 8px;
+        background: var(--orp-surface-muted);
+        border-radius: var(--orp-radius-pill);
+        border: none;
+
+        // Webkit/Chrome/Safari
+        &::-webkit-meter-bar {
+            background: var(--orp-surface-muted);
+            border-radius: var(--orp-radius-pill);
+            height: 8px;
+        }
+
+        &::-webkit-meter-optimum-value {
+            background: var(--orp-primary);
+            border-radius: var(--orp-radius-pill);
+            transition: width var(--orp-duration-normal);
+        }
+
+        &::-webkit-meter-suboptimum-value {
+            background: var(--orp-warning);
+            border-radius: var(--orp-radius-pill);
+        }
+
+        &::-webkit-meter-even-less-good-value {
+            background: var(--orp-danger);
+            border-radius: var(--orp-radius-pill);
+        }
+
+        // Firefox
+        &::-moz-meter-bar {
+            background: var(--orp-primary);
+            border-radius: var(--orp-radius-pill);
+            transition: width var(--orp-duration-normal);
+        }
+
+        &::-moz-meter-optimum {
+            background: var(--orp-primary);
+        }
+
+        &::-moz-meter-sub-optimum {
+            background: var(--orp-warning);
+        }
+
+        &::-moz-meter-sub-sub-optimum {
+            background: var(--orp-danger);
+        }
+    }
+
+    // Size variants
+    &--sm meter {
+        height: 4px;
+        &::-webkit-meter-bar { height: 4px; }
+    }
+
+    &--md meter {
+        height: 8px;
+        &::-webkit-meter-bar { height: 8px; }
+    }
+
+    &--lg meter {
+        height: 12px;
+        &::-webkit-meter-bar { height: 12px; }
+    }
+
+    // With label layout
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--orp-space-2);
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__label {
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-surface-foreground);
+    }
+
+    &__value {
+        font-size: var(--orp-font-size-sm);
+        font-weight: 500;
+        color: var(--orp-surface-foreground);
+        font-variant-numeric: tabular-nums;
+    }
+}

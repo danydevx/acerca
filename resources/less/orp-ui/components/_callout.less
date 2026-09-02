@@ -1,0 +1,66 @@
+// =============================================
+// ORP UI — Callout
+// =============================================
+
+.orp-callout {
+    display: flex;
+    gap: var(--orp-space-3);
+    padding: var(--orp-space-4);
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-border);
+    border-radius: var(--orp-radius-md);
+    border-inline-start: 4px solid var(--orp-primary);
+
+    &__icon {
+        display: flex;
+        align-items: flex-start;
+        flex-shrink: 0;
+        padding-top: 2px;
+        color: var(--orp-primary);
+    }
+
+    &__content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__title {
+        font-size: var(--orp-font-size-md);
+        font-weight: 600;
+        color: var(--orp-surface-foreground);
+        margin-bottom: var(--orp-space-1);
+    }
+
+    &__description {
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-muted-foreground);
+        line-height: var(--orp-line-height);
+    }
+
+    &__actions {
+        display: flex;
+        gap: var(--orp-space-2);
+        margin-top: var(--orp-space-3);
+    }
+
+    // Semantic variants
+    &--info {
+        border-inline-start-color: var(--orp-info);
+        .orp-callout__icon { color: var(--orp-info); }
+    }
+
+    &--success {
+        border-inline-start-color: var(--orp-success);
+        .orp-callout__icon { color: var(--orp-success); }
+    }
+
+    &--warning {
+        border-inline-start-color: var(--orp-warning);
+        .orp-callout__icon { color: var(--orp-warning); }
+    }
+
+    &--danger {
+        border-inline-start-color: var(--orp-danger);
+        .orp-callout__icon { color: var(--orp-danger); }
+    }
+}

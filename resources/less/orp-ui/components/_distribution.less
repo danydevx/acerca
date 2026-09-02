@@ -1,0 +1,100 @@
+// =============================================
+// ORP UI — Distribution Bar
+// =============================================
+
+.orp-distribution {
+    display: flex;
+    flex-direction: column;
+    gap: var(--orp-space-3);
+
+    &__bar {
+        display: flex;
+        height: 12px;
+        background: var(--orp-surface-muted);
+        border-radius: var(--orp-radius-pill);
+        overflow: hidden;
+    }
+
+    &__segment {
+        height: 100%;
+        flex-shrink: 0;
+        transition: width var(--orp-duration-normal);
+
+        &:first-child {
+            border-start-start-radius: var(--orp-radius-pill);
+            border-end-start-radius: var(--orp-radius-pill);
+        }
+
+        &:last-child {
+            border-start-end-radius: var(--orp-radius-pill);
+            border-end-end-radius: var(--orp-radius-pill);
+        }
+
+        &:not(:first-child):not(:last-child) {
+            border-radius: 0;
+        }
+    }
+
+    &__legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--orp-space-3);
+    }
+
+    &__legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+    }
+
+    &__legend-marker {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        flex-shrink: 0;
+    }
+
+    &__legend-label {
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-surface-foreground);
+    }
+
+    &__legend-value {
+        font-size: var(--orp-font-size-sm);
+        font-weight: 500;
+        color: var(--orp-surface-foreground);
+        font-variant-numeric: tabular-nums;
+    }
+
+    // Compact variant
+    &--compact {
+        gap: var(--orp-space-2);
+
+        .orp-distribution__bar {
+            height: 8px;
+        }
+    }
+
+    // Horizontal layout for legend
+    &--horizontal &__legend {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    // Vertical segments (stacked vertical bar)
+    &--vertical {
+        .orp-distribution__bar {
+            width: 12px;
+            height: 100px;
+            flex-direction: column;
+        }
+
+        .orp-distribution__segment:first-child {
+            border-radius: var(--orp-radius-pill) var(--orp-radius-pill) 0 0;
+        }
+
+        .orp-distribution__segment:last-child {
+            border-radius: 0 0 var(--orp-radius-pill) var(--orp-radius-pill);
+        }
+    }
+}

@@ -1,0 +1,41 @@
+// =============================================
+// ORP UI — Keyboard Shortcut Hint
+// =============================================
+
+.orp-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 var(--orp-space-1);
+    background: var(--orp-surface-muted);
+    border: 1px solid var(--orp-border);
+    border-radius: var(--orp-radius-sm);
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-xs);
+    font-weight: 500;
+    color: var(--orp-muted-foreground);
+    white-space: nowrap;
+
+    &--sm {
+        height: 16px;
+        min-width: 16px;
+        font-size: 10px;
+        padding: 0 2px;
+    }
+
+    &--lg {
+        height: 24px;
+        min-width: 24px;
+        font-size: var(--orp-font-size-sm);
+        padding: 0 var(--orp-space-2);
+    }
+
+    // Separator between keys
+    &__sep {
+        margin: 0 2px;
+        color: var(--orp-muted-foreground);
+        opacity: 0.5;
+    }
+}

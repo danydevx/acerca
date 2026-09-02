@@ -1,0 +1,54 @@
+// =============================================
+// ORP UI — Table Pagination
+// =============================================
+
+.orp-table-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--orp-space-4);
+    padding: var(--orp-space-3) var(--orp-space-4);
+    border-top: 1px solid var(--orp-border);
+    background: var(--orp-surface);
+    flex-wrap: wrap;
+
+    &--compact {
+        padding: var(--orp-space-2) var(--orp-space-3);
+    }
+
+    &__info {
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-muted-foreground);
+        white-space: nowrap;
+    }
+
+    &__controls {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+    }
+
+    &__pagesize {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-muted-foreground);
+
+        select {
+            padding: var(--orp-space-1) var(--orp-space-2);
+            border: 1px solid var(--orp-border);
+            border-radius: var(--orp-radius-sm);
+            background: var(--orp-surface);
+            font: inherit;
+            font-size: var(--orp-font-size-sm);
+            color: var(--orp-surface-foreground);
+            cursor: pointer;
+
+            &:focus {
+                outline: 2px solid var(--orp-ring);
+                outline-offset: -2px;
+            }
+        }
+    }
+}

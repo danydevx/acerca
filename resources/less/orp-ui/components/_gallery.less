@@ -1,0 +1,76 @@
+// =============================================
+// ORP UI — Gallery
+// =============================================
+
+.orp-gallery {
+    display: grid;
+    gap: var(--orp-space-3);
+
+    // Default: 2 columns
+    grid-template-columns: repeat(2, 1fr);
+
+    // Responsive columns
+    &--cols-1 { grid-template-columns: repeat(1, 1fr); }
+    &--cols-2 { grid-template-columns: repeat(2, 1fr); }
+    &--cols-3 { grid-template-columns: repeat(3, 1fr); }
+    &--cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+    // Gap variants
+    &--gap-sm { gap: var(--orp-space-2); }
+    &--gap-md { gap: var(--orp-space-3); }
+    &--gap-lg { gap: var(--orp-space-4); }
+
+    &--gap-none { gap: 0; }
+}
+
+.orp-gallery__item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--orp-radius-md);
+    background: var(--orp-surface-muted);
+
+    &:hover {
+        .orp-gallery__overlay {
+            opacity: 1;
+        }
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+}
+
+.orp-gallery__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--orp-space-2);
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity var(--orp-duration-fast);
+}
+
+.orp-gallery__caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--orp-space-3);
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: white;
+    font-size: var(--orp-font-size-sm);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// Aspect ratio helpers using orp-media
+.orp-gallery__item--square { aspect-ratio: 1 / 1; }
+.orp-gallery__item--portrait { aspect-ratio: 3 / 4; }
+.orp-gallery__item--landscape { aspect-ratio: 4 / 3; }
+.orp-gallery__item--wide { aspect-ratio: 16 / 9; }

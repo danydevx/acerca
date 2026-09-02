@@ -1,0 +1,104 @@
+// =============================================
+// ORP UI — Stat Card
+// =============================================
+
+.orp-stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--orp-space-2);
+    padding: var(--orp-space-4);
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-border);
+    border-radius: var(--orp-radius-lg);
+    min-width: 0;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--orp-space-3);
+    }
+
+    &__label {
+        font-size: var(--orp-font-size-sm);
+        font-weight: 500;
+        color: var(--orp-muted-foreground);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: var(--orp-radius-md);
+        background: var(--orp-primary-container);
+        color: var(--orp-primary);
+    }
+
+    &__value {
+        font-size: var(--orp-font-size-2xl);
+        font-weight: 700;
+        color: var(--orp-surface-foreground);
+        line-height: var(--orp-line-height-tight);
+        font-variant-numeric: tabular-nums;
+    }
+
+    &__trend {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--orp-space-1);
+        font-size: var(--orp-font-size-sm);
+        font-weight: 500;
+
+        &--up {
+            color: var(--orp-success);
+        }
+
+        &--down {
+            color: var(--orp-danger);
+        }
+
+        &--neutral {
+            color: var(--orp-muted-foreground);
+        }
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-muted-foreground);
+        margin-top: var(--orp-space-1);
+    }
+
+    // Variants
+    &--bordered {
+        border-width: 2px;
+    }
+
+    &--outlined {
+        background: transparent;
+    }
+
+    &--filled {
+        background: var(--orp-surface-muted);
+    }
+
+    &--elevated {
+        box-shadow: var(--orp-shadow-sm);
+    }
+
+    &--compact {
+        padding: var(--orp-space-3);
+
+        .orp-stat-card__value {
+            font-size: var(--orp-font-size-xl);
+        }
+    }
+}

@@ -1,0 +1,57 @@
+// =============================================
+// ORP UI — Chart Legend
+// =============================================
+
+.orp-chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--orp-space-3);
+
+    &__item {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+    }
+
+    &__marker {
+        width: 12px;
+        height: 12px;
+        border-radius: var(--orp-radius-sm);
+        flex-shrink: 0;
+    }
+
+    &__label {
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-surface-foreground);
+        white-space: nowrap;
+    }
+
+    &__value {
+        font-size: var(--orp-font-size-sm);
+        font-weight: 500;
+        color: var(--orp-surface-foreground);
+        margin-inline-start: var(--orp-space-1);
+        font-variant-numeric: tabular-nums;
+    }
+
+    // Layout variants
+    &--horizontal {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    &--vertical {
+        flex-direction: column;
+        gap: var(--orp-space-2);
+    }
+
+    // Centered variant
+    &--center {
+        justify-content: center;
+    }
+
+    // Justified variant
+    &--justified {
+        justify-content: space-between;
+    }
+}

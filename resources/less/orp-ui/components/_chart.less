@@ -1,0 +1,92 @@
+// =============================================
+// ORP UI — Chart Container
+// =============================================
+
+.orp-chart {
+    display: flex;
+    flex-direction: column;
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-border);
+    border-radius: var(--orp-radius-lg);
+    overflow: hidden;
+
+    &__header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: var(--orp-space-4);
+        padding: var(--orp-space-4);
+        border-bottom: 1px solid var(--orp-border);
+        flex-wrap: wrap;
+    }
+
+    &__title-group {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__title {
+        font-size: var(--orp-font-size-lg);
+        font-weight: 600;
+        color: var(--orp-surface-foreground);
+        margin: 0;
+    }
+
+    &__description {
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-muted-foreground);
+        margin: var(--orp-space-1) 0 0;
+    }
+
+    &__meta {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-3);
+        flex-shrink: 0;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+        flex-shrink: 0;
+    }
+
+    &__body {
+        padding: var(--orp-space-4);
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__body--flush {
+        padding: 0;
+    }
+
+    &__legend {
+        padding: var(--orp-space-3) var(--orp-space-4);
+        border-top: 1px solid var(--orp-border);
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--orp-space-3);
+        padding: var(--orp-space-3) var(--orp-space-4);
+        border-top: 1px solid var(--orp-border);
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-muted-foreground);
+    }
+
+    // Variants
+    &--flush {
+        border: none;
+        border-radius: 0;
+    }
+
+    &--compact &__body {
+        min-height: 160px;
+    }
+}

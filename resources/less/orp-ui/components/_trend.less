@@ -1,0 +1,76 @@
+// =============================================
+// ORP UI — Trend Indicator
+// =============================================
+
+.orp-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--orp-space-1);
+    font-size: var(--orp-font-size-sm);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    &__value {
+        line-height: 1;
+    }
+
+    &__label {
+        color: var(--orp-muted-foreground);
+        font-weight: 400;
+        margin-inline-start: var(--orp-space-1);
+    }
+
+    // Direction: up
+    &--up {
+        color: var(--orp-success);
+    }
+
+    // Direction: down
+    &--down {
+        color: var(--orp-danger);
+    }
+
+    // Direction: flat (neutral)
+    &--flat {
+        color: var(--orp-muted-foreground);
+    }
+
+    // Tone: positive (good)
+    &--positive {
+        color: var(--orp-success);
+    }
+
+    // Tone: negative (bad)
+    &--negative {
+        color: var(--orp-danger);
+    }
+
+    // Tone: neutral
+    &--neutral {
+        color: var(--orp-muted-foreground);
+    }
+
+    // Sizes
+    &--sm {
+        font-size: var(--orp-font-size-xs);
+
+        .orp-trend__icon {
+            font-size: 10px;
+        }
+    }
+
+    &--lg {
+        font-size: var(--orp-font-size-md);
+
+        .orp-trend__icon {
+            font-size: 18px;
+        }
+    }
+}

@@ -1,0 +1,55 @@
+// =============================================
+// ORP UI — Toolbar
+// =============================================
+
+.orp-toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--orp-space-3);
+    padding: var(--orp-space-3) var(--orp-space-4);
+    background: var(--orp-surface);
+    border-bottom: 1px solid var(--orp-border);
+    border-radius: var(--orp-radius-md);
+    min-height: var(--orp-control-height);
+
+    &__leading {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+        flex-shrink: 0;
+    }
+
+    &__title {
+        font-size: var(--orp-font-size-md);
+        font-weight: 600;
+        color: var(--orp-surface-foreground);
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__content {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+        flex: 1;
+        min-width: 0;
+        flex-wrap: wrap;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+        flex-shrink: 0;
+    }
+
+    &--bordered {
+        border: 1px solid var(--orp-border);
+    }
+
+    &--sticky {
+        position: sticky;
+        top: 0;
+        z-index: var(--orp-z-sticky);
+    }
+}

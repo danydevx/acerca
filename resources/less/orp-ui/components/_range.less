@@ -1,0 +1,149 @@
+// =============================================
+// ORP UI — Range Input (Timeline / Scrubber)
+// =============================================
+
+.orp-range {
+    width: 100%;
+    height: 20px;
+    background: transparent;
+    cursor: pointer;
+    accent-color: var(--orp-primary);
+
+    &--sm {
+        height: 16px;
+    }
+
+    &--lg {
+        height: 24px;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 4px;
+        background: var(--orp-surface-muted);
+        border-radius: var(--orp-radius-pill);
+    }
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 14px;
+        height: 14px;
+        margin-top: -5px;
+        background: var(--orp-primary);
+        border: none;
+        border-radius: 50%;
+        transition: transform var(--orp-duration-fast);
+    }
+
+    &:hover::-webkit-slider-thumb {
+        transform: scale(1.2);
+    }
+
+    &:focus-visible::-webkit-slider-thumb {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+
+    &::-moz-range-track {
+        width: 100%;
+        height: 4px;
+        background: var(--orp-surface-muted);
+        border-radius: var(--orp-radius-pill);
+    }
+
+    &::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        background: var(--orp-primary);
+        border: none;
+        border-radius: 50%;
+        transition: transform var(--orp-duration-fast);
+    }
+
+    &:hover::-moz-range-thumb {
+        transform: scale(1.2);
+    }
+
+    &:focus-visible::-moz-range-thumb {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+
+    &--buffered {
+        &::-webkit-slider-runnable-track {
+            background: linear-gradient(
+                to right,
+                var(--orp-surface-muted) 0%,
+                var(--orp-surface-muted) var(--orp-range-buffered, 0%),
+                color-mix(in srgb, var(--orp-primary) 30%, var(--orp-surface-muted)) var(--orp-range-buffered, 0%),
+                color-mix(in srgb, var(--orp-primary) 30%, var(--orp-surface-muted)) 100%
+            );
+        }
+
+        &::-moz-range-track {
+            background: linear-gradient(
+                to right,
+                var(--orp-surface-muted) 0%,
+                var(--orp-surface-muted) var(--orp-range-buffered, 0%),
+                color-mix(in srgb, var(--orp-primary) 30%, var(--orp-surface-muted)) var(--orp-range-buffered, 0%),
+                color-mix(in srgb, var(--orp-primary) 30%, var(--orp-surface-muted)) 100%
+            );
+        }
+    }
+}
+
+// Volume range (vertical or horizontal)
+.orp-range--volume {
+    width: 80px;
+
+    &::-webkit-slider-runnable-track {
+        height: 3px;
+    }
+
+    &::-webkit-slider-thumb {
+        width: 12px;
+        height: 12px;
+        margin-top: -4px;
+    }
+}
+
+// Time range (thin track)
+.orp-range--time {
+    height: 16px;
+
+    &::-webkit-slider-runnable-track {
+        height: 3px;
+    }
+
+    &::-webkit-slider-thumb {
+        width: 12px;
+        height: 12px;
+        margin-top: -4px;
+    }
+
+    &::-moz-range-track {
+        height: 3px;
+    }
+
+    &::-moz-range-thumb {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-range {
+        &::-webkit-slider-thumb {
+            transition: none;
+        }
+
+        &::-moz-range-thumb {
+            transition: none;
+        }
+    }
+}

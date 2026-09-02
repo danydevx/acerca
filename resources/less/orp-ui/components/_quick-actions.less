@@ -1,0 +1,86 @@
+// =============================================
+// ORP UI — Quick Actions
+// =============================================
+
+.orp-quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--orp-space-3);
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--orp-space-2);
+        padding: var(--orp-space-4);
+        background: var(--orp-surface);
+        border: 1px solid var(--orp-border);
+        border-radius: var(--orp-radius-lg);
+        cursor: pointer;
+        transition: border-color var(--orp-duration-fast), box-shadow var(--orp-duration-fast);
+        min-width: 80px;
+        max-width: 120px;
+        text-align: center;
+
+        &:hover {
+            border-color: var(--orp-primary);
+            box-shadow: var(--orp-shadow-sm);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--orp-ring);
+            outline-offset: 2px;
+        }
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: var(--orp-radius-md);
+        background: var(--orp-surface-muted);
+        color: var(--orp-muted-foreground);
+    }
+
+    &__label {
+        font-size: var(--orp-font-size-sm);
+        font-weight: 500;
+        color: var(--orp-surface-foreground);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+    }
+
+    &__shortcut {
+        margin-top: var(--orp-space-1);
+    }
+
+    // Compact variant
+    &--compact {
+        gap: var(--orp-space-2);
+
+        .orp-quick-actions__item {
+            padding: var(--orp-space-3);
+            min-width: 64px;
+        }
+
+        .orp-quick-actions__icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .orp-quick-actions__label {
+            font-size: var(--orp-font-size-xs);
+        }
+    }
+
+    // Grid variant
+    &--grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: var(--orp-space-3);
+    }
+}

@@ -1,0 +1,117 @@
+// =============================================
+// ORP UI — File Item
+// =============================================
+
+.orp-file-item {
+    display: flex;
+    align-items: center;
+    gap: var(--orp-space-3);
+    padding: var(--orp-space-3) var(--orp-space-4);
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-border);
+    border-radius: var(--orp-radius-md);
+    min-width: 0;
+
+    &__preview {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: var(--orp-radius-sm);
+        overflow: hidden;
+        background: var(--orp-surface-muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--orp-muted-foreground);
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        svg, i {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    &__content {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    &__name {
+        font-size: var(--orp-font-size-sm);
+        font-weight: 500;
+        color: var(--orp-surface-foreground);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+    }
+
+    &__meta {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+        font-size: var(--orp-font-size-xs);
+        color: var(--orp-muted-foreground);
+    }
+
+    &__status {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--orp-space-1);
+        font-size: var(--orp-font-size-xs);
+        font-weight: 500;
+
+        &--uploading { color: var(--orp-primary); }
+        &--success { color: var(--orp-success); }
+        &--error { color: var(--orp-danger); }
+    }
+
+    &__progress {
+        flex: 1;
+        min-width: 80px;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-1);
+        flex-shrink: 0;
+    }
+
+    // Variants
+    &--compact {
+        padding: var(--orp-space-2) var(--orp-space-3);
+        gap: var(--orp-space-2);
+
+        .orp-file-item__preview {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    &--error {
+        border-color: var(--orp-danger);
+        background: color-mix(in srgb, var(--orp-danger) 5%, var(--orp-surface));
+    }
+
+    &--success {
+        border-color: var(--orp-success);
+    }
+
+    // Image preview variant
+    &--image {
+        .orp-file-item__preview {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--orp-radius-md);
+        }
+    }
+}

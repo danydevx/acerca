@@ -1,0 +1,110 @@
+// =============================================
+// ORP UI — Comment / Chat Bubble
+// =============================================
+
+.orp-comment {
+    display: flex;
+    flex-direction: column;
+    gap: var(--orp-space-2);
+    max-width: 85%;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+    }
+
+    &__avatar {
+        flex-shrink: 0;
+    }
+
+    &__meta {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-2);
+        flex-wrap: wrap;
+    }
+
+    &__author {
+        font-size: var(--orp-font-size-sm);
+        font-weight: 600;
+        color: var(--orp-surface-foreground);
+    }
+
+    &__time {
+        font-size: var(--orp-font-size-xs);
+        color: var(--orp-muted-foreground);
+    }
+
+    &__bubble {
+        padding: var(--orp-space-3) var(--orp-space-4);
+        background: var(--orp-surface-muted);
+        border-radius: var(--orp-radius-lg);
+        border-start-start-radius: var(--orp-radius-sm);
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-surface-foreground);
+        line-height: var(--orp-line-height);
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: var(--orp-space-3);
+        padding: 0 var(--orp-space-2);
+    }
+
+    &__action {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--orp-space-1);
+        font-size: var(--orp-font-size-xs);
+        font-weight: 500;
+        color: var(--orp-muted-foreground);
+        cursor: pointer;
+        transition: color var(--orp-duration-fast) var(--orp-easing-standard);
+
+        &:hover {
+            color: var(--orp-surface-foreground);
+        }
+    }
+
+    // Outgoing (right-aligned)
+    &--outgoing {
+        align-self: flex-end;
+        align-items: flex-end;
+
+        .orp-comment__bubble {
+            background: var(--orp-primary);
+            color: var(--orp-on-primary);
+            border-start-start-radius: var(--orp-radius-lg);
+            border-start-end-radius: var(--orp-radius-sm);
+        }
+    }
+
+    // Incoming (left-aligned)
+    &--incoming {
+        align-self: flex-start;
+        align-items: flex-start;
+
+        .orp-comment__bubble {
+            background: var(--orp-surface-muted);
+            color: var(--orp-surface-foreground);
+            border-start-start-radius: var(--orp-radius-sm);
+            border-start-end-radius: var(--orp-radius-lg);
+        }
+    }
+
+    // Threaded reply
+    &--reply {
+        margin-top: var(--orp-space-2);
+        padding-inline-start: var(--orp-space-4);
+        border-inline-start: 2px solid var(--orp-border);
+    }
+}
+
+// Chat list container
+.orp-comments {
+    display: flex;
+    flex-direction: column;
+    gap: var(--orp-space-4);
+}

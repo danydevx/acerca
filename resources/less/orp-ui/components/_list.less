@@ -8,9 +8,12 @@
     &__item {
         display: flex;
         align-items: center;
+        gap: var(--orp-space-3);
         padding: var(--orp-space-3) var(--orp-space-4);
         border-bottom: 1px solid var(--orp-border);
         min-width: 0;
+        text-decoration: none;
+        color: inherit;
 
         &:last-child {
             border-bottom: none;
@@ -45,12 +48,27 @@
                 cursor: not-allowed;
             }
         }
+
+        &--active {
+            background: color-mix(in srgb, var(--orp-primary) 8%, transparent);
+
+            &:hover {
+                background: color-mix(in srgb, var(--orp-primary) 12%, transparent);
+            }
+        }
+
+        &[aria-current="true"] {
+            background: color-mix(in srgb, var(--orp-primary) 8%, transparent);
+
+            &:hover {
+                background: color-mix(in srgb, var(--orp-primary) 12%, transparent);
+            }
+        }
     }
 
     &__leading {
         display: flex;
         align-items: center;
-        margin-right: var(--orp-space-3);
         flex-shrink: 0;
     }
 
@@ -80,8 +98,62 @@
     &__trailing {
         display: flex;
         align-items: center;
-        margin-left: var(--orp-space-3);
         flex-shrink: 0;
+    }
+
+    // Media thumbnail helper
+    &__media {
+        position: relative;
+        width: 56px;
+        height: 56px;
+        flex-shrink: 0;
+        border-radius: var(--orp-radius-md);
+        overflow: hidden;
+        background: var(--orp-surface-muted);
+
+        img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        &-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity var(--orp-duration-fast);
+
+            i {
+                margin-left: 2px;
+            }
+        }
+
+        &:hover &-overlay {
+            opacity: 1;
+        }
+
+        &--playing &-overlay {
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        &--sm {
+            width: 40px;
+            height: 40px;
+        }
+
+        &--lg {
+            width: 80px;
+            height: 80px;
+        }
     }
 
     // Variants
