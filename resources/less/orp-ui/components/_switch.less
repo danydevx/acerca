@@ -1,0 +1,77 @@
+// =============================================
+// ORP UI — Switch
+// =============================================
+
+.orp-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--orp-space-3);
+    cursor: pointer;
+
+    &--disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+}
+
+.orp-switch__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.orp-switch__control {
+    position: relative;
+    width: var(--orp-switch-width);
+    height: var(--orp-switch-height);
+    background: var(--orp-input);
+    border-radius: calc(var(--orp-switch-height) / 2);
+    transition: background var(--orp-duration-fast);
+    flex-shrink: 0;
+
+    .orp-switch__input:checked + & {
+        background: var(--orp-primary);
+    }
+
+    .orp-switch__input:disabled + & {
+        background: var(--orp-surface-muted);
+    }
+
+    .orp-switch__input:focus-visible + & {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+}
+
+.orp-switch__thumb {
+    position: absolute;
+    top: calc((var(--orp-switch-height) - var(--orp-switch-thumb-size)) / 2);
+    left: calc((var(--orp-switch-height) - var(--orp-switch-thumb-size)) / 2);
+    width: var(--orp-switch-thumb-size);
+    height: var(--orp-switch-thumb-size);
+    background: var(--orp-surface);
+    border-radius: 50%;
+    box-shadow: var(--orp-shadow-sm);
+    transition: transform var(--orp-duration-fast);
+
+    .orp-switch__input:checked ~ & {
+        transform: translateX(calc(var(--orp-switch-width) - var(--orp-switch-height)));
+    }
+
+    .orp-switch__input:disabled ~ & {
+        background: var(--orp-muted-foreground);
+    }
+}
+
+.orp-switch__label {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-surface-foreground);
+    user-select: none;
+}

@@ -1,0 +1,131 @@
+// =============================================
+// ORP UI — Modal
+// =============================================
+
+.orp-modal {
+    position: fixed;
+    inset: 0;
+    z-index: var(--orp-z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--orp-space-4);
+}
+
+.orp-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--orp-backdrop);
+}
+
+.orp-modal__dialog {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-height: calc(100dvh - var(--orp-space-8));
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-lg);
+    box-shadow: var(--orp-shadow-lg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    &--sm { max-width: var(--orp-modal-width-sm); }
+    &--md { max-width: var(--orp-modal-width-md); }
+    &--lg { max-width: var(--orp-modal-width-lg); }
+}
+
+.orp-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--orp-space-4);
+    border-bottom: 1px solid var(--orp-border);
+    flex-shrink: 0;
+}
+
+.orp-modal__title {
+    margin: 0;
+    font-size: var(--orp-font-size-lg);
+    font-weight: 600;
+    color: var(--orp-surface-foreground);
+}
+
+.orp-modal__description {
+    margin: 0;
+    padding: var(--orp-space-3) var(--orp-space-4);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    border-bottom: 1px solid var(--orp-border);
+}
+
+.orp-modal__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: var(--orp-radius-sm);
+    color: var(--orp-muted-foreground);
+    cursor: pointer;
+    transition: background var(--orp-duration-fast), color var(--orp-duration-fast);
+
+    &:hover {
+        background: var(--orp-surface-muted);
+        color: var(--orp-surface-foreground);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+}
+
+.orp-modal__body {
+    flex: 1;
+    padding: var(--orp-space-4);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.orp-modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--orp-space-3);
+    padding: var(--orp-space-4);
+    border-top: 1px solid var(--orp-border);
+    flex-shrink: 0;
+}
+
+.orp-modal-enter-active,
+.orp-modal-leave-active {
+    transition: opacity var(--orp-duration-normal);
+
+    .orp-modal__dialog {
+        transition: transform var(--orp-duration-normal), opacity var(--orp-duration-normal);
+    }
+}
+
+.orp-modal-enter-from,
+.orp-modal-leave-to {
+    opacity: 0;
+
+    .orp-modal__dialog {
+        transform: scale(0.95) translateY(10px);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-modal-enter-active,
+    .orp-modal-leave-active {
+        transition: none;
+
+        .orp-modal__dialog {
+            transition: none;
+        }
+    }
+}

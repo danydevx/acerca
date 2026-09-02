@@ -1,0 +1,46 @@
+// =============================================
+// ORP UI — Badge
+// =============================================
+
+.orp-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px var(--orp-space-2);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    border-radius: var(--orp-radius-pill);
+    white-space: nowrap;
+
+    &--primary {
+        background: var(--orp-primary);
+        color: var(--orp-primary-foreground);
+    }
+
+    &--secondary {
+        background: var(--orp-secondary);
+        color: var(--orp-secondary-foreground);
+    }
+
+    &--success {
+        background: var(--orp-success);
+        color: var(--orp-success-foreground);
+    }
+
+    &--warning {
+        background: var(--orp-warning);
+        color: var(--orp-warning-foreground);
+    }
+
+    &--danger {
+        background: var(--orp-danger);
+        color: var(--orp-danger-foreground);
+    }
+
+    &--outline {
+        background: transparent;
+        border: 1px solid var(--orp-border);
+        color: var(--orp-foreground);
+    }
+}

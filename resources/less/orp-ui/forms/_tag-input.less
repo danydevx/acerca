@@ -1,0 +1,106 @@
+// =============================================
+// ORP UI — Tag Input
+// =============================================
+
+.orp-tag-input {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    min-height: var(--orp-control-height);
+    padding: var(--orp-space-2) var(--orp-space-3);
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-input);
+    border-radius: var(--orp-radius-md);
+    cursor: text;
+    transition: border-color var(--orp-duration-fast), box-shadow var(--orp-duration-fast);
+
+    &:hover:not(.orp-tag-input--disabled) {
+        border-color: var(--orp-border);
+    }
+
+    &--focused {
+        border-color: var(--orp-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-primary) 20%, transparent);
+    }
+
+    &--disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background: var(--orp-surface-muted);
+    }
+
+    &--readonly {
+        cursor: default;
+        background: var(--orp-surface-muted);
+    }
+}
+
+.orp-tag-input__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--orp-space-2);
+    width: 100%;
+}
+
+.orp-tag-input__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--orp-space-1);
+    padding: 4px var(--orp-space-2);
+    background: var(--orp-muted);
+    border-radius: var(--orp-radius-sm);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-surface-foreground);
+}
+
+.orp-tag-input__tag-label {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.orp-tag-input__tag-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: var(--orp-muted-foreground);
+    cursor: pointer;
+    transition: color var(--orp-duration-fast), background var(--orp-duration-fast);
+
+    &:hover {
+        color: var(--orp-surface-foreground);
+        background: var(--orp-surface-muted);
+    }
+}
+
+.orp-tag-input__input {
+    flex: 1;
+    min-width: 80px;
+    height: 28px;
+    padding: 0;
+    font-family: var(--orp-font-family);
+    font-size: 16px;
+    color: var(--orp-surface-foreground);
+    background: transparent;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+        color: var(--orp-muted-foreground);
+    }
+}
+
+.orp-tag-input__placeholder {
+    flex: 1;
+    font-family: var(--orp-font-family);
+    font-size: 16px;
+    color: var(--orp-muted-foreground);
+}

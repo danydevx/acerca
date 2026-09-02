@@ -1,0 +1,52 @@
+// =============================================
+// ORP UI — Progress
+// =============================================
+
+.orp-progress {
+    width: 100%;
+    height: 8px;
+    background: var(--orp-surface-muted);
+    border-radius: var(--orp-radius-pill);
+    overflow: hidden;
+
+    &--sm {
+        height: 4px;
+    }
+
+    &--md {
+        height: 8px;
+    }
+
+    &--lg {
+        height: 12px;
+    }
+}
+
+.orp-progress__bar {
+    height: 100%;
+    border-radius: var(--orp-radius-pill);
+    transition: width var(--orp-duration-normal);
+
+    &--primary { background: var(--orp-primary); }
+    &--success { background: var(--orp-success); }
+    &--warning { background: var(--orp-warning); }
+    &--danger { background: var(--orp-danger); }
+}
+
+.orp-progress--indeterminate {
+    .orp-progress__bar {
+        width: 30%;
+        animation: progress-indeterminate 1.5s ease-in-out infinite;
+    }
+}
+
+@keyframes progress-indeterminate {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(400%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-progress--indeterminate .orp-progress__bar {
+        animation: none;
+    }
+}

@@ -1,0 +1,82 @@
+// =============================================
+// ORP UI — Bottom Navigation
+// =============================================
+
+.orp-bottom-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: var(--orp-bottom-nav-height);
+    background: var(--orp-surface);
+    border-top: 1px solid var(--orp-border);
+    padding-bottom: env(safe-area-inset-bottom);
+
+    &--fixed {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: var(--orp-z-fixed);
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        min-width: 44px;
+        min-height: 44px;
+        padding: var(--orp-space-1) var(--orp-space-2);
+        background: transparent;
+        border: none;
+        color: var(--orp-muted-foreground);
+        font-size: 0.625rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color var(--orp-duration-fast), background-color var(--orp-duration-fast);
+
+        &:focus-visible {
+            outline: 2px solid var(--orp-ring);
+            outline-offset: -2px;
+        }
+
+        &--active {
+            color: var(--orp-primary);
+        }
+
+        &:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        font-size: 1.25rem;
+    }
+
+    &__label {
+        line-height: 1;
+    }
+
+    &__badge {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        min-width: 16px;
+        height: 16px;
+        padding: 0 4px;
+        font-size: 0.625rem;
+        font-weight: 600;
+        line-height: 16px;
+        text-align: center;
+        background: var(--orp-danger);
+        color: var(--orp-danger-foreground);
+        border-radius: 8px;
+    }
+}

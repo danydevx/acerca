@@ -1,0 +1,80 @@
+// =============================================
+// ORP UI — Avatar
+// =============================================
+
+.orp-avatar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--orp-surface-muted);
+    color: var(--orp-muted-foreground);
+    font-weight: 600;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    &--sm {
+        width: var(--orp-avatar-sm);
+        height: var(--orp-avatar-sm);
+        font-size: 0.75rem;
+    }
+
+    &--md {
+        width: var(--orp-avatar-md);
+        height: var(--orp-avatar-md);
+        font-size: 0.875rem;
+    }
+
+    &--lg {
+        width: var(--orp-avatar-lg);
+        height: var(--orp-avatar-lg);
+        font-size: 1.125rem;
+    }
+
+    &--xl {
+        width: var(--orp-avatar-xl);
+        height: var(--orp-avatar-xl);
+        font-size: 1.5rem;
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &__fallback {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        text-transform: uppercase;
+    }
+
+    &__status {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 25%;
+        height: 25%;
+        min-width: 8px;
+        min-height: 8px;
+        border-radius: 50%;
+        border: 2px solid var(--orp-surface);
+        box-sizing: content-box;
+
+        &--online {
+            background: var(--orp-success);
+        }
+
+        &--offline {
+            background: var(--orp-muted-foreground);
+        }
+
+        &--busy {
+            background: var(--orp-danger);
+        }
+    }
+}

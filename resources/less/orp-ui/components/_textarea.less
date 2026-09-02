@@ -1,0 +1,61 @@
+// =============================================
+// ORP UI — Textarea
+// =============================================
+
+.orp-textarea {
+    display: block;
+    width: 100%;
+    min-height: 120px;
+    padding: var(--orp-space-4);
+    font-family: var(--orp-font-family);
+    font-size: 16px;
+    line-height: var(--orp-line-height);
+    color: var(--orp-surface-foreground);
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-input);
+    border-radius: var(--orp-radius-md);
+    resize: vertical;
+    appearance: none;
+    transition: border-color var(--orp-duration-fast), box-shadow var(--orp-duration-fast);
+
+    &::placeholder {
+        color: var(--orp-muted-foreground);
+    }
+
+    &:hover:not(:disabled):not(:focus) {
+        border-color: var(--orp-border);
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--orp-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-primary) 20%, transparent);
+    }
+
+    &:disabled {
+        background: var(--orp-surface-muted);
+        color: var(--orp-muted-foreground);
+        cursor: not-allowed;
+        resize: none;
+    }
+
+    &:read-only {
+        background: var(--orp-surface-muted);
+        cursor: default;
+    }
+
+    &:focus-visible {
+        outline: none;
+        border-color: var(--orp-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-primary) 20%, transparent);
+    }
+
+    &[aria-invalid="true"] {
+        border-color: var(--orp-danger);
+
+        &:focus {
+            outline-color: var(--orp-danger);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-danger) 20%, transparent);
+        }
+    }
+}

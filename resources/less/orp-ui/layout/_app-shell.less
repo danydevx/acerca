@@ -1,0 +1,118 @@
+// =============================================
+// ORP UI — App Shell
+// =============================================
+
+.orp-app-shell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--orp-background);
+    color: var(--orp-foreground);
+}
+
+.orp-app-shell__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.orp-app-shell__header {
+    flex-shrink: 0;
+}
+
+.orp-app-shell__header--sticky {
+    position: sticky;
+    top: 0;
+    z-index: var(--orp-z-sticky);
+}
+
+.orp-app-shell__main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.orp-app-shell__bottom {
+    flex-shrink: 0;
+}
+
+.orp-app-shell__bottom--fixed {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: var(--orp-z-fixed);
+}
+
+.orp-app-shell__fab {
+    position: fixed;
+    inset-inline-end: var(--orp-space-4);
+    bottom: calc(var(--orp-bottom-nav-height) + var(--orp-space-4) + env(safe-area-inset-bottom, 0px));
+    z-index: var(--orp-z-fixed);
+}
+
+.orp-app-shell__sidebar {
+    display: none;
+}
+
+.orp-app-shell__sidebar-header {
+    padding: var(--orp-space-4);
+    border-bottom: 1px solid var(--orp-border);
+}
+
+.orp-app-shell__sidebar-body {
+    flex: 1;
+    padding: var(--orp-space-4);
+    overflow-y: auto;
+}
+
+.orp-app-shell__sidebar-footer {
+    padding: var(--orp-space-4);
+    border-top: 1px solid var(--orp-border);
+}
+
+// Contained scroll mode
+.orp-app-shell--contained-scroll {
+    height: 100dvh;
+    overflow: hidden;
+
+    .orp-app-shell__main {
+        overflow-y: auto;
+    }
+}
+
+// Has fixed bottom - compensate main content
+.orp-app-shell--has-fixed-bottom {
+    .orp-app-shell__main {
+        padding-bottom: calc(var(--orp-bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+// Has sidebar - desktop layout
+@media (min-width: @orp-breakpoint-lg) {
+    .orp-app-shell--has-sidebar {
+        flex-direction: row;
+    }
+
+    .orp-app-shell__sidebar {
+        display: flex;
+        flex-direction: column;
+        width: var(--orp-sidebar-width);
+        height: 100dvh;
+        position: sticky;
+        top: 0;
+        flex-shrink: 0;
+        background: var(--orp-surface);
+        border-inline-end: 1px solid var(--orp-border);
+    }
+
+    .orp-app-shell__body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .orp-app-shell__bottom--fixed {
+        display: none;
+    }
+}

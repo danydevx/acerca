@@ -1,0 +1,153 @@
+// Stepper - Sequential process indicator
+
+@stepper-indicator-size: 32px;
+@stepper-icon-size: 16px;
+@stepper-gap: var(--orp-space-2);
+@stepper-radius: 50%;
+@stepper-connector-height: 2px;
+
+.orp-stepper {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+.orp-stepper__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--orp-space-3);
+}
+
+.orp-stepper__indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: @stepper-indicator-size;
+  height: @stepper-indicator-size;
+  border-radius: @stepper-radius;
+  background: var(--orp-muted);
+  color: var(--orp-muted-foreground);
+  font-family: var(--orp-font-family);
+  font-size: var(--orp-font-size-sm);
+  font-weight: 600;
+  transition: all var(--orp-duration-fast);
+}
+
+.orp-stepper__item--active {
+  .orp-stepper__indicator {
+    background: var(--orp-primary);
+    color: var(--orp-primary-foreground);
+  }
+
+  .orp-stepper__title {
+    font-weight: 600;
+    color: var(--orp-foreground);
+  }
+}
+
+.orp-stepper__item--complete {
+  .orp-stepper__indicator {
+    background: var(--orp-primary);
+    color: var(--orp-primary-foreground);
+  }
+}
+
+.orp-stepper__item--disabled {
+  .orp-stepper__indicator {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .orp-stepper__title,
+  .orp-stepper__description {
+    opacity: 0.4;
+  }
+}
+
+.orp-stepper__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .orp-icon {
+    font-size: @stepper-icon-size;
+  }
+}
+
+.orp-stepper__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.orp-stepper__title {
+  font-family: var(--orp-font-family);
+  font-size: var(--orp-font-size-sm);
+  font-weight: 500;
+  color: var(--orp-muted-foreground);
+  transition: all var(--orp-duration-fast);
+}
+
+.orp-stepper__description {
+  font-family: var(--orp-font-family);
+  font-size: var(--orp-font-size-xs);
+  color: var(--orp-muted-foreground);
+  transition: all var(--orp-duration-fast);
+}
+
+.orp-stepper__connector {
+  display: block;
+  width: @stepper-connector-height;
+  height: calc(@stepper-indicator-size / 2);
+  margin-left: calc((@stepper-indicator-size - @stepper-connector-height) / 2);
+  background: var(--orp-border);
+  transition: background var(--orp-duration-fast);
+
+  .orp-stepper__item--complete + & {
+    background: var(--orp-primary);
+  }
+}
+
+// Horizontal variant
+.orp-stepper--horizontal {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--orp-space-4);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .orp-stepper__item {
+    flex-shrink: 0;
+  }
+
+  .orp-stepper__connector {
+    width: calc(@stepper-indicator-size / 2);
+    height: @stepper-connector-height;
+    margin-left: 0;
+    margin-top: calc((@stepper-indicator-size - @stepper-connector-height) / 2);
+    flex-shrink: 0;
+  }
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .orp-stepper--horizontal {
+    gap: var(--orp-space-2);
+  }
+
+  .orp-stepper__description {
+    display: none;
+  }
+}

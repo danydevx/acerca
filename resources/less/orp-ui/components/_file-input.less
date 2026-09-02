@@ -1,0 +1,64 @@
+// =============================================
+// ORP UI — File Input
+// =============================================
+
+.orp-file__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.orp-file__dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--orp-space-2);
+    padding: var(--orp-space-5);
+    background: var(--orp-surface);
+    border: 2px dashed var(--orp-input);
+    border-radius: var(--orp-radius-md);
+    cursor: pointer;
+    transition: border-color var(--orp-duration-fast), background var(--orp-duration-fast);
+
+    &:hover:not(.orp-file__dropzone--disabled) {
+        border-color: var(--orp-primary);
+        background: color-mix(in srgb, var(--orp-primary) 5%, transparent);
+    }
+
+    &--disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.orp-file__icon {
+    color: var(--orp-muted-foreground);
+}
+
+.orp-file__label {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-surface-foreground);
+    text-align: center;
+}
+
+.orp-file__help {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin-top: var(--orp-space-2);
+}
+
+.orp-file__error {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-danger);
+    margin-top: var(--orp-space-2);
+}

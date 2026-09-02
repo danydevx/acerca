@@ -1,0 +1,36 @@
+// =============================================
+// ORP UI — Popover
+// =============================================
+
+.orp-popover {
+    position: relative;
+    display: inline-block;
+}
+
+.orp-popover__content {
+    position: fixed;
+    z-index: var(--orp-z-popover);
+    max-width: 320px;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-lg);
+    box-shadow: var(--orp-shadow-popover);
+    overflow: hidden;
+}
+
+.orp-popover-enter-active,
+.orp-popover-leave-active {
+    transition: opacity var(--orp-duration-fast), transform var(--orp-duration-fast);
+}
+
+.orp-popover-enter-from,
+.orp-popover-leave-to {
+    opacity: 0;
+    transform: translateY(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-popover-enter-active,
+    .orp-popover-leave-active {
+        transition: none;
+    }
+}

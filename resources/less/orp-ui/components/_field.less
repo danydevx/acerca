@@ -1,0 +1,106 @@
+// =============================================
+// ORP UI — Field
+// =============================================
+
+.orp-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--orp-space-2);
+}
+
+.orp-field__label {
+    display: block;
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    font-weight: 500;
+    color: var(--orp-surface-foreground);
+}
+
+.orp-field__help {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+}
+
+.orp-field__error {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-danger);
+}
+
+.orp-field__required {
+    color: var(--orp-danger);
+    margin-left: 2px;
+}
+
+.orp-field__optional {
+    font-size: var(--orp-font-size-xs);
+    color: var(--orp-muted-foreground);
+    font-weight: 400;
+}
+
+.orp-field--invalid {
+    .orp-input,
+    .orp-textarea,
+    .orp-select {
+        border-color: var(--orp-danger);
+
+        &:focus {
+            outline-color: var(--orp-danger);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-danger) 20%, transparent);
+        }
+    }
+}
+
+// Backward compatibility aliases
+.orp-label {
+    &:extend(.orp-field__label);
+}
+
+.orp-help {
+    &:extend(.orp-field__help);
+}
+
+.orp-error {
+    &:extend(.orp-field__error);
+}
+
+.orp-field--error {
+    &:extend(.orp-field--invalid);
+}
+
+// Field Group for checkbox/radio groups
+.orp-field-group {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.orp-field-group__legend {
+    display: block;
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    font-weight: 500;
+    color: var(--orp-surface-foreground);
+    margin-bottom: var(--orp-space-2);
+}
+
+.orp-field-group__help {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin-bottom: var(--orp-space-3);
+}
+
+.orp-field-group__error {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-danger);
+}
+
+.orp-field-group--invalid {
+    .orp-checkbox__control,
+    .orp-radio__control {
+        border-color: var(--orp-danger);
+    }
+}

@@ -1,0 +1,96 @@
+// =============================================
+// ORP UI — Radio
+// =============================================
+
+.orp-radio {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: var(--orp-space-3);
+    cursor: pointer;
+
+    &--disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    &--invalid {
+        .orp-radio__control {
+            border-color: var(--orp-danger);
+        }
+    }
+}
+
+.orp-radio__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+
+    &[aria-invalid="true"] + .orp-radio__control {
+        border-color: var(--orp-danger);
+    }
+}
+
+.orp-radio__control {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    background: var(--orp-surface);
+    border: 2px solid var(--orp-input);
+    border-radius: 50%;
+    transition: background var(--orp-duration-fast), border-color var(--orp-duration-fast);
+    margin-top: 2px;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 8px;
+        height: 8px;
+        background: var(--orp-primary-foreground);
+        border-radius: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        transition: transform var(--orp-duration-fast);
+    }
+
+    .orp-radio__input:checked + & {
+        background: var(--orp-primary);
+        border-color: var(--orp-primary);
+
+        &::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+    .orp-radio__input:disabled + & {
+        background: var(--orp-surface-muted);
+        border-color: var(--orp-border);
+    }
+
+    .orp-radio__input:focus-visible + & {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+}
+
+.orp-radio__label {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-surface-foreground);
+    user-select: none;
+}
+
+.orp-radio__description {
+    display: block;
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin-top: 2px;
+}

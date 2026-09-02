@@ -71,9 +71,12 @@ class ListingMinisiteSectionController extends Controller
                 return $sectionData;
             });
 
-        $setting = ListingMinisiteSetting::where('listing_id', $listing->id)->first();
+        $setting = ListingMinisiteSetting::firstOrCreate(
+            ['listing_id' => $listing->id],
+            ['is_active' => true]
+        );
 
-        if ($setting) {
+        if ($setting->wasRecentlyCreated || $setting->is_active) {
             $heroSection = [
                 'id' => 'hero',
                 'section_type' => 'hero',

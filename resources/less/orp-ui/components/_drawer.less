@@ -1,0 +1,140 @@
+// =============================================
+// ORP UI — Drawer
+// =============================================
+
+.orp-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: var(--orp-z-modal);
+    display: flex;
+}
+
+.orp-drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--orp-backdrop);
+}
+
+.orp-drawer__panel {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--orp-drawer-width);
+    height: 100%;
+    background: var(--orp-surface);
+    box-shadow: var(--orp-shadow-lg);
+    display: flex;
+    flex-direction: column;
+
+    .orp-drawer--left &,
+    .orp-drawer--start & {
+        order: 1;
+    }
+
+    .orp-drawer--right &,
+    .orp-drawer--end & {
+        order: 2;
+    }
+}
+
+.orp-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--orp-space-4);
+    border-bottom: 1px solid var(--orp-border);
+    flex-shrink: 0;
+    padding-top: calc(var(--orp-space-4) + env(safe-area-inset-top, 0px));
+}
+
+.orp-drawer__title {
+    margin: 0;
+    font-size: var(--orp-font-size-lg);
+    font-weight: 600;
+    color: var(--orp-surface-foreground);
+}
+
+.orp-drawer__description {
+    margin: 0;
+    padding: var(--orp-space-3) var(--orp-space-4);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    border-bottom: 1px solid var(--orp-border);
+}
+
+.orp-drawer__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: var(--orp-radius-sm);
+    color: var(--orp-muted-foreground);
+    cursor: pointer;
+    transition: background var(--orp-duration-fast), color var(--orp-duration-fast);
+
+    &:hover {
+        background: var(--orp-surface-muted);
+        color: var(--orp-surface-foreground);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+}
+
+.orp-drawer__body {
+    flex: 1;
+    padding: var(--orp-space-4);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.orp-drawer__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--orp-space-3);
+    padding: var(--orp-space-4);
+    border-top: 1px solid var(--orp-border);
+    flex-shrink: 0;
+    padding-bottom: calc(var(--orp-space-4) + env(safe-area-inset-bottom, 0px));
+}
+
+.orp-drawer-enter-active,
+.orp-drawer-leave-active {
+    transition: opacity var(--orp-duration-normal);
+
+    .orp-drawer__panel {
+        transition: transform var(--orp-duration-normal);
+    }
+}
+
+.orp-drawer-enter-from,
+.orp-drawer-leave-to {
+    opacity: 0;
+
+    &.orp-drawer--left .orp-drawer__panel,
+    &.orp-drawer--start .orp-drawer__panel {
+        transform: translateX(-100%);
+    }
+
+    &.orp-drawer--right .orp-drawer__panel,
+    &.orp-drawer--end .orp-drawer__panel {
+        transform: translateX(100%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-drawer-enter-active,
+    .orp-drawer-leave-active {
+        transition: none;
+
+        .orp-drawer__panel {
+            transition: none;
+        }
+    }
+}

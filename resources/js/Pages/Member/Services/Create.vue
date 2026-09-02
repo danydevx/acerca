@@ -71,7 +71,6 @@
                 placeholder="30"
                 v-model="form.duration_minutes"
                 :formError="errors.duration_minutes"
-                required
               />
             </div>
 
@@ -258,7 +257,7 @@ const validateForm = () => {
     isValid = false
   }
 
-  if (!form.duration_minutes || form.duration_minutes < 1) {
+  if (form.duration_minutes && form.duration_minutes < 1) {
     errors.duration_minutes = 'La duracion minima es 1 minuto.'
     isValid = false
   }

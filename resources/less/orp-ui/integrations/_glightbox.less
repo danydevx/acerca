@@ -1,0 +1,37 @@
+// =============================================
+// ORP UI — GLightbox Integration
+// =============================================
+//
+// GLightbox is an optional integration for media lightbox galleries.
+// ORP UI provides .orp-lightbox as a trigger convention.
+//
+// Usage:
+// <a href="/image-large.jpg" class="orp-lightbox">
+//     <img src="/image-thumb.jpg" alt="">
+// </a>
+//
+// Initialize in JS:
+// import GLightbox from 'glightbox'
+// const lightbox = GLightbox({ selector: '.orp-lightbox' })
+//
+// Note: GLightbox CSS must be imported separately by the application:
+// import 'glightbox/dist/css/glightbox.min.css'
+
+.orp-lightbox {
+    cursor: pointer;
+}
+
+.glightbox-container {
+
+    .gbtn {
+        color: var(--orp-surface-foreground);
+    }
+}
+
+.glightbox-container {
+    background: var(--orp-backdrop);
+}
+
+.glightbox-mobile .glightbox-container {
+    background: var(--orp-foreground);
+}

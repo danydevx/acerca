@@ -1,0 +1,167 @@
+// =============================================
+// ORP UI — Hero
+// =============================================
+
+.orp-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+    overflow: hidden;
+}
+
+.orp-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    img, video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.orp-hero__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.3) 50%,
+        rgba(0, 0, 0, 0.1) 100%
+    );
+}
+
+.orp-hero__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 200px;
+    padding: var(--orp-space-4);
+    color: #ffffff;
+}
+
+.orp-hero__eyebrow {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+    margin-bottom: var(--orp-space-2);
+}
+
+.orp-hero__title {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-xl);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 var(--orp-space-2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.orp-hero__description {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    line-height: 1.5;
+    opacity: 0.9;
+    margin: 0 0 var(--orp-space-3);
+    max-width: 480px;
+}
+
+.orp-hero__actions {
+    display: flex;
+    gap: var(--orp-space-3);
+    flex-wrap: wrap;
+}
+
+// Height variants
+
+.orp-hero--compact {
+    min-height: 160px;
+
+    .orp-hero__content {
+        min-height: 160px;
+    }
+
+    .orp-hero__title {
+        font-size: var(--orp-font-size-lg);
+    }
+}
+
+.orp-hero--default {
+    min-height: 280px;
+
+    .orp-hero__content {
+        min-height: 280px;
+    }
+}
+
+.orp-hero--tall {
+    min-height: 400px;
+
+    .orp-hero__content {
+        min-height: 400px;
+        padding: var(--orp-space-6);
+    }
+
+    .orp-hero__title {
+        font-size: 2rem;
+    }
+}
+
+// Content position
+
+.orp-hero--start {
+    .orp-hero__content {
+        align-items: flex-start;
+        text-align: left;
+    }
+}
+
+.orp-hero--center {
+    .orp-hero__content {
+        align-items: center;
+        text-align: center;
+
+        .orp-hero__description {
+            text-align: center;
+        }
+    }
+}
+
+.orp-hero--end {
+    .orp-hero__content {
+        align-items: flex-end;
+        text-align: right;
+
+        .orp-hero__description {
+            text-align: right;
+        }
+    }
+}
+
+// Dark text variant for light backgrounds
+
+.orp-hero--light {
+    .orp-hero__content {
+        color: var(--orp-foreground);
+    }
+
+    .orp-hero__overlay {
+        background: linear-gradient(
+            to top,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0.1) 100%
+        );
+    }
+
+    .orp-hero__title {
+        text-shadow: none;
+    }
+}

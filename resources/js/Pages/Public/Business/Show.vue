@@ -345,6 +345,17 @@
       :link-color="footerColors.link"
       :accent-color="footerColors.linkHover"
     />
+
+    <AiChatWidget
+      v-if="aiChatbot && aiChatbot.is_enabled"
+      :businessSlug="business.slug"
+      :businessName="business.name"
+      :chatbotName="aiChatbot.chatbot_name || 'Asistente Virtual'"
+      :chatbotAvatar="aiChatbot.chatbot_avatar || ''"
+      :widgetColor="aiChatbot.widget_color || '#3B82F6'"
+      :widgetTheme="aiChatbot.widget_theme || 'light'"
+      :allowReset="aiChatbot.allow_reset_chat"
+    />
   </MinisiteLayout>
 </template>
 
@@ -357,6 +368,7 @@ import HeroSection from '@/Minisites/Themes/Bold/Sections/HeroSection.vue'
 import ServicesSection from '@/Minisites/Themes/Bold/Sections/ServicesSection.vue'
 import ContactSection from '@/Minisites/Themes/Bold/Sections/ContactSection.vue'
 import FooterSection from '@/Minisites/Themes/Bold/Sections/FooterSection.vue'
+import AiChatWidget from '@/Components/Minisite/AiChatWidget.vue'
 import 'glightbox/dist/css/glightbox.min.css'
 
 const page = usePage()
@@ -378,6 +390,7 @@ const socialNetworks = computed(() => page.props.socialNetworks || [])
 const about = computed(() => page.props.about || null)
 const branding = computed(() => page.props.branding || null)
 const sectionVariants = computed(() => page.props.sectionVariants || { services: 'cards' })
+const aiChatbot = computed(() => page.props.aiChatbot || null)
 const sectionSchemes = computed(() => page.props.sectionSchemes || {
   hero: 'gradient',
   about: 'light',

@@ -1,0 +1,107 @@
+// Pagination - Dataset pagination controls
+
+@pagination-height: 44px;
+@pagination-item-gap: 4px;
+@pagination-radius: var(--orp-radius-md);
+
+.orp-pagination {
+  display: block;
+  width: 100%;
+}
+
+.orp-pagination__list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: @pagination-item-gap;
+}
+
+.orp-pagination__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.orp-pagination__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: @pagination-height;
+  height: @pagination-height;
+  padding: 0 var(--orp-space-3);
+  font-family: var(--orp-font-family);
+  font-size: var(--orp-font-size-sm);
+  font-weight: 500;
+  color: var(--orp-foreground);
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid var(--orp-border);
+  border-radius: @pagination-radius;
+  transition: all var(--orp-duration-fast);
+
+  &:hover:not(:disabled) {
+    background: var(--orp-muted);
+    border-color: var(--orp-muted-foreground);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--orp-ring);
+    outline-offset: 2px;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+}
+
+.orp-pagination__item--active {
+  .orp-pagination__link {
+    background: var(--orp-primary);
+    border-color: var(--orp-primary);
+    color: var(--orp-primary-foreground);
+    font-weight: 600;
+
+    &:hover:not(:disabled) {
+      background: var(--orp-primary);
+      border-color: var(--orp-primary);
+    }
+  }
+}
+
+.orp-pagination__item--disabled {
+  .orp-pagination__link {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.orp-pagination__ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: @pagination-height;
+  height: @pagination-height;
+  padding: 0 var(--orp-space-2);
+  color: var(--orp-muted-foreground);
+  font-family: var(--orp-font-family);
+  font-size: var(--orp-font-size-sm);
+}
+
+.orp-pagination--compact {
+  .orp-pagination__link {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 var(--orp-space-2);
+    font-size: var(--orp-font-size-xs);
+  }
+
+  .orp-pagination__ellipsis {
+    min-width: 36px;
+    height: 36px;
+  }
+}

@@ -1,0 +1,99 @@
+// =============================================
+// ORP UI — Dropdown
+// =============================================
+
+.orp-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.orp-dropdown__menu {
+    position: fixed;
+    z-index: var(--orp-z-dropdown);
+    min-width: 180px;
+    max-height: 280px;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-md);
+    box-shadow: var(--orp-shadow-dropdown);
+    overflow: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.orp-dropdown__content {
+    padding: var(--orp-space-2);
+}
+
+.orp-dropdown__item {
+    display: flex;
+    align-items: center;
+    gap: var(--orp-space-3);
+    width: 100%;
+    padding: var(--orp-space-3) var(--orp-space-4);
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-surface-foreground);
+    background: transparent;
+    border: none;
+    border-radius: var(--orp-radius-sm);
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--orp-duration-fast);
+
+    &:hover {
+        background: var(--orp-surface-muted);
+    }
+
+    &:focus {
+        outline: none;
+        background: var(--orp-surface-muted);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: -2px;
+    }
+
+    &--danger {
+        color: var(--orp-danger);
+
+        &:hover {
+            background: color-mix(in srgb, var(--orp-danger) 10%, transparent);
+        }
+    }
+}
+
+.orp-dropdown__divider {
+    height: 1px;
+    margin: var(--orp-space-2) 0;
+    background: var(--orp-border);
+}
+
+.orp-dropdown__label {
+    display: block;
+    padding: var(--orp-space-2) var(--orp-space-4);
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    font-weight: 500;
+    color: var(--orp-muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.orp-dropdown-enter-active,
+.orp-dropdown-leave-active {
+    transition: opacity var(--orp-duration-fast), transform var(--orp-duration-fast);
+}
+
+.orp-dropdown-enter-from,
+.orp-dropdown-leave-to {
+    opacity: 0;
+    transform: translateY(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-dropdown-enter-active,
+    .orp-dropdown-leave-active {
+        transition: none;
+    }
+}

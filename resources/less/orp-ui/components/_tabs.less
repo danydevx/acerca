@@ -1,0 +1,109 @@
+// =============================================
+// ORP UI — Tabs
+// =============================================
+
+.orp-tabs {
+    width: 100%;
+}
+
+.orp-tabs__list {
+    display: flex;
+    gap: var(--orp-space-1);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.orp-tabs--stretch .orp-tabs__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    overflow: visible;
+}
+
+.orp-tabs__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--orp-space-2) var(--orp-space-4);
+    min-height: 44px;
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-md);
+    font-weight: 500;
+    color: var(--orp-muted-foreground);
+    background: transparent;
+    border: none;
+    border-radius: var(--orp-radius-sm);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color var(--orp-duration-fast), background var(--orp-duration-fast);
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+
+    &--active {
+        color: var(--orp-primary);
+    }
+}
+
+.orp-tabs--default {
+    .orp-tabs__item {
+        &--active {
+            background: color-mix(in srgb, var(--orp-primary) 10%, transparent);
+        }
+    }
+}
+
+.orp-tabs--pill .orp-tabs__list {
+    gap: var(--orp-space-2);
+    padding: var(--orp-space-1);
+    background: var(--orp-surface-muted);
+    border-radius: var(--orp-radius-lg);
+}
+
+.orp-tabs--pill .orp-tabs__item {
+    border-radius: var(--orp-radius-md);
+
+    &--active {
+        background: var(--orp-surface);
+        box-shadow: var(--orp-shadow-sm);
+    }
+}
+
+.orp-tabs--underline {
+    border-bottom: 1px solid var(--orp-border);
+
+    .orp-tabs__list {
+        gap: 0;
+        overflow-x: visible;
+    }
+
+    .orp-tabs__item {
+        position: relative;
+        border-radius: 0;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: transparent;
+            transition: background var(--orp-duration-fast);
+        }
+
+        &--active {
+            color: var(--orp-primary);
+
+            &::after {
+                background: var(--orp-primary);
+            }
+        }
+    }
+}

@@ -928,7 +928,6 @@ const saveSettings = () => {
   router.post(`/member/listings/${props.business.id}/ai-chatbot/settings`, formData, {
     preserveScroll: true,
     onSuccess: () => {
-      successMessage.value = 'Configuración guardada correctamente.'
       emit('saved')
       form.chatbot_avatar_preview = ''
       delete form.chatbot_avatar_file

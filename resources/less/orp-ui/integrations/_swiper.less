@@ -1,0 +1,94 @@
+// =============================================
+// ORP UI — Swiper Integration
+// =============================================
+
+.orp-swiper {
+    .swiper {
+        overflow: visible;
+    }
+
+    .swiper-slide {
+        width: auto;
+        height: auto;
+    }
+
+    .swiper-pagination {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        gap: var(--orp-space-2);
+        margin-top: var(--orp-space-4);
+    }
+
+    .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        background: var(--orp-muted);
+        border-radius: 50%;
+        opacity: 0.5;
+        transition: opacity var(--orp-duration-fast), background var(--orp-duration-fast);
+    }
+
+    .swiper-pagination-bullet-active {
+        background: var(--orp-primary);
+        opacity: 1;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 40px;
+        height: 40px;
+        background: var(--orp-surface);
+        border-radius: 50%;
+        box-shadow: var(--orp-shadow-md);
+        color: var(--orp-surface-foreground);
+
+        &::after {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--orp-ring);
+            outline-offset: 2px;
+        }
+    }
+
+    .swiper-button-prev {
+        left: var(--orp-space-2);
+    }
+
+    .swiper-button-next {
+        right: var(--orp-space-2);
+    }
+
+    .swiper-scrollbar {
+        background: var(--orp-surface-muted);
+        border-radius: var(--orp-radius-pill);
+    }
+
+    .swiper-scrollbar-drag {
+        background: var(--orp-primary);
+        border-radius: var(--orp-radius-pill);
+    }
+}
+
+.orp-swiper--dark {
+    .swiper-pagination-bullet {
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .swiper-pagination-bullet-active {
+        background: var(--orp-primary);
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--orp-foreground);
+    }
+
+    .swiper-scrollbar {
+        background: rgba(255, 255, 255, 0.2);
+    }
+}

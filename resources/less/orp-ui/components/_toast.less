@@ -1,0 +1,100 @@
+// =============================================
+// ORP UI — Toast
+// =============================================
+
+.orp-toast {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: var(--orp-z-toast);
+    display: flex;
+    align-items: center;
+    gap: var(--orp-space-3);
+    max-width: 360px;
+    width: calc(100% - var(--orp-space-8));
+    padding: var(--orp-space-3) var(--orp-space-4);
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-md);
+    box-shadow: var(--orp-shadow-lg);
+
+    &--top {
+        top: calc(var(--orp-space-4) + env(safe-area-inset-top, 0px));
+    }
+
+    &--bottom {
+        bottom: calc(var(--orp-space-4) + env(safe-area-inset-bottom, 0px));
+    }
+
+    &--success {
+        border-left: 4px solid var(--orp-success);
+    }
+
+    &--warning {
+        border-left: 4px solid var(--orp-warning);
+    }
+
+    &--danger {
+        border-left: 4px solid var(--orp-danger);
+    }
+}
+
+.orp-toast__content {
+    flex: 1;
+}
+
+.orp-toast__message {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-surface-foreground);
+}
+
+.orp-toast__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: var(--orp-radius-sm);
+    color: var(--orp-muted-foreground);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background var(--orp-duration-fast), color var(--orp-duration-fast);
+
+    &:hover {
+        background: var(--orp-surface-muted);
+        color: var(--orp-surface-foreground);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+}
+
+.orp-toast-enter-active,
+.orp-toast-leave-active {
+    transition: opacity var(--orp-duration-normal), transform var(--orp-duration-normal);
+}
+
+.orp-toast-enter-from,
+.orp-toast-leave-to {
+    opacity: 0;
+
+    &.orp-toast--top {
+        transform: translateX(-50%) translateY(-20px);
+    }
+
+    &.orp-toast--bottom {
+        transform: translateX(-50%) translateY(20px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-toast-enter-active,
+    .orp-toast-leave-active {
+        transition: none;
+    }
+}

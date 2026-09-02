@@ -1,0 +1,70 @@
+// =============================================
+// ORP UI — Alert
+// =============================================
+
+.orp-alert {
+    display: flex;
+    gap: var(--orp-space-3);
+    padding: var(--orp-space-4);
+    border-radius: var(--orp-radius-md);
+    border-left: 4px solid;
+
+    &--info {
+        background: color-mix(in srgb, var(--orp-info) 10%, transparent);
+        border-color: var(--orp-info);
+
+        .orp-alert__icon { color: var(--orp-info); }
+    }
+
+    &--success {
+        background: color-mix(in srgb, var(--orp-success) 10%, transparent);
+        border-color: var(--orp-success);
+
+        .orp-alert__icon { color: var(--orp-success); }
+    }
+
+    &--warning {
+        background: color-mix(in srgb, var(--orp-warning) 10%, transparent);
+        border-color: var(--orp-warning);
+
+        .orp-alert__icon { color: var(--orp-warning); }
+    }
+
+    &--danger {
+        background: color-mix(in srgb, var(--orp-danger) 10%, transparent);
+        border-color: var(--orp-danger);
+
+        .orp-alert__icon { color: var(--orp-danger); }
+    }
+}
+
+.orp-alert__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.orp-alert__content {
+    flex: 1;
+}
+
+.orp-alert__title {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-md);
+    font-weight: 600;
+    color: var(--orp-surface-foreground);
+    margin-bottom: var(--orp-space-1);
+}
+
+.orp-alert__message {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-surface-foreground);
+    line-height: var(--orp-line-height);
+}
+
+.orp-alert__actions {
+    display: flex;
+    gap: var(--orp-space-2);
+    margin-top: var(--orp-space-3);
+}

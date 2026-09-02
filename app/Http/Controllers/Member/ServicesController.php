@@ -33,7 +33,7 @@ class ServicesController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:2000'],
-            'duration_minutes' => ['required', 'integer', 'min:1', 'max:1440'],
+            'duration_minutes' => ['nullable', 'integer', 'min:1', 'max:1440'],
             'price' => ['nullable', 'numeric', 'min:0'],
             'deposit_required' => ['boolean'],
             'deposit_amount' => ['nullable', 'numeric', 'min:0'],
@@ -65,7 +65,7 @@ class ServicesController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:2000'],
-            'duration_minutes' => ['required', 'integer', 'min:1', 'max:1440'],
+            'duration_minutes' => ['nullable', 'integer', 'min:1', 'max:1440'],
             'price' => ['nullable', 'numeric', 'min:0'],
             'deposit_required' => ['boolean'],
             'deposit_amount' => ['nullable', 'numeric', 'min:0'],

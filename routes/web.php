@@ -141,6 +141,8 @@ Route::get('/', [DirectoryController::class, 'index']);
 
 Route::get('/health', HealthController::class)->name('health');
 
+Route::get('/orp-playground', [App\Http\Controllers\OrpPlaygroundController::class, 'index']);
+
 Route::get('/maintenance', function () {
     $settings = app(SettingService::class);
 

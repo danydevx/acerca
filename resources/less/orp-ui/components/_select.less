@@ -1,0 +1,56 @@
+// =============================================
+// ORP UI — Select
+// =============================================
+
+.orp-select {
+    display: block;
+    width: 100%;
+    height: var(--orp-control-height);
+    padding: var(--orp-space-3) calc(var(--orp-space-4) + 24px) var(--orp-space-3) var(--orp-space-4);
+    font-family: var(--orp-font-family);
+    font-size: 16px;
+    line-height: var(--orp-line-height);
+    color: var(--orp-surface-foreground);
+    background: var(--orp-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center;
+    border: 1px solid var(--orp-input);
+    border-radius: var(--orp-radius-md);
+    appearance: none;
+    cursor: pointer;
+    transition: border-color var(--orp-duration-fast), box-shadow var(--orp-duration-fast);
+
+    &:hover:not(:disabled):not(:focus) {
+        border-color: var(--orp-border);
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--orp-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-primary) 20%, transparent);
+    }
+
+    &:disabled {
+        background-color: var(--orp-surface-muted);
+        color: var(--orp-muted-foreground);
+        cursor: not-allowed;
+    }
+
+    &:focus-visible {
+        outline: none;
+        border-color: var(--orp-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-primary) 20%, transparent);
+    }
+
+    &[aria-invalid="true"] {
+        border-color: var(--orp-danger);
+
+        &:focus {
+            outline-color: var(--orp-danger);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-danger) 20%, transparent);
+        }
+    }
+
+    option {
+        color: var(--orp-surface-foreground);
+        background: var(--orp-surface);
+    }
+}

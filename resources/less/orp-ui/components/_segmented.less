@@ -1,0 +1,57 @@
+// =============================================
+// ORP UI — Segmented Control
+// =============================================
+
+.orp-segmented {
+    display: inline-flex;
+    background: var(--orp-surface-muted);
+    border-radius: var(--orp-radius-lg);
+    padding: 2px;
+
+    &--full {
+        display: flex;
+        width: 100%;
+
+        .orp-segmented__item {
+            flex: 1;
+        }
+    }
+}
+
+.orp-segmented__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--orp-space-2) var(--orp-space-3);
+    min-height: 36px;
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    font-weight: 500;
+    color: var(--orp-muted-foreground);
+    background: transparent;
+    border: none;
+    border-radius: var(--orp-radius-md);
+    cursor: pointer;
+    transition: background var(--orp-duration-fast), color var(--orp-duration-fast);
+    white-space: nowrap;
+
+    &:hover:not(:disabled):not(.orp-segmented__item--active) {
+        color: var(--orp-surface-foreground);
+    }
+
+    &--active {
+        background: var(--orp-surface);
+        color: var(--orp-surface-foreground);
+        box-shadow: var(--orp-shadow-sm);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+}

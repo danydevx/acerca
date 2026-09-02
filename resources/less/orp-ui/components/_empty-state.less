@@ -1,0 +1,46 @@
+// =============================================
+// ORP UI — Empty State
+// =============================================
+
+.orp-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--orp-space-6);
+}
+
+.orp-empty__media {
+    margin-bottom: var(--orp-space-4);
+    color: var(--orp-muted-foreground);
+
+    svg, img {
+        width: 64px;
+        height: 64px;
+        opacity: 0.5;
+    }
+}
+
+.orp-empty__title {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-lg);
+    font-weight: 600;
+    color: var(--orp-surface-foreground);
+    margin: 0 0 var(--orp-space-2);
+}
+
+.orp-empty__description {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin: 0 0 var(--orp-space-4);
+    max-width: 280px;
+}
+
+.orp-empty__actions {
+    display: flex;
+    gap: var(--orp-space-3);
+    flex-wrap: wrap;
+    justify-content: center;
+}

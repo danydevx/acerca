@@ -427,7 +427,6 @@ const importFromUrl = () => {
       preserveScroll: true,
       onSuccess: () => {
         closeImportUrlModal()
-        successMessage.value = 'Contexto importado correctamente.'
         emit('saved')
       },
       onFinish: () => {
@@ -456,7 +455,6 @@ const saveContext = () => {
         preserveScroll: true,
         onSuccess: () => {
           closeModal()
-          successMessage.value = 'Contexto actualizado correctamente.'
           emit('saved')
         },
         onFinish: () => {
@@ -469,7 +467,6 @@ const saveContext = () => {
       preserveScroll: true,
       onSuccess: () => {
         closeModal()
-        successMessage.value = 'Contexto creado correctamente.'
         emit('saved')
       },
       onFinish: () => {
@@ -486,7 +483,6 @@ const deleteContext = (context) => {
       {
         preserveScroll: true,
         onSuccess: () => {
-          successMessage.value = 'Contexto eliminado correctamente.'
           emit('deleted')
         },
       }

@@ -199,13 +199,17 @@ class ChatController extends Controller
         }
 
         $initialSuggestions = [];
+        $greetingMessage = null;
         $allPresets = $settings->getAllActivePresets();
         if ($allPresets->isNotEmpty()) {
-            $mainSuggestions = $allPresets->first()->initial_suggestions ?? [];
+            $firstPreset = $allPresets->first();
+            $mainSuggestions = $firstPreset->initial_suggestions ?? [];
             if (is_string($mainSuggestions)) {
                 $mainSuggestions = json_decode($mainSuggestions, true) ?? [];
             }
             $initialSuggestions = is_array($mainSuggestions) ? $mainSuggestions : [];
+
+            $greetingMessage = $firstPreset->greeting_message;
 
             if ($allPresets->count() > 1) {
                 foreach ($allPresets->skip(1) as $preset) {
@@ -227,6 +231,7 @@ class ChatController extends Controller
             'chatbot_avatar' => $settings->chatbot_avatar,
             'widget_color' => $settings->widget_color,
             'widget_theme' => $settings->widget_theme ?? 'light',
+            'greeting_message' => $greetingMessage,
             'initial_suggestions' => $initialSuggestions,
             'expandable_responses' => $settings->expandable_responses ?? true,
             'show_citations' => $settings->show_citations ?? true,

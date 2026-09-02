@@ -292,6 +292,7 @@ class BusinessController extends Controller
             ] : null,
             'branding' => $branding,
             'sectionVariants' => $sectionVariants,
+            'aiChatbot' => $this->getAiChatbotSettings($business),
         ]);
     }
 
@@ -886,5 +887,29 @@ class BusinessController extends Controller
                 ];
             }),
         ]);
+    }
+
+    private function getAiChatbotSettings(Listing $business): ?array
+    {
+        if (!in_array('ai_chatbot', $business->getEnabledModules())) {
+            return null;
+        }
+
+        $aiSetting = \Modules\ListingAiChatbot\Models\ListingAiSetting::where('listing_id', $business->id)
+            ->where('is_enabled', true)
+            ->first();
+
+        if (!$aiSetting) {
+            return null;
+        }
+
+        return [
+            'is_enabled' => true,
+            'chatbot_name' => $aiSetting->chatbot_name,
+            'chatbot_avatar' => $aiSetting->chatbot_avatar,
+            'widget_color' => $aiSetting->widget_color,
+            'widget_theme' => $aiSetting->widget_theme ?? 'light',
+            'allow_reset_chat' => $aiSetting->allow_reset_chat ?? false,
+        ];
     }
 }

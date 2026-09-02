@@ -1,0 +1,26 @@
+// =============================================
+// ORP UI — Safe Area Helpers
+// =============================================
+//
+// Use these sparingly to avoid double-safe-area issues.
+// AppShell and existing components already handle safe areas where needed.
+
+.orp-safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+}
+
+.orp-safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.orp-safe-inline {
+    padding-inline-start: env(safe-area-inset-left, 0px);
+    padding-inline-end: env(safe-area-inset-right, 0px);
+}
+
+.orp-safe-all {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-inline-start: env(safe-area-inset-left, 0px);
+    padding-inline-end: env(safe-area-inset-right, 0px);
+}

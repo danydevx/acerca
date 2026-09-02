@@ -1,0 +1,257 @@
+// =============================================
+// ORP UI — MultiSelect
+// =============================================
+
+.orp-multiselect {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.orp-multiselect--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.orp-multiselect__control {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    min-height: var(--orp-control-height);
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-input);
+    border-radius: var(--orp-radius-md);
+    cursor: pointer;
+    transition: border-color var(--orp-duration-fast), box-shadow var(--orp-duration-fast);
+
+    &:hover:not(.orp-multiselect--disabled) {
+        border-color: var(--orp-border);
+    }
+
+    .orp-multiselect--open & {
+        border-color: var(--orp-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-primary) 20%, transparent);
+    }
+
+    &:focus-within {
+        outline: none;
+        border-color: var(--orp-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-primary) 20%, transparent);
+    }
+}
+
+.orp-multiselect__content {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--orp-space-2);
+    padding: var(--orp-space-2) var(--orp-space-3);
+    min-width: 0;
+}
+
+.orp-multiselect__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--orp-space-1);
+}
+
+.orp-multiselect__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--orp-space-1);
+    padding: 2px var(--orp-space-2);
+    background: var(--orp-muted);
+    border-radius: var(--orp-radius-sm);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-surface-foreground);
+}
+
+.orp-multiselect__chip-label {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.orp-multiselect__chip-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: var(--orp-muted-foreground);
+    cursor: pointer;
+    transition: color var(--orp-duration-fast), background var(--orp-duration-fast);
+
+    &:hover {
+        color: var(--orp-surface-foreground);
+        background: var(--orp-surface-muted);
+    }
+}
+
+.orp-multiselect__input {
+    flex: 1;
+    min-width: 80px;
+    height: 32px;
+    padding: 0;
+    font-family: var(--orp-font-family);
+    font-size: 16px;
+    color: var(--orp-surface-foreground);
+    background: transparent;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+        color: var(--orp-muted-foreground);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+.orp-multiselect__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--orp-space-1);
+    padding: var(--orp-space-2) var(--orp-space-3);
+}
+
+.orp-multiselect__clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: var(--orp-radius-sm);
+    color: var(--orp-muted-foreground);
+    cursor: pointer;
+    transition: color var(--orp-duration-fast);
+
+    &:hover {
+        color: var(--orp-surface-foreground);
+    }
+}
+
+.orp-multiselect__arrow {
+    display: flex;
+    align-items: center;
+    color: var(--orp-muted-foreground);
+    transition: transform var(--orp-duration-fast);
+
+    &--open {
+        transform: rotate(180deg);
+    }
+}
+
+.orp-multiselect__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: var(--orp-z-dropdown);
+    max-height: 280px;
+    overflow-y: auto;
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-border);
+    border-radius: var(--orp-radius-md);
+    box-shadow: var(--orp-shadow-lg);
+}
+
+.orp-multiselect__empty {
+    padding: var(--orp-space-4);
+    text-align: center;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+}
+
+.orp-multiselect__option {
+    display: flex;
+    align-items: center;
+    gap: var(--orp-space-3);
+    padding: var(--orp-space-3) var(--orp-space-4);
+    cursor: pointer;
+    transition: background var(--orp-duration-fast);
+
+    &:hover,
+    &--active {
+        background: var(--orp-muted);
+    }
+
+    &--selected {
+        color: var(--orp-primary);
+        font-weight: 500;
+    }
+}
+
+.orp-multiselect__checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: var(--orp-surface);
+    border: 2px solid var(--orp-input);
+    border-radius: 4px;
+    flex-shrink: 0;
+    transition: background var(--orp-duration-fast), border-color var(--orp-duration-fast);
+
+    .orp-multiselect__option--selected & {
+        background: var(--orp-primary);
+        border-color: var(--orp-primary);
+    }
+}
+
+.orp-multiselect__check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--orp-primary-foreground);
+}
+
+.orp-multiselect__option-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// Transitions
+.orp-multiselect-enter-active,
+.orp-multiselect-leave-active {
+    transition: opacity var(--orp-duration-fast), transform var(--orp-duration-fast);
+
+    .orp-multiselect__dropdown {
+        transition: opacity var(--orp-duration-fast), transform var(--orp-duration-fast);
+    }
+}
+
+.orp-multiselect-enter-from,
+.orp-multiselect-leave-to {
+    opacity: 0;
+    transform: translateY(-4px);
+
+    .orp-multiselect__dropdown {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-multiselect-enter-active,
+    .orp-multiselect-leave-active {
+        transition: none;
+
+        .orp-multiselect__dropdown {
+            transition: none;
+        }
+    }
+}

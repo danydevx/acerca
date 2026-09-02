@@ -1,0 +1,87 @@
+// =============================================
+// ORP UI — Section
+// =============================================
+
+.orp-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--orp-section-gap, var(--orp-space-4));
+}
+
+.orp-section__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--orp-space-3);
+
+    > div {
+        display: flex;
+        flex-direction: column;
+        gap: var(--orp-space-1);
+    }
+}
+
+.orp-section__title {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-lg);
+    font-weight: 600;
+    color: var(--orp-surface-foreground);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.orp-section__subtitle {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin: 0;
+}
+
+.orp-section__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--orp-space-2) var(--orp-space-3);
+    min-height: 36px;
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    font-weight: 500;
+    color: var(--orp-primary);
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    border-radius: var(--orp-radius-sm);
+    cursor: pointer;
+    transition: background var(--orp-duration-fast), color var(--orp-duration-fast);
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover {
+        background: color-mix(in srgb, var(--orp-primary) 10%, transparent);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+}
+
+.orp-section__body {
+    display: flex;
+    flex-direction: column;
+}
+
+.orp-section__footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--orp-space-2);
+}
+
+.orp-section--compact {
+    gap: var(--orp-space-2);
+}
+
+.orp-section--spacious {
+    gap: var(--orp-space-6);
+}

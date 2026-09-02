@@ -1,0 +1,103 @@
+// =============================================
+// ORP UI — List
+// =============================================
+
+.orp-list {
+    background: var(--orp-surface);
+
+    &__item {
+        display: flex;
+        align-items: center;
+        padding: var(--orp-space-3) var(--orp-space-4);
+        border-bottom: 1px solid var(--orp-border);
+        min-width: 0;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &--interactive {
+            appearance: none;
+            background: transparent;
+            border: none;
+            font: inherit;
+            color: inherit;
+            text-align: left;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color var(--orp-duration-fast);
+
+            &:hover {
+                background: var(--orp-surface-muted);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--orp-ring);
+                outline-offset: -2px;
+            }
+
+            &:active {
+                background: var(--orp-border);
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    &__leading {
+        display: flex;
+        align-items: center;
+        margin-right: var(--orp-space-3);
+        flex-shrink: 0;
+    }
+
+    &__content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__title {
+        font-size: var(--orp-font-size-md);
+        font-weight: 500;
+        color: var(--orp-surface-foreground);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &__subtitle {
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-muted-foreground);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-top: 2px;
+    }
+
+    &__trailing {
+        display: flex;
+        align-items: center;
+        margin-left: var(--orp-space-3);
+        flex-shrink: 0;
+    }
+
+    // Variants
+    &--divided {
+        .orp-list__item {
+            border-bottom: 1px solid var(--orp-border);
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+
+    &--inset {
+        .orp-list__item {
+            padding-left: calc(var(--orp-space-4) + 44px + var(--orp-space-3));
+        }
+    }
+}

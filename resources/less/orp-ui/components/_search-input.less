@@ -1,0 +1,85 @@
+// =============================================
+// ORP UI — Search Input
+// =============================================
+
+.orp-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.orp-search__icon {
+    position: absolute;
+    left: var(--orp-space-3);
+    color: var(--orp-muted-foreground);
+    pointer-events: none;
+    flex-shrink: 0;
+}
+
+.orp-search__input {
+    width: 100%;
+    height: var(--orp-control-height);
+    padding: var(--orp-space-3) var(--orp-space-4);
+    padding-left: calc(var(--orp-space-3) + 20px + var(--orp-space-2));
+    padding-right: calc(var(--orp-space-3) + 20px + var(--orp-space-2));
+    font-family: var(--orp-font-family);
+    font-size: 16px;
+    color: var(--orp-surface-foreground);
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-input);
+    border-radius: var(--orp-radius-md);
+    appearance: none;
+    transition: border-color var(--orp-duration-fast), box-shadow var(--orp-duration-fast);
+
+    &::placeholder {
+        color: var(--orp-muted-foreground);
+    }
+
+    &:hover:not(:disabled):not(:focus) {
+        border-color: var(--orp-border);
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--orp-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-primary) 20%, transparent);
+    }
+
+    &:disabled {
+        background: var(--orp-surface-muted);
+        color: var(--orp-muted-foreground);
+        cursor: not-allowed;
+    }
+
+    &::-webkit-search-cancel-button {
+        display: none;
+    }
+}
+
+.orp-search__clear {
+    position: absolute;
+    right: var(--orp-space-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: var(--orp-radius-sm);
+    color: var(--orp-muted-foreground);
+    cursor: pointer;
+    transition: background var(--orp-duration-fast), color var(--orp-duration-fast);
+
+    &:hover {
+        background: var(--orp-surface-muted);
+        color: var(--orp-surface-foreground);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+}

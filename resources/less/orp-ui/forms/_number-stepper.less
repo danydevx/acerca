@@ -1,0 +1,80 @@
+// =============================================
+// ORP UI — Number Stepper
+// =============================================
+
+.orp-number-stepper {
+    display: inline-flex;
+    align-items: stretch;
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-input);
+    border-radius: var(--orp-radius-md);
+    overflow: hidden;
+    transition: border-color var(--orp-duration-fast), box-shadow var(--orp-duration-fast);
+
+    &:hover:not(.orp-number-stepper--disabled) {
+        border-color: var(--orp-border);
+    }
+
+    &:focus-within {
+        border-color: var(--orp-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-primary) 20%, transparent);
+    }
+
+    &--disabled {
+        opacity: 0.6;
+        background: var(--orp-surface-muted);
+    }
+}
+
+.orp-number-stepper__input {
+    width: 72px;
+    height: var(--orp-control-height);
+    padding: 0 var(--orp-space-2);
+    font-family: var(--orp-font-family);
+    font-size: 16px;
+    text-align: center;
+    color: var(--orp-surface-foreground);
+    background: transparent;
+    border: none;
+    outline: none;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+.orp-number-stepper__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: var(--orp-control-height);
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: var(--orp-muted-foreground);
+    cursor: pointer;
+    transition: color var(--orp-duration-fast), background var(--orp-duration-fast);
+
+    &:hover:not(:disabled) {
+        background: var(--orp-muted);
+        color: var(--orp-surface-foreground);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: -2px;
+    }
+
+    &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+}

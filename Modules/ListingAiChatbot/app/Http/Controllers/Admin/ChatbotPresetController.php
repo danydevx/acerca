@@ -84,7 +84,7 @@ class ChatbotPresetController extends Controller
 
         ChatbotPreset::create($validated);
 
-        return redirect()->route('admin.modules.listing-aichatbot.presets.index')
+        return redirect()->route('admin.modules.ai-chatbot.presets.index')
             ->with('success', 'Preset creado exitosamente.');
     }
 
@@ -129,7 +129,7 @@ class ChatbotPresetController extends Controller
 
         $preset->update($validated);
 
-        return redirect()->route('admin.modules.listing-aichatbot.presets.index')
+        return redirect()->route('admin.modules.ai-chatbot.presets.index')
             ->with('success', 'Preset actualizado exitosamente.');
     }
 
@@ -141,8 +141,8 @@ class ChatbotPresetController extends Controller
 
         $preset->delete();
 
-        return redirect()->route('admin.modules.listing-aichatbot.presets.index')
-            ->with('success', 'Preset eliminado exitosamente.');
+        return redirect()->route('admin.modules.ai-chatbot.presets.index')
+            ->with('success', 'Preset eliminado.');
     }
 
     public function toggle(ChatbotPreset $preset)
@@ -162,7 +162,7 @@ class ChatbotPresetController extends Controller
         $newPreset->created_by = auth()->id();
         $newPreset->save();
 
-        return redirect()->route('admin.modules.listing-aichatbot.presets.edit', $newPreset)
+        return redirect()->route('admin.modules.ai-chatbot.presets.edit', $newPreset)
             ->with('success', 'Preset duplicado. Edítalo según sea necesario.');
     }
 }

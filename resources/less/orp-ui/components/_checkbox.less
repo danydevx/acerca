@@ -1,0 +1,108 @@
+// =============================================
+// ORP UI — Checkbox
+// =============================================
+
+.orp-checkbox {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: var(--orp-space-3);
+    cursor: pointer;
+
+    &--disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    &--invalid {
+        .orp-checkbox__control {
+            border-color: var(--orp-danger);
+        }
+    }
+}
+
+.orp-checkbox__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+
+    &[aria-invalid="true"] + .orp-checkbox__control {
+        border-color: var(--orp-danger);
+    }
+}
+
+.orp-checkbox__control {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    background: var(--orp-surface);
+    border: 2px solid var(--orp-input);
+    border-radius: 4px;
+    transition: background var(--orp-duration-fast), border-color var(--orp-duration-fast);
+    margin-top: 2px;
+
+    .orp-checkbox__input:checked + & {
+        background: var(--orp-primary);
+        border-color: var(--orp-primary);
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 5px;
+            height: 10px;
+            border: solid var(--orp-primary-foreground);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+    }
+
+    .orp-checkbox__input:indeterminate + & {
+        background: var(--orp-primary);
+        border-color: var(--orp-primary);
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 2px;
+            background: var(--orp-primary-foreground);
+            border-radius: 1px;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .orp-checkbox__input:disabled + & {
+        background: var(--orp-surface-muted);
+        border-color: var(--orp-border);
+    }
+
+    .orp-checkbox__input:focus-visible + & {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+}
+
+.orp-checkbox__label {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-surface-foreground);
+    user-select: none;
+}
+
+.orp-checkbox__description {
+    display: block;
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+    margin-top: 2px;
+}

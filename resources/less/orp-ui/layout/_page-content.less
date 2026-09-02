@@ -1,0 +1,30 @@
+// =============================================
+// ORP UI — Page Content
+// =============================================
+
+.orp-page-content {
+    padding-inline: var(--orp-page-padding);
+    padding-block: var(--orp-space-4);
+    width: 100%;
+}
+
+.orp-page-content--contained {
+    width: min(100%, var(--orp-content-max-width));
+    margin-inline: auto;
+}
+
+.orp-page-content--fluid {
+    max-width: none;
+}
+
+@media (min-width: @orp-breakpoint-md) {
+    .orp-page-content {
+        padding-inline: var(--orp-space-5);
+    }
+}
+
+@media (min-width: @orp-breakpoint-lg) {
+    .orp-page-content {
+        padding-inline: var(--orp-space-6);
+    }
+}

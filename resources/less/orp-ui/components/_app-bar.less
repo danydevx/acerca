@@ -1,0 +1,72 @@
+// =============================================
+// ORP UI — AppBar
+// =============================================
+
+.orp-app-bar {
+    display: flex;
+    align-items: center;
+    height: var(--orp-app-bar-height);
+    padding: 0 var(--orp-space-3);
+    background: var(--orp-surface);
+    position: relative;
+
+    &--sticky {
+        position: sticky;
+        top: 0;
+        z-index: var(--orp-z-sticky);
+    }
+
+    &--transparent {
+        background: transparent;
+    }
+
+    &--bordered {
+        border-bottom: 1px solid var(--orp-border);
+    }
+
+    &__leading {
+        display: flex;
+        align-items: center;
+        margin-right: var(--orp-space-2);
+
+        .orp-btn {
+            min-width: 44px;
+            min-height: 44px;
+        }
+    }
+
+    &__content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__title {
+        font-size: var(--orp-font-size-lg);
+        font-weight: 600;
+        color: var(--orp-surface-foreground);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        line-height: 1.2;
+    }
+
+    &__subtitle {
+        font-size: var(--orp-font-size-sm);
+        color: var(--orp-muted-foreground);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        margin-left: var(--orp-space-2);
+        gap: var(--orp-space-1);
+
+        .orp-btn {
+            min-width: 44px;
+            min-height: 44px;
+        }
+    }
+}

@@ -1,0 +1,49 @@
+// =============================================
+// ORP UI — Spinner
+// =============================================
+
+.orp-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--orp-surface-muted);
+    border-top-color: var(--orp-primary);
+    border-radius: 50%;
+    animation: orp-spinner-rotate var(--orp-duration-spinner, 800ms) linear infinite;
+
+    &--sm {
+        width: 16px;
+        height: 16px;
+        border-width: 2px;
+    }
+
+    &--md {
+        width: 20px;
+        height: 20px;
+        border-width: 2px;
+    }
+
+    &--lg {
+        width: 32px;
+        height: 32px;
+        border-width: 3px;
+    }
+}
+
+@keyframes orp-spinner-rotate {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-spinner {
+        animation: none;
+        border: 2px solid var(--orp-primary);
+        border-top-color: var(--orp-primary);
+        border-right-color: var(--orp-primary);
+        border-radius: 50%;
+        opacity: 0.6;
+    }
+
+    .orp-spinner--sm { width: 16px; height: 16px; }
+    .orp-spinner--lg { width: 32px; height: 32px; }
+}

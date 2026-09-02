@@ -127,7 +127,7 @@
         </div>
 
         <div class="tab-pane fade" :class="{ 'show active': activeTab === 'history' }">
-          <HistoryTab :business="listing" />
+          <HistoryTab ref="historyTabRef" :business="listing" />
         </div>
 
         <div class="tab-pane fade" :class="{ 'show active': activeTab === 'analytics' }">
@@ -169,6 +169,13 @@ const contexts = computed(() => page.props.contexts || [])
 const embeddingCounts = computed(() => page.props.embeddingCounts || {})
 
 const activeTab = ref('config')
+const historyTabRef = ref(null)
+
+watch(activeTab, (newTab) => {
+  if (newTab === 'history' && historyTabRef.value) {
+    historyTabRef.value.loadConversations()
+  }
+})
 
 const analyticsData = ref({
   totals: { total_conversations: 0, total_messages: 0, total_tokens: 0, total_errors: 0 },

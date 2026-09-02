@@ -38,7 +38,7 @@ class ChatbotPersonalityController extends Controller
 
         ChatbotPersonality::create($validated);
 
-        return redirect()->route('admin.modules.listing-aichatbot.personalities.index')
+        return redirect()->route('admin.modules.ai-chatbot.personalities.index')
             ->with('success', 'Personalidad creada exitosamente.');
     }
 
@@ -64,7 +64,7 @@ class ChatbotPersonalityController extends Controller
 
         $personality->update($validated);
 
-        return redirect()->route('admin.modules.listing-aichatbot.personalities.index')
+        return redirect()->route('admin.modules.ai-chatbot.personalities.index')
             ->with('success', 'Personalidad actualizada exitosamente.');
     }
 
@@ -72,7 +72,7 @@ class ChatbotPersonalityController extends Controller
     {
         $personality->delete();
 
-        return redirect()->route('admin.modules.listing-aichatbot.personalities.index')
+        return redirect()->route('admin.modules.ai-chatbot.personalities.index')
             ->with('success', 'Personalidad eliminada.');
     }
 }

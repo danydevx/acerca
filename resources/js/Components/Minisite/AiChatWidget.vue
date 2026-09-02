@@ -40,7 +40,7 @@
         <div class="chat-messages" ref="messagesContainer">
           <div v-if="messages.length === 0" class="chat-empty">
             <i class="bi bi-chat-dots"></i>
-            <p v-if="!localSuggestions.length && !localIntentButtons.length">¡Hola! Soy {{ localChatbotName }}. ¿En qué puedo ayudarte?</p>
+            <p v-if="!localSuggestions.length && !localIntentButtons.length">{{ localGreetingMessage || `¡Hola! Soy ${localChatbotName}. ¿En qué puedo ayudarte?` }}</p>
             <div v-if="localIntentButtons.length" class="intent-buttons-container">
               <button
                 v-for="(btn, idx) in localIntentButtons"
@@ -263,6 +263,7 @@ const sessionId = ref(localStorage.getItem(`chat_session_${props.businessSlug}`)
 const localChatbotName = ref(props.chatbotName)
 const localChatbotAvatar = ref(props.chatbotAvatar)
 const localSuggestions = ref([])
+const localGreetingMessage = ref('')
 const localExpandableResponses = ref(true)
 const localShowCitations = ref(true)
 const localIntentCta = ref(null)
@@ -315,9 +316,9 @@ const resetChat = () => {
 }
 
 const containsCtaKeyword = (msg) => {
-  const text = msg.toLowerCase()
-  return CTA_KEYWORDS.some(kw => text.includes(kw))
-})
+  const text = msg.toLowerCase();
+  return CTA_KEYWORDS.some(kw => text.includes(kw));
+};
 
 const buildWhatsAppMessage = () => {
   let message = whatsappPrefillMessage.value ? whatsappPrefillMessage.value + '\n\n' : ''
@@ -618,6 +619,9 @@ const checkAvailability = () => {
         localSuggestions.value = data.initial_suggestions
       } else {
         localSuggestions.value = []
+      }
+      if (data.greeting_message) {
+        localGreetingMessage.value = data.greeting_message
       }
       if (data.expandable_responses !== undefined) {
         localExpandableResponses.value = data.expandable_responses

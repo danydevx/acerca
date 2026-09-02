@@ -189,6 +189,10 @@ const deviceIcon = (deviceType) => {
 onMounted(() => {
   loadConversations()
 })
+
+defineExpose({
+  loadConversations,
+})
 </script>
 
 <style lang="less" scoped>

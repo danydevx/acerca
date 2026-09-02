@@ -1,0 +1,92 @@
+// =============================================
+// ORP UI — Action Sheet
+// =============================================
+
+.orp-action-sheet {
+    display: flex;
+    flex-direction: column;
+    gap: var(--orp-space-3);
+}
+
+.orp-action-sheet__group {
+    display: flex;
+    flex-direction: column;
+    background: var(--orp-surface);
+    border-radius: var(--orp-radius-lg);
+    overflow: hidden;
+}
+
+.orp-action-sheet__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    padding: var(--orp-space-4);
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-md);
+    color: var(--orp-surface-foreground);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--orp-border);
+    cursor: pointer;
+    transition: background var(--orp-duration-fast);
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:hover:not(:disabled) {
+        background: var(--orp-surface-muted);
+    }
+
+    &:active:not(:disabled) {
+        background: var(--orp-border);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: -2px;
+    }
+
+    &--danger {
+        color: var(--orp-danger);
+
+        &:hover:not(:disabled) {
+            background: color-mix(in srgb, var(--orp-danger) 10%, transparent);
+        }
+    }
+
+    &--disabled,
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.orp-action-sheet__cancel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    padding: var(--orp-space-4);
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-md);
+    font-weight: 500;
+    color: var(--orp-primary);
+    background: var(--orp-surface);
+    border: none;
+    border-radius: var(--orp-radius-lg);
+    cursor: pointer;
+    transition: background var(--orp-duration-fast);
+
+    &:hover {
+        background: var(--orp-surface-muted);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+}

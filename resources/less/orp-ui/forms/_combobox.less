@@ -1,0 +1,196 @@
+// =============================================
+// ORP UI — Combobox
+// =============================================
+
+.orp-combobox {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.orp-combobox--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.orp-combobox__control {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: var(--orp-control-height);
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-input);
+    border-radius: var(--orp-radius-md);
+    cursor: pointer;
+    transition: border-color var(--orp-duration-fast), box-shadow var(--orp-duration-fast);
+
+    &:hover:not(.orp-combobox--disabled) {
+        border-color: var(--orp-border);
+    }
+
+    .orp-combobox--open & {
+        border-color: var(--orp-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-primary) 20%, transparent);
+    }
+
+    &:focus-within {
+        outline: none;
+        border-color: var(--orp-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--orp-primary) 20%, transparent);
+    }
+}
+
+.orp-combobox__trigger {
+    flex: 1;
+    min-width: 0;
+}
+
+.orp-combobox__input {
+    width: 100%;
+    height: 100%;
+    padding: var(--orp-space-3) var(--orp-space-4);
+    font-family: var(--orp-font-family);
+    font-size: 16px;
+    color: var(--orp-surface-foreground);
+    background: transparent;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+        color: var(--orp-muted-foreground);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+.orp-combobox__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--orp-space-1);
+    padding-right: var(--orp-space-3);
+}
+
+.orp-combobox__clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: var(--orp-radius-sm);
+    color: var(--orp-muted-foreground);
+    cursor: pointer;
+    transition: color var(--orp-duration-fast);
+
+    &:hover {
+        color: var(--orp-surface-foreground);
+    }
+}
+
+.orp-combobox__arrow {
+    display: flex;
+    align-items: center;
+    color: var(--orp-muted-foreground);
+    transition: transform var(--orp-duration-fast);
+
+    &--open {
+        transform: rotate(180deg);
+    }
+}
+
+.orp-combobox__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: var(--orp-z-dropdown);
+    max-height: 280px;
+    overflow-y: auto;
+    background: var(--orp-surface);
+    border: 1px solid var(--orp-border);
+    border-radius: var(--orp-radius-md);
+    box-shadow: var(--orp-shadow-lg);
+}
+
+.orp-combobox__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--orp-space-4);
+}
+
+.orp-combobox__empty {
+    padding: var(--orp-space-4);
+    text-align: center;
+    font-size: var(--orp-font-size-sm);
+    color: var(--orp-muted-foreground);
+}
+
+.orp-combobox__option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--orp-space-3) var(--orp-space-4);
+    cursor: pointer;
+    transition: background var(--orp-duration-fast);
+
+    &:hover,
+    &--active {
+        background: var(--orp-muted);
+    }
+
+    &--selected {
+        color: var(--orp-primary);
+        font-weight: 500;
+    }
+}
+
+.orp-combobox__option-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.orp-combobox__check {
+    display: flex;
+    align-items: center;
+    color: var(--orp-primary);
+}
+
+// Transitions
+.orp-combobox-enter-active,
+.orp-combobox-leave-active {
+    transition: opacity var(--orp-duration-fast), transform var(--orp-duration-fast);
+
+    .orp-combobox__dropdown {
+        transition: opacity var(--orp-duration-fast), transform var(--orp-duration-fast);
+    }
+}
+
+.orp-combobox-enter-from,
+.orp-combobox-leave-to {
+    opacity: 0;
+    transform: translateY(-4px);
+
+    .orp-combobox__dropdown {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-combobox-enter-active,
+    .orp-combobox-leave-active {
+        transition: none;
+
+        .orp-combobox__dropdown {
+            transition: none;
+        }
+    }
+}

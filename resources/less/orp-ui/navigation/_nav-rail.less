@@ -1,0 +1,104 @@
+// Navigation Rail - Compact vertical navigation
+
+@nav-rail-width: 72px;
+@nav-rail-icon-size: 24px;
+@nav-rail-label-size: 10px;
+@nav-rail-gap: 4px;
+@nav-rail-padding: 8px;
+@nav-rail-radius: var(--orp-radius-lg);
+
+.orp-nav-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: @nav-rail-width;
+  padding: @nav-rail-gap 0;
+  list-style: none;
+  margin: 0;
+  gap: @nav-rail-gap;
+}
+
+.orp-nav-rail__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: @nav-rail-padding;
+  text-decoration: none;
+  border-radius: @nav-rail-radius;
+  transition: all var(--orp-duration-fast);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--orp-muted);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--orp-ring);
+    outline-offset: -2px;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.orp-nav-rail__item--active {
+  background: var(--orp-muted);
+
+  .orp-nav-rail__icon {
+    color: var(--orp-primary);
+  }
+
+  .orp-nav-rail__label {
+    color: var(--orp-primary);
+    font-weight: 600;
+  }
+}
+
+.orp-nav-rail__item--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.orp-nav-rail__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: @nav-rail-icon-size;
+  height: @nav-rail-icon-size;
+  margin-bottom: 4px;
+  color: var(--orp-muted-foreground);
+  transition: color var(--orp-duration-fast);
+
+  .orp-icon {
+    font-size: @nav-rail-icon-size;
+  }
+}
+
+.orp-nav-rail__label {
+  display: block;
+  width: 100%;
+  max-width: @nav-rail-width - (@nav-rail-padding * 2);
+  font-family: var(--orp-font-family);
+  font-size: @nav-rail-label-size;
+  font-weight: 500;
+  color: var(--orp-muted-foreground);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--orp-duration-fast);
+}
+
+.orp-nav-rail__badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.orp-nav-rail__item {
+  position: relative;
+}

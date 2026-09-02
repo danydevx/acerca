@@ -1,0 +1,54 @@
+// =============================================
+// ORP UI — Card
+// =============================================
+
+.orp-card {
+    background: var(--orp-surface);
+    color: var(--orp-surface-foreground);
+    border-radius: var(--orp-radius-lg);
+    overflow: hidden;
+
+    &__header {
+        padding: var(--orp-space-4);
+        border-bottom: 1px solid var(--orp-border);
+    }
+
+    &__body {
+        padding: var(--orp-space-4);
+    }
+
+    &__footer {
+        padding: var(--orp-space-4);
+        border-top: 1px solid var(--orp-border);
+    }
+
+    // Variants
+    &--outlined {
+        border: 1px solid var(--orp-border);
+        box-shadow: none;
+    }
+
+    &--raised {
+        border: none;
+        box-shadow: var(--orp-shadow-md);
+    }
+
+    &--interactive {
+        cursor: pointer;
+        transition: transform var(--orp-duration-fast), box-shadow var(--orp-duration-fast);
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--orp-shadow-lg);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--orp-ring);
+            outline-offset: 2px;
+        }
+    }
+}

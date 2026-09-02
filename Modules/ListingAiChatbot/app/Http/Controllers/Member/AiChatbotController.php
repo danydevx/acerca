@@ -475,8 +475,31 @@ class AiChatbotController extends Controller
     {
         abort_unless($business->user_id === Auth::id() || Auth::user()->hasRole('superadmin'), 403);
 
+        $conversations = \Modules\ListingAiChatbot\Models\AiConversation::where('listing_id', $business->id)
+            ->orderBy('last_activity_at', 'desc')
+            ->limit(100)
+            ->get()
+            ->map(function ($conv) {
+                $lastMessage = \Modules\ListingAiChatbot\Models\AiMessage::where('conversation_id', $conv->id)
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+
+                return [
+                    'id' => $conv->id,
+                    'session_id' => $conv->session_id,
+                    'messages_count' => $conv->messages_count,
+                    'ip_address' => $conv->ip_address,
+                    'device_type' => $conv->device_type,
+                    'country' => $conv->country,
+                    'city' => $conv->city,
+                    'started_at' => $conv->started_at?->toIso8601String(),
+                    'last_activity_at' => $conv->last_activity_at?->toIso8601String(),
+                    'preview' => $lastMessage ? substr($lastMessage->content, 0, 150) : null,
+                ];
+            });
+
         return response()->json([
-            'conversations' => [],
+            'conversations' => $conversations,
         ]);
     }
 
@@ -484,8 +507,25 @@ class AiChatbotController extends Controller
     {
         abort_unless($business->user_id === Auth::id() || Auth::user()->hasRole('superadmin'), 403);
 
+        $conversation = \Modules\ListingAiChatbot\Models\AiConversation::where('listing_id', $business->id)
+            ->where('session_id', $sessionId)
+            ->firstOrFail();
+
+        $messages = $conversation->messages()
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->map(function ($msg) {
+                return [
+                    'id' => $msg->id,
+                    'role' => $msg->role,
+                    'content' => $msg->content,
+                    'tokens_used' => $msg->tokens_used,
+                    'created_at' => $msg->created_at?->toIso8601String(),
+                ];
+            });
+
         return response()->json([
-            'messages' => [],
+            'messages' => $messages,
         ]);
     }
 }

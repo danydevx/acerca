@@ -1,0 +1,48 @@
+// =============================================
+// ORP UI — Skeleton
+// =============================================
+
+.orp-skeleton {
+    background: var(--orp-surface-muted);
+    border-radius: var(--orp-radius-sm);
+    position: relative;
+    overflow: hidden;
+
+    &--text {
+        height: 16px;
+        width: 100%;
+    }
+
+    &--circle {
+        border-radius: 50%;
+    }
+
+    &--rect {
+        width: 100%;
+        border-radius: var(--orp-radius-sm);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            color-mix(in srgb, var(--orp-surface) 60%, transparent),
+            transparent
+        );
+        animation: orp-skeleton-shimmer var(--orp-duration-shimmer, 1500ms) ease-in-out infinite;
+    }
+}
+
+@keyframes orp-skeleton-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orp-skeleton::after {
+        animation: none;
+    }
+}

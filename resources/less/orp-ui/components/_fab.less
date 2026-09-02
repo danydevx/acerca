@@ -1,0 +1,70 @@
+// =============================================
+// ORP UI — FAB
+// =============================================
+
+.orp-fab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--orp-space-2);
+    min-width: 56px;
+    height: 56px;
+    padding: 0;
+    background: var(--orp-primary);
+    color: var(--orp-primary-foreground);
+    border: none;
+    border-radius: var(--orp-radius-lg);
+    box-shadow: var(--orp-shadow-lg);
+    cursor: pointer;
+    transition: transform var(--orp-duration-fast), box-shadow var(--orp-duration-fast);
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: var(--orp-shadow-lg);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--orp-ring);
+        outline-offset: 2px;
+    }
+
+    &--secondary {
+        background: var(--orp-secondary);
+        color: var(--orp-secondary-foreground);
+    }
+
+    &--fixed {
+        position: fixed;
+        z-index: var(--orp-z-fixed);
+        bottom: calc(var(--orp-bottom-nav-height) + var(--orp-space-4) + env(safe-area-inset-bottom, 0px));
+        right: var(--orp-space-4);
+    }
+
+    &--bottom-end {
+        bottom: calc(var(--orp-space-4) + env(safe-area-inset-bottom, 0px));
+        right: var(--orp-space-4);
+    }
+
+    &--extended {
+        min-width: auto;
+        padding: 0 var(--orp-space-4);
+        border-radius: var(--orp-radius-pill);
+    }
+}
+
+.orp-fab__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.orp-fab__label {
+    font-family: var(--orp-font-family);
+    font-size: var(--orp-font-size-md);
+    font-weight: 500;
+}
