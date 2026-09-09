@@ -1,0 +1,1732 @@
+# ORPUI → BULMA MIGRATION V2
+## Guía definitiva para auditar y migrar OrpUI / Ui Components del Minisite
+
+## Objetivo
+
+Migrar el sistema actual OrpUI / componentes UI hacia Bulma sin crear un segundo framework CSS encima de Bulma.
+
+La migración NO consiste simplemente en reemplazar CSS por helpers de Bulma.
+
+El objetivo real es:
+
+1. Auditar cada componente existente.
+2. Determinar si el componente debería seguir existiendo.
+3. Reemplazar primitives que Bulma ya proporciona.
+4. Conservar sólo wrappers Vue que aporten comportamiento real.
+5. Conservar/refactorizar componentes de dominio.
+6. Utilizar componentes, helpers, variables CSS, variables Sass y mixins nativos de Bulma antes de crear CSS propio.
+7. Evitar valores visuales arbitrarios dentro de componentes nuevos.
+8. Eliminar hardcodes de diseño cuando exista una alternativa semántica.
+9. Identificar claramente cualquier extensión propia de Bulma mediante `.dl-bulma-*` y `--dl-bulma-*`.
+10. Aplicar BEM a todo componente y Section propio de Acerca.
+11. Preservar Theme API, Section Context, comportamiento, responsive y accesibilidad.
+
+---
+
+# PRINCIPIO FUNDAMENTAL
+
+Este proyecto NO está construyendo un nuevo framework CSS.
+
+Bulma es el framework y design system base.
+
+Acerca agrega:
+
+- componentes de dominio;
+- comportamiento Vue;
+- BEM;
+- Theme API;
+- Section Context;
+- themes;
+- configuración dinámica;
+- extensiones puntuales cuando Bulma realmente no cubre una necesidad.
+
+Arquitectura:
+
+```text
+Bulma nativo
+    ↓
+Bulma variables / Sass / helpers / mixins
+    ↓
+Acerca Theme API --dl-*
+    ↓
+Section Context --dl-section-*
+    ↓
+Extensiones justificadas .dl-bulma-* / --dl-bulma-*
+    ↓
+BEM específico de componentes
+    ↓
+Vue para datos y comportamiento
+```
+
+---
+
+# REGLA CRÍTICA DE MIGRACIÓN
+
+NO hacer:
+
+```text
+OrpButton → UiButton
+OrpCard → UiCard
+OrpGrid → UiGrid
+OrpStack → UiStack
+OrpSurface → UiSurface
+```
+
+Eso sólo renombra el mismo framework.
+
+La decisión correcta es:
+
+```text
+Componente OrpUI
+      ↓
+¿Qué responsabilidad tiene?
+      ↓
+¿Bulma ya la proporciona?
+      ↓
+SÍ → migrar consumidores a Bulma → eliminar wrapper innecesario
+
+NO
+↓
+¿Tiene comportamiento Vue, accesibilidad, estado o API reutilizable?
+      ↓
+SÍ → conservar/refactorizar
+
+NO
+↓
+¿Representa un concepto real del dominio Acerca?
+      ↓
+SÍ → componente de dominio Bulma + BEM
+
+NO
+↓
+¿Es una capacidad reutilizable que Bulma realmente no proporciona?
+      ↓
+SÍ → extensión .dl-bulma-*
+
+NO
+↓
+eliminar / inline / simplificar
+```
+
+---
+
+# FASE 1 — AUDITORÍA OBLIGATORIA
+
+ANTES DE MODIFICAR CÓDIGO:
+
+STOP.
+
+No refactorizar.
+No renombrar.
+No eliminar.
+No crear componentes.
+No modificar CSS.
+No modificar Vue.
+
+Primero auditar TODOS los componentes actuales de OrpUI / Ui.
+
+Para cada componente reportar:
+
+```text
+Component:
+Current path:
+
+Purpose:
+¿Qué responsabilidad proporciona?
+
+Behavior:
+¿Contiene comportamiento Vue real?
+
+State:
+¿Tiene estado?
+
+Events:
+¿Tiene emits?
+
+Slots:
+¿Tiene slots con valor funcional?
+
+Accessibility:
+¿Centraliza lógica de accesibilidad?
+
+Lifecycle:
+¿Tiene lógica de montaje/desmontaje?
+
+Bulma equivalent:
+¿Bulma ya proporciona esta responsabilidad?
+
+Consumers:
+¿Qué archivos lo usan?
+
+Hardcoded CSS:
+YES / NO
+
+Decision:
+REPLACE_WITH_BULMA
+KEEP_AND_REFACTOR
+RENAME_AS_DOMAIN_COMPONENT
+KEEP_CUSTOM
+DELETE_UNUSED
+NEEDS_REVIEW
+```
+
+---
+
+# MATRIZ OBLIGATORIA
+
+Antes de cambiar código entregar:
+
+```text
+# UI Component Migration Matrix
+
+| Component | Purpose | Bulma Equivalent | Behavior | Consumers | Hardcoded CSS | Decision | Target |
+```
+
+Agrupar después:
+
+```text
+## Replace with Bulma
+
+## Keep and Refactor
+
+## Rename as Domain Component
+
+## Keep Custom
+
+## Delete Unused
+
+## Needs Review
+```
+
+Esperar aprobación antes de ejecutar la migración.
+
+---
+
+# CLASIFICACIÓN DE COMPONENTES
+
+## 1. Primitives cubiertos por Bulma
+
+Componentes que sólo encapsulan CSS/markup que Bulma ya proporciona normalmente deben desaparecer.
+
+Ejemplos a investigar:
+
+```text
+Button
+Card
+Box
+Tag
+Image
+Notification
+FileInput
+Media
+List
+Container
+Grid
+Columns
+Stack
+Surface
+Title
+Input
+Select
+Textarea
+Modal
+Navbar
+```
+
+NO asumir automáticamente que deben eliminarse.
+
+Primero inspeccionar si aportan comportamiento real.
+
+---
+
+# 2. Wrappers Vue funcionales
+
+Un wrapper puede sobrevivir si centraliza valor real como:
+
+- estado;
+- emits;
+- keyboard handling;
+- focus management;
+- ARIA;
+- loading;
+- lifecycle;
+- portal/teleport;
+- click outside;
+- escape handling;
+- reusable API;
+- integración JS.
+
+Ejemplo posible:
+
+```text
+IconButton.vue
+```
+
+Puede mantenerse si realmente aporta accesibilidad/API consistente.
+
+Si sólo produce:
+
+```html
+<button class="button">
+    <span class="icon">...</span>
+</button>
+```
+
+sin valor adicional, debe evaluarse su eliminación.
+
+---
+
+# 3. Componentes de dominio
+
+Estos representan conceptos reales de Acerca y normalmente deben mantenerse:
+
+```text
+ProductCard
+ServiceCard
+ContactCard
+LocationCard
+ReviewCard
+ProfileHero
+GalleryItem
+ProductPrice
+EmptyState
+```
+
+Estos NO son primitives de framework.
+
+Deben construirse con:
+
+```text
+Bulma + BEM + --dl-* + --dl-section-* + Vue
+```
+
+Ejemplo:
+
+```html
+<article class="card product-card">
+    <div class="card-image product-card__media">
+        ...
+    </div>
+
+    <div class="card-content product-card__content">
+        <h3 class="title is-5 product-card__title">
+            {{ product.name }}
+        </h3>
+
+        <div class="content product-card__description">
+            ...
+        </div>
+
+        <div class="buttons product-card__actions">
+            <button class="button is-primary">
+                Ver producto
+            </button>
+        </div>
+    </div>
+</article>
+```
+
+Bulma:
+
+```text
+.card
+.card-image
+.card-content
+.title
+.is-5
+.content
+.buttons
+.button
+.is-primary
+```
+
+Acerca/BEM:
+
+```text
+.product-card
+.product-card__media
+.product-card__content
+.product-card__title
+.product-card__description
+.product-card__actions
+```
+
+---
+
+# BULMA FIRST
+
+Antes de crear CSS/SCSS propio:
+
+```text
+1. ¿Bulma ya tiene un Element?
+2. ¿Bulma ya tiene un Component?
+3. ¿Bulma ya tiene un Form control?
+4. ¿Bulma Columns resuelve el layout?
+5. ¿Bulma Grid lo resuelve?
+6. ¿Bulma Layout lo resuelve?
+7. ¿Bulma tiene un Helper?
+8. ¿Bulma tiene un Sass mixin?
+9. ¿Bulma tiene una Sass variable?
+10. ¿Bulma tiene una CSS variable?
+11. ¿Es configuración dinámica del Theme?
+12. ¿Es contexto de Section?
+13. ¿Es una extensión reusable que Bulma no cubre?
+14. ¿Es CSS específico del componente?
+```
+
+Sólo después de recorrer esta secuencia puede crearse CSS nuevo.
+
+---
+
+# REFERENCIAS DE BULMA
+
+## Elements
+
+- Block  
+  https://bulma.io/documentation/elements/block/
+
+- Box  
+  https://bulma.io/documentation/elements/box/
+
+- Button  
+  https://bulma.io/documentation/elements/button/
+
+- Content  
+  https://bulma.io/documentation/elements/content/
+
+- Icon  
+  https://bulma.io/documentation/elements/icon/
+
+- Image  
+  https://bulma.io/documentation/elements/image/
+
+- Notification  
+  https://bulma.io/documentation/elements/notification/
+
+- Tag  
+  https://bulma.io/documentation/elements/tag/
+
+- Title  
+  https://bulma.io/documentation/elements/title/
+
+## Components
+
+- Card  
+  https://bulma.io/documentation/components/card/
+
+- Dropdown  
+  https://bulma.io/documentation/components/dropdown/
+
+- Menu  
+  https://bulma.io/documentation/components/menu/
+
+- Message  
+  https://bulma.io/documentation/components/message/
+
+- Modal  
+  https://bulma.io/documentation/components/modal/
+
+- Navbar  
+  https://bulma.io/documentation/components/navbar/
+
+- Panel  
+  https://bulma.io/documentation/components/panel/
+
+- Tabs  
+  https://bulma.io/documentation/components/tabs/
+
+## Forms
+
+- General  
+  https://bulma.io/documentation/form/general/
+
+- Input  
+  https://bulma.io/documentation/form/input/
+
+- Textarea  
+  https://bulma.io/documentation/form/textarea/
+
+- Select  
+  https://bulma.io/documentation/form/select/
+
+- Checkbox  
+  https://bulma.io/documentation/form/checkbox/
+
+- Radio  
+  https://bulma.io/documentation/form/radio/
+
+- File  
+  https://bulma.io/documentation/form/file/
+
+## Layout
+
+- Container  
+  https://bulma.io/documentation/layout/container/
+
+- Hero  
+  https://bulma.io/documentation/layout/hero/
+
+- Section  
+  https://bulma.io/documentation/layout/section/
+
+- Level  
+  https://bulma.io/documentation/layout/level/
+
+- Media Object  
+  https://bulma.io/documentation/layout/media-object/
+
+## Helpers
+
+- Color  
+  https://bulma.io/documentation/helpers/color-helpers/
+
+- Spacing  
+  https://bulma.io/documentation/helpers/spacing-helpers/
+
+- Typography  
+  https://bulma.io/documentation/helpers/typography-helpers/
+
+- Visibility  
+  https://bulma.io/documentation/helpers/visibility-helpers/
+
+- Flexbox  
+  https://bulma.io/documentation/helpers/flexbox-helpers/
+
+## Sass / Customization
+
+- Mixins  
+  https://bulma.io/documentation/sass/mixins/
+
+- Responsive Mixins  
+  https://bulma.io/documentation/sass/responsive-mixins/
+
+- With Sass  
+  https://bulma.io/documentation/customize/with-sass/
+
+- Modular Sass  
+  https://bulma.io/documentation/customize/with-modular-sass/
+
+- CSS Variables  
+  https://bulma.io/documentation/features/css-variables/
+
+- Sass Variables  
+  https://bulma.io/documentation/customize/list-of-sass-variables/
+
+---
+
+# NO RAW DESIGN VALUES IN NEW COMPONENTS
+
+## Regla obligatoria
+
+Los componentes nuevos o migrados NO deben introducir valores visuales arbitrarios que pertenezcan al design system.
+
+Evitar escribir directamente:
+
+```scss
+color: #fff;
+color: #ffffff;
+color: #000;
+color: black;
+color: white;
+
+background: #fff;
+background-color: #000;
+background-color: #f5f5f5;
+
+font-size: 12px;
+font-size: 14px;
+font-size: 18px;
+
+font-weight: 500;
+font-weight: 600;
+font-weight: 700;
+
+line-height: 1.4;
+
+padding: 16px;
+margin: 20px;
+gap: 12px;
+
+border-color: #ddd;
+border-radius: 8px;
+
+box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
+
+transition: all .2s ease;
+
+z-index: 999;
+```
+
+Esto NO significa que los valores literales CSS estén totalmente prohibidos.
+
+Significa que ningún valor VISUAL DE DESIGN SYSTEM debe aparecer arbitrariamente dentro de un componente si Bulma, el Theme API, el Section Context o una extensión semántica ya pueden resolverlo.
+
+---
+
+# NO CONVERTIR HARDcodes SIN PENSAR
+
+NO hacer sustituciones mecánicas como:
+
+```text
+12px → 0.75rem
+16px → 1rem
+#000 → var(--black)
+#fff → var(--white)
+700 → var(--font-weight-bold)
+```
+
+Eso sólo cambia sintaxis.
+
+Primero identificar el significado semántico.
+
+Ejemplo:
+
+```scss
+font-weight: 700;
+```
+
+preguntar:
+
+```text
+¿Es simplemente texto bold?
+→ usar has-text-weight-bold
+
+¿Es el peso global de títulos?
+→ revisar configuración Bulma / Theme
+
+¿Es una excepción real del componente?
+→ justificar
+```
+
+---
+
+# COLORES
+
+Evitar:
+
+```scss
+color: #fff;
+background: #000;
+border-color: #ddd;
+```
+
+Antes revisar:
+
+1. color/helper nativo de Bulma;
+2. CSS variable de Bulma;
+3. Sass variable de Bulma;
+4. Theme API;
+5. Section Context;
+6. extensión Bulma;
+7. CSS específico justificado.
+
+Ejemplo incorrecto:
+
+```scss
+.product-card {
+    background: #fff;
+    color: #111;
+}
+```
+
+Ejemplo preferido:
+
+```scss
+.product-card {
+    background: var(--dl-section-surface);
+    color: var(--dl-section-text);
+}
+```
+
+Esto permite que funcione automáticamente dentro de:
+
+```text
+.section--scheme-light
+.section--scheme-dark
+.section--scheme-color
+.section--scheme-gradient
+```
+
+---
+
+# TIPOGRAFÍA
+
+Evitar:
+
+```scss
+font-size: 12px;
+font-size: 14px;
+font-size: 18px;
+font-weight: 700;
+```
+
+Primero utilizar Bulma:
+
+```text
+is-size-7
+is-size-6
+is-size-5
+
+has-text-weight-normal
+has-text-weight-medium
+has-text-weight-semibold
+has-text-weight-bold
+```
+
+Para títulos:
+
+```text
+title
+subtitle
+is-1
+is-2
+is-3
+is-4
+is-5
+is-6
+```
+
+No crear un sistema paralelo de tipografía.
+
+Las familias tipográficas configurables por Admin sí corresponden al Theme API:
+
+```css
+--dl-font-heading
+--dl-font-body
+```
+
+---
+
+# SPACING
+
+Evitar escribir automáticamente:
+
+```scss
+padding: 16px;
+margin: 20px;
+gap: 12px;
+```
+
+Primero utilizar helpers y layout de Bulma.
+
+No crear:
+
+```text
+--dl-space-xs
+--dl-space-sm
+--dl-space-md
+--dl-space-lg
+```
+
+para recrear la escala de Bulma.
+
+---
+
+# BORDER RADIUS
+
+Antes de:
+
+```scss
+border-radius: 12px;
+```
+
+determinar:
+
+```text
+¿Bulma ya proporciona el radius del componente?
+→ usar Bulma.
+
+¿Es configurable por Theme/Admin?
+→ --dl-card-radius / --dl-button-radius
+
+¿Es una extensión reusable a Bulma?
+→ --dl-bulma-*
+```
+
+No repetir radios arbitrarios en componentes.
+
+---
+
+# BORDERS Y SHADOWS
+
+No duplicar en cada componente:
+
+```scss
+border: 1px solid #ddd;
+box-shadow: 0 4px 20px rgba(...);
+```
+
+Primero revisar Bulma.
+
+Si existe una necesidad reutilizable no cubierta por Bulma, usar una extensión semántica.
+
+Ejemplo:
+
+```css
+--dl-bulma-border-subtle
+--dl-bulma-shadow-interactive
+```
+
+Sólo si realmente pertenecen a una extensión reutilizable de Bulma.
+
+---
+
+# TRANSITIONS
+
+Evitar:
+
+```scss
+transition: all .2s ease;
+```
+
+No usar `all` por defecto.
+
+Si es un comportamiento UX compartido que Bulma no cubre, crear una extensión claramente identificada:
+
+```css
+--dl-bulma-transition-duration
+--dl-bulma-transition-easing
+```
+
+Ejemplo:
+
+```scss
+.dl-bulma-hover-lift {
+    transition:
+        transform var(--dl-bulma-transition-duration),
+        box-shadow var(--dl-bulma-transition-duration);
+}
+```
+
+Respetar:
+
+```css
+@media (prefers-reduced-motion: reduce)
+```
+
+cuando corresponda.
+
+---
+
+# VALORES LITERALES TÉCNICOS PERMITIDOS
+
+No convertir absurdamente cada número a variable.
+
+Valores técnicos pueden ser legítimos:
+
+```scss
+border-width: 1px;
+opacity: 0;
+opacity: 1;
+aspect-ratio: 1;
+transform: translateX(0);
+pointer-events: none;
+```
+
+También pueden existir dimensiones específicas si responden a una necesidad técnica real.
+
+La pregunta siempre es:
+
+```text
+¿Este valor representa una decisión del design system?
+```
+
+Si la respuesta es SÍ, no debe quedar raw dentro del componente.
+
+---
+
+# NAMESPACE DE EXTENSIONES BULMA
+
+Bulma es el sistema base.
+
+Si Bulma NO proporciona una capacidad reutilizable necesaria, Acerca puede extenderlo.
+
+Todas esas extensiones deben usar:
+
+```text
+.dl-bulma-*
+```
+
+Variables de esa capa:
+
+```text
+--dl-bulma-*
+```
+
+---
+
+# EJEMPLOS DE NAMESPACE
+
+Bulma nativo:
+
+```text
+.button
+.card
+.box
+.tag
+.title
+.container
+.columns
+.column
+.is-flex
+.is-size-7
+.has-text-weight-bold
+.p-5
+```
+
+No renombrar.
+
+---
+
+# EXTENSIONES BULMA DE ACERCA
+
+Ejemplos posibles:
+
+```text
+.dl-bulma-hover-lift
+.dl-bulma-focus-ring
+.dl-bulma-interactive
+.dl-bulma-surface
+.dl-bulma-truncate
+```
+
+Estos nombres son ejemplos.
+
+NO crearlos preventivamente.
+
+Sólo si existe necesidad real y reutilización.
+
+---
+
+# VARIABLES DE EXTENSIÓN
+
+Ejemplos:
+
+```text
+--dl-bulma-hover-lift-distance
+--dl-bulma-transition-duration
+--dl-bulma-focus-ring-width
+--dl-bulma-focus-ring-offset
+```
+
+No crear estas variables si Bulma ya tiene una variable equivalente.
+
+---
+
+# CRITICAL DISTINCTION
+
+`.dl-bulma-*` NO significa:
+
+```text
+“CSS escrito por nosotros”
+```
+
+Significa:
+
+```text
+“capacidad reusable agregada encima de Bulma porque Bulma no la proporciona”
+```
+
+---
+
+# NO USAR dl-bulma EN COMPONENTES DE DOMINIO
+
+Incorrecto:
+
+```text
+.dl-bulma-product-card
+.dl-bulma-service-card
+.dl-bulma-contact-card
+```
+
+Correcto:
+
+```text
+.product-card
+.product-card__media
+.product-card__title
+.product-card__actions
+
+.service-card
+.service-card__title
+
+.contact-card
+.contact-card__actions
+```
+
+---
+
+# THEME API
+
+Theme/Admin continúa usando:
+
+```text
+--dl-*
+```
+
+Ejemplos:
+
+```css
+--dl-primary
+--dl-secondary
+--dl-tertiary
+--dl-quaternary
+--dl-accent
+--dl-hover
+--dl-link
+--dl-body-link
+
+--dl-font-heading
+--dl-font-body
+
+--dl-header-color
+--dl-header-bg
+--dl-footer-color
+--dl-footer-bg
+
+--dl-card-radius
+--dl-button-radius
+--dl-button-transform
+```
+
+No convertir estas variables a `--dl-bulma-*`.
+
+Estas representan configuración de Acerca, no extensión de Bulma.
+
+---
+
+# SECTION CONTEXT
+
+Las Sections deben exponer contexto visual semántico mediante:
+
+```text
+--dl-section-bg
+--dl-section-surface
+--dl-section-text
+--dl-section-heading
+--dl-section-muted
+--dl-section-link
+--dl-section-accent
+--dl-section-border
+```
+
+Los componentes de dominio deben consumir estas variables cuando el valor depende de la Section.
+
+---
+
+# SECTION SCHEMES
+
+Usar BEM:
+
+```text
+.section--scheme-light
+.section--scheme-dark
+.section--scheme-color
+.section--scheme-gradient
+```
+
+No usar nombres sueltos como:
+
+```text
+scheme-dark
+dark-section
+section-dark
+```
+
+---
+
+# SECTION ALIGNMENT
+
+Usar:
+
+```text
+.section--align-left
+.section--align-center
+.section--align-right
+```
+
+Layout:
+
+```text
+.section--layout-default
+.section--layout-reverse
+```
+
+Alignment y layout son conceptos distintos.
+
+---
+
+# BEM OBLIGATORIO EN CÓDIGO PROPIO
+
+Todo CSS propio de componentes y Sections de Acerca debe seguir BEM.
+
+Ejemplos:
+
+```text
+.section-products
+.section-products__header
+.section-products__grid
+
+.product-card
+.product-card__media
+.product-card__content
+.product-card__title
+.product-card__actions
+```
+
+Modificadores sólo para estados/variantes semánticas:
+
+```text
+.product-card--featured
+.product-card--compact
+
+.section--scheme-dark
+.section--align-center
+```
+
+No crear modificadores utilitarios:
+
+```text
+.product-card--blue
+.product-card--margin-20
+.product-card--font-18
+```
+
+---
+
+# BULMA + BEM
+
+Combinar ambos sistemas es correcto.
+
+Ejemplo:
+
+```html
+<div class="columns section-products__grid">
+    <div class="column is-half section-products__item">
+        <article class="card product-card">
+            ...
+        </article>
+    </div>
+</div>
+```
+
+Bulma describe estructura/layout.
+
+BEM identifica el componente Acerca.
+
+---
+
+# HTML SEMÁNTICO
+
+Preferir:
+
+```text
+header
+nav
+main
+section
+article
+aside
+footer
+figure
+figcaption
+address
+time
+button
+a
+h1-h6
+p
+ul
+ol
+li
+```
+
+Usar `div` sólo cuando no exista un elemento semántico apropiado.
+
+---
+
+# BUTTON VS LINK
+
+Usar:
+
+```html
+<a>
+```
+
+para navegación.
+
+Usar:
+
+```html
+<button>
+```
+
+para acciones.
+
+No usar:
+
+```html
+<a href="#" @click.prevent>
+```
+
+como botón.
+
+---
+
+# ACCESSIBILITY
+
+Verificar:
+
+- `alt` correcto;
+- botones de icono con `aria-label`;
+- labels reales en formularios;
+- navegación por teclado;
+- `:focus-visible`;
+- heading hierarchy;
+- `disabled`;
+- `aria-expanded` cuando corresponda;
+- no transmitir estado únicamente por color;
+- no abusar de ARIA;
+- respetar `prefers-reduced-motion`.
+
+---
+
+# RESPONSIVE
+
+Primero utilizar Bulma:
+
+- Columns;
+- Grid;
+- responsive helpers;
+- Sass responsive mixins;
+- typography helpers;
+- spacing helpers.
+
+Para CSS custom preferir:
+
+```text
+rem
+%
+fr
+minmax()
+clamp()
+min()
+max()
+dvh
+```
+
+`px` NO está prohibido.
+
+No convertir px a rem ciegamente.
+
+Evitar dimensiones rígidas cuando una solución flexible sea mejor.
+
+---
+
+# DEPENDENCIAS EXTERNAS
+
+Swiper, GLightbox, Leaflet u otras librerías son infraestructura compartida del Minisite.
+
+No duplicar integraciones por theme.
+
+Ejemplos:
+
+```text
+components/gallery/GalleryCarousel.vue
+components/gallery/GalleryItem.vue
+components/locations/LocationMap.vue
+```
+
+Antes de agregar una nueva dependencia:
+
+```text
+¿CSS lo resuelve?
+¿Bulma lo resuelve?
+¿Vue lo resuelve?
+¿Ya existe una dependencia que lo resuelve?
+```
+
+---
+
+# THEMES
+
+Los themes modifican apariencia principalmente mediante SCSS.
+
+Ejemplo:
+
+```text
+themes/
+├── base/
+│   └── theme.scss
+├── modern/
+│   └── theme.scss
+└── classic/
+    └── theme.scss
+```
+
+No duplicar componentes funcionales sólo para cambiar estilos.
+
+---
+
+# THEME COMPONENT OVERRIDES
+
+Sólo crear override Vue cuando cambia realmente el markup/composición.
+
+Canonical:
+
+```text
+components/sections/SectionProducts.vue
+```
+
+Override:
+
+```text
+themes/modern/sections/SectionProducts.vue
+```
+
+Fallback:
+
+```text
+theme override
+      ↓ no existe
+canonical component
+```
+
+Overrides deben mantener contrato público:
+
+- props;
+- emits;
+- slots;
+- estados;
+- comportamiento esperado.
+
+---
+
+# CLEANUP LEGACY
+
+Auditar:
+
+```text
+orp-
+--orp-
+Orp*
+Ui*
+Bootstrap remnants
+LESS remnants
+duplicated primitives
+dead CSS
+dead Vue components
+unused imports
+```
+
+No eliminar automáticamente.
+
+Verificar consumidores primero.
+
+---
+
+# AUDITORÍA DE HARDCODED DESIGN VALUES
+
+Buscar explícitamente:
+
+```text
+color:
+background:
+background-color:
+font-size:
+font-weight:
+line-height:
+padding:
+margin:
+gap:
+border:
+border-color:
+border-radius:
+box-shadow:
+transition:
+z-index:
+width:
+height:
+min-width:
+max-width:
+min-height:
+max-height:
+```
+
+También buscar valores:
+
+```text
+#fff
+#ffffff
+#000
+#000000
+rgb(
+rgba(
+hsl(
+hsla(
+white
+black
+```
+
+---
+
+# REPORTE DE HARDCODES
+
+Crear:
+
+```text
+## Hardcoded Design Values Found
+```
+
+Agrupar:
+
+```text
+### Colors
+### Typography
+### Spacing
+### Radius
+### Borders
+### Shadows
+### Dimensions
+### Transitions
+### Z-index
+```
+
+Para cada uno indicar:
+
+```text
+File:
+Selector:
+Property:
+Current value:
+Semantic purpose:
+Bulma replacement:
+Bulma variable:
+Theme API replacement:
+Section Context replacement:
+Bulma extension needed:
+Final recommendation:
+```
+
+---
+
+# REGLA ESPECIAL PARA COMPONENTES NUEVOS
+
+Todo componente nuevo debe pasar esta revisión antes de considerarse terminado.
+
+No aceptar un nuevo componente que tenga valores como:
+
+```scss
+color: #fff;
+background: #000;
+font-weight: 700;
+font-size: 14px;
+padding: 20px;
+border-radius: 10px;
+```
+
+sin justificar por qué Bulma no puede resolverlos.
+
+El componente debe demostrar que siguió esta secuencia:
+
+```text
+Bulma class
+    ↓
+Bulma helper
+    ↓
+Bulma CSS variable
+    ↓
+Bulma Sass variable / mixin
+    ↓
+Theme API --dl-*
+    ↓
+Section Context --dl-section-*
+    ↓
+Reusable Bulma extension .dl-bulma-* / --dl-bulma-*
+    ↓
+BEM component-specific CSS
+```
+
+---
+
+# REGLA PARA NUEVAS CLASES
+
+Si la necesidad es reusable y Bulma no la tiene:
+
+Correcto:
+
+```text
+.dl-bulma-*
+```
+
+Ejemplo:
+
+```scss
+.dl-bulma-hover-lift {
+    ...
+}
+```
+
+Si es específico del dominio:
+
+Correcto:
+
+```text
+.product-card__actions
+.contact-card__meta
+.service-card__price
+```
+
+No usar `dl-bulma-*` para todo.
+
+---
+
+# REGLA PARA NUEVAS VARIABLES
+
+Si la variable extiende una capacidad que Bulma no tiene:
+
+```text
+--dl-bulma-*
+```
+
+Si pertenece a Theme/Admin:
+
+```text
+--dl-*
+```
+
+Si pertenece al contexto de Section:
+
+```text
+--dl-section-*
+```
+
+No mezclar responsabilidades.
+
+---
+
+# CLASSIFICATION DE ESTILOS
+
+Cada estilo custom detectado debe clasificarse como:
+
+```text
+BULMA_NATIVE
+BULMA_EXTENSION
+THEME_API
+SECTION_CONTEXT
+DOMAIN_BEM
+TECHNICAL_LITERAL
+UNNECESSARY
+HARDCODE_REVIEW
+```
+
+---
+
+# REQUISITO PARA BULMA_EXTENSION
+
+Para crear `.dl-bulma-*` se debe reportar:
+
+```text
+What capability is missing in Bulma?
+Why cannot Bulma solve it?
+Proposed class:
+Required variables:
+Current consumers:
+Expected reuse:
+```
+
+Sin justificación no crear extensión.
+
+---
+
+# ORDEN DE MIGRACIÓN
+
+Después de aprobar la auditoría:
+
+## Etapa 1
+Migrar/eliminar primitives cubiertos por Bulma.
+
+## Etapa 2
+Refactorizar wrappers Vue funcionales.
+
+## Etapa 3
+Migrar componentes de dominio a Bulma + BEM.
+
+## Etapa 4
+Migrar Sections consumidoras.
+
+## Etapa 5
+Migrar tokens:
+
+```text
+--orp-*
+```
+
+Clasificarlos como:
+
+```text
+Bulma native
+Bulma variable
+--dl-*
+--dl-section-*
+--dl-bulma-*
+obsolete
+```
+
+NO hacer:
+
+```text
+--orp-x → --dl-x
+```
+
+automáticamente.
+
+## Etapa 6
+Eliminar código ORP sólo cuando no queden consumidores.
+
+## Etapa 7
+Build + QA.
+
+---
+
+# VALIDACIÓN
+
+La migración NO termina porque el build pase.
+
+`Build successful` sólo significa que compila.
+
+También validar:
+
+- no primitives duplicados innecesariamente;
+- no wrappers cosméticos sin valor;
+- no hardcodes nuevos de design system;
+- BEM correcto;
+- Theme API intacta;
+- Section schemes intactos;
+- dark mode;
+- responsive;
+- accesibilidad;
+- Swiper;
+- GLightbox;
+- Leaflet;
+- todos los consumidores actualizados;
+- imports muertos eliminados;
+- componentes huérfanos detectados.
+
+---
+
+# REPORTE FINAL
+
+Entregar:
+
+```text
+# Migration Report
+
+## Replaced with Bulma
+
+## Components Kept
+
+## Domain Components Migrated
+
+## Bulma Extensions Added
+
+## Theme API Changes
+
+## Section Context Changes
+
+## Hardcoded Values Removed
+
+## Hardcoded Values Remaining
+```
+
+Para todo hardcode restante justificarlo.
+
+Continuar con:
+
+```text
+## Deleted Components
+
+## Imports Updated
+
+## Legacy ORP Remaining
+
+## Accessibility Notes
+
+## Responsive Notes
+
+## Build Result
+
+## Warnings / Follow-up
+```
+
+---
+
+# CRITERIOS DE ACEPTACIÓN
+
+La migración se considera correcta cuando:
+
+- Bulma es claramente el sistema UI base.
+- No se recreó OrpUI con nombres nuevos.
+- Los primitives cubiertos por Bulma fueron eliminados cuando no aportaban comportamiento.
+- Los componentes de dominio siguen siendo semánticos.
+- Todo CSS propio de Acerca usa BEM.
+- Las clases nuevas que extienden Bulma usan `.dl-bulma-*`.
+- Las variables nuevas que pertenecen a la extensión Bulma usan `--dl-bulma-*`.
+- Las variables del Theme continúan usando `--dl-*`.
+- Las variables de Section continúan usando `--dl-section-*`.
+- No existen nuevos valores visuales arbitrarios dentro de componentes sin justificación.
+- No se sustituyeron hardcodes por variables inútiles que sólo esconden el mismo valor.
+- Se utilizaron helpers/variables/componentes de Bulma antes de crear soluciones custom.
+- Responsive y accesibilidad se mantienen.
+- Build pasa.
+- No quedan imports/componentes legacy innecesarios.
+
+---
+
+# PRINCIPIO FINAL
+
+No queremos esto:
+
+```text
+Bulma
++
+muchas clases custom
++
+muchas variables custom
++
+hardcodes escondidos
+```
+
+Queremos esto:
+
+```text
+Bulma
+    ↓
+usar lo nativo siempre que exista
+    ↓
+Theme API de Acerca cuando el valor sea configurable
+    ↓
+Section Context cuando el valor sea contextual
+    ↓
+dl-bulma sólo para extensiones reales
+    ↓
+BEM para identidad de componentes
+    ↓
+Vue sólo para comportamiento/datos
+```
+
+Antes de escribir una sola línea de CSS nuevo, preguntar:
+
+```text
+¿Bulma ya resuelve esto?
+```
+
+Y antes de introducir un valor visual:
+
+```text
+¿Este valor pertenece realmente al componente,
+o pertenece al design system?
+```
+
+Si pertenece al design system, NO debe quedar hardcodeado dentro del componente.
+

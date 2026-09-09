@@ -1,0 +1,54 @@
+// =============================================
+// Mixins - Minisite
+// =============================================
+
+// Section padding
+@mixin section-padding {
+  padding: 1.5rem 1rem;
+
+  @media (min-width: 768px) {
+    padding: 2.5rem 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 4rem 2rem;
+  }
+}
+
+// Container max-width
+@mixin container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media (min-width: 768px) {
+    padding: 0 1.5rem;
+  }
+}
+
+// Card base
+@mixin card {
+  background: var(--dl-card-bg, #ffffff);
+  border-radius: var(--dl-card-radius, 12px);
+  border: 1px solid var(--dl-section-border, #e5e7eb);
+  box-shadow: var(--dl-card-shadow, 0 1px 3px rgba(0, 0, 0, 0.1));
+}
+
+// Button base
+@mixin button-base {
+  display: inline-block;
+  padding: var(--dl-button-padding, 0.75rem 1.5rem);
+  border-radius: var(--dl-button-radius, 8px);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+// Focus ring
+@mixin focus-ring {
+  outline: 2px solid var(--dl-primary, #3B82F6);
+  outline-offset: 2px;
+}

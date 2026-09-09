@@ -71,6 +71,776 @@
         font-weight: @font-weight-medium;
         color: @color-accent;
     }
+
+    // ============================================
+    // VARIANT — Elevated
+    // Más sombras pronunciadas, efecto 3D
+    // ============================================
+    &--elevated {
+        border: none;
+        box-shadow:
+            0 4px 6px -1px rgba(0, 0, 0, 0.08),
+            0 10px 15px -3px rgba(0, 0, 0, 0.06),
+            0 20px 25px -5px rgba(0, 0, 0, 0.04);
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+
+        &:hover {
+            transform: translateY(-6px);
+            box-shadow:
+                0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 20px 25px -5px rgba(0, 0, 0, 0.08),
+                0 30px 40px -10px rgba(0, 0, 0, 0.06);
+        }
+
+        .service-card__header {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: @space-md;
+            margin-bottom: @space-md;
+        }
+
+        .service-card__price {
+            background: linear-gradient(135deg, @color-accent 0%, lighten(@color-accent, 15%) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    }
+
+    // ============================================
+    // VARIANT — Outlined
+    // Solo borde, fondo transparente
+    // ============================================
+    &--outlined {
+        background: transparent;
+        border: 2px solid @color-border;
+
+        &:hover {
+            border-color: @color-accent;
+            background: rgba(@color-accent, 0.02);
+        }
+
+        .service-card__price {
+            font-weight: @font-weight-bold;
+            padding: @space-xs @space-sm;
+            background: @color-accent;
+            color: white;
+            border-radius: @radius-sm;
+        }
+    }
+
+    // ============================================
+    // VARIANT — Minimal
+    // Estilo ultralimpio, solo lo esencial
+    // ============================================
+    &--minimal {
+        background: transparent;
+        border: none;
+        padding: @space-md;
+        border-radius: 0;
+        border-bottom: 1px solid @color-border-light;
+
+        &:hover {
+            transform: none;
+            box-shadow: none;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .service-card__header {
+            margin-bottom: @space-xs;
+        }
+
+        .service-card__description {
+            display: none;
+        }
+
+        .service-card__footer {
+            border-top: none;
+            padding-top: @space-xs;
+        }
+
+        .service-card__duration i {
+            color: @color-accent;
+        }
+    }
+
+    // ============================================
+    // VARIANT — Soft Shadow
+    // Sombras difusas, estilo moderno
+    // ============================================
+    &--soft {
+        border: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
+        border-radius: 16px;
+
+        &:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 16px 32px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .service-card__header {
+            position: relative;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -@space-md;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, @color-accent, lighten(@color-accent, 15%));
+                border-radius: 2px;
+                opacity: 0;
+                transition: opacity @transition-fast;
+            }
+        }
+
+        &:hover .service-card__header::after {
+            opacity: 1;
+        }
+
+        .service-card__price {
+            color: @color-accent;
+        }
+    }
+
+    // ============================================
+    // VARIANT — Glass
+    // Efecto glassmorphism
+    // ============================================
+    &--glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.85);
+            transform: translateY(-4px) scale(1.01);
+        }
+    }
+
+    // ============================================
+    // VARIANT — Gradient Border
+    // Borde con gradiente
+    // ============================================
+    &--gradient-border {
+        position: relative;
+        background: white;
+        border: none;
+        padding: 2px;
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: calc(@radius-lg + 2px);
+            padding: 2px;
+            background: linear-gradient(135deg, @color-accent 0%, lighten(@color-accent, 15%) 50%, @color-accent 100%);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        > * {
+            background: white;
+            border-radius: @radius-lg;
+        }
+
+        .service-card__price {
+            background: linear-gradient(135deg, @color-accent, lighten(@color-accent, 15%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    }
+
+    // ============================================
+    // VARIANT — Horizontal
+    // Disposición horizontal para listas
+    // ============================================
+    &--horizontal {
+        display: flex;
+        align-items: center;
+        gap: @space-lg;
+        padding: @space-md @space-lg;
+
+        .service-card__header {
+            flex: 0 0 auto;
+            margin-bottom: 0;
+            margin-right: @space-md;
+        }
+
+        .service-card__title {
+            margin-bottom: @space-xs;
+        }
+
+        .service-card__description {
+            flex: 1;
+            margin-bottom: 0;
+            -webkit-line-clamp: 2;
+        }
+
+        .service-card__footer {
+            flex: 0 0 auto;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: @space-sm;
+            border-top: none;
+            padding-top: 0;
+            border-left: 1px solid @color-border-light;
+            padding-left: @space-lg;
+        }
+
+        .service-card__action {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    // ============================================
+    // VARIANT — With Image
+    // Card con imagen destacada
+    // ============================================
+    &--image {
+        padding: 0;
+        overflow: hidden;
+
+        .service-card__image-wrap {
+            position: relative;
+            height: 160px;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform @transition-normal;
+            }
+        }
+
+        &:hover .service-card__image-wrap img {
+            transform: scale(1.08);
+        }
+
+        .service-card__content {
+            padding: @space-lg;
+        }
+
+        .service-card__header {
+            margin-bottom: @space-sm;
+        }
+
+        .service-card__badge {
+            position: absolute;
+            top: @space-md;
+            left: @space-md;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: @space-xs @space-sm;
+            border-radius: @radius-pill;
+            font-size: @font-size-xs;
+            font-weight: @font-weight-medium;
+        }
+
+        .service-card__discount {
+            position: absolute;
+            top: @space-md;
+            right: @space-md;
+            background: @color-danger;
+            color: white;
+            padding: @space-xs @space-sm;
+            border-radius: @radius-pill;
+            font-size: @font-size-xs;
+            font-weight: @font-weight-bold;
+        }
+    }
+
+    // ============================================
+    // VARIANT — Promo
+    // Con badges y diseño promocional
+    // ============================================
+    &--promo {
+        background: linear-gradient(135deg, #fff9f0 0%, #fff 100%);
+        border-color: rgba(@color-accent, 0.2);
+
+        .service-card__price-wrap {
+            position: relative;
+        }
+
+        .service-card__original-price {
+            text-decoration: line-through;
+            color: @color-text-muted;
+            font-size: @font-size-sm;
+            margin-left: @space-xs;
+        }
+
+        .service-card__discount-badge {
+            position: absolute;
+            top: -@space-sm;
+            right: -@space-sm;
+            background: @color-danger;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: @font-size-xs;
+            font-weight: @font-weight-bold;
+            transform: rotate(12deg);
+            box-shadow: 0 4px 12px rgba(@color-danger, 0.3);
+        }
+
+        .service-card__promo-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: @space-xs;
+            background: linear-gradient(135deg, @color-accent, lighten(@color-accent, 15%));
+            color: white;
+            padding: @space-xs @space-sm;
+            border-radius: @radius-pill;
+            font-size: @font-size-xs;
+            font-weight: @font-weight-medium;
+            margin-bottom: @space-sm;
+        }
+    }
+
+    // ============================================
+    // VARIANT — Pill
+    // Estilo pill muy redondeado
+    // ============================================
+    &--pill {
+        border-radius: @radius-pill;
+        padding: @space-md @space-lg;
+        display: flex;
+        align-items: center;
+        gap: @space-md;
+
+        .service-card__header {
+            margin-bottom: 0;
+            flex: 1;
+        }
+
+        .service-card__title {
+            margin-bottom: 0;
+        }
+
+        .service-card__description {
+            display: none;
+        }
+
+        .service-card__footer {
+            border-top: none;
+            padding-top: 0;
+            flex: 0 0 auto;
+        }
+
+        .service-card__duration {
+            background: rgba(@color-accent, 0.1);
+            padding: @space-xs @space-sm;
+            border-radius: @radius-pill;
+        }
+
+        .service-card__action {
+            background: @color-accent;
+            color: white;
+            padding: @space-sm @space-lg;
+            border-radius: @radius-pill;
+            font-weight: @font-weight-semibold;
+
+            &:hover {
+                filter: brightness(1.1);
+            }
+        }
+    }
+
+    // ============================================
+    // VARIANT — Dark
+    // Para secciones oscuras
+    // ============================================
+    &--dark {
+        background: #1a1a2e;
+        border-color: rgba(255, 255, 255, 0.1);
+        color: white;
+
+        .service-card__title,
+        .service-card__description,
+        .service-card__duration {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .service-card__price {
+            color: @color-accent;
+        }
+
+        .service-card__action {
+            background: @color-accent;
+            color: white;
+            padding: @space-sm @space-md;
+            border-radius: @radius-sm;
+        }
+
+        .service-card__footer {
+            border-top-color: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    // ============================================
+    // VARIANT — Real Estate / Property
+    // Card de propiedad con beds, baths, area
+    // ============================================
+    &--property {
+        padding: 0;
+        overflow: hidden;
+
+        .service-card__image-wrap {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform @transition-normal;
+            }
+        }
+
+        &:hover .service-card__image-wrap img {
+            transform: scale(1.05);
+        }
+
+        .service-card__content {
+            padding: @space-lg;
+        }
+
+        .service-card__header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: @space-xs;
+            margin-bottom: @space-md;
+        }
+
+        .service-card__title {
+            font-size: @font-size-xl;
+            margin-bottom: 0;
+        }
+
+        .service-card__price {
+            font-size: @font-size-2xl;
+            color: @color-success;
+        }
+
+        .service-card__address {
+            display: flex;
+            align-items: center;
+            gap: @space-xs;
+            color: @color-text-light;
+            font-size: @font-size-sm;
+            margin-bottom: @space-md;
+
+            i {
+                color: @color-text-muted;
+            }
+        }
+
+        .service-card__features {
+            display: flex;
+            gap: @space-md;
+            padding: @space-md 0;
+            border-top: 1px solid @color-border-light;
+            border-bottom: 1px solid @color-border-light;
+            margin-bottom: @space-md;
+        }
+
+        .service-card__feature {
+            display: flex;
+            align-items: center;
+            gap: @space-xs;
+            font-size: @font-size-sm;
+            color: @color-text;
+
+            i {
+                color: @color-accent;
+                font-size: @font-size-base;
+            }
+
+            span {
+                font-weight: @font-weight-medium;
+            }
+        }
+
+        .service-card__footer {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .service-card__status {
+            position: absolute;
+            top: @space-md;
+            left: @space-md;
+            padding: @space-xs @space-sm;
+            border-radius: @radius-sm;
+            font-size: @font-size-xs;
+            font-weight: @font-weight-semibold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+
+            &--sale {
+                background: @color-success;
+                color: white;
+            }
+
+            &--rent {
+                background: @color-accent;
+                color: white;
+            }
+
+            &--sold {
+                background: @color-danger;
+                color: white;
+            }
+        }
+
+        .service-card__agent {
+            display: flex;
+            align-items: center;
+            gap: @space-sm;
+
+            img {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            span {
+                font-size: @font-size-sm;
+                color: @color-text-light;
+            }
+        }
+    }
+
+    // ============================================
+    // VARIANT — Real Estate Compact
+    // Lista compacta de propiedades
+    // ============================================
+    &--property-compact {
+        display: flex;
+        padding: @space-md;
+        gap: @space-md;
+
+        .service-card__image-wrap {
+            flex: 0 0 120px;
+            height: 90px;
+            border-radius: @radius-md;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .service-card__content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .service-card__header {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: @space-xs;
+        }
+
+        .service-card__title {
+            font-size: @font-size-base;
+            margin-bottom: @space-xs;
+        }
+
+        .service-card__price {
+            font-size: @font-size-lg;
+        }
+
+        .service-card__address {
+            font-size: @font-size-xs;
+            margin-bottom: 0;
+        }
+
+        .service-card__features {
+            display: flex;
+            gap: @space-md;
+            padding: 0;
+            border: none;
+            margin-bottom: 0;
+        }
+
+        .service-card__feature {
+            font-size: @font-size-xs;
+
+            i {
+                font-size: @font-size-sm;
+            }
+        }
+
+        .service-card__footer {
+            display: none;
+        }
+    }
+
+    // ============================================
+    // VARIANT — Real Estate Feature Card
+    // Propiedad destacada con más detalles
+    // ============================================
+    &--property-featured {
+        padding: 0;
+
+        .service-card__image-wrap {
+            position: relative;
+            height: 280px;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .service-card__badges {
+            position: absolute;
+            top: @space-md;
+            left: @space-md;
+            right: @space-md;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .service-card__status {
+            padding: @space-xs @space-md;
+            border-radius: @radius-sm;
+            font-size: @font-size-xs;
+            font-weight: @font-weight-semibold;
+            text-transform: uppercase;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+
+        .service-card__favorite {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: @shadow-md;
+            transition: transform @transition-fast;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+
+            i {
+                color: @color-danger;
+            }
+        }
+
+        .service-card__content {
+            padding: @space-xl;
+        }
+
+        .service-card__header {
+            flex-direction: column;
+            margin-bottom: @space-md;
+        }
+
+        .service-card__price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .service-card__price {
+            font-size: @font-size-2xl;
+        }
+
+        .service-card__price-per-m2 {
+            font-size: @font-size-xs;
+            color: @color-text-muted;
+        }
+
+        .service-card__features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: @space-md;
+            padding: @space-md 0;
+            border-top: 1px solid @color-border-light;
+            border-bottom: 1px solid @color-border-light;
+            margin-bottom: @space-md;
+        }
+
+        .service-card__feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+
+            i {
+                font-size: @font-size-xl;
+                color: @color-accent;
+                margin-bottom: @space-xs;
+            }
+
+            span {
+                font-size: @font-size-xs;
+                color: @color-text-muted;
+            }
+
+            strong {
+                font-size: @font-size-lg;
+                color: @color-heading;
+            }
+        }
+
+        .service-card__footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .service-card__agent {
+            display: flex;
+            align-items: center;
+            gap: @space-sm;
+
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            strong {
+                display: block;
+                font-size: @font-size-sm;
+                color: @color-heading;
+            }
+
+            span {
+                font-size: @font-size-xs;
+                color: @color-text-light;
+            }
+        }
+    }
 }
 
 // --- Services Grid ---

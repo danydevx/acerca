@@ -29,7 +29,7 @@
       <div class="product-list-item__meta">
         <span v-if="showStock && item.quantity !== null" class="product-list-item__stock" :class="item.quantity > 0 ? 'product-list-item__stock--available' : 'product-list-item__stock--out'">
           <i :class="item.quantity > 0 ? 'bi bi-check-circle' : 'bi bi-x-circle'"></i>
-          {{ item.quantity > 0 ? 'En stock' : 'Agotado' }}
+          {{ item.quantity > 0 ? labels.inStock : labels.outOfStock }}
         </span>
       </div>
     </div>
@@ -77,6 +77,13 @@ defineProps({
   showStock: {
     type: Boolean,
     default: false,
+  },
+  labels: {
+    type: Object,
+    default: () => ({
+      inStock: 'En stock',
+      outOfStock: 'Agotado',
+    }),
   },
 })
 

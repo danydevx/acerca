@@ -1,0 +1,85 @@
+// =============================================
+// ORP UI — Visual Helpers
+// =============================================
+
+// =============================================
+// BORDER
+// Use for small generic separation/containment.
+// Do NOT use to manually construct components.
+// =============================================
+
+.orp-border {
+    border: 1px solid var(--orp-border);
+}
+
+.orp-border-0 {
+    border: 0;
+}
+
+// =============================================
+// RADIUS
+// Use for standalone/custom content requiring token-consistent clipping/shape.
+// Components already own their radius - do NOT add radius to correct component defaults.
+// =============================================
+
+.orp-rounded-sm {
+    border-radius: var(--orp-radius-sm);
+}
+
+.orp-rounded {
+    border-radius: var(--orp-radius-md);
+}
+
+.orp-rounded-lg {
+    border-radius: var(--orp-radius-lg);
+}
+
+.orp-rounded-full {
+    border-radius: var(--orp-radius-pill);
+}
+
+// =============================================
+// OVERFLOW
+// Use for intentional clipping/scroll containers.
+// Do NOT use to hide broken responsive layout.
+// =============================================
+
+.orp-overflow-hidden {
+    overflow: hidden;
+}
+
+.orp-overflow-auto {
+    overflow: auto;
+}
+
+.orp-overflow-x-auto {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.orp-overflow-y-auto {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+// =============================================
+// ELEVATION / SHADOW
+// Use for custom surfaces requiring token-consistent elevation.
+// Components already own their elevation - do NOT add shadow to correct component defaults.
+// =============================================
+
+.orp-shadow-none {
+    box-shadow: none;
+}
+
+.orp-shadow-sm {
+    box-shadow: var(--orp-shadow-sm);
+}
+
+.orp-shadow {
+    box-shadow: var(--orp-shadow-md);
+}
+
+.orp-shadow-lg {
+    box-shadow: var(--orp-shadow-lg);
+}

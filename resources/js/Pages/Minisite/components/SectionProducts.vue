@@ -13,8 +13,8 @@
             <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
           </svg>
         </div>
-        <h3 class="orp-empty__title">Sin productos</h3>
-        <p class="orp-empty__description">No hay productos disponibles en este momento.</p>
+        <h3 class="orp-empty__title">{{ labels.empty }}</h3>
+        <p class="orp-empty__description">{{ labels.emptyDescription }}</p>
       </div>
 
       <template v-else>
@@ -65,7 +65,7 @@
 
         <div v-if="hasMoreItems" class="section-products__show-all">
           <a :href="showAllUrl" class="section-products__show-all-link">
-            Ver todos los productos
+            {{ labels.viewAll }}
             <span class="section-products__show-all-count">({{ items.length }})</span>
             <i class="bi bi-arrow-right"></i>
           </a>
@@ -126,6 +126,14 @@ const props = defineProps({
   orderSettings: {
     type: Object,
     default: null,
+  },
+  labels: {
+    type: Object,
+    default: () => ({
+      empty: 'Sin productos',
+      emptyDescription: 'No hay productos disponibles en este momento.',
+      viewAll: 'Ver todos los productos',
+    }),
   },
 })
 

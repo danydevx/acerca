@@ -23,7 +23,7 @@
       :title="business?.name"
     >
       <ul class="orp-list orp-list--divided">
-        <li v-for="item in menuItems" :key="item.url" class="orp-list__item orp-list__item--interactive">
+        <li v-for="item in computedMenuItems" :key="item.url" class="orp-list__item orp-list__item--interactive">
           <a :href="item.url" class="orp-list__content" @click="isOpen = false">
             <i v-if="item.icon" :class="item.icon"></i>
             <span>{{ item.name }}</span>
@@ -48,11 +48,15 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  menuItems: {
+    type: Array,
+    default: null,
+  },
 })
 
 const isOpen = ref(false)
 
-const menuOrder = [
+const defaultMenuOrder = [
   { key: 'services', name: 'Servicios', url: '/servicios', icon: 'bi bi-briefcase' },
   { key: 'products', name: 'Productos', url: '/productos', icon: 'bi bi-box' },
   { key: 'restaurant_menu', name: 'Menú', url: '/menu', icon: 'bi bi-cup-hot' },
@@ -66,11 +70,15 @@ const menuOrder = [
   { key: 'contact_form', name: 'Contacto', url: '/contacto', icon: 'bi bi-envelope' },
 ]
 
-const menuItems = computed(() => {
+const computedMenuItems = computed(() => {
+  if (props.menuItems) {
+    return props.menuItems
+  }
+
   const baseUrl = `/m/${props.business?.slug || ''}`
   const items = [{ key: 'home', name: 'Inicio', url: baseUrl, icon: 'bi bi-house' }]
 
-  for (const menuItem of menuOrder) {
+  for (const menuItem of defaultMenuOrder) {
     const sectionExists = props.existingSections.includes(menuItem.key)
     if (sectionExists) {
       items.push({ ...menuItem, url: baseUrl + menuItem.url })

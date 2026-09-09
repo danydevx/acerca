@@ -13,8 +13,8 @@
             <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
           </svg>
         </div>
-        <h3 class="orp-empty__title">Sin servicios</h3>
-        <p class="orp-empty__description">No hay servicios disponibles en este momento.</p>
+        <h3 class="orp-empty__title">{{ labels.empty }}</h3>
+        <p class="orp-empty__description">{{ labels.emptyDescription }}</p>
       </div>
 
       <template v-else>
@@ -59,7 +59,7 @@
 
         <div v-if="hasMoreItems" class="section-services__show-all">
           <a :href="showAllUrl" class="section-services__show-all-link">
-            Ver todos los servicios
+            {{ labels.viewAll }}
             <span class="section-services__show-all-count">({{ items.length }})</span>
             <i class="bi bi-arrow-right"></i>
           </a>
@@ -114,6 +114,14 @@ const props = defineProps({
   businessSlug: {
     type: String,
     default: '',
+  },
+  labels: {
+    type: Object,
+    default: () => ({
+      empty: 'Sin servicios',
+      emptyDescription: 'No hay servicios disponibles en este momento.',
+      viewAll: 'Ver todos los servicios',
+    }),
   },
 })
 

@@ -8,6 +8,7 @@ export function useOrpTheme() {
     const setTheme = (theme) => {
         currentTheme.value = theme
         document.documentElement.setAttribute('data-orp-theme', theme)
+        document.documentElement.setAttribute('data-theme', theme)
 
         if (typeof localStorage !== 'undefined') {
             localStorage.setItem(THEME_KEY, theme)

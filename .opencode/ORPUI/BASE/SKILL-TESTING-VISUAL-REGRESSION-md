@@ -1,0 +1,2095 @@
+# SKILL — ORP UI / Parte 17: Testing & Visual Regression
+
+## Objetivo
+
+Crear una estrategia de pruebas para ORP UI que detecte regresiones funcionales, visuales, responsive y de accesibilidad antes de publicar nuevas versiones.
+
+Esta fase **NO agrega componentes nuevos**. Protege todo lo construido en las partes anteriores.
+
+```text
+Testing
+├── Test Strategy
+├── Unit Tests
+├── Component Tests
+├── Interaction Tests
+├── Keyboard Tests
+├── Accessibility Tests
+├── Responsive Tests
+├── Theme Tests
+├── Visual Regression
+├── Integration Tests
+├── Build Verification
+└── CI Readiness
+```
+
+La meta es pasar de:
+
+```text
+"se ve bien en el Playground"
+```
+
+a:
+
+```text
+"podemos detectar automáticamente cuando un cambio rompe ORP UI"
+```
+
+---
+
+## 1. Principio principal
+
+Las pruebas deben proteger comportamiento real, no aumentar coverage artificialmente.
+
+Priorizar:
+
+- API pública.
+- Interacción.
+- Navegación por teclado.
+- Focus.
+- Accesibilidad.
+- Estados visuales.
+- Responsive.
+- Light/Dark/Custom themes.
+- Composición entre primitives.
+- Build y distribución.
+
+Evitar tests acoplados a detalles internos.
+
+---
+
+## 2. Audit first
+
+Antes de instalar herramientas:
+
+1. Revisar `package.json`.
+2. Revisar Vite.
+3. Revisar versión de Vue.
+4. Buscar tests existentes.
+5. Revisar scripts npm.
+6. Revisar workflows CI existentes.
+7. Revisar arquitectura del Playground.
+8. Revisar exports públicos.
+9. Revisar build actual.
+
+Buscar específicamente:
+
+```text
+Vitest
+Vue Test Utils
+Playwright
+Cypress
+Testing Library
+axe-core
+ESLint
+Stylelint
+```
+
+No instalar duplicados.
+
+---
+
+## 3. Stack recomendado
+
+Si no existe stack de testing, preferir:
+
+```text
+Vitest
+Vue Test Utils
+Playwright
+```
+
+Opcional para accesibilidad automatizada:
+
+```text
+axe-core
+```
+
+No usar Jest si Vitest encaja naturalmente con Vite.
+
+Todas las herramientas de testing deben ser `devDependencies`.
+
+No agregar dependencias runtime por testing.
+
+---
+
+## 4. Responsabilidades
+
+```text
+Vitest
+→ lógica y tests rápidos
+
+Vue Test Utils
+→ componentes, props, slots, emits y DOM
+
+Playwright
+→ navegador real, responsive, keyboard y visual regression
+
+axe / equivalente
+→ checks automáticos de accesibilidad
+
+Manual QA
+→ aspectos que automatización no puede garantizar
+```
+
+---
+
+## 5. CSS primitives
+
+No escribir unit tests artificiales para primitives CSS como:
+
+```text
+orp-stack
+orp-cluster
+orp-grid
+orp-section
+orp-divider
+orp-media
+orp-page
+orp-scroll-x
+```
+
+Validarlos mediante:
+
+```text
+Playground
+browser tests
+responsive tests
+visual regression
+```
+
+---
+
+## 6. Componentes Vue prioritarios
+
+Auditar componentes realmente existentes y priorizar los interactivos:
+
+```text
+OrpModal
+OrpSheet
+OrpDrawer
+OrpActionSheet
+OrpDropdown
+OrpPopover
+OrpToast
+OrpTabs
+OrpSegmented
+OrpSearchInput
+OrpFileInput
+OrpCombobox
+OrpAutocomplete
+OrpMultiSelect
+OrpTagInput
+OrpOtpInput
+OrpPasswordInput
+OrpNumberStepper
+```
+
+No inventar componentes solo porque aparezcan en esta referencia.
+
+---
+
+## 7. Estructura
+
+Adaptar a la estructura existente. Referencia:
+
+```text
+tests/
+├── unit/
+├── components/
+├── interactions/
+├── accessibility/
+└── visual/
+```
+
+Naming:
+
+```text
+OrpModal.spec.js
+OrpCombobox.spec.js
+OrpOtpInput.spec.js
+```
+
+---
+
+## 8. Testear API pública
+
+Interactuar como lo haría una aplicación:
+
+```text
+props
+slots
+events
+DOM
+keyboard
+v-model
+```
+
+Evitar:
+
+```text
+internalOpen.value === true
+```
+
+si se puede comprobar:
+
+```text
+dialog visible
+aria-expanded=true
+```
+
+No depender de snapshots gigantes de HTML.
+
+---
+
+## 9. Smoke tests
+
+Cada componente Vue público debe comprobar, cuando aplique:
+
+```text
+mounts without error
+renders expected semantics
+accepts essential props
+emits expected events
+```
+
+---
+
+## 10. v-model
+
+Para componentes controlados comprobar:
+
+```text
+initial modelValue
+user interaction
+update:modelValue
+external model update
+```
+
+Mantener la convención:
+
+```text
+modelValue
+update:modelValue
+```
+
+---
+
+## 11. Modal
+
+Probar:
+
+```text
+open
+close
+Escape
+backdrop
+close button
+initial focus
+focus trap
+focus restore
+scroll lock
+nested overlay behavior
+modelValue
+```
+
+Accesibilidad:
+
+```text
+role="dialog"
+aria-modal
+accessible name
+```
+
+Escape debe afectar únicamente al overlay superior.
+
+Click dentro del contenido no debe disparar backdrop close.
+
+---
+
+## 12. Sheet / Drawer / ActionSheet
+
+### Sheet
+
+```text
+open/close
+Escape
+backdrop
+focus
+scroll lock
+safe-area
+internal scroll
+```
+
+### Drawer
+
+```text
+start/end
+open/close
+Escape
+focus
+backdrop
+```
+
+No asumir left/right.
+
+### ActionSheet
+
+```text
+select
+disabled actions
+danger state
+cancel
+closeOnSelect
+```
+
+---
+
+## 13. Dropdown / Popover
+
+Probar:
+
+```text
+trigger
+open
+outside click
+Escape
+aria-expanded
+focus restore
+disabled actions
+keyboard
+```
+
+No exigir `role="menu"` cuando el contenido no sea realmente un menu.
+
+No scroll lock para anchored overlays.
+
+---
+
+## 14. Toast
+
+Según API existente:
+
+```text
+render
+manual close
+duration
+queue
+stack
+ARIA live behavior
+```
+
+Verificar coexistencia con:
+
+```text
+BottomNav
+FAB
+safe areas
+```
+
+---
+
+## 15. Tabs y Segmented
+
+### Tabs
+
+```text
+selection
+keyboard
+disabled
+aria-selected
+aria-controls
+```
+
+### Segmented
+
+Probar según modo real:
+
+```text
+radio semantics
+button semantics
+v-model
+disabled
+keyboard
+```
+
+---
+
+## 16. SearchInput y FileInput
+
+### SearchInput
+
+```text
+typing
+clear
+Escape
+disabled
+v-model
+search event
+```
+
+### FileInput
+
+```text
+single file
+multiple
+change
+invalid
+disabled
+```
+
+No probar validación backend.
+
+---
+
+## 17. Combobox
+
+Prioridad alta.
+
+Probar:
+
+```text
+open
+close
+filter
+ArrowDown
+ArrowUp
+Enter
+Escape
+Home
+End
+selection
+clear
+disabled options
+no results
+loading
+search event
+aria-expanded
+aria-controls
+aria-activedescendant
+```
+
+No mockear API dentro del componente si el componente no hace requests.
+
+---
+
+## 18. Autocomplete
+
+Probar:
+
+```text
+typing
+suggestions
+free text
+selection
+search event
+Escape
+keyboard navigation
+```
+
+---
+
+## 19. MultiSelect
+
+Probar:
+
+```text
+multiple selection
+remove
+duplicates
+keyboard
+Backspace
+disabled option
+v-model array
+aria-multiselectable
+```
+
+cuando corresponda.
+
+---
+
+## 20. TagInput
+
+Probar:
+
+```text
+Enter creates tag
+trim
+empty rejected
+duplicate prevention
+remove
+Backspace
+v-model
+```
+
+---
+
+## 21. OTP
+
+Prioridad alta.
+
+Probar:
+
+```text
+typing
+auto advance
+Backspace
+Delete
+Arrow navigation
+paste complete code
+length
+disabled
+v-model
+```
+
+También revisar `autocomplete="one-time-code"` e `inputmode` cuando corresponda.
+
+---
+
+## 22. PasswordInput
+
+Probar:
+
+```text
+hidden default
+show/hide
+accessible toggle label
+v-model
+disabled
+autocomplete compatibility
+```
+
+No probar reglas de fortaleza porque no pertenecen a ORP.
+
+---
+
+## 23. NumberStepper
+
+Probar:
+
+```text
+increment
+decrement
+min
+max
+step
+decimal step
+manual input
+disabled
+```
+
+---
+
+## 24. Range
+
+Si es un `<input type="range">` nativo estilizado con CSS, no crear un wrapper/test artificial.
+
+Validarlo principalmente en browser y visual regression.
+
+---
+
+## 25. Composables internos
+
+Solo testear composables que realmente existan y contengan comportamiento importante:
+
+```text
+useOrpEscape
+useOrpOutsideClick
+useOrpScrollLock
+useOrpFocusTrap
+useOrpRestoreFocus
+useOrpListbox
+```
+
+No exportarlos públicamente por necesidad de testing.
+
+---
+
+## 26. Cleanup
+
+Componentes con comportamiento DOM deben limpiar al desmontarse:
+
+```text
+document listeners
+window listeners
+timers
+observers
+Teleport nodes
+scroll locks
+```
+
+Agregar tests donde exista riesgo de fuga.
+
+---
+
+## 27. Scroll lock anidado
+
+Caso obligatorio si la arquitectura lo soporta:
+
+```text
+open Modal
+open child overlay
+close child
+body remains locked
+close Modal
+body unlocks
+```
+
+No permitir que cerrar un hijo desbloquee el documento del padre.
+
+---
+
+## 28. SSR safety
+
+Verificar que importar ORP UI no acceda durante module evaluation a:
+
+```text
+window
+document
+localStorage
+```
+
+Los accesos DOM deben ocurrir únicamente en lifecycle/browser context.
+
+---
+
+## 29. Keyboard matrix
+
+Crear matriz según componente:
+
+```text
+Tab
+Shift+Tab
+Enter
+Space
+Escape
+ArrowUp
+ArrowDown
+ArrowLeft
+ArrowRight
+Home
+End
+Backspace
+Delete
+```
+
+No todos aplican a todos los componentes.
+
+No llamar métodos internos para simular UX: disparar eventos sobre DOM.
+
+---
+
+## 30. Focus
+
+Cuando el focus sea parte del contrato, verificar:
+
+```text
+document.activeElement
+```
+
+Casos clave:
+
+```text
+Modal initial focus
+focus trap
+focus restore
+Dropdown trigger restore
+Popover restore
+Combobox input focus
+```
+
+---
+
+## 31. Accesibilidad
+
+Combinar:
+
+```text
+semantic assertions
+ARIA assertions
+keyboard tests
+automated accessibility scan
+manual review
+```
+
+Objetivo de referencia:
+
+```text
+WCAG 2.2 AA
+```
+
+cuando aplique al framework.
+
+Un scan automático sin errores NO significa accesibilidad perfecta.
+
+---
+
+## 32. Accessible names
+
+Revisar especialmente:
+
+```text
+IconButton
+Modal close
+Sheet close
+Search clear
+Password toggle
+Number increment
+Number decrement
+Pagination
+Navigation controls
+```
+
+---
+
+## 33. ARIA states
+
+Validar solo donde correspondan:
+
+```text
+aria-expanded
+aria-selected
+aria-current
+aria-invalid
+aria-disabled
+aria-checked
+aria-activedescendant
+aria-describedby
+```
+
+No agregar ARIA redundante para satisfacer tests.
+
+HTML semántico primero.
+
+---
+
+## 34. Visual Regression
+
+Preferir Playwright screenshots si está disponible.
+
+Objetivo: detectar cambios inesperados en:
+
+```text
+spacing
+colors
+borders
+radius
+shadows
+icons
+typography
+alignment
+responsive layout
+focus states
+```
+
+---
+
+## 35. Playground como fixture
+
+Usar el Playground actual como fuente principal de escenarios visuales.
+
+No crear una segunda aplicación de demos si no es necesaria.
+
+Pero recordar:
+
+```text
+Playground != Framework
+```
+
+Si una regresión revela un bug core, corregir core; no maquillar solamente el demo.
+
+---
+
+## 36. Screenshots deterministas
+
+Evitar:
+
+```text
+random content
+current date
+remote images
+remote API data
+animations mid-frame
+unstable network resources
+```
+
+Usar assets locales.
+
+Esperar a que fuentes/layout estén estables antes del screenshot.
+
+---
+
+## 37. Motion
+
+Durante visual regression:
+
+```text
+prefers-reduced-motion: reduce
+```
+
+puede utilizarse para estabilizar capturas.
+
+También probar una muestra específica de reduced motion para confirmar UX.
+
+---
+
+## 38. Baselines
+
+Usar nombres claros:
+
+```text
+button-light-mobile.png
+button-dark-mobile.png
+modal-light-desktop.png
+list-inset-dark.png
+combobox-open-mobile.png
+```
+
+No generar miles de combinaciones.
+
+---
+
+## 39. Categorías visuales
+
+Cubrir al menos:
+
+```text
+Foundation
+Utilities
+Buttons
+Cards
+Lists
+Forms
+Feedback
+Overlays
+Navigation
+Data Display
+Layout
+Advanced Inputs
+Integrations
+```
+
+solo categorías realmente existentes.
+
+---
+
+## 40. List regression obligatoria
+
+Incluir explícitamente:
+
+```text
+List
+→ Divided + Inset + Composition
+```
+
+Debe detectar regresiones como:
+
+```text
+legacy buttons
+legacy icons
+old spacing
+wrong dividers
+Bootstrap leakage
+old radius/shadows
+```
+
+---
+
+## 41. Buttons
+
+Visual states representativos:
+
+```text
+primary
+secondary
+ghost
+danger
+disabled
+focus
+sizes
+with icon
+icon-only
+```
+
+---
+
+## 42. Cards y Lists
+
+### Card
+
+```text
+outlined
+raised
+interactive
+long content
+```
+
+### List
+
+```text
+basic
+divided
+inset
+composition
+avatar
+badge
+actions
+long content
+```
+
+---
+
+## 43. Forms
+
+Cubrir:
+
+```text
+normal
+focus
+required
+invalid
+disabled
+readonly
+help
+error
+long labels
+long errors
+```
+
+---
+
+## 44. Overlays
+
+Cubrir:
+
+```text
+Modal
+Sheet
+Drawer
+ActionSheet
+Dropdown
+Popover
+Toast
+```
+
+incluyendo al menos una composición anidada.
+
+---
+
+## 45. Navigation
+
+Cubrir:
+
+```text
+AppBar
+BottomNav
+Breadcrumb
+Pagination
+Navigation List
+Navigation Rail
+Stepper
+```
+
+---
+
+## 46. Data Display
+
+Cubrir:
+
+```text
+Table
+Data List
+Key/Value
+Stat
+Timeline
+Status
+Progress Ring
+```
+
+según implementación real.
+
+---
+
+## 47. Advanced Inputs
+
+Cubrir:
+
+```text
+Combobox
+Autocomplete
+MultiSelect
+TagInput
+OTP
+Password
+Range
+NumberStepper
+```
+
+solo los implementados.
+
+---
+
+## 48. Themes
+
+Componentes críticos deben probarse en:
+
+```text
+Light
+Dark
+```
+
+Agregar un Custom Theme fixture estable para detectar hardcodes.
+
+Ejemplo:
+
+```html
+<html data-orp-theme="test-brand">
+```
+
+Sobrescribir algunos:
+
+```text
+--orp-primary
+--orp-surface
+--orp-border
+--orp-ring
+--orp-radius-md
+```
+
+Un componente que siga usando colores/radius antiguos debe investigarse.
+
+---
+
+## 49. Responsive matrix
+
+Referencia:
+
+```text
+320
+375
+390
+430
+576
+768
+992
+1200
+1440
+```
+
+No hacer screenshot de todo en todos los tamaños.
+
+Priorizar:
+
+### Mobile
+
+```text
+320
+375
+390
+430
+```
+
+### Tablet
+
+```text
+768
+992
+```
+
+### Desktop
+
+```text
+1200
+1440
+```
+
+Agregar al menos un escenario landscape mobile.
+
+---
+
+## 50. AppShell
+
+Cubrir:
+
+```text
+sticky AppBar
+fixed BottomNav
+content compensation
+FAB + BottomNav
+desktop sidebar
+contained content
+contained scroll
+full-width Hero
+```
+
+Detectar magic numbers y contenido cubierto.
+
+---
+
+## 51. Grid
+
+Probar:
+
+```text
+auto grid
+odd item counts
+long content
+nested grid
+min widths
+```
+
+No introducir JS breakpoint detection para hacer pasar tests.
+
+---
+
+## 52. Overflow
+
+Crear escenarios para detectar:
+
+```text
+horizontal page overflow
+clipped focus rings
+clipped dropdowns
+long text overflow
+broken media
+```
+
+---
+
+## 53. Zoom
+
+Realizar revisión a:
+
+```text
+200%
+```
+
+Puede ser inicialmente manual/documentada si automatizarla no es fiable.
+
+---
+
+## 54. RTL smoke test
+
+Crear escenario con:
+
+```html
+dir="rtl"
+```
+
+Priorizar:
+
+```text
+AppBar
+Navigation
+List
+Forms
+Drawer
+Stepper
+Grid
+```
+
+Buscar usos accidentales de:
+
+```text
+left
+right
+margin-left
+padding-right
+```
+
+cuando deberían usarse logical properties.
+
+---
+
+## 55. Content stress fixtures
+
+Crear contenido estable para:
+
+```text
+long titles
+long descriptions
+long labels
+long errors
+long nav labels
+empty states
+odd grid counts
+many list items
+```
+
+No usar datos de negocio innecesarios.
+
+---
+
+## 56. Bootstrap leakage audit
+
+Auditar Playground y core buscando clases Bootstrap CSS:
+
+```text
+btn
+btn-*
+card
+badge
+d-flex
+d-grid
+p-*
+m-*
+gap-*
+row
+col-*
+list-group
+form-control
+form-select
+```
+
+Bootstrap Icons:
+
+```text
+bi
+bi-*
+```
+
+sí están permitidos como integración opcional.
+
+No importar Bootstrap CSS.
+
+---
+
+## 57. Namespace audit
+
+Clases públicas ORP deben seguir:
+
+```text
+orp-*
+```
+
+Exceptuar únicamente integraciones externas documentadas.
+
+Buscar también:
+
+```text
+@orp-*
+--orp-*
+Orp*
+data-orp-*
+```
+
+---
+
+## 58. Hardcoded CSS audit
+
+Buscar:
+
+```text
+hex colors
+rgb/rgba/hsl
+hardcoded spacing
+hardcoded radius
+hardcoded shadows
+hardcoded transition durations
+arbitrary z-index
+```
+
+No reemplazar valores mecánicamente.
+
+Clasificar cada hallazgo:
+
+```text
+token definition
+intentional integration
+valid one-off
+should use token
+legacy
+```
+
+---
+
+## 59. !important
+
+Buscar todos los usos.
+
+Cada uno debe:
+
+```text
+remove
+```
+
+o:
+
+```text
+document why it is unavoidable
+```
+
+No agregar nuevos `!important` para hacer pasar visual tests.
+
+---
+
+## 60. Specificity
+
+Detectar selectores profundos.
+
+Evitar estructuras como:
+
+```css
+.orp-app .orp-page .orp-card .orp-list .orp-list__item button
+```
+
+Mantener BEM plano y specificity baja.
+
+---
+
+## 61. Dead CSS
+
+No borrar una clase pública porque no aparezca en Playground.
+
+Revisar:
+
+```text
+documentation
+public API
+dynamic classes
+consumer-facing CSS
+```
+
+antes de eliminar.
+
+---
+
+## 62. Dead Vue code
+
+Buscar:
+
+```text
+unused props
+unused emits
+unused imports
+obsolete helpers
+duplicate behavior
+```
+
+No hacer breaking changes silenciosos.
+
+---
+
+## 63. Legacy icon audit
+
+Buscar placeholders antiguos:
+
+```text
+→
+←
+>
++
+×
+...
+```
+
+cuando estén actuando como iconos visuales.
+
+Actualizar demos hacia:
+
+```text
+orp-icon
+```
+
+y Bootstrap Icons opcionales.
+
+No hacer que core dependa de Bootstrap Icons.
+
+---
+
+## 64. Composition regression
+
+Probar combinaciones críticas:
+
+```text
+Card + List
+List + Avatar + Badge + IconButton
+Modal + Form
+Sheet + SearchInput
+Drawer + Navigation
+AppShell + AppBar + BottomNav + FAB
+Grid + MediaCard
+Combobox inside Modal
+Dropdown inside Drawer
+```
+
+No probar todas las combinaciones posibles.
+
+---
+
+## 65. Browser matrix
+
+Si se utiliza Playwright:
+
+```text
+Chromium
+Firefox
+WebKit
+```
+
+Si ejecutar todo en los tres es costoso:
+
+```text
+Chromium
+→ full suite
+
+Firefox + WebKit
+→ critical smoke suite
+```
+
+Dar atención especial a WebKit por Safari/iOS.
+
+---
+
+## 66. Cross-browser screenshots
+
+No exigir que Chromium/Firefox/WebKit sean pixel-perfect idénticos.
+
+Si se mantienen baselines multi-browser, usar baseline por engine.
+
+No aumentar thresholds sin investigar primero.
+
+---
+
+## 67. Visual change workflow
+
+Cuando un screenshot falle:
+
+```text
+inspect diff
+↓
+intentional?
+├── no → fix regression
+└── yes → review and update baseline
+```
+
+Nunca actualizar todos los baselines automáticamente sin inspección.
+
+---
+
+## 68. Console errors
+
+Browser tests deben detectar:
+
+```text
+unexpected console errors
+Vue warnings
+failed assets
+failed imports
+runtime exceptions
+```
+
+No silenciar warnings globalmente.
+
+---
+
+## 69. Build
+
+Ejecutar:
+
+```text
+npm run build
+```
+
+y confirmar:
+
+```text
+LESS compiles
+Vue compiles
+Vite succeeds
+no new unexpected warnings
+```
+
+---
+
+## 70. Bundle baseline
+
+Medir antes/después:
+
+```text
+compiled CSS size
+compiled JS size
+```
+
+No imponer presupuesto arbitrario todavía.
+
+Registrar baseline para futuras versiones.
+
+---
+
+## 71. Tree shaking
+
+Crear smoke build/import para confirmar que componentes Vue pueden importarse individualmente.
+
+No obligar:
+
+```js
+app.use(OrpUI)
+```
+
+No bundlear Vue accidentalmente si el package architecture usa peer dependency.
+
+---
+
+## 72. Integrations
+
+Confirmar que core no bundlee automáticamente:
+
+```text
+Bootstrap Icons
+Swiper
+GLightbox
+```
+
+Las integraciones deben seguir opcionales.
+
+---
+
+## 73. Scripts
+
+Si las herramientas correspondientes están instaladas, referencia:
+
+```json
+{
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:visual": "playwright test --grep @visual"
+  }
+}
+```
+
+Adaptar a scripts existentes.
+
+No sobrescribir comandos útiles.
+
+---
+
+## 74. Test selectors
+
+Preferir selectores semánticos:
+
+```text
+getByRole
+getByLabel
+getByText
+```
+
+sobre:
+
+```text
+nth-child
+deep CSS selectors
+```
+
+No llenar componentes públicos con `data-testid` sin necesidad.
+
+---
+
+## 75. CI readiness
+
+Preparar la suite para futura ejecución CI.
+
+Debe ser:
+
+```text
+deterministic
+offline-friendly
+reproducible
+```
+
+No crear todavía un pipeline complejo si no forma parte del proyecto actual.
+
+No publicar paquetes ni releases.
+
+---
+
+## 76. Fixtures
+
+Usar fixtures locales y genéricos.
+
+No depender de:
+
+```text
+internet
+current time
+random API data
+remote images
+external services
+```
+
+---
+
+## 77. Regression severity
+
+Clasificar hallazgos:
+
+```text
+BLOCKER
+HIGH
+MEDIUM
+LOW
+```
+
+### BLOCKER
+
+```text
+build broken
+Modal inaccessible/uncloseable
+focus trap broken
+major mobile overflow
+runtime crash
+```
+
+### HIGH
+
+```text
+invalid ARIA
+dark theme unreadable
+BottomNav covers content
+Combobox keyboard broken
+scroll lock broken
+```
+
+### MEDIUM
+
+```text
+legacy icon
+spacing inconsistency
+old radius
+wrong divider
+visual mismatch
+```
+
+### LOW
+
+```text
+minor alignment
+documentation mismatch
+small polish
+```
+
+---
+
+## 78. No feature creep
+
+Un test que revela una característica inexistente no obliga a implementarla.
+
+Ejemplos fuera de scope:
+
+```text
+Combobox virtualization
+drag-to-dismiss
+advanced tooltip engine
+DatePicker
+Masonry
+```
+
+Comparar contra contrato/documentación actual.
+
+---
+
+## 79. Playground audit
+
+Recorrer todas las categorías y clasificar cada demo:
+
+```text
+PASS
+NEEDS POLISH
+LEGACY
+BROKEN
+```
+
+Actualizar demos legacy que sigan usando:
+
+```text
+old buttons
+old icons
+old spacing
+Bootstrap classes
+obsolete markup
+```
+
+pero no maquillar un bug real del framework desde Playground.
+
+---
+
+## 80. Public API audit
+
+Comparar:
+
+```text
+index.js exports
+documentation
+actual components
+```
+
+Detectar:
+
+```text
+documented but missing
+exported but undocumented
+legacy export
+renamed API
+```
+
+No aplicar breaking changes silenciosamente.
+
+---
+
+## 81. SemVer awareness
+
+Cuando se corrijan problemas, clasificar impacto:
+
+```text
+patch
+minor
+major
+```
+
+Si una solución requiere breaking change, reportar:
+
+```text
+current behavior
+problem
+proposed change
+migration impact
+```
+
+antes de aplicarlo si no estaba autorizado.
+
+---
+
+## 82. Documentation
+
+Crear/adaptar:
+
+```text
+docs/testing/
+├── strategy.md
+├── unit-component-tests.md
+├── browser-tests.md
+├── visual-regression.md
+├── accessibility-testing.md
+└── regression-workflow.md
+```
+
+Documentar únicamente comandos realmente configurados.
+
+---
+
+## 83. Manual QA checklist
+
+Crear checklist breve para releases:
+
+```text
+[ ] Build
+[ ] Unit/component tests
+[ ] Keyboard
+[ ] Accessibility
+[ ] Mobile 320/375/390/430
+[ ] Tablet
+[ ] Desktop
+[ ] Light
+[ ] Dark
+[ ] Custom theme smoke
+[ ] Modal/Sheet/Drawer
+[ ] Forms
+[ ] Combobox
+[ ] Navigation
+[ ] AppShell
+[ ] List Divided + Inset + Composition
+[ ] No Bootstrap CSS leakage
+[ ] No unexpected console errors
+```
+
+---
+
+## 84. Coverage
+
+Si se habilita coverage:
+
+usarlo como indicador, no como objetivo absoluto.
+
+No exigir 100%.
+
+Prioridad alta de coverage:
+
+```text
+overlays
+advanced inputs
+keyboard logic
+shared interaction composables
+```
+
+No crear tests inútiles para elevar coverage de CSS primitives.
+
+---
+
+## 85. Test isolation
+
+Cada test debe limpiar:
+
+```text
+DOM
+timers
+listeners
+Teleport nodes
+body classes
+scroll lock counters
+storage
+```
+
+No permitir que un test dependa del anterior.
+
+---
+
+## 86. Performance de la suite
+
+Evitar duplicación de screenshots y escenarios.
+
+Permitir paralelización cuando sea segura.
+
+Debe existir:
+
+```text
+fast development test path
+```
+
+y:
+
+```text
+full pre-release test path
+```
+
+---
+
+## 87. No testing-framework framework
+
+No construir una capa enorme de helpers encima de Vitest/Playwright.
+
+Crear helpers pequeños solo si eliminan repetición real.
+
+Ejemplos:
+
+```text
+pressEscape
+mountWithTeleport
+openDemo
+```
+
+---
+
+## 88. Result expected
+
+Al finalizar entregar:
+
+### Existing test stack
+
+Herramientas encontradas.
+
+### Tools added
+
+Solo las realmente necesarias.
+
+### Files created
+
+Lista exacta.
+
+### Files modified
+
+Lista exacta.
+
+### Unit tests
+
+Componentes/lógica cubierta.
+
+### Component tests
+
+Componentes cubiertos.
+
+### Interaction tests
+
+Comportamientos cubiertos.
+
+### Keyboard
+
+Matriz implementada.
+
+### Accessibility
+
+Automated checks + manual checks.
+
+### Visual regression
+
+Escenarios y baselines.
+
+### Responsive
+
+Viewports cubiertos.
+
+### Themes
+
+Light/Dark/Custom.
+
+### Browser matrix
+
+Browsers probados.
+
+### Playground audit
+
+Resumen:
+
+```text
+PASS
+NEEDS POLISH
+LEGACY
+BROKEN
+```
+
+### Bugs found
+
+Clasificados:
+
+```text
+BLOCKER
+HIGH
+MEDIUM
+LOW
+```
+
+### Bugs fixed
+
+Lista.
+
+### Legacy code found
+
+Lista.
+
+### Bootstrap leakage
+
+Resultado.
+
+### Namespace audit
+
+Resultado.
+
+### CSS audit
+
+Hardcodes, specificity, `!important`, legacy.
+
+### Build
+
+Resultado.
+
+### Bundle baseline
+
+CSS/JS.
+
+### Test commands
+
+Comandos reales disponibles.
+
+### Remaining issues
+
+Deuda técnica fuera de scope.
+
+---
+
+## 89. Completion criteria
+
+Parte 17 termina cuando exista una estrategia reproducible para detectar regresiones en:
+
+```text
+components
+interactions
+keyboard
+accessibility
+responsive layout
+themes
+visual appearance
+build
+```
+
+Las partes críticas deben tener cobertura útil.
+
+No es necesario alcanzar cobertura perfecta.
+
+Sí debe existir confianza razonable para modificar ORP UI sin depender únicamente de inspección manual.
+
+---
+
+## 90. Explicit exclusions
+
+NO implementar en esta fase:
+
+```text
+new UI components
+new design system features
+Storybook migration
+documentation website
+npm publishing
+GitHub release
+production deployment
+full device-cloud testing
+external visual AI service
+external testing SaaS
+```
+
+---
+
+## 91. Do not continue automatically
+
+No implementar Parte 18.
+
+Terminar con reporte técnico.
+
+---
+
+# Regla final
+
+La estrategia debe mantenerse:
+
+```text
+CSS primitives
+→ visual/browser testing
+
+Vue behavior
+→ component/interaction testing
+
+Keyboard + ARIA
+→ accessibility testing
+
+Responsive + Themes
+→ browser/visual regression
+
+Framework
+→ build + API + regression audit
+```
+
+No escribir tests para demostrar que el código existe.
+
+Escribir tests para detectar cuándo ORP UI deja de comportarse como debería.
+
+La meta de Parte 17 es que un cambio futuro en:
+
+```text
+LESS
+Vue
+tokens
+themes
+components
+interactions
+layout
+```
+
+pueda revelar:
+
+```text
+qué se rompió
+dónde se rompió
+si el cambio fue intencional
+```
+
+antes de convertirlo en una nueva versión de ORP UI.
+

@@ -1,0 +1,51 @@
+// Bulma variable overrides
+$primary: #3B82F6;
+$link: #3B82F6;
+$info: #209bee;
+$success: #48c774;
+$warning: #ffdd57;
+$danger: #f14668;
+
+$light: #f5f5f5;
+$dark: #363636;
+
+$scheme-main: #ffffff;
+$scheme-main-bis: #f5f5f5;
+$scheme-main-ter: #eeeeee;
+
+$radius: 0.75rem;
+$radius-small: 0.375rem;
+$radius-medium: 0.75rem;
+$radius-large: 1rem;
+
+$gap: 2rem;
+
+$body-background-color: #ffffff;
+$body-color: #374151;
+$body-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$title-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$title-color: #374151;
+$title-weight: 600;
+
+$card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+$card-header-shadow: none;
+$card-content-padding: 1.25rem;
+
+$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+$box-padding: 1.5rem;
+
+$button-padding-horizontal: 1.5em;
+$button-padding-vertical: 0.75em;
+
+$input-border-color: #e5e7eb;
+$input-shadow: none;
+$input-focus-border-color: #3B82F6;
+$input-focus-box-shadow-color: rgba(59, 130, 246, 0.25);
+
+$modal-card-head-background-color: #ffffff;
+$modal-card-body-background-color: #ffffff;
+$modal-card-foot-background-color: #ffffff;
+$modal-card-head-border-bottom: 1px solid #e5e7eb;
+$modal-card-foot-border-top: 1px solid #e5e7eb;
+
+@use "bulma";

@@ -1,0 +1,2331 @@
+# SKILL — ORP UI / Parte 19: Media, Upload & File Experience
+
+## Objetivo
+
+Agregar a ORP UI una capa completa y reutilizable para **archivos, imágenes, adjuntos, previews, galerías y experiencia visual de upload**, manteniendo la separación estricta entre UI y lógica de aplicación.
+
+ORP UI debe resolver:
+
+```text
+presentation
+interaction states
+drag & drop UX
+file previews
+upload states
+progress presentation
+media composition
+accessibility
+responsive behavior
+```
+
+La aplicación sigue siendo responsable de:
+
+```text
+HTTP upload
+API endpoints
+Laravel Storage
+S3 / R2 / cloud storage
+presigned URLs
+authentication
+permissions
+backend validation
+real upload progress source
+retry logic
+persistence
+database
+image processing
+```
+
+No convertir ORP UI en un uploader backend.
+
+---
+
+# 1. Scope
+
+```text
+Media & Files
+├── Upload Dropzone
+├── File Input enhancement
+├── File Item
+├── File List
+├── Attachment List
+├── Upload Progress
+├── Upload States
+├── Image Preview
+├── Image Grid
+├── Gallery Grid
+├── Media Preview
+├── Avatar Upload
+├── Cover Upload
+├── File Type Presentation
+├── File Meta
+└── Empty Media State
+```
+
+Integraciones:
+
+```text
+GLightbox
+Swiper
+Bootstrap Icons
+```
+
+siguen siendo opcionales.
+
+---
+
+# 2. Principio principal
+
+Antes de crear algo nuevo, reutilizar:
+
+```text
+OrpFileInput
+orp-progress
+orp-spinner
+orp-skeleton
+orp-empty
+orp-media
+orp-card
+orp-list
+orp-icon
+orp-icon-btn
+orp-badge
+orp-meta
+orp-grid
+orp-stack
+orp-cluster
+GLightbox integration
+Swiper integration
+```
+
+No duplicar primitives existentes.
+
+---
+
+# 3. Arquitectura conceptual
+
+```text
+ORP UI
+│
+├── File Selection
+│   ├── FileInput
+│   └── Dropzone
+│
+├── File Presentation
+│   ├── File Item
+│   ├── File List
+│   ├── File Meta
+│   └── File Type
+│
+├── Upload Presentation
+│   ├── Progress
+│   ├── Loading
+│   ├── Success
+│   └── Error
+│
+└── Media Presentation
+    ├── Image Preview
+    ├── Gallery
+    ├── Media Grid
+    ├── Avatar Upload
+    └── Cover Upload
+```
+
+---
+
+# 4. UI vs upload engine
+
+ORP UI NO debe hacer internamente:
+
+```js
+fetch(...)
+axios.post(...)
+XMLHttpRequest(...)
+```
+
+para subir archivos.
+
+Tampoco debe conocer:
+
+```text
+/api/upload
+/storage
+S3
+Cloudflare R2
+Laravel
+AWS
+DigitalOcean Spaces
+```
+
+---
+
+# 5. Data flow
+
+Patrón esperado:
+
+```text
+User selects File
+        ↓
+ORP emits File/File[]
+        ↓
+Application validates/prepares
+        ↓
+Application performs upload
+        ↓
+Application updates progress/state
+        ↓
+ORP renders progress/state
+```
+
+---
+
+# 6. Upload state
+
+ORP puede representar:
+
+```text
+idle
+selected
+uploading
+success
+error
+cancelled
+```
+
+pero la aplicación decide el estado.
+
+No crear state machine compleja si props simples son suficientes.
+
+---
+
+# 7. Existing FileInput audit
+
+Antes de crear Dropzone, auditar `OrpFileInput`.
+
+Revisar:
+
+```text
+accept
+multiple
+disabled
+label
+help
+maxSize
+change
+invalid
+Field integration
+drag & drop if already present
+```
+
+No crear un segundo sistema de selección de archivos.
+
+---
+
+# 8. Native input remains authoritative
+
+Debe existir un:
+
+```html
+<input type="file">
+```
+
+real.
+
+Drag & drop es enhancement.
+
+No sustituir el file input por un `div` inaccesible.
+
+---
+
+# 9. Upload Dropzone
+
+Crear únicamente si agrega UX real.
+
+Nombre recomendado:
+
+```text
+OrpDropzone.vue
+```
+
+o integrar comportamiento en `OrpFileInput` si la arquitectura actual lo permite sin volverlo complejo.
+
+Auditar antes de decidir.
+
+---
+
+# 10. Dropzone behavior
+
+Debe soportar:
+
+```text
+click to browse
+drag enter
+drag leave
+drop
+multiple
+accept
+disabled
+```
+
+Puede exponer:
+
+```text
+files
+change
+invalid
+```
+
+según API existente.
+
+---
+
+# 11. Dropzone is not uploader
+
+NO props como:
+
+```text
+endpoint
+uploadUrl
+apiUrl
+headers
+token
+bucket
+folder
+```
+
+---
+
+# 12. Drag states
+
+Estados visuales:
+
+```text
+default
+hover
+drag-active
+disabled
+invalid
+```
+
+Usar tokens actuales.
+
+---
+
+# 13. Drag counter
+
+Evitar flickering causado por `dragenter` / `dragleave` de elementos hijos.
+
+Si se requiere JS, implementar lógica pequeña y robusta.
+
+---
+
+# 14. Drop handling
+
+Usar:
+
+```text
+DataTransfer.files
+```
+
+No intentar implementar un file manager.
+
+---
+
+# 15. File validation
+
+Frontend puede validar UX básica:
+
+```text
+accept
+maxSize
+multiple
+```
+
+pero debe documentarse:
+
+> Backend validation remains authoritative.
+
+---
+
+# 16. File Item
+
+Crear primitive/pattern genérico:
+
+```text
+orp-file
+```
+
+Estructura conceptual:
+
+```text
+orp-file
+├── orp-file__preview
+├── orp-file__content
+│   ├── orp-file__name
+│   ├── orp-file__meta
+│   └── orp-file__status
+├── orp-file__progress
+└── orp-file__actions
+```
+
+Adaptar naming si ya existe equivalente.
+
+---
+
+# 17. File Item responsibilities
+
+Debe presentar:
+
+```text
+filename
+file type
+file size
+preview optional
+status optional
+progress optional
+actions optional
+```
+
+No gestionar upload.
+
+---
+
+# 18. File name
+
+Debe soportar nombres largos.
+
+No permitir que:
+
+```text
+very-long-filename-with-many-sections-final-final-v12.pdf
+```
+
+rompa layout.
+
+Usar:
+
+```text
+min-width: 0
+overflow-wrap
+text-overflow
+```
+
+según patrón.
+
+---
+
+# 19. File size
+
+ORP NO necesita convertir bytes automáticamente si eso obliga a lógica innecesaria.
+
+La aplicación puede proporcionar:
+
+```text
+2.4 MB
+850 KB
+```
+
+Si ya existe helper genérico pequeño, puede reutilizarse.
+
+No crear sistema de internacionalización solo para esto.
+
+---
+
+# 20. File Meta
+
+Preferir reutilizar:
+
+```text
+orp-meta
+```
+
+Ejemplo:
+
+```text
+PDF · 2.4 MB
+```
+
+No crear `orp-file-meta` si `orp-meta` resuelve el caso.
+
+---
+
+# 21. File type presentation
+
+Bootstrap Icons puede usarse en demos:
+
+```text
+bi-file-earmark
+bi-file-earmark-pdf
+bi-file-earmark-image
+bi-file-earmark-text
+bi-file-earmark-zip
+bi-file-earmark-spreadsheet
+```
+
+Core no depende de Bootstrap Icons.
+
+---
+
+# 22. Unknown file type
+
+Debe existir fallback visual genérico.
+
+No intentar mantener una base de datos enorme de MIME types.
+
+---
+
+# 23. File preview
+
+Cuando archivo sea imagen:
+
+mostrar thumbnail opcional.
+
+Otros tipos:
+
+usar icon/placeholder.
+
+---
+
+# 24. File actions
+
+Usar componentes actuales:
+
+```text
+orp-icon-btn
+orp-btn
+orp-dropdown
+```
+
+Acciones conceptuales:
+
+```text
+preview
+download
+remove
+retry
+more
+```
+
+ORP no ejecuta negocio automáticamente.
+
+---
+
+# 25. Remove action
+
+Si se muestra remove:
+
+debe ser `<button>` real.
+
+Debe tener accessible name.
+
+Ejemplo:
+
+```text
+Eliminar archivo
+```
+
+No usar solo `×`.
+
+---
+
+# 26. File List
+
+Preferir composición:
+
+```text
+orp-list
++
+orp-file
+```
+
+Si `orp-file-list` no agrega comportamiento/layout real, NO crearlo.
+
+---
+
+# 27. Attachment List
+
+Attachment List probablemente es:
+
+```text
+File List
+```
+
+en otro contexto.
+
+No crear un segundo componente solo por nombre.
+
+Documentar pattern de attachments usando File Item.
+
+---
+
+# 28. Upload Progress
+
+Reutilizar:
+
+```text
+orp-progress
+```
+
+No crear progress bar nueva.
+
+File Item puede contener Progress.
+
+---
+
+# 29. Upload percentage
+
+La aplicación proporciona:
+
+```text
+0..100
+```
+
+ORP representa el valor.
+
+---
+
+# 30. Progress semantics
+
+Usar:
+
+```html
+<progress>
+```
+
+cuando sea apropiado, o semántica ARIA correcta según primitive existente.
+
+---
+
+# 31. Indeterminate upload
+
+Si no se conoce porcentaje:
+
+usar:
+
+```text
+Spinner
+```
+
+o progress indeterminate solo si ya existe patrón.
+
+No fingir porcentaje.
+
+---
+
+# 32. Upload success
+
+Presentación puede usar:
+
+```text
+success token
+status icon
+badge
+inline message
+```
+
+No lanzar Toast automáticamente.
+
+La aplicación decide si quiere Toast.
+
+---
+
+# 33. Upload error
+
+Debe permitir:
+
+```text
+error message
+retry action
+remove action
+```
+
+ORP no ejecuta retry.
+
+---
+
+# 34. Retry
+
+El botón emite acción/evento.
+
+La aplicación reintenta.
+
+---
+
+# 35. Cancel
+
+Si aplicación soporta cancelación, ORP puede presentar botón.
+
+No implementar `AbortController` dentro del primitive de presentación.
+
+---
+
+# 36. Multiple uploads
+
+La UI debe funcionar con varios File Items.
+
+No implementar upload queue engine.
+
+---
+
+# 37. Upload queue
+
+Fuera de core en esta fase.
+
+La aplicación controla:
+
+```text
+parallel uploads
+queue order
+retry strategy
+concurrency
+```
+
+---
+
+# 38. Image Preview
+
+Crear pattern genérico para preview antes/después de upload.
+
+Puede reutilizar:
+
+```text
+orp-media
+```
+
+Estructura:
+
+```text
+media
+overlay optional
+actions
+status optional
+```
+
+---
+
+# 39. Object URLs
+
+Si un Vue component genera preview local con:
+
+```js
+URL.createObjectURL(file)
+```
+
+debe liberar:
+
+```js
+URL.revokeObjectURL(...)
+```
+
+al reemplazar/unmount.
+
+No provocar memory leaks.
+
+---
+
+# 40. Image Preview actions
+
+Puede presentar:
+
+```text
+remove
+replace
+preview
+```
+
+La aplicación decide significado.
+
+---
+
+# 41. Image Grid
+
+Crear patrón usando:
+
+```text
+orp-grid
+orp-media
+```
+
+No crear un grid engine nuevo.
+
+---
+
+# 42. Gallery Grid
+
+Patrón genérico:
+
+```text
+Gallery
+├── Media Item
+├── Overlay
+├── Caption optional
+└── Actions optional
+```
+
+Preferir:
+
+```text
+orp-gallery
+```
+
+solo si agrega estilos de colección reutilizables.
+
+---
+
+# 43. Gallery layout
+
+CSS Grid.
+
+Mobile-first.
+
+No Masonry en esta fase.
+
+---
+
+# 44. Gallery aspect ratios
+
+Reutilizar ratios existentes de `orp-media`:
+
+```text
+square
+portrait
+landscape
+wide
+```
+
+No duplicar aspect-ratio classes.
+
+---
+
+# 45. GLightbox
+
+Gallery debe integrarse naturalmente con:
+
+```text
+.orp-lightbox
+```
+
+Ejemplo conceptual:
+
+```html
+<a
+  class="orp-lightbox"
+  href="image-large.jpg"
+  data-gallery="demo"
+>
+```
+
+No crear `OrpLightbox.vue`.
+
+---
+
+# 46. Progressive enhancement
+
+Sin GLightbox:
+
+el link debe seguir funcionando.
+
+---
+
+# 47. GLightbox lifecycle
+
+Inicialización pertenece a:
+
+```text
+application
+Playground
+documentation example
+```
+
+No al core.
+
+---
+
+# 48. Swiper
+
+Para galerías/carousels avanzados:
+
+usar integración Swiper existente.
+
+ORP no crea carousel.
+
+---
+
+# 49. Grid vs Swiper
+
+Documentar:
+
+```text
+Gallery Grid
+→ static collection
+
+orp-scroll-x
+→ simple horizontal scroll
+
+Swiper
+→ interactive carousel
+
+GLightbox
+→ expanded media viewer
+```
+
+---
+
+# 50. Media Preview
+
+No crear reproductor multimedia complejo.
+
+Puede presentar:
+
+```text
+image
+video poster
+file thumbnail
+```
+
+Los players especializados quedan fuera.
+
+---
+
+# 51. Video
+
+Usar HTML nativo:
+
+```html
+<video>
+```
+
+cuando aplicación lo requiera.
+
+No crear custom video player.
+
+---
+
+# 52. Audio
+
+Usar:
+
+```html
+<audio>
+```
+
+si se necesita.
+
+No crear audio player avanzado.
+
+---
+
+# 53. Avatar Upload
+
+Crear **pattern**, no necesariamente componente.
+
+Composición:
+
+```text
+Avatar
++
+FileInput
++
+IconButton/Button
++
+optional progress
+```
+
+---
+
+# 54. Avatar Upload semantics
+
+La imagen actual es Avatar.
+
+La acción para cambiar debe ser botón/label accesible.
+
+No convertir Avatar en input.
+
+---
+
+# 55. Avatar crop
+
+NO implementar cropper.
+
+Si se necesita en futuro, usar integración especializada.
+
+---
+
+# 56. Cover Upload
+
+Pattern:
+
+```text
+wide media area
+current image
+upload/change action
+remove action
+loading state
+```
+
+No crear lógica de storage.
+
+---
+
+# 57. Cover aspect ratio
+
+Usar `orp-media` o custom property.
+
+No hardcodear una sola proporción si puede evitarse.
+
+---
+
+# 58. Empty Media State
+
+Reutilizar:
+
+```text
+orp-empty
+```
+
+Ejemplos:
+
+```text
+No files
+No images
+No attachments
+```
+
+No crear otro Empty State.
+
+---
+
+# 59. Skeleton
+
+Media/File views deben poder usar Skeleton existente.
+
+Ejemplos:
+
+```text
+image loading
+file list loading
+gallery loading
+```
+
+No crear `FileSkeleton`, `GallerySkeleton`, etc. salvo necesidad demostrada.
+
+---
+
+# 60. Spinner
+
+Usar Spinner existente para estados indeterminados.
+
+No crear upload spinner nuevo.
+
+Antes de integrar ampliamente, confirmar que los bugs de animación de Spinner/Skeleton estén corregidos.
+
+---
+
+# 61. Motion
+
+Revisar:
+
+```text
+dropzone state transition
+progress
+spinner
+skeleton
+gallery hover
+preview overlay
+```
+
+Usar motion tokens actuales.
+
+---
+
+# 62. Reduced motion
+
+Respetar:
+
+```text
+prefers-reduced-motion: reduce
+```
+
+No introducir animaciones obligatorias.
+
+---
+
+# 63. Progress animation
+
+No animar porcentaje de forma que comunique un valor incorrecto.
+
+El estado visual debe reflejar progreso real proporcionado por aplicación.
+
+---
+
+# 64. Drag visual feedback
+
+Debe ser claro pero sutil.
+
+No usar efectos exagerados.
+
+---
+
+# 65. Themes
+
+Probar:
+
+```text
+Light
+Dark
+Custom
+```
+
+Especialmente:
+
+```text
+Dropzone
+File Item
+Progress
+Image overlays
+Gallery
+Upload errors
+```
+
+---
+
+# 66. Semantic tokens
+
+Usar:
+
+```text
+--orp-background
+--orp-foreground
+--orp-surface
+--orp-surface-foreground
+--orp-surface-muted
+--orp-primary
+--orp-muted
+--orp-muted-foreground
+--orp-border
+--orp-ring
+--orp-success
+--orp-warning
+--orp-danger
+```
+
+o tokens actuales equivalentes.
+
+---
+
+# 67. No hardcodes
+
+Auditar:
+
+```text
+colors
+borders
+radius
+shadow
+spacing
+transitions
+```
+
+No agregar valores visuales legacy.
+
+---
+
+# 68. Responsive
+
+Probar:
+
+```text
+320
+375
+390
+430
+576
+768
+992
+1200
+1440
+```
+
+---
+
+# 69. Mobile
+
+Prioridad especial:
+
+```text
+Dropzone
+File Item
+long filename
+Gallery Grid
+Avatar Upload
+Cover Upload
+File actions
+```
+
+---
+
+# 70. Touch
+
+Acciones deben tener touch targets adecuados.
+
+No poner remove/retry como iconos minúsculos.
+
+---
+
+# 71. Long filename stress test
+
+Probar:
+
+```text
+documento-final-final-ahora-si-version-aprobada-2026.pdf
+```
+
+y nombres sin espacios.
+
+---
+
+# 72. Many files
+
+Probar listas con:
+
+```text
+1
+5
+20+
+```
+
+archivos.
+
+No virtualizar en esta fase.
+
+---
+
+# 73. Large file
+
+El tamaño real del archivo no debe afectar render.
+
+No cargar contenido completo del archivo en memoria para mostrar metadata.
+
+---
+
+# 74. Image dimensions
+
+No procesar imágenes pesadas innecesariamente.
+
+Preview debe ser eficiente.
+
+---
+
+# 75. Accessibility — Dropzone
+
+Dropzone debe ser usable sin drag & drop.
+
+Usuario de teclado debe poder abrir native file picker.
+
+---
+
+# 76. Accessibility — instructions
+
+No depender de:
+
+```text
+"arrastra aquí"
+```
+
+como única instrucción.
+
+Incluir alternativa:
+
+```text
+Selecciona archivos
+```
+
+---
+
+# 77. Accessibility — errors
+
+Errores deben estar asociados al control mediante Field system cuando corresponda.
+
+No depender únicamente de borde rojo.
+
+---
+
+# 78. Accessibility — progress
+
+Upload progress debe tener nombre/valor accesible.
+
+---
+
+# 79. Accessibility — file actions
+
+Icon buttons requieren:
+
+```text
+aria-label
+```
+
+Ejemplos:
+
+```text
+Vista previa
+Eliminar archivo
+Reintentar carga
+```
+
+---
+
+# 80. Accessibility — images
+
+Preview debe usar `alt` según contexto.
+
+Imagen decorativa puede usar `alt=""`.
+
+ORP no debe inventar alt text a partir del filename como regla universal.
+
+---
+
+# 81. Accessibility — gallery
+
+Si thumbnails son links a imagen ampliada:
+
+usar anchors reales.
+
+---
+
+# 82. Keyboard
+
+Probar:
+
+```text
+Tab
+Shift+Tab
+Enter
+Space
+Escape
+```
+
+según controles.
+
+Drag & drop nunca debe ser la única interacción.
+
+---
+
+# 83. Focus
+
+Dropzone/file controls deben usar sistema actual:
+
+```text
+focus-visible
+--orp-ring
+```
+
+---
+
+# 84. RTL
+
+Usar logical properties.
+
+Probar:
+
+```html
+dir="rtl"
+```
+
+en:
+
+```text
+File Item
+Dropzone
+Gallery actions
+Avatar Upload
+Cover Upload
+```
+
+---
+
+# 85. File status
+
+Puede usar:
+
+```text
+orp-badge
+orp-status-dot
+orp-meta
+```
+
+según necesidad.
+
+No crear sistema de status duplicado.
+
+---
+
+# 86. File status semantics
+
+Estados sugeridos de demo:
+
+```text
+Selected
+Uploading
+Uploaded
+Failed
+```
+
+pero API debe permanecer genérica.
+
+---
+
+# 87. File Item modifiers
+
+Solo si aportan valor real:
+
+```text
+--compact
+--error
+--success
+```
+
+Preferir estado semántico mediante data attrs/ARIA/tokens si arquitectura actual ya tiene patrón.
+
+Evitar modifier explosion.
+
+---
+
+# 88. Dropzone modifier
+
+Posibles:
+
+```text
+--compact
+--disabled
+```
+
+Drag active puede ser:
+
+```text
+data-orp-drag-active
+```
+
+si estado dinámico lo justifica.
+
+Mantener convención actual del framework.
+
+---
+
+# 89. Vue API
+
+Si se crea `OrpDropzone.vue`, referencia conceptual:
+
+```text
+props:
+- accept
+- multiple
+- disabled
+- maxSize
+
+emits:
+- change
+- invalid
+```
+
+No agregar props de backend.
+
+---
+
+# 90. File values
+
+Usar tipos nativos:
+
+```text
+File
+File[]
+```
+
+No transformar archivos a objetos ORP propietarios salvo razón fuerte.
+
+---
+
+# 91. v-model
+
+No forzar v-model si `change` con File/File[] encaja mejor con API actual.
+
+Revisar consistencia de `OrpFileInput`.
+
+---
+
+# 92. Preview component
+
+No crear `OrpImagePreview.vue` automáticamente.
+
+Primero intentar:
+
+```text
+orp-media
++
+orp-icon-btn
++
+CSS composition
+```
+
+---
+
+# 93. File Item Vue
+
+No crear `OrpFileItem.vue` si es presentación estática.
+
+CSS pattern puede ser suficiente.
+
+---
+
+# 94. Gallery Vue
+
+No crear `OrpGallery.vue` si Grid + Media + links resuelven el caso.
+
+---
+
+# 95. Upload manager
+
+NO crear:
+
+```text
+OrpUploader
+OrpUploadManager
+OrpUploadQueue
+```
+
+en esta fase.
+
+---
+
+# 96. External dependencies
+
+No instalar:
+
+```text
+Dropzone.js
+FilePond
+Uppy
+Fine Uploader
+Cropper.js
+```
+
+automáticamente.
+
+Si una necesidad futura requiere un uploader completo, recomendar integración externa en lugar de recrearlo.
+
+---
+
+# 97. Specialized tooling rule
+
+Si el requerimiento futuro incluye:
+
+```text
+chunked upload
+resume
+multipart
+cloud direct upload
+image crop
+compression
+EXIF processing
+large queue
+```
+
+reportar que probablemente merece librería especializada.
+
+No implementarlo en core.
+
+---
+
+# 98. CSS architecture
+
+Posibles archivos:
+
+```text
+less/components/
+├── file.less
+├── dropzone.less
+└── gallery.less
+```
+
+Solo crear si hacen falta.
+
+Reutilizar:
+
+```text
+media.less
+progress.less
+empty.less
+list.less
+```
+
+---
+
+# 99. Vue architecture
+
+Si Dropzone requiere comportamiento:
+
+```text
+src/components/forms/OrpDropzone.vue
+```
+
+o ubicación equivalente coherente con arquitectura real.
+
+No reorganizar todo el proyecto por esta fase.
+
+---
+
+# 100. Public exports
+
+Solo exportar nuevos Vue components reales.
+
+No cambiar `index.js` si todo se resuelve CSS-first.
+
+---
+
+# 101. Playground
+
+Agregar categoría:
+
+```text
+Media & Files
+```
+
+---
+
+# 102. Playground sections
+
+```text
+File Input
+Dropzone
+File Items
+Upload States
+Image Preview
+Gallery
+Avatar Upload
+Cover Upload
+Integrations
+```
+
+---
+
+# 103. Dropzone demos
+
+Mostrar:
+
+```text
+Default
+Drag Active
+Multiple
+Disabled
+Invalid
+```
+
+---
+
+# 104. File Item demos
+
+Mostrar:
+
+```text
+Generic file
+Image
+PDF
+Long filename
+Uploading
+Success
+Error
+Actions
+```
+
+---
+
+# 105. Upload demo
+
+Usar progreso simulado localmente en Playground.
+
+NO hacer upload real.
+
+Debe quedar claramente como demo visual.
+
+---
+
+# 106. Image Preview demos
+
+Mostrar:
+
+```text
+Single image
+Replace action
+Remove action
+Loading
+Error
+```
+
+---
+
+# 107. Gallery demos
+
+Mostrar:
+
+```text
+Basic Grid
+Mixed ratios if supported
+GLightbox
+Responsive
+```
+
+---
+
+# 108. Avatar Upload demo
+
+Composición:
+
+```text
+Avatar
+Change photo
+Remove
+Loading
+```
+
+---
+
+# 109. Cover Upload demo
+
+Composición:
+
+```text
+Media
+Overlay actions
+Change
+Remove
+```
+
+---
+
+# 110. Integration demo
+
+Mostrar opcionalmente:
+
+```text
+Gallery + GLightbox
+Gallery/Media + Swiper
+```
+
+sin hacerlos dependencias core.
+
+---
+
+# 111. Bootstrap audit
+
+No usar Bootstrap CSS:
+
+```text
+btn
+card
+row
+col-*
+d-flex
+gap-*
+p-*
+m-*
+form-control
+```
+
+Permitido:
+
+```text
+bi
+bi-*
+```
+
+como Bootstrap Icons.
+
+---
+
+# 112. Namespace
+
+Mantener:
+
+```text
+orp-*
+@orp-*
+--orp-*
+Orp*
+data-orp-*
+```
+
+---
+
+# 113. Existing FileInput regression
+
+Parte 19 no debe romper:
+
+```text
+accept
+multiple
+disabled
+invalid
+Field integration
+existing events
+```
+
+---
+
+# 114. Forms integration
+
+FileInput/Dropzone deben seguir integrándose con:
+
+```text
+orp-field
+orp-field__label
+orp-field__help
+orp-field__error
+```
+
+No crear otro Field system.
+
+---
+
+# 115. Modal integration
+
+Probar FileInput/Dropzone dentro de:
+
+```text
+Modal
+Sheet
+Drawer
+```
+
+especialmente focus y scroll.
+
+---
+
+# 116. Toolbar integration
+
+File actions pueden vivir en Toolbar/Action Bar.
+
+No acoplarlos.
+
+---
+
+# 117. Rich UI integration
+
+Profile Header puede usar Avatar Upload pattern.
+
+Comments/Chat pueden usar Attachment List pattern.
+
+ORP no agrega upload backend a esos componentes.
+
+---
+
+# 118. AppShell integration
+
+Gallery/File lists deben funcionar dentro de:
+
+```text
+PageContent
+Section
+AppShell
+```
+
+---
+
+# 119. Grid integration
+
+Gallery debe usar Grid system actual.
+
+No crear `.row`/`.col`.
+
+---
+
+# 120. Testing
+
+Ejecutar Parte 17 si ya está configurada.
+
+Agregar tests solo para comportamiento real.
+
+---
+
+# 121. Dropzone tests
+
+Si existe Vue behavior:
+
+```text
+click selection
+dragenter
+dragleave
+drop
+multiple
+disabled
+invalid
+cleanup
+```
+
+---
+
+# 122. Preview cleanup test
+
+Si usa object URLs:
+
+verificar:
+
+```text
+createObjectURL
+revokeObjectURL
+```
+
+correctamente.
+
+---
+
+# 123. Visual regression
+
+Fixtures sugeridos:
+
+```text
+dropzone-light
+dropzone-dark
+dropzone-active
+file-items-mobile
+file-upload-progress
+file-upload-error
+gallery-mobile
+gallery-desktop
+avatar-upload
+cover-upload
+```
+
+---
+
+# 124. Theme regression
+
+Probar:
+
+```text
+Light
+Dark
+Custom
+```
+
+---
+
+# 125. Responsive regression
+
+Priorizar:
+
+```text
+320
+375
+390
+430
+768
+1024
+1440
+```
+
+---
+
+# 126. Motion regression
+
+Revisar que:
+
+```text
+Spinner
+Skeleton
+Progress
+Dropzone
+```
+
+no introduzcan bugs de animación.
+
+---
+
+# 127. Console
+
+Playground no debe producir:
+
+```text
+Vue warnings
+object URL leaks
+missing assets
+runtime errors
+```
+
+---
+
+# 128. Performance
+
+No leer archivos completos si no hace falta.
+
+No convertir imágenes a Base64 automáticamente.
+
+Preferir object URLs para previews locales cuando sean apropiados.
+
+---
+
+# 129. Memory
+
+Liberar previews temporales.
+
+No mantener referencias a Files después de que componente ya no las necesita.
+
+---
+
+# 130. Security boundary
+
+ORP no debe intentar determinar que un archivo es seguro basándose solo en extensión/MIME del navegador.
+
+Backend debe validar.
+
+Documentarlo.
+
+---
+
+# 131. File names
+
+Renderizar filenames como texto.
+
+No usar `v-html`.
+
+---
+
+# 132. SVG uploads
+
+Si se muestran SVG subidos por usuario, no inyectar markup SVG arbitrario directamente en DOM.
+
+Preferir tratamiento como archivo/imagen según políticas de la aplicación.
+
+---
+
+# 133. Preview URLs
+
+La aplicación es responsable de URLs remotas y permisos.
+
+ORP solo las presenta.
+
+---
+
+# 134. Documentation
+
+Crear/adaptar:
+
+```text
+docs/media/
+├── file-input.md
+├── dropzone.md
+├── file-item.md
+├── upload-states.md
+├── image-preview.md
+├── gallery.md
+├── avatar-upload.md
+├── cover-upload.md
+└── accessibility.md
+```
+
+---
+
+# 135. Integration docs
+
+Actualizar:
+
+```text
+docs/integrations/glightbox.md
+docs/integrations/swiper.md
+```
+
+con ejemplos de Media/Gallery si corresponde.
+
+---
+
+# 136. Decision guide
+
+Documentar:
+
+```text
+FileInput
+→ basic native file selection
+
+Dropzone
+→ enhanced drag/drop selection
+
+File Item
+→ presentation of one file
+
+File List
+→ collection of files
+
+Gallery Grid
+→ static visual collection
+
+ScrollX
+→ simple horizontal media
+
+Swiper
+→ interactive carousel
+
+GLightbox
+→ expanded media viewing
+```
+
+---
+
+# 137. Upload decision
+
+```text
+ORP UI
+→ selected/uploading/success/error presentation
+
+Application
+→ actual upload implementation
+```
+
+---
+
+# 138. Empty decision
+
+```text
+No files
+No images
+No attachments
+```
+
+usan `orp-empty`.
+
+No crear componentes distintos.
+
+---
+
+# 139. Progress decision
+
+```text
+Known percentage
+→ Progress
+
+Unknown duration
+→ Spinner
+
+Content placeholder
+→ Skeleton
+```
+
+---
+
+# 140. Completion criteria
+
+Parte 19 termina cuando ORP UI pueda representar de forma consistente:
+
+```text
+file selection
+drag & drop
+file metadata
+file actions
+upload progress
+upload success/error
+image previews
+gallery grids
+avatar upload patterns
+cover upload patterns
+media viewing integration
+```
+
+sin implementar backend/upload engine.
+
+---
+
+# 141. Result expected
+
+Al finalizar entregar:
+
+## Audit
+
+Qué existía antes.
+
+## FileInput
+
+Cambios realizados.
+
+## Dropzone
+
+Si se creó o se integró en FileInput y por qué.
+
+## New patterns
+
+Lista exacta.
+
+## Vue components
+
+Solo los realmente necesarios.
+
+## Files created
+
+Lista.
+
+## Files modified
+
+Lista.
+
+## Public API
+
+Cambios.
+
+## Playground
+
+Demos agregadas.
+
+## Accessibility
+
+Resultado.
+
+## Keyboard
+
+Resultado.
+
+## Themes
+
+Light/Dark/Custom.
+
+## Responsive
+
+Viewports probados.
+
+## RTL
+
+Resultado.
+
+## Motion
+
+Spinner/Skeleton/Progress/Dropzone.
+
+## GLightbox
+
+Integración.
+
+## Swiper
+
+Integración.
+
+## Bootstrap audit
+
+Confirmar ausencia de Bootstrap CSS.
+
+## Security
+
+Validación/preview boundaries revisados.
+
+## Memory
+
+Object URL cleanup revisado.
+
+## Build
+
+Resultado.
+
+## Tests
+
+Resultado.
+
+## Bundle
+
+Crecimiento CSS/JS.
+
+## Regressions
+
+Problemas encontrados/corregidos.
+
+## Remaining issues
+
+Fuera de scope.
+
+---
+
+# 142. Explicit exclusions
+
+NO implementar:
+
+```text
+backend uploader
+Laravel upload integration
+S3 uploader
+R2 uploader
+presigned URL manager
+chunked upload
+resumable upload
+multipart upload engine
+upload queue manager
+image cropper
+image editor
+image compression engine
+EXIF editor
+file manager
+folder browser
+cloud drive
+media library backend
+custom video player
+custom audio player
+Masonry
+virtualized gallery
+drag-sort gallery
+```
+
+---
+
+# 143. No new dependencies
+
+No instalar nuevas dependencias automáticamente.
+
+Mantener como integraciones opcionales existentes:
+
+```text
+Bootstrap Icons
+Swiper
+GLightbox
+```
+
+---
+
+# 144. Do not continue automatically
+
+No implementar Parte 20.
+
+Terminar con reporte técnico.
+
+---
+
+# Regla final
+
+La arquitectura debe permanecer:
+
+```text
+Native File Input
+        ↓
+ORP Selection UX
+        ↓
+File / File[]
+        ↓
+Application
+        ↓
+Upload implementation
+        ↓
+progress/state
+        ↓
+ORP presentation
+```
+
+Y para media:
+
+```text
+Media primitive
+      ↓
+Grid / ScrollX / Swiper
+      ↓
+optional GLightbox
+```
+
+ORP UI debe proporcionar una experiencia moderna de archivos y media sin convertirse en una librería de storage o networking.
+
+```text
+ORP UI
+= presentation + interaction UX
+
+Application
+= upload + storage + permissions + persistence
+```

@@ -25,7 +25,7 @@
           -{{ discountPercent(item) }}%
         </span>
         <span v-if="showStock && item.quantity !== null && item.quantity === 0" class="product-card__badge orp-badge orp-badge--secondary">
-          Agotado
+          {{ labels.outOfStock }}
         </span>
       </div>
     </div>
@@ -84,6 +84,12 @@ const props = defineProps({
   carousel: {
     type: Boolean,
     default: false,
+  },
+  labels: {
+    type: Object,
+    default: () => ({
+      outOfStock: 'Agotado',
+    }),
   },
 })
 

@@ -1,0 +1,52 @@
+// =============================================
+// Theme API Variables - Minisite
+// =============================================
+// These CSS custom properties define the design tokens
+// for the minisite theming system.
+
+:root {
+  // Brand colors
+  --dl-primary: #3B82F6;
+  --dl-secondary: #6B7280;
+  --dl-accent: #10B981;
+  --dl-background: #FFFFFF;
+  --dl-foreground: #111827;
+
+  // Card
+  --dl-card-radius: 12px;
+  --dl-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --dl-card-bg: #FFFFFF;
+
+  // Button
+  --dl-button-radius: 8px;
+  --dl-button-padding: 0.75rem 1.5rem;
+
+  // Section defaults (light)
+  --dl-section-bg: #ffffff;
+  --dl-section-text: #111827;
+  --dl-section-muted: #6B7280;
+  --dl-section-heading: #111827;
+  --dl-section-link: #3B82F6;
+  --dl-section-border: #e5e7eb;
+
+  // Footer
+  --dl-footer-bg: #111827;
+  --dl-footer-text: #ffffff;
+  --dl-footer-muted: rgba(255, 255, 255, 0.6);
+  --dl-footer-link: #ffffff;
+  --dl-footer-border: rgba(255, 255, 255, 0.1);
+
+  // Navigation
+  --dl-nav-bg: #ffffff;
+  --dl-nav-text: #111827;
+  --dl-nav-link: #3B82F6;
+  --dl-nav-link-hover: #2563eb;
+  --dl-nav-border: rgba(0, 0, 0, 0.1);
+}
+
+// Dark mode support (future)
+@media (prefers-color-scheme: dark) {
+  :root {
+    // --dl-primary: ...
+  }
+}

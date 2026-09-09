@@ -23,6 +23,10 @@ class HandleInertiaRequests extends Middleware
             return 'layouts.vcard.app';
         }
 
+        if ($request->is('bulma-playground')) {
+            return 'bulma';
+        }
+
         return 'app';
     }
 

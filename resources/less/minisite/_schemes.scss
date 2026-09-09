@@ -1,0 +1,86 @@
+// =============================================
+// Section Schemes - Minisite
+// =============================================
+// Defines the visual variants for section components.
+// Each scheme provides a complete set of CSS custom properties
+// that control background, text, and accent colors.
+
+// Light scheme
+.section--light {
+  --dl-section-bg: #ffffff;
+  --dl-section-text: #111827;
+  --dl-section-muted: #6B7280;
+  --dl-section-heading: #111827;
+  --dl-section-link: #3B82F6;
+  --dl-section-border: #e5e7eb;
+}
+
+// Dark scheme
+.section--dark {
+  --dl-section-bg: #111827;
+  --dl-section-text: #ffffff;
+  --dl-section-muted: #9CA3AF;
+  --dl-section-heading: #ffffff;
+  --dl-section-link: #ffffff;
+  --dl-section-border: #374151;
+}
+
+// Primary scheme
+.section--primary {
+  --dl-section-bg: #3B82F6;
+  --dl-section-text: #ffffff;
+  --dl-section-muted: rgba(255, 255, 255, 0.8);
+  --dl-section-heading: #ffffff;
+  --dl-section-link: #ffffff;
+  --dl-section-border: rgba(255, 255, 255, 0.2);
+}
+
+// Secondary scheme
+.section--secondary {
+  --dl-section-bg: #6B7280;
+  --dl-section-text: #ffffff;
+  --dl-section-muted: rgba(255, 255, 255, 0.8);
+  --dl-section-heading: #ffffff;
+  --dl-section-link: #ffffff;
+  --dl-section-border: rgba(255, 255, 255, 0.2);
+}
+
+// Accent scheme
+.section--accent {
+  --dl-section-bg: #10B981;
+  --dl-section-text: #ffffff;
+  --dl-section-muted: rgba(255, 255, 255, 0.8);
+  --dl-section-heading: #ffffff;
+  --dl-section-link: #ffffff;
+  --dl-section-border: rgba(255, 255, 255, 0.2);
+}
+
+// Neutral scheme
+.section--neutral {
+  --dl-section-bg: #F9FAFB;
+  --dl-section-text: #111827;
+  --dl-section-muted: #6B7280;
+  --dl-section-heading: #111827;
+  --dl-section-link: #3B82F6;
+  --dl-section-border: #e5e7eb;
+}
+
+// Gradient scheme
+.section--gradient {
+  --dl-section-bg: linear-gradient(135deg, #3B82F6 0%, #6B7280 100%);
+  --dl-section-text: #ffffff;
+  --dl-section-muted: rgba(255, 255, 255, 0.8);
+  --dl-section-heading: #ffffff;
+  --dl-section-link: #ffffff;
+  --dl-section-border: rgba(255, 255, 255, 0.2);
+}
+
+// Transparent scheme
+.section--transparent {
+  --dl-section-bg: transparent;
+  --dl-section-text: #111827;
+  --dl-section-muted: #6B7280;
+  --dl-section-heading: #111827;
+  --dl-section-link: #3B82F6;
+  --dl-section-border: #e5e7eb;
+}

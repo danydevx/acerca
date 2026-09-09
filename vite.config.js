@@ -14,7 +14,9 @@ export default defineConfig({
             'resources/js/minisite.js', 
             'resources/js/minisite-orp.js', 
             'resources/js/booking-widget.js',
-            'resources/less/orp-ui/orp-ui.less'],
+            'resources/less/orp-ui/orp-ui.less',
+            'resources/js/frontend.js',
+            'resources/js/bulma-playground.js'],
             refresh: true,
         }),
         vue({

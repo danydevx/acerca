@@ -1,0 +1,11 @@
+// =============================================
+// Bulma Overrides - Minisite
+// =============================================
+// Minimal overrides to Bulma to work with our design system.
+
+// Override Bulma's primary color with our theme primary
+$primary: #3B82F6;
+
+// Make Bulma use our CSS variables instead of its own
+// This is intentionally minimal - we rely on Bulma's utility classes
+// and only override where necessary for the minisite design system.
