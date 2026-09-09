@@ -10,17 +10,17 @@
       <template #actions>
         <button
           v-if="selectedIds.length > 0"
-          class="btn btn-outline-danger rounded-pill"
+          class="btn btn-danger rounded-pill"
           @click="deleteSelected"
           :disabled="deleting"
         >
           <i class="bi bi-trash me-1"></i>
           Eliminar ({{ selectedIds.length }})
         </button>
-        <a :href="`/member/listings/${listing?.id}/leads/export`" class="btn btn-gradient rounded-pill">
+        <a :href="`/member/listings/${listing?.id}/leads/export`" class="btn btn-primary rounded-pill">
           <i class="bi bi-download me-1"></i>Exportar
         </a>
-        <Link :href="`/member/listings/${listing?.id}/leads/create`" class="btn btn-gradient rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/leads/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
           Nuevo Contacto
         </Link>
@@ -72,13 +72,13 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/leads/${row.id}`" class="btn btn-outline-primary rounded-pill">
+          <Link :href="`/member/listings/${listing?.id}/leads/${row.id}`" class="btn btn-info rounded-pill">
             <i class="bi bi-eye"></i>
           </Link>
-          <Link :href="`/member/listings/${listing?.id}/leads/${row.id}/edit`" class="btn btn-outline-primary rounded-pill">
+          <Link :href="`/member/listings/${listing?.id}/leads/${row.id}/edit`" class="btn btn-info rounded-pill">
             <i class="bi bi-pencil"></i>
           </Link>
-          <button class="btn btn-outline-danger rounded-pill" @click="deleteLead(row)">
+          <button class="btn btn-danger rounded-pill" @click="deleteLead(row)">
             <i class="bi bi-trash"></i>
           </button>
         </div>

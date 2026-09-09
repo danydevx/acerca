@@ -48,7 +48,7 @@
                 <button
                   v-if="listing.logo_path && !removeLogoFlag"
                   type="button"
-                  class="btn btn-sm btn-outline-danger mt-2"
+                  class="btn btn-sm btn-danger mt-2"
                   @click="removeLogo"
                 >
                   <i class="bi bi-trash me-1"></i>Eliminar logo
@@ -69,12 +69,13 @@
 
           </div>
 
-          <div class="d-flex gap-2 mt-4">
-            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
-              {{ sending ? 'Guardando...' : 'Guardar Cambios' }}
-            </button>
-            <Link href="/member/listings" class="btn btn-outline-dark rounded-pill">Cancelar</Link>
-          </div>
+          <FormActions
+            class="mt-4"
+            :submitText="'Guardar Cambios'"
+            :submittingText="'Guardando...'"
+            :cancelHref="'/member/listings'"
+            :sending="sending"
+          />
         </form>
       </div>
     </div>
@@ -102,7 +103,7 @@
                 <button
                   type="button"
                   class="btn"
-                  :class="qrVersion === 'mobile' ? 'btn-primary' : 'btn-outline-secondary'"
+                  :class="qrVersion === 'mobile' ? 'btn-primary' : 'btn-secondary'"
                   @click="qrVersion = 'mobile'"
                 >
                   <i class="bi bi-phone me-1"></i>Móvil (/m/)
@@ -110,7 +111,7 @@
                 <button
                   type="button"
                   class="btn"
-                  :class="qrVersion === 'desktop' ? 'btn-primary' : 'btn-outline-secondary'"
+                  :class="qrVersion === 'desktop' ? 'btn-primary' : 'btn-secondary'"
                   @click="qrVersion = 'desktop'"
                 >
                   <i class="bi bi-display me-1"></i>Escritorio (/b/)
@@ -121,7 +122,7 @@
               <label class="form-label fw-semibold">URL del minisite:</label>
               <code class="d-block mb-2 p-2 bg-light rounded">{{ qrLink }}</code>
             </div>
-            <a :href="qrLink" target="_blank" class="btn btn-outline-primary rounded-pill">
+            <a :href="qrLink" target="_blank" class="btn btn-info rounded-pill">
               <i class="bi bi-box-arrow-up-right me-1"></i>Abrir minisite
             </a>
           </div>
@@ -138,6 +139,7 @@ import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const props = defineProps({
   listing: {

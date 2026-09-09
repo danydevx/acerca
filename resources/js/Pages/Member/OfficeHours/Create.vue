@@ -8,10 +8,19 @@
       :backHref="`/member/listings/${listing.id}/locations/${location.id}/schedules`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
-          <div class="row g-3">
+    <form @submit.prevent="submit">
+        <div class="card">
+          <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-plus-circle me-1"></i>Crear horario
+            </h6>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" id="schedule-active" v-model="form.is_active">
+              <label class="form-check-label" for="schedule-active">Activo</label>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row g-3 mb-3">
             <div class="col-12">
               <FieldText
                 id="schedule-name"
@@ -78,21 +87,19 @@
               />
             </div>
 
-            <div class="col-12">
-              <FieldSwitch
-                id="is-active"
-                label="Horario activo"
-                v-model="form.is_active"
-                help-text="Los horarios inactivos no se mostrarán en el minisite público."
-              />
             </div>
           </div>
-
-          <FormActions :submitText="'Guardar'" :submittingText="'Guardando...'" :cancelHref="`/member/listings/${listing.id}/locations/${location.id}/schedules`" :sending="sending" />
-        </form>
-      </div>
-    </div>
-  </MemberLayout>
+          <div class="card-footer bg-transparent border-top pt-3 pb-3">
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing.id}/locations/${location.id}/schedules`"
+              :sending="sending"
+            />
+          </div>
+        </div>
+      </form>
+    </MemberLayout>
 </template>
 
 <script setup>
@@ -100,11 +107,11 @@ import { computed, reactive, ref } from 'vue'
 import { Head, Link, usePage, router } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
-import FormActions from '@/Components/FormActions.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldTime from '@/Components/Fields/FieldTime.vue'
 import FieldCheckboxes from '@/Components/Fields/FieldCheckboxes.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)

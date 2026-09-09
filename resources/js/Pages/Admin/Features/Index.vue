@@ -76,10 +76,10 @@
                       <span v-else class="badge bg-secondary">Inactivo</span>
                     </td>
                     <td>
-                      <button class="btn btn-sm btn-outline-primary me-1" @click="openEditModal(feature)">
+                      <button class="btn btn-sm btn-info me-1" @click="openEditModal(feature)">
                         <i class="bi bi-pencil"></i>
                       </button>
-                      <button class="btn btn-sm btn-outline-danger" @click="deleteFeature(feature)" :disabled="(feature.businesses_count || 0) > 0">
+                      <button class="btn btn-sm btn-danger" @click="deleteFeature(feature)" :disabled="(feature.businesses_count || 0) > 0">
                         <i class="bi bi-trash"></i>
                       </button>
                     </td>
@@ -131,10 +131,10 @@
                       <span v-else class="badge bg-secondary">Inactivo</span>
                     </td>
                     <td>
-                      <button class="btn btn-sm btn-outline-primary me-1" @click="openCategoryModal(cat)">
+                      <button class="btn btn-sm btn-info me-1" @click="openCategoryModal(cat)">
                         <i class="bi bi-pencil"></i>
                       </button>
-                      <button class="btn btn-sm btn-outline-danger" @click="deleteCategory(cat)" :disabled="(cat.features_count || 0) > 0">
+                      <button class="btn btn-sm btn-danger" @click="deleteCategory(cat)" :disabled="(cat.features_count || 0) > 0">
                         <i class="bi bi-trash"></i>
                       </button>
                     </td>

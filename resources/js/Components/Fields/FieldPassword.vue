@@ -20,7 +20,7 @@
           <!-- Generar -->
           <button
             type="button"
-            class="btn btn-outline-secondary btn-sm"
+            class="btn btn-secondary btn-sm"
             title="Generar contraseña segura"
             aria-label="Generar contraseña segura"
             @click="handleGenerate"
@@ -31,7 +31,7 @@
           <!-- Copiar -->
           <button
             type="button"
-            class="btn btn-outline-secondary btn-sm"
+            class="btn btn-secondary btn-sm"
             :title="copied ? 'Copiado' : 'Copiar contraseña'"
             :aria-label="copied ? 'Copiado' : 'Copiar contraseña'"
             @click="handleCopy"
@@ -42,7 +42,7 @@
           <!-- Ver/Ocultar -->
           <button
             type="button"
-            class="btn btn-outline-secondary btn-sm"
+            class="btn btn-secondary btn-sm"
             :title="showPassword ? 'Ocultar contraseña' : 'Ver contraseña'"
             :aria-label="showPassword ? 'Ocultar contraseña' : 'Ver contraseña'"
             @click="toggleShow"

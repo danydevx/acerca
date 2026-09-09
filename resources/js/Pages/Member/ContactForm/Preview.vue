@@ -14,7 +14,7 @@
         v-if="listing?.slug && form?.shortcode"
         :href="`/b/${listing.slug}/form/${form.shortcode}`"
         target="_blank"
-        class="btn btn-outline-primary rounded-pill"
+        class="btn btn-info rounded-pill"
       >
         <i class="bi bi-box-arrow-up-right me-1"></i>
         Ver en minisitio
@@ -172,7 +172,7 @@
                 </div>
               </template>
 
-              <button type="submit" class="btn btn-gradient rounded-pill">
+              <button type="submit" class="btn btn-primary rounded-pill">
                 Enviar
               </button>
             </form>

@@ -10,13 +10,13 @@
       <template #actions>
         <Link
           :href="`/member/listings/${listing?.id}/contact-forms/${form?.id}/preview`"
-          class="btn btn-outline-dark rounded-pill"
+          class="btn btn-secondary rounded-pill"
           target="_blank"
         >
           <i class="bi bi-eye me-1"></i>
           Vista Previa
         </Link>
-        <button class="btn btn-gradient rounded-pill" @click="showFieldModal = true">
+        <button class="btn btn-primary rounded-pill" @click="showFieldModal = true">
           <i class="bi bi-plus me-1"></i>
           Agregar Campo
         </button>
@@ -62,7 +62,7 @@
               <i class="bi bi-input-cursor text-muted" style="font-size: 3rem;"></i>
               <p class="text-muted mt-3">No hay campos configurados.</p>
               <p class="text-muted small">Agrega campos para construir tu formulario de contacto.</p>
-              <button class="btn btn-gradient rounded-pill" @click="showFieldModal = true">
+              <button class="btn btn-primary rounded-pill" @click="showFieldModal = true">
                 <i class="bi bi-plus me-1"></i>Agregar Primer Campo
               </button>
             </div>
@@ -107,10 +107,10 @@
                       </div>
                     </div>
                     <div class="actions">
-                      <button class="btn btn-outline-primary rounded-pill" @click="editField(field)">
+                      <button class="btn btn-info rounded-pill" @click="editField(field)">
                         <i class="bi bi-pencil"></i>
                       </button>
-                      <button class="btn btn-outline-danger rounded-pill" @click="deleteField(field)">
+                      <button class="btn btn-danger rounded-pill" @click="deleteField(field)">
                         <i class="bi bi-trash"></i>
                       </button>
                     </div>
@@ -167,6 +167,15 @@
       @close="closeFieldModal"
       @save="saveField"
     />
+
+    <div class="card-footer bg-transparent border-top pt-3 pb-3">
+      <FormActions
+        :submitText="'Guardar'"
+        :submittingText="'Guardando...'"
+        :cancelHref="`/member/listings/${listing?.id}/contact-forms`"
+        :sending="sending"
+      />
+    </div>
   </MemberLayout>
 </template>
 
@@ -177,6 +186,7 @@ import draggable from 'vuedraggable'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import FieldModal from '@/Components/ContactForm/FieldModal.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const props = defineProps({
   listing: Object,
@@ -194,6 +204,7 @@ const editingField = ref(null)
 const isActive = ref(props.form?.is_active || false)
 const localFields = ref([...props.fields])
 const businessMenu = computed(() => page.props.businessMenu || [])
+const sending = ref(false)
 
 watch(() => props.fields, (newFields) => {
   localFields.value = [...newFields]

@@ -49,7 +49,7 @@
                 <td>
                   <Link
                     :href="`/admin/listings/${listing.id}/gallery/${gallery.id}`"
-                    class="btn btn-sm btn-outline-primary"
+                    class="btn btn-sm btn-info"
                   >
                     <i class="bi bi-images me-1"></i>Ver imagenes
                   </Link>
@@ -91,13 +91,13 @@
                 </div>
                 <div class="d-flex gap-2 mt-2 flex-wrap">
                   <button
-                    class="btn btn-sm btn-outline-primary"
+                    class="btn btn-sm btn-info"
                     @click="openEditModal(img)"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
                   </button>
                   <button
-                    class="btn btn-sm btn-outline-danger"
+                    class="btn btn-sm btn-danger"
                     @click="deleteImage(img)"
                   >
                     <i class="bi bi-trash me-1"></i>Eliminar

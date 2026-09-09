@@ -49,7 +49,7 @@
             <td>
               <button
                 type="button"
-                class="btn btn-sm btn-outline-primary me-1"
+                class="btn btn-sm btn-info me-1"
                 @click="$emit('edit', exception)"
                 title="Editar"
               >
@@ -57,7 +57,7 @@
               </button>
               <button
                 type="button"
-                class="btn btn-sm btn-outline-danger"
+                class="btn btn-sm btn-danger"
                 :disabled="deletingId === exception.id"
                 @click="deleteException(exception)"
                 title="Eliminar"

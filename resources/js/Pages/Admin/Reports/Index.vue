@@ -23,8 +23,8 @@
             </select>
           </div>
           <div class="col-12 col-md-3 d-flex gap-2">
-            <button class="btn btn-outline-primary" type="submit">Aplicar</button>
-            <button class="btn btn-outline-secondary" type="button" @click="clearFilters">Limpiar</button>
+            <button class="btn btn-info" type="submit">Aplicar</button>
+            <button class="btn btn-secondary" type="button" @click="clearFilters">Limpiar</button>
           </div>
           <div class="col-12 col-md-3">
             <label class="form-label">Pagos</label>

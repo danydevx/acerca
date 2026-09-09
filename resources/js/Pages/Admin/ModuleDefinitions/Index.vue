@@ -63,11 +63,11 @@
                   <Link
                     v-if="def.has_settings && def.settings_url"
                     :href="def.settings_url"
-                    class="btn btn-sm btn-outline-warning me-2"
+                    class="btn btn-sm btn-warning me-2"
                   >
                     <i class="bi bi-gear me-1"></i>Configurar
                   </Link>
-                  <Link :href="`/admin/business-module-definitions/${def.id}/edit`" class="btn btn-sm btn-outline-primary">
+                  <Link :href="`/admin/business-module-definitions/${def.id}/edit`" class="btn btn-sm btn-info">
                     Editar
                   </Link>
                 </td>

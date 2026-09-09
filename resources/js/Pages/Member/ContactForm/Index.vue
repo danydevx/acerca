@@ -11,11 +11,11 @@
         <Link
           v-if="canCreateMore"
           :href="`/member/listings/${listing?.id}/contact-forms/create`"
-          class="btn btn-gradient rounded-pill"
+          class="btn btn-primary rounded-pill"
         >
           <i class="bi bi-plus me-1"></i>Nuevo Formulario
         </Link>
-        <span v-else class="btn btn-outline-dark rounded-pill" disabled>
+        <span v-else class="btn btn-secondary rounded-pill" disabled>
           Limite alcanzado ({{ forms.length }}/{{ maxForms }})
         </span>
       </template>
@@ -35,7 +35,7 @@
           <Link
             v-if="canCreateMore"
             :href="`/member/listings/${listing?.id}/contact-forms/create`"
-            class="btn btn-gradient rounded-pill"
+            class="btn btn-primary rounded-pill"
           >
             <i class="bi bi-plus me-1"></i>Crear Primer Formulario
           </Link>
@@ -75,18 +75,18 @@
                   <div class="actions">
                     <Link
                       :href="`/member/listings/${listing?.id}/contact-forms/${form.id}/edit`"
-                      class="btn btn-outline-primary rounded-pill"
+                      class="btn btn-info rounded-pill"
                     >
                       <i class="bi bi-pencil"></i>
                     </Link>
                     <Link
                       :href="`/member/listings/${listing?.id}/contact-forms/${form.id}/submissions`"
-                      class="btn btn-outline-dark rounded-pill"
+                      class="btn btn-secondary rounded-pill"
                     >
                       <i class="bi bi-envelope"></i>
                     </Link>
                     <button
-                      class="btn btn-outline-danger rounded-pill"
+                      class="btn btn-danger rounded-pill"
                       @click="deleteForm(form)"
                     >
                       <i class="bi bi-trash"></i>

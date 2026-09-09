@@ -55,13 +55,13 @@
           </Link>
           <button
             v-if="appointment.status !== 'cancelled'"
-            class="btn btn-outline-warning"
+            class="btn btn-warning"
             @click="cancelAppointment"
           >
             <i class="bi bi-x-lg me-1"></i>Cancelar
           </button>
           <button
-            class="btn btn-outline-danger"
+            class="btn btn-danger"
             @click="deleteAppointment"
           >
             <i class="bi bi-trash me-1"></i>Eliminar

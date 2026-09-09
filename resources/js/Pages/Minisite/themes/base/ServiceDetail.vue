@@ -92,7 +92,7 @@
               >
                 <i class="bi bi-calendar-check me-2"></i>Reservar ahora
               </a>
-              <Link :href="`/m/${business.slug}/servicios`" class="btn btn-outline-secondary btn-lg">
+              <Link :href="`/m/${business.slug}/servicios`" class="btn btn-secondary btn-lg">
                 <i class="bi bi-arrow-left me-2"></i>Volver a servicios
               </Link>
             </div>

@@ -99,7 +99,7 @@
               >
                 <i class="bi bi-whatsapp me-2"></i>Contactar por WhatsApp
               </a>
-              <Link :href="`/m/${business.slug}/productos`" class="btn btn-outline-secondary btn-lg">
+              <Link :href="`/m/${business.slug}/productos`" class="btn btn-secondary btn-lg">
                 <i class="bi bi-arrow-left me-2"></i>Volver a productos
               </Link>
             </div>

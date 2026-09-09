@@ -8,10 +8,10 @@
       :backHref="`/member/listings/${listing?.id}/minisite`"
     >
       <template #actions>
-        <!-- <a v-if="listing?.slug" :href="`/b/${listing.slug}`" target="_blank" class="btn btn-outline-secondary btn-sm me-2">
+        <!-- <a v-if="listing?.slug" :href="`/b/${listing.slug}`" target="_blank" class="btn btn-secondary btn-sm me-2">
           <i class="bi bi-display me-1"></i>Ver Desktop
         </a> -->
-        <Link :href="`/member/listings/${listing?.id}/minisite/sections/create`" class="btn btn-gradient rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/minisite/sections/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nueva Sección
         </Link>
       </template>
@@ -30,7 +30,7 @@
               <i class="bi bi-layout-text-sidebar display-1"></i>
               <h5 class="mt-3">No hay secciones</h5>
               <p>Crea tu primera sección para empezar a construir tu minisite.</p>
-               <Link :href="`/member/listings/${listing?.id}/minisite/sections/create`" class="btn btn-gradient rounded-pill">
+               <Link :href="`/member/listings/${listing?.id}/minisite/sections/create`" class="btn btn-primary rounded-pill">
                  <i class="bi bi-plus-lg me-1"></i>Crear Sección
                </Link>
             </div>
@@ -56,13 +56,13 @@
                     :href="section.id === 'hero' || section.id === 'footer'
                       ? `/member/listings/${listing?.id}/minisite`
                       : `/member/listings/${listing?.id}/minisite/sections/${section.id}/edit`"
-                    class="btn btn-outline-primary rounded-pill"
+                    class="btn btn-info rounded-pill"
                   >
                     <i class="bi bi-pencil"></i>
                   </Link>
                   <button
                     v-if="section.id !== 'hero' && section.id !== 'footer'"
-                    class="btn btn-outline-danger rounded-pill"
+                    class="btn btn-danger rounded-pill"
                     @click="deleteSection(section)"
                   >
                     <i class="bi bi-trash"></i>

@@ -10,7 +10,7 @@
           v-for="p in periods"
           :key="p.value"
           class="btn rounded-pill"
-          :class="period === p.value ? 'btn-gradient' : 'btn btn-outline-dark'"
+          :class="period === p.value ? 'btn-primary' : 'btn btn-secondary'"
           @click="changePeriod(p.value)"
         >
           {{ p.label }}

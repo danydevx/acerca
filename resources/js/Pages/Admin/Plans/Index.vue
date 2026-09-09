@@ -25,8 +25,8 @@
             />
           </div>
           <div class="col-12 col-md-6 d-flex gap-2">
-            <button class="btn btn-outline-primary" type="submit">Buscar</button>
-            <button class="btn btn-outline-secondary" type="button" @click="clearSearch">Limpiar</button>
+            <button class="btn btn-info" type="submit">Buscar</button>
+            <button class="btn btn-secondary" type="button" @click="clearSearch">Limpiar</button>
           </div>
         </form>
       </div>
@@ -62,12 +62,12 @@
               <td>{{ plan.sort_order ?? '-' }}</td>
               <td class="text-end">
                 <div class="d-inline-flex align-items-center gap-2">
-                  <Link :href="`/admin/plans/${plan.id}/edit`" class="btn btn-sm btn-outline-primary">
+                  <Link :href="`/admin/plans/${plan.id}/edit`" class="btn btn-sm btn-info">
                     Editar
                   </Link>
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-danger"
+                    class="btn btn-sm btn-danger"
                     @click="openDelete(plan)"
                   >
                     Eliminar

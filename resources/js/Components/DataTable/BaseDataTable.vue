@@ -119,7 +119,7 @@
       <div class="app-datatable__pagination" v-if="localData.last_page > 1">
         <button
           type="button"
-          class="btn btn-sm btn-outline-dark rounded-pill"
+          class="btn btn-sm btn-secondary rounded-pill"
           :disabled="currentPage <= 1"
           @click="goToPage(currentPage - 1)"
         >
@@ -131,7 +131,7 @@
           v-for="page in visiblePages"
           :key="page"
           class="btn btn-sm"
-          :class="page === currentPage ? 'btn-gradient' : 'btn btn-outline-dark rounded-pill'"
+          :class="page === currentPage ? 'btn-primary' : 'btn btn-secondary rounded-pill'"
           @click="goToPage(page)"
         >
           {{ page }}
@@ -139,7 +139,7 @@
 
         <button
           type="button"
-          class="btn btn-sm btn-outline-dark rounded-pill"
+          class="btn btn-sm btn-secondary rounded-pill"
           :disabled="currentPage >= localData.last_page"
           @click="goToPage(currentPage + 1)"
         >

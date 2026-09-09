@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <button type="button" class="btn btn-gradient rounded-pill" @click="openCreateModal">
+        <button type="button" class="btn btn-primary rounded-pill" @click="openCreateModal">
           <i class="bi bi-plus-lg me-1"></i>Nuevo Turno
         </button>
       </template>
@@ -53,19 +53,19 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <button class="btn btn-outline-primary rounded-pill" @click="openEditModal(row)" title="Editar">
+          <button class="btn btn-info rounded-pill" @click="openEditModal(row)" title="Editar">
             <i class="bi bi-pencil"></i>
           </button>
           <button
             class="btn btn-sm rounded-pill"
-            :class="row.is_available ? 'btn-outline-warning' : 'btn-outline-success'"
+            :class="row.is_available ? 'btn-warning' : 'btn-success'"
             @click="toggleSlot(row)"
             title="Cambiar estado"
           >
             <i :class="row.is_available ? 'bi bi-x-lg' : 'bi bi-check-lg'"></i>
           </button>
           <button
-            class="btn btn-outline-danger rounded-pill"
+            class="btn btn-danger rounded-pill"
             @click="deleteSlot(row)"
             title="Eliminar"
           >
@@ -167,8 +167,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="creating">
+              <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary rounded-pill" :disabled="creating">
                 {{ creating ? 'Creando...' : 'Crear Turno' }}
               </button>
             </div>
@@ -277,8 +277,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="saving">
+              <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary rounded-pill" :disabled="saving">
                 {{ saving ? 'Guardando...' : 'Guardar Cambios' }}
               </button>
             </div>

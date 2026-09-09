@@ -33,7 +33,7 @@
       <button
         v-if="!readonly"
         type="button"
-        class="btn btn-sm btn-outline-danger mt-2"
+        class="btn btn-sm btn-danger mt-2"
         @click="removeNewFile"
       >
         <i class="bi bi-x-circle"></i> Quitar video
@@ -52,7 +52,7 @@
       <button
         v-if="!readonly"
         type="button"
-        class="btn btn-sm btn-outline-danger mt-2"
+        class="btn btn-sm btn-danger mt-2"
         @click="removeExistingVideo"
       >
         <i class="bi bi-x-circle"></i> Quitar video actual

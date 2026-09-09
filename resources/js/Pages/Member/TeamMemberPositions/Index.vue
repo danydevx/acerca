@@ -8,7 +8,7 @@
       :backHref="`/member/listings/${listing?.id}/team-members`"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/team-member-positions/create`" class="btn btn-gradient rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/team-member-positions/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nuevo Puesto
         </Link>
       </template>
@@ -17,13 +17,13 @@
     <div class="mb-3 d-flex gap-2">
       <Link
         :href="`/member/listings/${listing?.id}/team-members`"
-        class="btn btn-outline-dark rounded-pill"
+        class="btn btn-secondary rounded-pill"
       >
         <i class="bi bi-people me-1"></i>Miembros
       </Link>
       <Link
         :href="`/member/listings/${listing?.id}/team-member-positions`"
-        class="btn btn-outline-dark rounded-pill"
+        class="btn btn-secondary rounded-pill"
       >
         <i class="bi bi-folder me-1"></i>Puestos
       </Link>
@@ -73,11 +73,11 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/team-member-positions/${row.id}/edit`" class="btn btn-outline-primary rounded-pill">
+          <Link :href="`/member/listings/${listing?.id}/team-member-positions/${row.id}/edit`" class="btn btn-info rounded-pill">
             <i class="bi bi-pencil"></i>
           </Link>
           <button
-            class="btn btn-outline-danger rounded-pill"
+            class="btn btn-danger rounded-pill"
             @click="deletePosition(row)"
             :disabled="(row.members_count || 0) > 0 || (row.children_count || 0) > 0"
           >

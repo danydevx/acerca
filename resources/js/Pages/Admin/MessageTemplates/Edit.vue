@@ -4,7 +4,7 @@
 
     <PageHeader :title="'Editar plantilla'" :breadcrumbs="breadcrumbs" backHref="/admin/message-templates">
       <template #actions>
-        <button class="btn btn-outline-danger" type="button" @click="destroy">Eliminar</button>
+        <button class="btn btn-danger" type="button" @click="destroy">Eliminar</button>
       </template>
     </PageHeader>
 
@@ -64,7 +64,7 @@
                 v-for="variable in variables"
                 :key="variable"
                 type="button"
-                class="btn btn-sm btn-outline-secondary"
+                class="btn btn-sm btn-secondary"
                 @click="copy(variable)"
               >
                 {{ variable }}

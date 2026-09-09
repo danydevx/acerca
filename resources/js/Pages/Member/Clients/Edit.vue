@@ -8,9 +8,19 @@
       :backHref="`/member/listings/${listing.id}/clients`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form class="row g-3" @submit.prevent="submit">
+    <form @submit.prevent="submit">
+        <div class="card">
+          <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-pencil-square me-1"></i>Editar cliente
+            </h6>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" id="client-active" v-model="form.is_active">
+              <label class="form-check-label" for="client-active">Activo</label>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row g-3 mb-3">
           <div class="col-12 col-md-6">
             <FieldText
               id="client-customer-name"
@@ -40,11 +50,13 @@
           </div>
 
           <div class="col-12 col-md-6">
-            <FieldPhone
+            <FieldWhatsapp
               id="client-whatsapp"
               label="WhatsApp"
               v-model="form.whatsapp"
+              :countryValue="form.whatsapp_country"
               :formError="errors.whatsapp"
+              @update:countryValue="form.whatsapp_country = $event"
             />
           </div>
 
@@ -139,11 +151,21 @@
               :rows="3"
             />
           </div>
-
-          <FormActions :submitText="'Guardar Cambios'" :submittingText="'Guardando...'" :cancelHref="`/member/listings/${listing.id}/clients`" :sending="sending" />
-        </form>
-      </div>
-    </div>
+          </div>
+          </div>
+          <div class="card-footer bg-transparent border-top pt-3 pb-3 d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-danger rounded-pill py-2" @click="deleteClient">
+              <i class="bi bi-trash me-1"></i>Eliminar
+            </button>
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing.id}/clients`"
+              :sending="sending"
+            />
+          </div>
+        </div>
+      </form>
   </MemberLayout>
 </template>
 
@@ -155,7 +177,7 @@ import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldEmail from '@/Components/Fields/FieldEmail.vue'
-import FieldPhone from '@/Components/Fields/FieldPhone.vue'
+import FieldWhatsapp from '@/Components/Fields/FieldWhatsapp.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import LocationSelector from '@/Components/LocationSelector.vue'
 import FormActions from '@/Components/FormActions.vue'
@@ -192,6 +214,7 @@ const form = reactive({
   contact_person: client.value.contact_person || '',
   company_name: client.value.company_name || '',
   whatsapp: client.value.whatsapp || '',
+  whatsapp_country: client.value.whatsapp_country || '+52',
   website: client.value.website || '',
   rfc: client.value.rfc || '',
   address_line_1: client.value.address_line_1 || '',
@@ -285,6 +308,16 @@ const submit = () => {
     },
     onFinish: () => {
       sending.value = false
+    },
+  })
+}
+
+const deleteClient = () => {
+  if (!confirm(`Eliminar el cliente "${client.value?.customer_name}"?`)) return
+  router.delete(`/member/listings/${listing.value.id}/clients/${client.value.id}`, {
+    preserveScroll: true,
+    onSuccess: () => {
+      window.location.href = `/member/listings/${listing.value.id}/clients`
     },
   })
 }

@@ -15,7 +15,7 @@
           @change="onChange(item.id)"
         >
         <label
-          class="btn btn-outline-dark rounded-pill"
+          class="btn btn-secondary rounded-pill"
           :for="idPrefix + item.id"
         >
           {{ item.label }}

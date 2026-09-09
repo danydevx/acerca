@@ -8,9 +8,18 @@
       :backHref="`/member/listings/${listing?.id}/projects`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
+    <form @submit.prevent="submit">
+      <div class="card">
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-pencil-square me-1"></i>Editar proyecto
+          </h6>
+          <div class="form-check form-switch mb-0">
+            <input class="form-check-input" type="checkbox" id="project-active" v-model="form.is_active">
+            <label class="form-check-label" for="project-active">Activo</label>
+          </div>
+        </div>
+        <div class="card-body">
           <div class="row g-3 mb-3">
             <div class="col-12 col-md-8">
               <FieldText
@@ -75,14 +84,6 @@
               />
             </div>
 
-            <div class="col-12 col-md-6">
-              <FieldSwitch
-                id="project-active"
-                label="Proyecto activo"
-                v-model="form.is_active"
-              />
-            </div>
-
             <div class="col-12">
               <FieldImage
                 id="project-image"
@@ -109,11 +110,20 @@
               />
             </div>
           </div>
-
-          <FormActions :submitText="'Guardar'" :submittingText="'Guardando...'" :cancelHref="`/member/listings/${listing?.id}/projects`" :sending="sending" />
-        </form>
+        </div>
+        <div class="card-footer bg-transparent border-top pt-3 pb-3 d-flex justify-content-between align-items-center">
+          <button type="button" class="btn btn-danger rounded-pill py-2" @click="deleteProject">
+            <i class="bi bi-trash me-1"></i>Eliminar
+          </button>
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing?.id}/projects`"
+              :sending="sending"
+            />
+        </div>
       </div>
-    </div>
+    </form>
   </MemberLayout>
 </template>
 
@@ -245,6 +255,16 @@ const submit = () => {
     },
     onFinish: () => {
       sending.value = false
+    },
+  })
+}
+
+const deleteProject = () => {
+  if (!confirm(`Eliminar el proyecto "${project.value?.title}"?`)) return
+  router.delete(`/member/listings/${listing.value.id}/projects/${project.value.id}`, {
+    preserveScroll: true,
+    onSuccess: () => {
+      window.location.href = `/member/listings/${listing.value.id}/projects`
     },
   })
 }

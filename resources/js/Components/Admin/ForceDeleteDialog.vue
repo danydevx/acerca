@@ -46,7 +46,7 @@
       </div>
 
       <div class="d-flex justify-content-end gap-2">
-        <button type="button" class="btn btn-outline-secondary" @click="cancel">
+        <button type="button" class="btn btn-secondary" @click="cancel">
           Cancelar
         </button>
         <button

@@ -4,7 +4,7 @@
 
     <PageHeader :title="'Detalle documento legal'" :breadcrumbs="breadcrumbs" backHref="/admin/legal-documents">
       <template #actions>
-        <Link :href="`/admin/legal-documents/${document.id}/edit`" class="btn btn-outline-primary">Editar</Link>
+        <Link :href="`/admin/legal-documents/${document.id}/edit`" class="btn btn-info">Editar</Link>
       </template>
     </PageHeader>
 

@@ -86,7 +86,7 @@
               <button type="submit" class="btn btn-primary" :disabled="sending">
                 {{ sending ? 'Guardando...' : 'Crear Lead' }}
               </button>
-              <Link :href="`/admin/listings/${listing.id}/leads`" class="btn btn-outline-secondary ms-2">
+              <Link :href="`/admin/listings/${listing.id}/leads`" class="btn btn-secondary ms-2">
                 Cancelar
               </Link>
             </div>

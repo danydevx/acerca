@@ -17,9 +17,18 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
+    <form @submit.prevent="submit">
+      <div class="card">
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-pencil-square me-1"></i>Editar promocion
+          </h6>
+          <div class="form-check form-switch mb-0">
+            <input class="form-check-input" type="checkbox" id="promotion-active" v-model="form.is_active">
+            <label class="form-check-label" for="promotion-active">Activo</label>
+          </div>
+        </div>
+        <div class="card-body">
           <div class="row g-3 mb-3">
             <div class="col-md-6">
               <FieldText
@@ -66,7 +75,7 @@
             </div>
 
             <div class="col-md-4">
-              <FieldNumber
+              <FieldPrice
                 id="promotion-regular-price"
                 label="Precio Regular"
                 v-model="form.regular_price"
@@ -74,7 +83,7 @@
             </div>
 
             <div class="col-md-4">
-              <FieldNumber
+              <FieldPrice
                 id="promotion-price"
                 label="Precio Promo"
                 v-model="form.promotion_price"
@@ -98,7 +107,7 @@
                     <p class="text-muted small mb-2">Escanealo para verificar la promocion.</p>
                     <button
                       type="button"
-                      class="btn btn-sm btn-outline-primary"
+                      class="btn btn-sm btn-primary"
                       :disabled="regenerating"
                       @click="regenerateQr"
                     >
@@ -138,35 +147,21 @@
               />
               <small class="text-muted">Menor numero aparece primero.</small>
             </div>
-
-            <div class="col-md-8 d-flex align-items-end">
-              <FieldSwitch
-                id="promotion-active"
-                label="Activo"
-                v-model="form.is_active"
-              />
-            </div>
           </div>
-
-          <div class="d-flex gap-2">
+        </div>
+        <div class="card-footer bg-transparent border-top pt-3 pb-3 d-flex justify-content-between align-items-center">
+          <button type="button" class="btn btn-danger rounded-pill py-2" @click="deletePromotion">
+            <i class="bi bi-trash me-1"></i>Eliminar
+          </button>
             <FormActions
               :submitText="'Guardar'"
               :submittingText="'Guardando...'"
               :cancelHref="`/member/listings/${listing.id}/promotions`"
               :sending="sending"
             />
-            <button
-              type="button"
-              class="btn btn-outline-danger"
-              @click="deletePromotion"
-            >
-              <i class="bi bi-trash me-1"></i>
-              Eliminar
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
-    </div>
+    </form>
   </MemberLayout>
 </template>
 
@@ -182,6 +177,7 @@ import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 import FieldDate from '@/Components/Fields/FieldDate.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
+import FieldPrice from '@/Components/Fields/FieldPrice.vue'
 import FieldImage from '@/Components/Fields/FieldImage.vue'
 import FormActions from '@/Components/FormActions.vue'
 

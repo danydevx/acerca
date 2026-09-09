@@ -106,7 +106,7 @@
             <button type="submit" class="btn btn-primary" :disabled="form.processing">
               {{ form.processing ? 'Creando...' : 'Crear Modulo' }}
             </button>
-            <Link href="/admin/business-module-definitions" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link href="/admin/business-module-definitions" class="btn btn-secondary">Cancelar</Link>
           </div>
         </form>
       </div>

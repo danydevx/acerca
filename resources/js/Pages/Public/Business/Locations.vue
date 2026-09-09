@@ -85,7 +85,7 @@
         </div>
 
         <div class="text-center mt-5">
-          <Link :href="`/b/${business.slug}`" class="btn btn-outline-primary">
+          <Link :href="`/b/${business.slug}`" class="btn btn-info">
             <i class="bi bi-arrow-left me-2"></i>Volver al inicio
           </Link>
         </div>

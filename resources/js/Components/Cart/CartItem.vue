@@ -26,7 +26,7 @@
     <div class="cart-item__actions">
       <div class="quantity-control">
         <button
-          class="btn btn-sm btn-outline-secondary"
+          class="btn btn-sm btn-secondary"
           @click="decreaseQuantity"
           :disabled="item.quantity <= 1"
         >
@@ -34,13 +34,13 @@
         </button>
         <span class="quantity-value">{{ item.quantity }}</span>
         <button
-          class="btn btn-sm btn-outline-secondary"
+          class="btn btn-sm btn-secondary"
           @click="increaseQuantity"
         >
           <i class="bi bi-plus"></i>
         </button>
       </div>
-      <button class="btn btn-sm btn-outline-danger" @click="$emit('remove')">
+      <button class="btn btn-sm btn-danger" @click="$emit('remove')">
         <i class="bi bi-trash"></i>
       </button>
     </div>

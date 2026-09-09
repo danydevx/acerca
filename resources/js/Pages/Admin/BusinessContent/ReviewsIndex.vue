@@ -52,7 +52,7 @@
                   <span v-else class="badge bg-secondary">Inactive</span>
                 </td>
                 <td class="text-end">
-                  <Link :href="`/admin/listings/${listing.id}/reviews/${review.id}/edit`" class="btn btn-sm btn-outline-primary">
+                  <Link :href="`/admin/listings/${listing.id}/reviews/${review.id}/edit`" class="btn btn-sm btn-info">
                     Edit
                   </Link>
                 </td>

@@ -4,7 +4,7 @@
 
     <PageHeader :title="'Soporte'" :breadcrumbs="breadcrumbs" backHref="/dashboard">
       <template #actions>
-        <Link href="/admin/support/departments" class="btn btn-outline-secondary btn-sm">
+        <Link href="/admin/support/departments" class="btn btn-secondary btn-sm">
           <i class="bi bi-diagram-3 me-1"></i>Departamentos
         </Link>
       </template>
@@ -39,8 +39,8 @@
             </select>
           </div>
           <div class="col-12 col-md-2 d-flex gap-2">
-            <button class="btn btn-outline-primary" type="submit">Filtrar</button>
-            <button class="btn btn-outline-secondary" type="button" @click="clearFilters">Limpiar</button>
+            <button class="btn btn-info" type="submit">Filtrar</button>
+            <button class="btn btn-secondary" type="button" @click="clearFilters">Limpiar</button>
           </div>
         </form>
       </div>
@@ -78,7 +78,7 @@
               <td class="text-muted">{{ ticket.priority || '-' }}</td>
               <td class="text-muted">{{ ticket.last_reply_at || ticket.created_at }}</td>
               <td class="text-end">
-                <Link :href="`/admin/support/${ticket.id}`" class="btn btn-sm btn-outline-primary">
+                <Link :href="`/admin/support/${ticket.id}`" class="btn btn-sm btn-info">
                   Ver
                 </Link>
               </td>

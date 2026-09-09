@@ -71,7 +71,7 @@
                   </td>
                   <td>{{ municipality.lat && municipality.lng ? `${municipality.lat}, ${municipality.lng}` : '-' }}</td>
                   <td>
-                    <button @click="editMunicipality = municipality; showEditModal = true" class="btn btn-outline-secondary btn-sm me-1">
+                    <button @click="editMunicipality = municipality; showEditModal = true" class="btn btn-secondary btn-sm me-1">
                       <i class="bi bi-pencil"></i>
                     </button>
                   </td>

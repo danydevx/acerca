@@ -308,7 +308,7 @@
                   <label class="form-label">Estilo de Tarjetas</label>
                   <div class="d-flex gap-2">
                     <div
-                      class="btn btn-outline-secondary flex-grow-1"
+                      class="btn btn-secondary flex-grow-1"
                       :style="{ borderRadius: getCardBorderRadius('rounded') }"
                       :class="{ 'border border-2 border-dark': form.css_variables.card_style === 'rounded', 'bg-secondary text-white': form.css_variables.card_style === 'rounded' }"
                       @click="form.css_variables.card_style = 'rounded'"
@@ -317,7 +317,7 @@
                       <i class="bi bi-circle me-1"></i> Redondas
                     </div>
                     <div
-                      class="btn btn-outline-secondary flex-grow-1"
+                      class="btn btn-secondary flex-grow-1"
                       :style="{ borderRadius: getCardBorderRadius('square') }"
                       :class="{ 'border border-2 border-dark': form.css_variables.card_style === 'square', 'bg-secondary text-white': form.css_variables.card_style === 'square' }"
                       @click="form.css_variables.card_style = 'square'"
@@ -326,7 +326,7 @@
                       <i class="bi bi-square me-1"></i> Cuadradas
                     </div>
                     <div
-                      class="btn btn-outline-secondary flex-grow-1"
+                      class="btn btn-secondary flex-grow-1"
                       :style="{ borderRadius: getCardBorderRadius('round') }"
                       :class="{ 'border border-2 border-dark': form.css_variables.card_style === 'round', 'bg-secondary text-white': form.css_variables.card_style === 'round' }"
                       @click="form.css_variables.card_style = 'round'"

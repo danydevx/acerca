@@ -13,7 +13,7 @@
       <div class="fw-semibold mb-1">Copia este secreto ahora. No volvera a mostrarse.</div>
       <div class="d-flex flex-wrap align-items-center gap-2">
         <code class="bg-light border rounded px-2 py-1">{{ secret }}</code>
-        <button class="btn btn-outline-dark rounded-pill" type="button" @click="copySecret">Copiar</button>
+        <button class="btn btn-secondary rounded-pill" type="button" @click="copySecret">Copiar</button>
       </div>
     </div>
 
@@ -59,7 +59,7 @@
             />
           </div>
           <div class="col-12">
-            <button class="btn btn-gradient rounded-pill" type="submit" :disabled="form.processing">
+            <button class="btn btn-primary rounded-pill" type="submit" :disabled="form.processing">
               {{ form.processing ? 'Guardando...' : 'Crear webhook' }}
             </button>
           </div>
@@ -95,19 +95,19 @@
               <td class="text-muted">{{ endpoint.last_used_at || '-' }}</td>
               <td class="text-end">
                 <div class="d-inline-flex gap-2">
-                  <Link :href="`/member/webhooks/${endpoint.id}/deliveries`" class="btn btn-outline-dark rounded-pill">
+                  <Link :href="`/member/webhooks/${endpoint.id}/deliveries`" class="btn btn-secondary rounded-pill">
                     Entregas
                   </Link>
-                  <button class="btn btn-outline-primary rounded-pill" type="button" @click="openEdit(endpoint)">
+                  <button class="btn btn-info rounded-pill" type="button" @click="openEdit(endpoint)">
                     Editar
                   </button>
                   <button class="btn btn-outline-info rounded-pill" type="button" @click="sendTest(endpoint)">
                     Probar
                   </button>
-                  <button class="btn btn-outline-warning rounded-pill" type="button" @click="regenerate(endpoint)">
+                  <button class="btn btn-warning rounded-pill" type="button" @click="regenerate(endpoint)">
                     Regenerar secreto
                   </button>
-                  <button class="btn btn-outline-danger rounded-pill" type="button" @click="remove(endpoint)">
+                  <button class="btn btn-danger rounded-pill" type="button" @click="remove(endpoint)">
                     Eliminar
                   </button>
                 </div>
@@ -164,8 +164,8 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-gradient rounded-pill" @click="submitEdit" :disabled="editForm.processing">
+            <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary rounded-pill" @click="submitEdit" :disabled="editForm.processing">
               Guardar cambios
             </button>
           </div>

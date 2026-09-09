@@ -13,7 +13,7 @@
                 <p class="text-muted">Email: {{ email }}</p>
                 <div class="d-grid gap-2">
                   <button class="btn btn-primary" type="button" @click="accept">Aceptar invitacion</button>
-                  <Link href="/login" class="btn btn-outline-secondary">Iniciar sesion</Link>
+                  <Link href="/login" class="btn btn-secondary">Iniciar sesion</Link>
                   <Link :href="`/register?email=${encodeURIComponent(email)}&invite=${token}`" class="btn btn-link">
                     Crear cuenta
                   </Link>

@@ -123,11 +123,11 @@
               <a
                 v-if="business.phone"
                 :href="`tel:${business.phone}`"
-                class="btn btn-outline-primary btn-lg"
+                class="btn btn-info btn-lg"
               >
                 <i class="bi bi-telephone me-2"></i>Llamar
               </a>
-              <Link :href="`/m/${business.slug}/propiedades`" class="btn btn-outline-secondary btn-lg">
+              <Link :href="`/m/${business.slug}/propiedades`" class="btn btn-secondary btn-lg">
                 <i class="bi bi-arrow-left me-2"></i>Volver a propiedades
               </Link>
             </div>

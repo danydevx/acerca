@@ -13,7 +13,7 @@
             <small class="text-muted">Ajustes generales del modulo</small>
           </div>
         </div>
-        <Link href="/admin/business-module-definitions" class="btn btn-outline-secondary">
+        <Link href="/admin/business-module-definitions" class="btn btn-secondary">
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
       </div>
@@ -29,7 +29,7 @@
             <h6 class="text-muted mb-3"><i class="bi bi-link-45deg me-1"></i>Accesos directos</h6>
             <div class="row g-2">
               <div v-for="link in links" :key="link.href" class="col-auto">
-                <Link :href="link.href" class="btn btn-outline-primary btn-sm">
+                <Link :href="link.href" class="btn btn-info btn-sm">
                   <i :class="link.icon" class="me-1"></i>
                   {{ link.label }}
                 </Link>
@@ -109,7 +109,7 @@
                 <span v-if="sending">Guardando...</span>
                 <span v-else><i class="bi bi-check me-1"></i>Guardar Configuracion</span>
               </button>
-              <button type="button" class="btn btn-outline-secondary" @click="resetDefaults">
+              <button type="button" class="btn btn-secondary" @click="resetDefaults">
                 <i class="bi bi-arrow-counterclockwise me-1"></i>Restaurar valores por defecto
               </button>
             </div>

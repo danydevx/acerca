@@ -1,36 +1,35 @@
 <template>
-  <div class="form-group">
-    <div class="form-floating">
-      <input
-        :id="id"
-        type="number"
-        class="form-control"
-        inputmode="decimal"
-        step="0.01"
-        :min="min"
-        :max="max"
-        :placeholder="placeholder"
-        :readonly="readonly"
-        :disabled="readonly"
-        :value="modelValue"
-        :class="{ 'is-invalid': hasError }"
-        @input="onInput"
-        @blur="onBlur"
-        autocomplete="off"
-      />
-      <label :for="id">
-        {{ label }} <strong v-if="required">*</strong>
-      </label>
-      <div v-if="hasError" class="invalid-feedback">
-        {{ formError || validationMessage }}
-      </div>
+  <div class="form-group" :class="classObject">
+    <label :for="id" class="form-label">{{ label }} <strong v-if="required">*</strong></label>
+    <input
+      type="hidden"
+      :name="id"
+      :value="modelValue"
+    />
+    <input
+      :id="id"
+      type="text"
+      class="form-control"
+      inputmode="decimal"
+      :placeholder="placeholder || '0.00'"
+      :readonly="readonly"
+      :disabled="readonly"
+      :value="isFocused ? inputValue : displayValue"
+      :class="{ 'is-invalid': hasError }"
+      @input="onInput"
+      @blur="onBlur"
+      @focus="onFocus"
+      autocomplete="off"
+    />
+    <small v-if="helpText" class="form-text text-muted">{{ helpText }}</small>
+    <div v-if="hasError" class="invalid-feedback d-block">
+      {{ formError || validationMessage }}
     </div>
-    <div v-if="helpText" class="form-text">{{ helpText }}</div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   id: { type: String, required: true },
@@ -44,32 +43,53 @@ const props = defineProps({
   helpText: { type: String, default: '' },
   readonly: { type: Boolean, default: false },
   min: { type: Number, default: 0 },
-  max: { type: Number, default: 999999999.99 },
+  max: { type: Number, default: 100000000 },
   currencyLabel: { type: String, default: '$' },
+  classObject: { type: [String, Object, Array], default: '' },
 })
 
 const validationMessage = computed(() => {
-  return props.validateFunction ? props.validateFunction() : ''
+  if (props.validateFunction) return props.validateFunction()
+  const v = parseFloat(props.modelValue)
+  if (!isNaN(v)) {
+    if (v < props.min) return `El valor debe ser mayor o igual a ${props.min}`
+    if (v > props.max) return `El valor debe ser menor o igual a ${props.max.toLocaleString('es-MX')}`
+  }
+  return ''
 })
 
 const hasError = computed(() => {
-  return (props.showValidation && !!props.validationMessage) || !!props.formError
+  return (props.showValidation && !!validationMessage.value) || !!props.formError
 })
 
 const emit = defineEmits(['update:modelValue', 'blur'])
 
-const displayValue = computed(() => {
-  return props.modelValue === '' || props.modelValue === null || typeof props.modelValue === 'undefined'
-    ? ''
-    : String(props.modelValue)
+const isFocused = ref(false)
+
+const formatNumber = (value) => {
+  if (value === '' || value === null || typeof value === 'undefined') return ''
+  const num = parseFloat(value)
+  if (Number.isNaN(num)) return ''
+  const parts = num.toFixed(2).split('.')
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  return `${props.currencyLabel}${parts.join('.')}`
+}
+
+const displayValue = computed(() => formatNumber(props.modelValue))
+
+const inputValue = computed(() => {
+  if (props.modelValue === '' || props.modelValue === null || typeof props.modelValue === 'undefined') return ''
+  return String(props.modelValue)
 })
+
+const onFocus = () => {
+  isFocused.value = true
+}
 
 const onInput = (e) => {
   if (props.readonly) return
 
-  let raw = e.target.value
-
-  raw = raw.replace(/[^\d.]/g, '')
+  let raw = e.target.value.replace(/[^\d.]/g, '')
 
   const parts = raw.split('.')
   if (parts.length > 2) {
@@ -85,31 +105,23 @@ const onInput = (e) => {
     return
   }
 
-  const num = parseFloat(raw)
+  let num = parseFloat(raw)
   if (Number.isNaN(num)) {
     emit('update:modelValue', '')
     return
   }
 
-  const clamped = Math.min(Math.max(num, props.min), props.max)
-  emit('update:modelValue', clamped)
+  num = Math.min(Math.max(num, props.min), props.max)
+
+  emit('update:modelValue', num)
 }
 
 const onBlur = () => {
+  isFocused.value = false
   if (props.readonly) {
     emit('blur')
     return
   }
-
-  let v = parseFloat(props.modelValue)
-
-  if (isNaN(v)) {
-    emit('update:modelValue', '')
-  } else {
-    const clamped = Math.min(Math.max(v, props.min), props.max)
-    emit('update:modelValue', clamped)
-  }
-
   emit('blur')
 }
 </script>

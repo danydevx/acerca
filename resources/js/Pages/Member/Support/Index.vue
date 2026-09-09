@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">Soporte</h1>
         <p class="text-muted mb-0">Consulta y crea solicitudes de ayuda.</p>
       </div>
-      <Link href="/member/support/create" class="btn btn-gradient rounded-pill">
+      <Link href="/member/support/create" class="btn btn-primary rounded-pill">
         <i class="bi bi-plus-lg me-1"></i>Nuevo ticket
       </Link>
     </div>
@@ -40,8 +40,8 @@
             />
           </div>
           <div class="col-12 col-md-2 d-flex gap-2">
-            <button class="btn btn-outline-primary rounded-pill" type="submit">Filtrar</button>
-            <button class="btn btn-outline-dark rounded-pill" type="button" @click="clearFilters">Limpiar</button>
+            <button class="btn btn-info rounded-pill" type="submit">Filtrar</button>
+            <button class="btn btn-secondary rounded-pill" type="button" @click="clearFilters">Limpiar</button>
           </div>
         </form>
       </div>
@@ -72,7 +72,7 @@
               <td class="text-muted">{{ ticket.last_reply_at || ticket.created_at }}</td>
               <td class="text-end">
                 <div class="actions d-inline-flex gap-1">
-                  <Link :href="`/member/support/${ticket.id}`" class="btn btn-outline-primary rounded-pill">
+                  <Link :href="`/member/support/${ticket.id}`" class="btn btn-info rounded-pill">
                     <i class="bi bi-eye"></i>
                   </Link>
                 </div>

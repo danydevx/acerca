@@ -60,46 +60,46 @@
                 </td>
                 <td>
                   <div class="btn-group btn-group-sm">
-                    <Link :href="`/admin/listings/${biz.id}/hero`" class="btn btn-outline-secondary" title="Hero">
+                    <Link :href="`/admin/listings/${biz.id}/hero`" class="btn btn-secondary" title="Hero">
                       <i class="bi bi-house"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/locations`" class="btn btn-outline-secondary" title="Ubicaciones">
+                    <Link :href="`/admin/listings/${biz.id}/locations`" class="btn btn-secondary" title="Ubicaciones">
                       <i class="bi bi-geo-alt"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/services`" class="btn btn-outline-secondary" title="Servicios">
+                    <Link :href="`/admin/listings/${biz.id}/services`" class="btn btn-secondary" title="Servicios">
                       <i class="bi bi-scissors"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/products`" class="btn btn-outline-secondary" title="Productos">
+                    <Link :href="`/admin/listings/${biz.id}/products`" class="btn btn-secondary" title="Productos">
                       <i class="bi bi-bag"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/gallery`" class="btn btn-outline-secondary" title="Galeria">
+                    <Link :href="`/admin/listings/${biz.id}/gallery`" class="btn btn-secondary" title="Galeria">
                       <i class="bi bi-images"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/appointments`" class="btn btn-outline-secondary" title="Citas">
+                    <Link :href="`/admin/listings/${biz.id}/appointments`" class="btn btn-secondary" title="Citas">
                       <i class="bi bi-calendar-check"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/slots`" class="btn btn-outline-secondary" title="Turnos">
+                    <Link :href="`/admin/listings/${biz.id}/slots`" class="btn btn-secondary" title="Turnos">
                       <i class="bi bi-clock"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/leads`" class="btn btn-outline-secondary" title="Leads">
+                    <Link :href="`/admin/listings/${biz.id}/leads`" class="btn btn-secondary" title="Leads">
                       <i class="bi bi-people"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/contact-form/submissions`" class="btn btn-outline-secondary" title="Contactos">
+                    <Link :href="`/admin/listings/${biz.id}/contact-form/submissions`" class="btn btn-secondary" title="Contactos">
                       <i class="bi bi-envelope"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/ai-chatbot`" class="btn btn-outline-secondary" title="AI Chatbot">
+                    <Link :href="`/admin/listings/${biz.id}/ai-chatbot`" class="btn btn-secondary" title="AI Chatbot">
                       <i class="bi bi-robot"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/reviews`" class="btn btn-outline-secondary" title="Reviews">
+                    <Link :href="`/admin/listings/${biz.id}/reviews`" class="btn btn-secondary" title="Reviews">
                       <i class="bi bi-star"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/social-networks`" class="btn btn-outline-secondary" title="Redes Sociales">
+                    <Link :href="`/admin/listings/${biz.id}/social-networks`" class="btn btn-secondary" title="Redes Sociales">
                       <i class="bi bi-share"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/promotions`" class="btn btn-outline-secondary" title="Promotions">
+                    <Link :href="`/admin/listings/${biz.id}/promotions`" class="btn btn-secondary" title="Promotions">
                       <i class="bi bi-tag"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${biz.id}/menu-categories`" class="btn btn-outline-secondary" title="Menú">
+                    <Link :href="`/admin/listings/${biz.id}/menu-categories`" class="btn btn-secondary" title="Menú">
                       <i class="bi bi-list-ul"></i>
                     </Link>
                   </div>
@@ -108,14 +108,14 @@
                   <a v-if="biz.is_published" :href="`/b/${biz.slug}`" target="_blank" class="btn btn-sm btn-outline-info me-1">
                     Ver minisitio
                   </a>
-                  <Link :href="`/admin/listings/${biz.id}/edit`" class="btn btn-sm btn-outline-primary me-1">
+                  <Link :href="`/admin/listings/${biz.id}/edit`" class="btn btn-sm btn-info me-1">
                     Editar
                   </Link>
-                  <Link :href="`/admin/listings/${biz.id}/modules`" class="btn btn-sm btn-outline-secondary me-1">
+                  <Link :href="`/admin/listings/${biz.id}/modules`" class="btn btn-sm btn-secondary me-1">
                     Modulos
                   </Link>
                   <button
-                    class="btn btn-sm btn-outline-danger"
+                    class="btn btn-sm btn-danger"
                     @click="deleteListing(biz.id)"
                   >
                     <i class="bi bi-trash"></i>

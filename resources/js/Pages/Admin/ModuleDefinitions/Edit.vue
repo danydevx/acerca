@@ -73,7 +73,7 @@
                 <div v-else class="text-muted small mb-2">Sin imagen</div>
                 <label
                   for="module-image"
-                  class="btn btn-outline-secondary btn-sm"
+                  class="btn btn-secondary btn-sm"
                 >
                   <i class="bi bi-upload me-1"></i>Subir imagen
                 </label>
@@ -161,7 +161,7 @@
             <button type="submit" class="btn btn-primary" :disabled="sending">
               {{ sending ? 'Actualizando...' : 'Actualizar Modulo' }}
             </button>
-            <Link href="/admin/business-module-definitions" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link href="/admin/business-module-definitions" class="btn btn-secondary">Cancelar</Link>
           </div>
         </form>
       </div>

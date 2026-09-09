@@ -29,7 +29,7 @@
         <form @submit.prevent="searchMenu">
           <div class="input-group">
             <input v-model="searchQuery" type="text" class="form-control" placeholder="Buscar en el menú...">
-            <button class="btn btn-outline-primary" type="submit">
+            <button class="btn btn-info" type="submit">
               <i class="bi bi-search"></i>
             </button>
           </div>

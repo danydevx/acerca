@@ -8,7 +8,7 @@
       :backHref="`/member/listings/${listing?.id}/contact-forms`"
     >
       <template #actions>
-        <a :href="`/member/listings/${listing?.id}/contact-forms/${form?.id}/export`" class="btn btn-gradient rounded-pill">
+        <a :href="`/member/listings/${listing?.id}/contact-forms/${form?.id}/export`" class="btn btn-primary rounded-pill">
           <i class="bi bi-download me-1"></i>Exportar CSV
         </a>
       </template>
@@ -48,10 +48,10 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/leads/${row.id}`" class="btn btn-outline-primary rounded-pill">
+          <Link :href="`/member/listings/${listing?.id}/leads/${row.id}`" class="btn btn-info rounded-pill">
             <i class="bi bi-eye"></i>
           </Link>
-          <button class="btn btn-outline-danger rounded-pill" @click="deleteSubmission(row)">
+          <button class="btn btn-danger rounded-pill" @click="deleteSubmission(row)">
             <i class="bi bi-trash"></i>
           </button>
         </div>

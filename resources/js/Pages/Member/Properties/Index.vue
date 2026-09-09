@@ -17,7 +17,7 @@
           <i class="bi bi-trash me-1"></i>
           Eliminar ({{ selectedIds.length }})
         </button>
-        <Link :href="`/member/listings/${listing?.id}/properties/create`" class="btn btn-gradient rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/properties/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
           Nueva Propiedad
         </Link>
@@ -37,7 +37,7 @@
                 placeholder="Titulo, descripcion..."
                 @keyup.enter="filterProperties"
               />
-              <button class="btn btn-outline-dark rounded-pill" @click="filterProperties" type="button">
+              <button class="btn btn-secondary rounded-pill" @click="filterProperties" type="button">
                 <i class="bi bi-search"></i>
               </button>
             </div>
@@ -77,7 +77,7 @@
             </select>
           </div>
           <div class="col-6 col-md-2">
-            <button v-if="hasActiveFilters" type="button" class="btn btn-outline-dark rounded-pill w-100" @click="clearFilters">
+            <button v-if="hasActiveFilters" type="button" class="btn btn-secondary rounded-pill w-100" @click="clearFilters">
               <i class="bi bi-x-lg me-1"></i>Limpiar
             </button>
           </div>
@@ -195,12 +195,12 @@
         <div class="actions">
           <Link
             :href="`/member/listings/${listing?.id}/properties/${row.id}/edit`"
-            class="btn btn-outline-primary rounded-pill"
+            class="btn btn-info rounded-pill"
           >
             <i class="bi bi-pencil"></i>
           </Link>
           <button
-            class="btn btn-outline-dark rounded-pill"
+            class="btn btn-secondary rounded-pill"
             @click="duplicateProperty(row)"
             :disabled="duplicating === row.id"
             title="Duplicar"
@@ -209,7 +209,7 @@
           </button>
           <div class="btn-group">
             <button
-              class="btn btn-outline-dark rounded-pill dropdown-toggle"
+              class="btn btn-secondary rounded-pill dropdown-toggle"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >

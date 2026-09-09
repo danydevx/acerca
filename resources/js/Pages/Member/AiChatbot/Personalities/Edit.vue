@@ -6,7 +6,7 @@
       :breadcrumbs="breadcrumbs"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing.id}/ai-chatbot/personalities`" class="btn btn-outline-dark rounded-pill">
+        <Link :href="`/member/listings/${listing.id}/ai-chatbot/personalities`" class="btn btn-secondary rounded-pill">
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
       </template>
@@ -102,10 +102,12 @@
             </div>
           </div>
 
-          <button type="submit" class="btn btn-gradient w-100" :disabled="saving">
-            <span v-if="saving">Guardando...</span>
-            <span v-else>Actualizar Personalidad</span>
-          </button>
+          <FormActions
+            :submitText="'Actualizar Personalidad'"
+            :submittingText="'Guardando...'"
+            :cancelHref="`/member/listings/${listing.id}/ai-chatbot/personalities`"
+            :sending="saving"
+          />
         </div>
       </div>
     </form>
@@ -122,6 +124,7 @@ import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 import FieldNumber from '@/Components/Fields/FieldNumber.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const page = usePage()
 const listing = page.props.listing

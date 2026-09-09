@@ -8,7 +8,7 @@
           <h1 class="h4 mb-0">{{ listing?.name || 'Cargando...' }}</h1>
           <small class="text-muted">Modulos del minisite</small>
         </div>
-        <Link href="/admin/listings" class="btn btn-outline-secondary">
+        <Link href="/admin/listings" class="btn btn-secondary">
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
       </div>
@@ -46,7 +46,7 @@
                 <button
                   v-if="module.is_enabled && module.has_settings && module.settings_url"
                   type="button"
-                  class="btn btn-sm btn-outline-warning"
+                  class="btn btn-sm btn-warning"
                   @click="goToConfig(module)"
                 >
                   <i class="bi bi-gear me-1"></i>Configurar
@@ -55,7 +55,7 @@
                 <button
                   type="button"
                   class="btn btn-sm"
-                  :class="module.is_enabled ? 'btn-outline-danger' : 'btn-success'"
+                  :class="module.is_enabled ? 'btn-danger' : 'btn-success'"
                   @click="toggleModule(module)"
                 >
                   <i :class="module.is_enabled ? 'bi bi-x-lg me-1' : 'bi bi-check-lg me-1'"></i>

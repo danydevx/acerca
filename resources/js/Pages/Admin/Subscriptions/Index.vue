@@ -17,8 +17,8 @@
             />
           </div>
           <div class="col-12 col-md-2 d-flex gap-2">
-            <button class="btn btn-outline-primary" type="submit">Buscar</button>
-            <button class="btn btn-outline-secondary" type="button" @click="clearSearch">Limpiar</button>
+            <button class="btn btn-info" type="submit">Buscar</button>
+            <button class="btn btn-secondary" type="button" @click="clearSearch">Limpiar</button>
           </div>
         </form>
       </div>
@@ -61,7 +61,7 @@
               <td>{{ sub.trial_ends_at || '-' }}</td>
               <td>{{ sub.price ? '$' + sub.price : '-' }}</td>
               <td class="text-end">
-                <Link :href="`/admin/users/${sub.user_id}/subscriptions`" class="btn btn-sm btn-outline-primary">
+                <Link :href="`/admin/users/${sub.user_id}/subscriptions`" class="btn btn-sm btn-info">
                   Editar
                 </Link>
               </td>

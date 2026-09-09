@@ -13,10 +13,19 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
-          <div class="row g-3">
+    <form @submit.prevent="submit">
+      <div class="card">
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-pencil-square me-1"></i>Editar horario
+          </h6>
+          <div class="form-check form-switch mb-0">
+            <input class="form-check-input" type="checkbox" id="is-active" v-model="form.is_active">
+            <label class="form-check-label" for="is-active">Activo</label>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 mb-3">
             <div class="col-12">
               <FieldText
                 id="schedule-name"
@@ -40,6 +49,11 @@
                 required
                 help-text="Selecciona los días que aplica este horario. Déjalos todos vacíos para todos los días."
               />
+            </div>
+
+            <div class="col-12">
+              <hr />
+              <h6 class="mb-3">Horario general</h6>
             </div>
 
             <div class="col-12 col-md-6">
@@ -82,21 +96,21 @@
                 v-model="form.lunch_end_time"
               />
             </div>
-
-            <div class="col-12">
-              <FieldSwitch
-                id="is-active"
-                label="Horario activo"
-                v-model="form.is_active"
-                help-text="Los horarios inactivos no se mostrarán en el minisite público."
-              />
-            </div>
           </div>
-
-          <FormActions :submitText="'Guardar'" :submittingText="'Guardando...'" :cancelHref="`/member/listings/${listing.id}/locations/${location.id}/schedules`" :sending="sending" />
-        </form>
+        </div>
+        <div class="card-footer bg-transparent border-top pt-3 pb-3 d-flex justify-content-between align-items-center">
+          <button type="button" class="btn btn-danger rounded-pill py-2" @click="deleteSchedule">
+            <i class="bi bi-trash me-1"></i>Eliminar
+          </button>
+          <FormActions
+            :submitText="'Guardar'"
+            :submittingText="'Guardando...'"
+            :cancelHref="`/member/listings/${listing.id}/locations/${location.id}/schedules`"
+            :sending="sending"
+          />
+        </div>
       </div>
-    </div>
+    </form>
   </MemberLayout>
 </template>
 
@@ -105,11 +119,11 @@ import { computed, reactive, ref } from 'vue'
 import { Head, Link, usePage, router } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
-import FormActions from '@/Components/FormActions.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldTime from '@/Components/Fields/FieldTime.vue'
 import FieldCheckboxes from '@/Components/Fields/FieldCheckboxes.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
@@ -233,6 +247,16 @@ const submit = () => {
     },
     onFinish: () => {
       sending.value = false
+    },
+  })
+}
+
+const deleteSchedule = () => {
+  if (!confirm(`Eliminar el horario "${scheduleData.value?.name}"?`)) return
+  router.delete(`/member/listings/${listing.value.id}/locations/${location.value.id}/schedules/${scheduleData.value.id}`, {
+    preserveScroll: true,
+    onSuccess: () => {
+      window.location.href = `/member/listings/${listing.value.id}/locations/${location.value.id}/schedules`
     },
   })
 }

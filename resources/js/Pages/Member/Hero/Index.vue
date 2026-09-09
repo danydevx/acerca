@@ -91,13 +91,13 @@
                   />
                 </div>
                 <div class="col-md-1 d-flex align-items-end">
-                  <button type="button" class="btn btn-outline-danger" @click="removeButton(index)">
+                  <button type="button" class="btn btn-danger" @click="removeButton(index)">
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
               </div>
 
-              <button type="button" class="btn btn-outline-primary btn-sm" @click="addButton">
+              <button type="button" class="btn btn-info btn-sm" @click="addButton">
                 <i class="bi bi-plus me-1"></i>Agregar boton
               </button>
             </div>
@@ -204,12 +204,12 @@
                   />
                 </div>
                 <div class="col-md-1 d-flex align-items-end">
-                  <button type="button" class="btn btn-outline-danger" @click="removeSocial(index)">
+                  <button type="button" class="btn btn-danger" @click="removeSocial(index)">
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
               </div>
-              <button type="button" class="btn btn-outline-primary btn-sm mt-2" @click="addSocial">
+              <button type="button" class="btn btn-info btn-sm mt-2" @click="addSocial">
                 <i class="bi bi-plus me-1"></i>Agregar red social
               </button>
             </div>

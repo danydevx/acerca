@@ -4,7 +4,7 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
       <div>
-        <Link href="/admin/modules/properties/types" class="btn btn-outline-secondary btn-sm mb-2">
+        <Link href="/admin/modules/properties/types" class="btn btn-secondary btn-sm mb-2">
           <i class="bi bi-arrow-left me-1"></i>
           Volver a Tipos
         </Link>
@@ -60,10 +60,10 @@
                 </td>
                 <td>
                   <div class="btn-group btn-group-sm">
-                    <button @click="openEditModal(amenity)" class="btn btn-outline-secondary">
+                    <button @click="openEditModal(amenity)" class="btn btn-secondary">
                       <i class="bi bi-pencil"></i>
                     </button>
-                    <button @click="deleteAmenity(amenity)" class="btn btn-outline-danger">
+                    <button @click="deleteAmenity(amenity)" class="btn btn-danger">
                       <i class="bi bi-trash"></i>
                     </button>
                   </div>
@@ -106,7 +106,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               <button type="submit" class="btn btn-primary">
                 {{ editingAmenity ? 'Guardar' : 'Crear' }}
               </button>

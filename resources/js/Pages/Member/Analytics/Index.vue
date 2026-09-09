@@ -18,7 +18,7 @@
           </select>
           <Link
             :href="`/member/listings/${listing?.id}/analytics/settings`"
-            class="btn btn-outline-primary btn-sm"
+            class="btn btn-info btn-sm"
           >
             <i class="bi bi-gear me-1"></i>Configuración
           </Link>

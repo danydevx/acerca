@@ -87,12 +87,12 @@
                   </FieldSelect>
                 </div>
                 <div class="col-md-1 d-flex align-items-end pb-3">
-                  <button type="button" class="btn btn-outline-danger" @click="removeButton(index)">
+                  <button type="button" class="btn btn-danger" @click="removeButton(index)">
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
               </div>
-              <button type="button" class="btn btn-outline-primary btn-sm" @click="addButton">
+              <button type="button" class="btn btn-info btn-sm" @click="addButton">
                 <i class="bi bi-plus me-1"></i>Agregar botón
               </button>
             </div>

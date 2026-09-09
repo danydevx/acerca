@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">Preferencias de notificacion</h1>
         <p class="text-muted mb-0">Elige que categorias quieres recibir y por que canal.</p>
       </div>
-      <Link href="/member/notifications" class="btn btn-outline-dark rounded-pill">Ver notificaciones</Link>
+      <Link href="/member/notifications" class="btn btn-secondary rounded-pill">Ver notificaciones</Link>
     </div>
 
     <div v-if="flashSuccess" class="alert alert-success">
@@ -68,9 +68,12 @@
         <div class="text-muted small">
           Algunas notificaciones de seguridad no pueden desactivarse.
         </div>
-        <button class="btn btn-gradient rounded-pill" type="button" :disabled="form.processing" @click="submit">
-          {{ form.processing ? 'Guardando...' : 'Guardar cambios' }}
-        </button>
+        <FormActions
+          :submitText="'Guardar cambios'"
+          :submittingText="'Guardando...'"
+          :cancelHref="null"
+          :sending="form.processing"
+        />
       </div>
     </div>
   </MemberLayout>
@@ -80,6 +83,7 @@
 import { computed } from 'vue'
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const props = defineProps({
   categories: {

@@ -5,7 +5,7 @@
     <PageHeader :title="'Usuarios'" :breadcrumbs="breadcrumbs" backHref="/dashboard">
       <template #actions>
         <Link href="/admin/users/create" class="btn btn-primary">Agregar usuario</Link>
-        <Link href="/admin/users/archived" class="btn btn-outline-warning">
+        <Link href="/admin/users/archived" class="btn btn-warning">
           <i class="bi bi-archive me-1"></i>Archivados
         </Link>
       </template>
@@ -49,8 +49,8 @@
             </select>
           </div>
           <div class="col-12 col-md-2 d-flex gap-2">
-            <button class="btn btn-outline-primary" type="submit">Filtrar</button>
-            <button class="btn btn-outline-secondary" type="button" @click="clearFilters">Limpiar</button>
+            <button class="btn btn-info" type="submit">Filtrar</button>
+            <button class="btn btn-secondary" type="button" @click="clearFilters">Limpiar</button>
           </div>
         </form>
       </div>
@@ -100,13 +100,13 @@
               <td class="text-muted">{{ user.created_at }}</td>
               <td class="text-end">
                 <div class="d-inline-flex align-items-center gap-2">
-                  <Link :href="`/admin/users/${user.id}/edit`" class="btn btn-sm btn-outline-primary">
+                  <Link :href="`/admin/users/${user.id}/edit`" class="btn btn-sm btn-info">
                     Editar
                   </Link>
                   <button
                     v-if="user.is_active"
                     type="button"
-                    class="btn btn-sm btn-outline-secondary"
+                    class="btn btn-sm btn-secondary"
                     :disabled="user.id === 1"
                     @click="openToggle(user, 'deactivate')"
                   >
@@ -115,7 +115,7 @@
                   <button
                     v-else
                     type="button"
-                    class="btn btn-sm btn-outline-success"
+                    class="btn btn-sm btn-success"
                     :disabled="user.id === 1"
                     @click="openToggle(user, 'activate')"
                   >
@@ -124,14 +124,14 @@
                   <button
                     v-if="!user.email_verified_at"
                     type="button"
-                    class="btn btn-sm btn-outline-warning"
+                    class="btn btn-sm btn-warning"
                     @click="resendVerification(user)"
                   >
                     Reenviar verificacion
                   </button>
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-danger"
+                    class="btn btn-sm btn-danger"
                     :disabled="user.id === 1"
                     @click="openDelete(user)"
                   >

@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <button @click="openCreateModal" class="btn btn-gradient rounded-pill">
+        <button @click="openCreateModal" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nueva Categoria
         </button>
       </template>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="mb-3">
-        <Link :href="`/member/listings/${listing.id}/menu-products?uncategorized=1`" class="btn btn-outline-dark rounded-pill">
+        <Link :href="`/member/listings/${listing.id}/menu-products?uncategorized=1`" class="btn btn-secondary rounded-pill">
           <i class="bi bi-dash-circle me-1"></i>Productos sin categoria
         </Link>
       </div>
@@ -52,10 +52,10 @@
                 </Link>
               </div>
               <div class="actions">
-                <button @click="editCategory(category)" class="btn btn-outline-primary rounded-pill">
+                <button @click="editCategory(category)" class="btn btn-info rounded-pill">
                   <i class="bi bi-pencil"></i>
                 </button>
-                <button @click="deleteCategory(category)" class="btn btn-outline-danger rounded-pill">
+                <button @click="deleteCategory(category)" class="btn btn-danger rounded-pill">
                   <i class="bi bi-trash"></i>
                 </button>
               </div>
@@ -74,10 +74,10 @@
                       </Link>
                     </span>
                     <div class="actions">
-                      <button @click="editCategory(child)" class="btn btn-outline-primary rounded-pill">
+                      <button @click="editCategory(child)" class="btn btn-info rounded-pill">
                         <i class="bi bi-pencil"></i>
                       </button>
-                      <button @click="deleteCategory(child)" class="btn btn-outline-danger rounded-pill">
+                      <button @click="deleteCategory(child)" class="btn btn-danger rounded-pill">
                         <i class="bi bi-trash"></i>
                       </button>
                     </div>
@@ -143,7 +143,7 @@
                 <button
                   v-if="editingCategory && editingCategory.images && editingCategory.images.length > 0"
                   type="button"
-                  class="btn btn-outline-danger rounded-pill mt-2"
+                  class="btn btn-danger rounded-pill mt-2"
                   @click="removeImage"
                 >
                   <i class="bi bi-trash me-1"></i>Eliminar imagen
@@ -165,8 +165,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
+              <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary rounded-pill" :disabled="sending">
                 {{ sending ? 'Guardando...' : 'Guardar' }}
               </button>
             </div>

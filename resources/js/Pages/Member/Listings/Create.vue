@@ -112,12 +112,12 @@
             <div class="form-text mb-3">
               El slug publico se generara automaticamente y el negocio iniciara sin publicar.
             </div>
-            <div class="d-flex gap-2">
-              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="form.processing">
-                {{ form.processing ? 'Creando...' : 'Crear negocio' }}
-              </button>
-              <Link href="/member/listings" class="btn btn-outline-dark rounded-pill">Cancelar</Link>
-            </div>
+            <FormActions
+              :submitText="'Crear negocio'"
+              :submittingText="'Creando...'"
+              :cancelHref="'/member/listings'"
+              :sending="form.processing"
+            />
           </div>
         </form>
       </div>
@@ -133,6 +133,7 @@ import PageHeader from '@/Components/Admin/PageHeader.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldEmail from '@/Components/Fields/FieldEmail.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const props = defineProps({
   listingTypes: { type: Array, default: () => [] },

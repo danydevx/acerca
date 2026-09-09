@@ -4,7 +4,7 @@
 
     <PageHeader :title="'Editar plan'" :breadcrumbs="breadcrumbs" backHref="/admin/plans">
       <template #actions>
-        <Link :href="`/admin/plans/${plan.id}/features`" class="btn btn-outline-primary">
+        <Link :href="`/admin/plans/${plan.id}/features`" class="btn btn-info">
           Features
         </Link>
       </template>
@@ -179,7 +179,7 @@
             <button type="submit" class="btn btn-primary" :disabled="form.processing">
               {{ form.processing ? 'Actualizando...' : 'Actualizar' }}
             </button>
-            <Link href="/admin/plans" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link href="/admin/plans" class="btn btn-secondary">Cancelar</Link>
           </div>
         </form>
       </div>

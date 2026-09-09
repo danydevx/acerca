@@ -8,7 +8,7 @@
           <h1 class="h4 mb-0">Editar Personalidad</h1>
           <small class="text-muted" v-if="personality">{{ personality.display_name }}</small>
         </div>
-        <Link href="/admin/modules/ai_chatbot/personalities" class="btn btn-outline-secondary">
+        <Link href="/admin/modules/ai_chatbot/personalities" class="btn btn-secondary">
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
       </div>

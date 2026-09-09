@@ -4,7 +4,7 @@
 
     <PageHeader :title="'Editar anuncio'" :breadcrumbs="breadcrumbs" backHref="/admin/announcements">
       <template #actions>
-        <button class="btn btn-outline-danger" type="button" @click="destroy">Eliminar</button>
+        <button class="btn btn-danger" type="button" @click="destroy">Eliminar</button>
       </template>
     </PageHeader>
 

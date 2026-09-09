@@ -26,8 +26,8 @@
             </select>
           </div>
           <div class="col-12 col-md-3 d-flex gap-2">
-            <button class="btn btn-outline-primary" type="submit">Filtrar</button>
-            <button class="btn btn-outline-secondary" type="button" @click="clearFilters">Limpiar</button>
+            <button class="btn btn-info" type="submit">Filtrar</button>
+            <button class="btn btn-secondary" type="button" @click="clearFilters">Limpiar</button>
           </div>
         </form>
       </div>
@@ -60,7 +60,7 @@
               </td>
               <td class="text-muted">{{ invite.created_at }}</td>
               <td class="text-end">
-                <Link :href="`/admin/invitations/${invite.id}`" class="btn btn-sm btn-outline-primary">
+                <Link :href="`/admin/invitations/${invite.id}`" class="btn btn-sm btn-info">
                   Ver
                 </Link>
               </td>

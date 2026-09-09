@@ -47,17 +47,17 @@
                   <button
                     v-if="!gallery.is_primary"
                     type="button"
-                    class="btn btn-sm btn-outline-success me-2"
+                    class="btn btn-sm btn-success me-2"
                     @click="setPrimary(gallery)"
                   >
                     <i class="bi bi-star me-1"></i>Hacer principal
                   </button>
-                  <Link :href="`/admin/listings/${listing.id}/galleries/${gallery.id}/edit`" class="btn btn-sm btn-outline-primary me-2">
+                  <Link :href="`/admin/listings/${listing.id}/galleries/${gallery.id}/edit`" class="btn btn-sm btn-info me-2">
                     Editar
                   </Link>
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-danger"
+                    class="btn btn-sm btn-danger"
                     @click="confirmDestroy(gallery)"
                   >
                     Eliminar

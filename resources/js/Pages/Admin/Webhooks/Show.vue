@@ -42,7 +42,7 @@
               </span>
             </div>
             <div class="mt-3">
-              <Link :href="`/admin/webhooks/${webhook.id}/deliveries`" class="btn btn-outline-primary btn-sm">
+              <Link :href="`/admin/webhooks/${webhook.id}/deliveries`" class="btn btn-info btn-sm">
                 Ver entregas
               </Link>
             </div>

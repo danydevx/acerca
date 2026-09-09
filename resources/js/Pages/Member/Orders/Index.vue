@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/orders/settings`" class="btn btn-outline-dark rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/orders/settings`" class="btn btn-secondary rounded-pill">
           <i class="bi bi-gear me-1"></i>
           Configuración
         </Link>
@@ -29,7 +29,7 @@
               {{ status.label }}
             </option>
           </select>
-          <button v-if="statusFilter" type="button" class="btn btn-outline-dark rounded-pill" @click="clearFilter">
+          <button v-if="statusFilter" type="button" class="btn btn-secondary rounded-pill" @click="clearFilter">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -86,12 +86,12 @@
         <div class="actions">
           <Link
             :href="`/member/listings/${listing?.id}/orders/${row.id}`"
-            class="btn btn-outline-primary rounded-pill"
+            class="btn btn-info rounded-pill"
           >
             <i class="bi bi-eye"></i>
           </Link>
           <button
-            class="btn btn-outline-danger rounded-pill"
+            class="btn btn-danger rounded-pill"
             @click="deleteOrder(row)"
           >
             <i class="bi bi-trash"></i>

@@ -10,7 +10,7 @@
       <template #actions>
         <Link
           :href="`/member/listings/${listing.id}/locations/${location.id}/schedules/create`"
-          class="btn btn-gradient rounded-pill"
+          class="btn btn-primary rounded-pill"
         >
           <i class="bi bi-plus-lg me-1"></i>
           Nuevo Horario
@@ -52,7 +52,7 @@
       <template #cell-actions="{ row }">
         <div class="actions">
           <button
-            class="btn btn-outline-dark rounded-pill"
+            class="btn btn-secondary rounded-pill"
             @click="cloneSchedule(row.id)"
             :disabled="cloning === row.id"
             title="Clonar"
@@ -61,12 +61,12 @@
           </button>
           <Link
             :href="`/member/listings/${listing?.id}/locations/${location?.id}/schedules/${row.id}/edit`"
-            class="btn btn-outline-primary rounded-pill"
+            class="btn btn-info rounded-pill"
           >
             <i class="bi bi-pencil"></i>
           </Link>
           <button
-            class="btn btn-outline-danger rounded-pill"
+            class="btn btn-danger rounded-pill"
             @click="deleteSchedule(row)"
             :disabled="deleting === row.id"
           >

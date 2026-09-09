@@ -28,7 +28,7 @@
         <button
           v-if="!readonly"
           type="button"
-          class="btn btn-sm btn-outline-danger ms-auto"
+          class="btn btn-sm btn-danger ms-auto"
           @click="clearSelectedFile"
         >
           <i class="bi bi-x-circle"></i> Quitar archivo
@@ -37,7 +37,7 @@
         <button
           v-if="showPreviewToggle && selectedUrl"
           type="button"
-          class="btn btn-sm btn-outline-secondary"
+          class="btn btn-sm btn-secondary"
           @click="previewOpen = !previewOpen"
         >
           <i class="bi" :class="previewOpen ? 'bi-eye-slash' : 'bi-eye'"></i>
@@ -60,7 +60,7 @@
             <a
               v-if="showDownloadButton && initialUrl && !remove"
               :href="initialUrl"
-              class="btn btn-sm btn-outline-secondary"
+              class="btn btn-sm btn-secondary"
               target="_blank"
               :download="downloadName || null"
             >
@@ -73,7 +73,7 @@
               :href="initialUrl"
               target="_blank"
               rel="noopener"
-              class="btn btn-sm btn-outline-secondary"
+              class="btn btn-sm btn-secondary"
             >
               Ver archivo
             </a>
@@ -83,7 +83,7 @@
               v-if="!readonly"
               type="button"
               class="btn btn-sm"
-              :class="remove ? 'btn-secondary' : 'btn-outline-danger'"
+              :class="remove ? 'btn-secondary' : 'btn-danger'"
               @click="toggleRemove"
             >
               <i class="bi" :class="remove ? 'bi-arrow-counterclockwise me-1' : 'bi-trash me-1'"></i>
@@ -96,7 +96,7 @@
           <template v-if="!remove && showPreviewToggle">
             <button
               type="button"
-              class="btn btn-sm btn-outline-secondary"
+              class="btn btn-sm btn-secondary"
               @click="previewOpen = !previewOpen"
             >
               <i class="bi" :class="previewOpen ? 'bi-eye-slash' : 'bi-eye'"></i>

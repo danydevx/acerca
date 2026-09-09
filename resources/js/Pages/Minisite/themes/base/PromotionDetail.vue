@@ -72,11 +72,11 @@
                 v-if="promotion.qr_code_path"
                 :href="promotion.qr_code_path"
                 target="_blank"
-                class="btn btn-outline-primary"
+                class="btn btn-info"
               >
                 <i class="bi bi-qr-code me-2"></i>Ver QR Code
               </a>
-              <Link :href="`/m/${business.slug}/promociones`" class="btn btn-outline-secondary">
+              <Link :href="`/m/${business.slug}/promociones`" class="btn btn-secondary">
                 <i class="bi bi-arrow-left me-2"></i>Volver a promociones
               </Link>
             </div>

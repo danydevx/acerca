@@ -19,11 +19,11 @@
     </div>
 
     <div class="calendar-header d-flex justify-content-between align-items-center mb-3">
-      <button type="button" class="btn btn-sm btn-outline-secondary" @click="previousMonth">
+      <button type="button" class="btn btn-sm btn-secondary" @click="previousMonth">
         <i class="bi bi-chevron-left"></i>
       </button>
       <h4 class="mb-0">{{ monthYearLabel }}</h4>
-      <button type="button" class="btn btn-sm btn-outline-secondary" @click="nextMonth">
+      <button type="button" class="btn btn-sm btn-secondary" @click="nextMonth">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>

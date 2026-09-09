@@ -6,9 +6,9 @@
       <div class="container">
         <Link href="/" class="navbar-brand">Acerca.site</Link>
         <div class="ms-auto d-flex gap-2">
-          <Link v-if="!isAuthenticated" href="/login" class="btn btn-outline-secondary btn-sm">Iniciar sesion</Link>
+          <Link v-if="!isAuthenticated" href="/login" class="btn btn-secondary btn-sm">Iniciar sesion</Link>
           <Link v-if="!isAuthenticated" href="/register" class="btn btn-primary btn-sm">Crear cuenta</Link>
-          <Link v-else :href="dashboardHref" class="btn btn-outline-secondary btn-sm">Ir al panel</Link>
+          <Link v-else :href="dashboardHref" class="btn btn-secondary btn-sm">Ir al panel</Link>
         </div>
       </div>
     </nav>

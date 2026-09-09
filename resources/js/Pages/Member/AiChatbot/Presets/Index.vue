@@ -6,10 +6,10 @@
       :breadcrumbs="breadcrumbs"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing.id}/ai-chatbot`" class="btn btn-outline-dark rounded-pill me-2">
+        <Link :href="`/member/listings/${listing.id}/ai-chatbot`" class="btn btn-secondary rounded-pill me-2">
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
-        <Link :href="`/member/listings/${listing.id}/ai-chatbot/presets/create`" class="btn btn-gradient rounded-pill">
+        <Link :href="`/member/listings/${listing.id}/ai-chatbot/presets/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nuevo Preset
         </Link>
       </template>
@@ -62,13 +62,13 @@
                   <div class="actions d-inline-flex gap-1">
                     <Link
                       :href="`/member/listings/${listing.id}/ai-chatbot/presets/${preset.id}/edit`"
-                      class="btn btn-outline-primary rounded-pill"
+                      class="btn btn-info rounded-pill"
                     >
                       <i class="bi bi-pencil"></i>
                     </Link>
                     <button
                       type="button"
-                      class="btn btn-outline-dark rounded-pill"
+                      class="btn btn-secondary rounded-pill"
                       @click="duplicatePreset(preset)"
                       title="Duplicar"
                     >
@@ -77,7 +77,7 @@
                     <button
                       v-if="!preset.is_system"
                       type="button"
-                      class="btn btn-outline-danger rounded-pill"
+                      class="btn btn-danger rounded-pill"
                       @click="deletePreset(preset)"
                     >
                       <i class="bi bi-trash"></i>

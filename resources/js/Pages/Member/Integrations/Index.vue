@@ -52,7 +52,7 @@
                 <h2 class="h6 mb-1">API Keys</h2>
                 <p class="text-muted mb-0">Gestiona claves para integraciones externas.</p>
               </div>
-              <Link href="/member/api-keys" class="btn btn-outline-dark rounded-pill btn-sm">Administrar</Link>
+              <Link href="/member/api-keys" class="btn btn-secondary rounded-pill btn-sm">Administrar</Link>
             </div>
 
             <div v-if="!canUseApi" class="alert alert-warning mt-3">
@@ -81,7 +81,7 @@
                   />
                 </div>
                 <div class="col-12 col-md-4 d-flex align-items-end">
-                  <button class="btn btn-gradient rounded-pill w-100" type="submit" :disabled="apiKeyForm.processing">
+                  <button class="btn btn-primary rounded-pill w-100" type="submit" :disabled="apiKeyForm.processing">
                     {{ apiKeyForm.processing ? 'Creando...' : 'Crear API key' }}
                   </button>
                 </div>
@@ -120,14 +120,14 @@
                         <div class="d-inline-flex gap-2">
                           <button
                             v-if="!key.revoked_at"
-                            class="btn btn-sm btn-outline-primary"
+                            class="btn btn-sm btn-info"
                             type="button"
                             @click="toggleKey(key)"
                           >
                             {{ key.is_active ? 'Desactivar' : 'Activar' }}
                           </button>
                           <button
-                            class="btn btn-sm btn-outline-danger"
+                            class="btn btn-sm btn-danger"
                             type="button"
                             :disabled="!!key.revoked_at"
                             @click="revokeKey(key)"
@@ -151,7 +151,7 @@
                 <h2 class="h6 mb-1">Webhooks</h2>
                 <p class="text-muted mb-0">Recibe eventos en tus sistemas externos.</p>
               </div>
-              <Link href="/member/webhooks" class="btn btn-outline-dark rounded-pill btn-sm">Administrar</Link>
+              <Link href="/member/webhooks" class="btn btn-secondary rounded-pill btn-sm">Administrar</Link>
             </div>
 
             <div v-if="!canUseWebhooks" class="alert alert-warning mt-3">
@@ -198,7 +198,7 @@
                   />
                 </div>
                 <div class="col-12">
-                  <button class="btn btn-gradient rounded-pill" type="submit" :disabled="webhookForm.processing">
+                  <button class="btn btn-primary rounded-pill" type="submit" :disabled="webhookForm.processing">
                     {{ webhookForm.processing ? 'Guardando...' : 'Crear webhook' }}
                   </button>
                 </div>
@@ -236,12 +236,12 @@
                       </td>
                       <td class="text-end">
                         <div class="d-inline-flex gap-2">
-                          <Link :href="`/member/webhooks/${endpoint.id}/deliveries`" class="btn btn-outline-dark rounded-pill btn-sm">
+                          <Link :href="`/member/webhooks/${endpoint.id}/deliveries`" class="btn btn-secondary rounded-pill btn-sm">
                             Entregas
                           </Link>
                           <button class="btn btn-sm btn-outline-info" type="button" @click="sendTest(endpoint)">Probar</button>
-                          <Link :href="`/member/webhooks`" class="btn btn-outline-primary rounded-pill btn-sm">Editar</Link>
-                          <button class="btn btn-outline-danger rounded-pill btn-sm" type="button" @click="removeWebhook(endpoint)">Eliminar</button>
+                          <Link :href="`/member/webhooks`" class="btn btn-info rounded-pill btn-sm">Editar</Link>
+                          <button class="btn btn-danger rounded-pill btn-sm" type="button" @click="removeWebhook(endpoint)">Eliminar</button>
                         </div>
                       </td>
                     </tr>

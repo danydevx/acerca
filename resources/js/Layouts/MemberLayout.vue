@@ -316,7 +316,7 @@
     <div class="main-wrapper">
       <header class="topbar bg-body border-bottom d-flex align-items-center px-3">
         <button
-          class="btn btn-outline-secondary me-3 d-lg-none"
+          class="btn btn-secondary me-3 d-lg-none"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#sidebarOffcanvas"
@@ -368,7 +368,7 @@
               <Link
                 v-if="announcement.action_label && announcement.action_url"
                 :href="announcement.action_url"
-                class="btn btn-sm btn-outline-secondary mt-2"
+                class="btn btn-sm btn-secondary mt-2"
               >
                 {{ announcement.action_label }}
               </Link>

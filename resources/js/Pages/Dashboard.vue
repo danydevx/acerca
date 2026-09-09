@@ -8,11 +8,11 @@
         <p class="text-muted mb-0">Resumen operativo del SaaS.</p>
       </div>
       <div class="d-flex flex-wrap gap-2">
-        <Link href="/admin/users" class="btn btn-outline-secondary btn-sm">Usuarios</Link>
-        <Link href="/admin/plans" class="btn btn-outline-secondary btn-sm">Planes</Link>
-        <Link href="/admin/payments" class="btn btn-outline-secondary btn-sm">Pagos</Link>
-        <Link href="/admin/support" class="btn btn-outline-secondary btn-sm">Soporte</Link>
-        <Link href="/admin/settings" class="btn btn-outline-secondary btn-sm">Settings</Link>
+        <Link href="/admin/users" class="btn btn-secondary btn-sm">Usuarios</Link>
+        <Link href="/admin/plans" class="btn btn-secondary btn-sm">Planes</Link>
+        <Link href="/admin/payments" class="btn btn-secondary btn-sm">Pagos</Link>
+        <Link href="/admin/support" class="btn btn-secondary btn-sm">Soporte</Link>
+        <Link href="/admin/settings" class="btn btn-secondary btn-sm">Settings</Link>
       </div>
     </div>
 

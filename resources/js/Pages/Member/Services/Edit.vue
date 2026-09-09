@@ -8,10 +8,19 @@
       :backHref="`/member/listings/${listing?.id}/services`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
-          <div class="row g-3">
+    <form @submit.prevent="submit">
+      <div class="card">
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-pencil-square me-1"></i>Editar servicio
+          </h6>
+          <div class="form-check form-switch mb-0">
+            <input class="form-check-input" type="checkbox" id="service-active" v-model="form.is_active">
+            <label class="form-check-label" for="service-active">Activo</label>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 mb-3">
             <div class="col-12 col-md-8">
               <FieldText
                 id="service-name"
@@ -62,7 +71,7 @@
                     :formError="errors.category_id"
                   />
                 </div>
-                <button type="button" class="btn btn-gradient rounded-pill mb-3" @click="openCategoryModal">
+                <button type="button" class="btn btn-primary rounded-pill d-flex align-items-center gap-1" @click="openCategoryModal">
                   <i class="bi bi-plus"></i>
                 </button>
               </div>
@@ -112,20 +121,14 @@
             </div>
 
             <div class="col-12 col-md-4">
-              <FieldPhone
+              <FieldWhatsapp
                 id="service-whatsapp"
                 label="WhatsApp"
                 placeholder="55 1234 5678"
                 v-model="form.whatsapp_contact"
+                :countryValue="form.whatsapp_country"
                 :formError="errors.whatsapp_contact"
-              />
-            </div>
-
-            <div class="col-12 col-md-4">
-              <FieldSwitch
-                id="service-active"
-                label="Servicio activo"
-                v-model="form.is_active"
+                @update:countryValue="form.whatsapp_country = $event"
               />
             </div>
 
@@ -166,16 +169,15 @@
               />
             </div>
           </div>
-
-          <FormActions
-            submitText="Actualizar Servicio"
-            submittingText="Actualizando..."
-            :cancelHref="`/member/listings/${listing?.id}/services`"
-            :sending="sending"
-          />
-        </form>
+        </div>
+        <div class="card-footer bg-transparent border-top pt-3 pb-3 d-flex justify-content-between align-items-center">
+          <button type="button" class="btn btn-danger rounded-pill py-2" @click="deleteService">
+            <i class="bi bi-trash me-1"></i>Eliminar
+          </button>
+          <FormActions :submitText="'Guardar'" :submittingText="'Guardando...'" :cancelHref="`/member/listings/${listing?.id}/services`" :sending="sending" />
+        </div>
       </div>
-    </div>
+    </form>
 
     <div ref="categoryModalElement" class="modal fade" tabindex="-1">
       <div class="modal-dialog">
@@ -204,8 +206,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="categorySending">
+              <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary rounded-pill" :disabled="categorySending">
                 {{ categorySending ? 'Creando...' : 'Crear Categoria' }}
               </button>
             </div>
@@ -228,7 +230,7 @@ import FieldNumber from '@/Components/Fields/FieldNumber.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
-import FieldPhone from '@/Components/Fields/FieldPhone.vue'
+import FieldWhatsapp from '@/Components/Fields/FieldWhatsapp.vue'
 import FieldImage from '@/Components/Fields/FieldImage.vue'
 import ServiceImageUpload from '@/Components/Fields/ServiceImageUpload.vue'
 import FormActions from '@/Components/FormActions.vue'
@@ -274,6 +276,7 @@ const form = reactive({
   deposit_amount: '',
   allows_online_booking: true,
   whatsapp_contact: '',
+  whatsapp_country: '+52',
   is_active: true,
   sort_order: 0,
   business_location_id: '',
@@ -343,6 +346,7 @@ onMounted(() => {
   form.deposit_amount = service.value?.deposit_amount || ''
   form.allows_online_booking = !!service.value?.allows_online_booking
   form.whatsapp_contact = service.value?.whatsapp_contact || ''
+  form.whatsapp_country = service.value?.whatsapp_country || '+52'
   form.is_active = !!service.value?.is_active
   form.sort_order = service.value?.sort_order ?? 0
   form.business_location_id = service.value?.business_location_id || ''
@@ -450,5 +454,15 @@ const submit = () => {
 
 const reloadPage = () => {
   router.reload({ preserveScroll: true })
+}
+
+const deleteService = () => {
+  if (!confirm(`Eliminar el servicio "${service.value?.name}"?`)) return
+  router.delete(`/member/listings/${listing.value.id}/services/${service.value.id}`, {
+    preserveScroll: true,
+    onSuccess: () => {
+      window.location.href = `/member/listings/${listing.value.id}/services`
+    },
+  })
 }
 </script>

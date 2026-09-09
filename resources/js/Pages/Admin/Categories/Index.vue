@@ -10,7 +10,7 @@
         <h1 class="h4 mb-1 mt-1">{{ listing.name }} - Categorías del Menú</h1>
       </div>
       <div>
-        <Link :href="`/admin/listings/${listing.id}/menu-products`" class="btn btn-outline-secondary btn-sm me-2">
+        <Link :href="`/admin/listings/${listing.id}/menu-products`" class="btn btn-secondary btn-sm me-2">
           <i class="bi bi-box-seam me-1"></i>Productos
         </Link>
         <button @click="showCreateModal = true" class="btn btn-primary btn-sm">
@@ -33,7 +33,7 @@
     </div>
 
     <div class="mb-3">
-      <Link :href="`/admin/listings/${listing.id}/menu-products?uncategorized=1`" class="btn btn-outline-secondary btn-sm">
+      <Link :href="`/admin/listings/${listing.id}/menu-products?uncategorized=1`" class="btn btn-secondary btn-sm">
         <i class="bi bi-dash-circle me-1"></i>Productos sin categoría
       </Link>
     </div>
@@ -54,10 +54,10 @@
           </Link>
         </div>
         <div class="btn-group">
-          <button @click="editCategory(category)" class="btn btn-sm btn-outline-primary">
+          <button @click="editCategory(category)" class="btn btn-sm btn-info">
             <i class="bi bi-pencil"></i>
           </button>
-          <button @click="deleteCategory(category)" class="btn btn-sm btn-outline-danger">
+          <button @click="deleteCategory(category)" class="btn btn-sm btn-danger">
             <i class="bi bi-trash"></i>
           </button>
         </div>
@@ -76,10 +76,10 @@
                 </Link>
               </span>
               <div class="btn-group btn-group-sm">
-                <button @click="editCategory(child)" class="btn btn-outline-primary btn-sm">
+                <button @click="editCategory(child)" class="btn btn-info btn-sm">
                   <i class="bi bi-pencil"></i>
                 </button>
-                <button @click="deleteCategory(child)" class="btn btn-outline-danger btn-sm">
+                <button @click="deleteCategory(child)" class="btn btn-danger btn-sm">
                   <i class="bi bi-trash"></i>
                 </button>
               </div>
@@ -131,7 +131,7 @@
                 <button
                   v-if="editingCategory && editingCategory.images && editingCategory.images.length > 0"
                   type="button"
-                  class="btn btn-outline-danger btn-sm mt-2"
+                  class="btn btn-danger btn-sm mt-2"
                   @click="removeImage"
                 >
                   <i class="bi bi-trash me-1"></i>Eliminar imagen

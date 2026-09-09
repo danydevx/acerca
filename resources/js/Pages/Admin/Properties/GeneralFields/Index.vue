@@ -58,15 +58,15 @@
                     <button
                       @click="toggleLock(section)"
                       class="btn"
-                      :class="section.is_locked ? 'btn-outline-warning' : 'btn-outline-secondary'"
+                      :class="section.is_locked ? 'btn-warning' : 'btn-secondary'"
                       :title="section.is_locked ? 'Desbloquear sección' : 'Bloquear sección'"
                     >
                       <i :class="section.is_locked ? 'bi bi-unlock' : 'bi bi-lock'"></i>
                     </button>
-                    <button @click="editSection(section)" class="btn btn-outline-secondary">
+                    <button @click="editSection(section)" class="btn btn-secondary">
                       <i class="bi bi-pencil"></i>
                     </button>
-                    <button @click="deleteSection(section)" class="btn btn-outline-danger">
+                    <button @click="deleteSection(section)" class="btn btn-danger">
                       <i class="bi bi-trash"></i>
                     </button>
                   </div>
@@ -85,17 +85,17 @@
                         <span v-if="!field.is_active" class="badge bg-secondary ms-1">Inactivo</span>
                       </div>
                       <div class="btn-group btn-group-sm">
-                        <button @click="editField(section, field)" class="btn btn-outline-secondary">
+                        <button @click="editField(section, field)" class="btn btn-secondary">
                           <i class="bi bi-pencil"></i>
                         </button>
-                        <button @click="deleteField(section, field)" class="btn btn-outline-danger">
+                        <button @click="deleteField(section, field)" class="btn btn-danger">
                           <i class="bi bi-trash"></i>
                         </button>
                       </div>
                     </li>
                   </ul>
                   <div class="p-3 text-center border-top">
-                    <button @click="openFieldModal(section)" class="btn btn-outline-primary btn-sm">
+                    <button @click="openFieldModal(section)" class="btn btn-info btn-sm">
                       <i class="bi bi-plus-lg me-1"></i>
                       Agregar Campo
                     </button>
@@ -145,7 +145,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               <button type="submit" class="btn btn-primary" :disabled="saving">
                 {{ saving ? 'Guardando...' : 'Guardar' }}
               </button>
@@ -227,12 +227,12 @@
                         <input v-model="opt.label" type="text" class="form-control form-control-sm" placeholder="Label">
                       </div>
                       <div class="col-2">
-                        <button type="button" @click="removeOption(idx)" class="btn btn-outline-danger btn-sm w-100">
+                        <button type="button" @click="removeOption(idx)" class="btn btn-danger btn-sm w-100">
                           <i class="bi bi-x"></i>
                         </button>
                       </div>
                     </div>
-                    <button type="button" @click="addOption" class="btn btn-outline-primary btn-sm">
+                    <button type="button" @click="addOption" class="btn btn-info btn-sm">
                       <i class="bi bi-plus-lg me-1"></i>Agregar Opción
                     </button>
                   </div>
@@ -240,7 +240,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               <button type="submit" class="btn btn-primary" :disabled="saving">
                 {{ saving ? 'Guardando...' : (editingField ? 'Actualizar' : 'Guardar') }}
               </button>

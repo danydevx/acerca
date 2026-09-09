@@ -11,14 +11,14 @@
         <div class="btn-group" role="group">
           <button
             class="btn btn-sm rounded-pill"
-            :class="viewMode === 'list' ? 'btn-gradient' : 'btn btn-outline-dark rounded-pill'"
+            :class="viewMode === 'list' ? 'btn-primary' : 'btn btn-secondary rounded-pill'"
             @click="viewMode = 'list'"
           >
             <i class="bi bi-list"></i>
           </button>
           <button
             class="btn btn-sm rounded-pill"
-            :class="viewMode === 'calendar' ? 'btn-gradient' : 'btn btn-outline-dark rounded-pill'"
+            :class="viewMode === 'calendar' ? 'btn-primary' : 'btn btn-secondary rounded-pill'"
             @click="viewMode = 'calendar'"
           >
             <i class="bi bi-calendar3"></i>
@@ -27,7 +27,7 @@
 
         <Link
           :href="`/member/listings/${listing?.id}/appointments/availability`"
-          class="btn btn-outline-dark rounded-pill"
+          class="btn btn-secondary rounded-pill"
           title="Configurar disponibilidad"
         >
           <i class="bi bi-clock-history me-1"></i>
@@ -36,14 +36,14 @@
 
         <button
           v-if="selectedIds.length > 0 && viewMode === 'list'"
-          class="btn btn-outline-danger rounded-pill"
+          class="btn btn-danger rounded-pill"
           @click="deleteSelected"
           :disabled="deleting"
         >
           <i class="bi bi-trash me-1"></i>
           Eliminar ({{ selectedIds.length }})
         </button>
-        <Link :href="`/member/listings/${listing?.id}/appointments/create`" class="btn btn-gradient rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/appointments/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
           Nueva Cita
         </Link>
@@ -109,18 +109,18 @@
 
         <template #cell-actions="{ row }">
           <div class="actions">
-            <Link :href="`/member/listings/${listing?.id}/appointments/${row.id}/edit`" class="btn btn-outline-primary rounded-pill">
+            <Link :href="`/member/listings/${listing?.id}/appointments/${row.id}/edit`" class="btn btn-info rounded-pill">
               <i class="bi bi-pencil"></i>
             </Link>
             <button
               v-if="row.status !== 'cancelled'"
-              class="btn btn-outline-warning rounded-pill"
+              class="btn btn-warning rounded-pill"
               @click="cancelAppointment(row)"
             >
               <i class="bi bi-x-lg"></i>
             </button>
             <button
-              class="btn btn-outline-danger rounded-pill"
+              class="btn btn-danger rounded-pill"
               @click="deleteAppointment(row)"
             >
               <i class="bi bi-trash"></i>

@@ -60,7 +60,7 @@
                     <td class="text-end">
                       <Link
                         :href="`/member/listings/${biz.id}/locations/${location.id}/schedules`"
-                        class="btn btn-outline-primary btn-sm"
+                        class="btn btn-info btn-sm"
                       >
                         <i class="bi bi-clock me-1"></i>
                         Gestionar Horarios

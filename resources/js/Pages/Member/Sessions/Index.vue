@@ -7,7 +7,7 @@
         <h1 class="h4 mb-1">Sesiones activas</h1>
         <p class="text-muted mb-0">Gestiona las sesiones abiertas en tu cuenta.</p>
       </div>
-      <button class="btn btn-outline-danger btn-sm" type="button" @click="closeOthers">
+      <button class="btn btn-danger btn-sm" type="button" @click="closeOthers">
         Cerrar otras sesiones
       </button>
     </div>
@@ -38,7 +38,7 @@
               <td class="text-muted">{{ session.last_activity }}</td>
               <td class="text-end">
                 <button
-                  class="btn btn-sm btn-outline-danger"
+                  class="btn btn-sm btn-danger"
                   type="button"
                   :disabled="session.is_current"
                   @click="closeSession(session)"

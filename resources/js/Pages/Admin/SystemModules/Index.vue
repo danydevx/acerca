@@ -29,7 +29,7 @@
               <td class="text-end">
                 <button
                   class="btn btn-sm"
-                  :class="module.is_active ? 'btn-outline-danger' : 'btn-outline-primary'"
+                  :class="module.is_active ? 'btn-danger' : 'btn-info'"
                   type="button"
                   :disabled="module.is_critical"
                   @click="toggle(module)"

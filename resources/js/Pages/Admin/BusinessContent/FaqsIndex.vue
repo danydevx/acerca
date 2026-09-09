@@ -10,7 +10,7 @@
         <h1 class="h4 mb-1 mt-1">{{ listing.name }} - Preguntas Frecuentes</h1>
       </div>
       <div class="d-flex gap-2">
-        <Link :href="`/admin/listings/${listing.id}/faq-categories`" class="btn btn-outline-secondary btn-sm">
+        <Link :href="`/admin/listings/${listing.id}/faq-categories`" class="btn btn-secondary btn-sm">
           <i class="bi bi-folder me-1"></i>Categorias
         </Link>
         <Link :href="`/admin/listings/${listing.id}/faqs/create`" class="btn btn-primary btn-sm">
@@ -56,7 +56,7 @@
                   <span v-else class="badge bg-secondary">Inactivo</span>
                 </td>
                 <td class="text-end">
-                  <Link :href="`/admin/listings/${listing.id}/faqs/${faq.id}/edit`" class="btn btn-sm btn-outline-primary">
+                  <Link :href="`/admin/listings/${listing.id}/faqs/${faq.id}/edit`" class="btn btn-sm btn-info">
                     Editar
                   </Link>
                 </td>

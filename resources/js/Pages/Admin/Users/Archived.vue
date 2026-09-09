@@ -4,7 +4,7 @@
 
     <PageHeader title="Usuarios Archivados" :breadcrumbs="breadcrumbs" backHref="/admin/users">
       <template #actions>
-        <Link href="/admin/users" class="btn btn-outline-secondary">
+        <Link href="/admin/users" class="btn btn-secondary">
           <i class="bi bi-arrow-left me-2"></i>Volver a usuarios
         </Link>
       </template>
@@ -23,8 +23,8 @@
             />
           </div>
           <div class="col-12 col-md-4 d-flex gap-2">
-            <button class="btn btn-outline-primary" type="submit">Filtrar</button>
-            <button class="btn btn-outline-secondary" type="button" @click="clearFilters">Limpiar</button>
+            <button class="btn btn-info" type="submit">Filtrar</button>
+            <button class="btn btn-secondary" type="button" @click="clearFilters">Limpiar</button>
           </div>
         </form>
       </div>
@@ -66,7 +66,7 @@
                 <div class="d-inline-flex align-items-center gap-2">
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-success"
+                    class="btn btn-sm btn-success"
                     @click="openRestore(user)"
                   >
                     <i class="bi bi-arrow-counterclockwise me-1"></i>
@@ -74,7 +74,7 @@
                   </button>
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-danger"
+                    class="btn btn-sm btn-danger"
                     @click="openForceDelete(user)"
                   >
                     <i class="bi bi-trash me-1"></i>

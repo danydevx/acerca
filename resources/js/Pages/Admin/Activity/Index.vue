@@ -34,8 +34,8 @@
             <input v-model="dateTo" type="date" class="form-control" />
           </div>
           <div class="col-12 col-md-2 d-flex gap-2">
-            <button class="btn btn-outline-primary flex-fill" type="submit">Filtrar</button>
-            <button class="btn btn-outline-secondary flex-fill" type="button" @click="clearFilters">
+            <button class="btn btn-info flex-fill" type="submit">Filtrar</button>
+            <button class="btn btn-secondary flex-fill" type="button" @click="clearFilters">
               Limpiar
             </button>
           </div>

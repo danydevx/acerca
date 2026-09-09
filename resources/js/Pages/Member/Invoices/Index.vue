@@ -7,7 +7,7 @@
       :breadcrumbs="breadcrumbs"
     >
       <template #actions>
-        <Link href="/member/payments" class="btn btn-outline-dark rounded-pill">
+        <Link href="/member/payments" class="btn btn-secondary rounded-pill">
           <i class="bi bi-credit-card me-1"></i>Ver pagos
         </Link>
       </template>
@@ -43,7 +43,7 @@
 
       <template #cell-actions="{ row }">
         <div class="actions">
-          <Link :href="`/member/invoices/${row.id}`" class="btn btn-outline-primary rounded-pill">
+          <Link :href="`/member/invoices/${row.id}`" class="btn btn-info rounded-pill">
             <i class="bi bi-eye"></i>
           </Link>
         </div>

@@ -32,7 +32,7 @@
     </div>
 
     <div class="mt-4">
-      <Link href="/admin/failed-jobs" class="btn btn-outline-primary">Ver jobs fallidos</Link>
+      <Link href="/admin/failed-jobs" class="btn btn-info">Ver jobs fallidos</Link>
     </div>
   </AdminLayout>
 </template>

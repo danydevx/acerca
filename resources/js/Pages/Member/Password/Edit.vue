@@ -4,73 +4,82 @@
 
     <PageHeader :title="'Cambiar password'" :breadcrumbs="breadcrumbs" backHref="/member" />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form class="row g-3" @submit.prevent="submit">
-          <div class="col-12 col-md-6">
-            <div class="form-floating">
-              <input
-                id="user-email"
-                type="email"
-                class="form-control"
-                :value="$page.props.auth?.user?.email"
-                readonly
-                placeholder="email"
-              />
-              <label for="user-email">Email registrado</label>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6">
-            <div class="form-floating position-relative">
-              <input
-                id="current-password"
-                v-model="form.current_password"
-                :type="showCurrent ? 'text' : 'password'"
-                class="form-control"
-                placeholder="********"
-                autocomplete="current-password"
-                :class="{ 'is-invalid': form.errors.current_password }"
-                required
-              />
-              <label for="current-password">Password actual</label>
-              <button
-                type="button"
-                class="btn btn-link password-visibility position-absolute"
-                :title="showCurrent ? 'Ocultar' : 'Mostrar'"
-                @click="showCurrent = !showCurrent"
-              >
-                <i :class="showCurrent ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-              </button>
-              <div v-if="form.errors.current_password" class="invalid-feedback">
-                {{ form.errors.current_password }}
+    <form @submit.prevent="submit">
+      <div class="card">
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-pencil-square me-1"></i>Cambiar password
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 mb-3">
+            <div class="col-12 col-md-6">
+              <div class="form-floating">
+                <input
+                  id="user-email"
+                  type="email"
+                  class="form-control"
+                  :value="$page.props.auth?.user?.email"
+                  readonly
+                  placeholder="email"
+                />
+                <label for="user-email">Email registrado</label>
               </div>
             </div>
-          </div>
 
-          <div class="col-12">
-            <FieldGeneratePass
-              id="new-password"
-              confirm-id="new-password-confirmation"
-              label="Nuevo password"
-              confirm-label="Confirmar password"
-              v-model="form.password"
-              v-model:confirmation="form.password_confirmation"
-              :form-error="form.errors.password"
-              :confirm-form-error="form.errors.password_confirmation"
-              :min-length="12"
-              :default-length="16"
-            />
-          </div>
+            <div class="col-12 col-md-6">
+              <div class="form-floating position-relative">
+                <input
+                  id="current-password"
+                  v-model="form.current_password"
+                  :type="showCurrent ? 'text' : 'password'"
+                  class="form-control"
+                  placeholder="********"
+                  autocomplete="current-password"
+                  :class="{ 'is-invalid': form.errors.current_password }"
+                  required
+                />
+                <label for="current-password">Password actual</label>
+                <button
+                  type="button"
+                  class="btn btn-link password-visibility position-absolute"
+                  :title="showCurrent ? 'Ocultar' : 'Mostrar'"
+                  @click="showCurrent = !showCurrent"
+                >
+                  <i :class="showCurrent ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                </button>
+                <div v-if="form.errors.current_password" class="invalid-feedback">
+                  {{ form.errors.current_password }}
+                </div>
+              </div>
+            </div>
 
-          <div class="col-12">
-            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="form.processing">
-              {{ form.processing ? 'Guardando...' : 'Guardar cambios' }}
-            </button>
+            <div class="col-12">
+              <FieldGeneratePass
+                id="new-password"
+                confirm-id="new-password-confirmation"
+                label="Nuevo password"
+                confirm-label="Confirmar password"
+                v-model="form.password"
+                v-model:confirmation="form.password_confirmation"
+                :form-error="form.errors.password"
+                :confirm-form-error="form.errors.password_confirmation"
+                :min-length="12"
+                :default-length="16"
+              />
+            </div>
           </div>
-        </form>
+        </div>
+        <div class="card-footer bg-transparent border-top pt-3 pb-3">
+          <FormActions
+            :submitText="'Guardar cambios'"
+            :submittingText="'Guardando...'"
+            :cancelHref="null"
+            :sending="form.processing"
+          />
+        </div>
       </div>
-    </div>
+    </form>
   </MemberLayout>
 </template>
 
@@ -80,6 +89,7 @@ import { Head, useForm } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import FieldGeneratePass from '@/Components/Fields/FieldGeneratePass.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const breadcrumbs = [
   { label: 'Password' },

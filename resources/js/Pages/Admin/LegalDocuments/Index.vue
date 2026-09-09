@@ -16,8 +16,8 @@
             <input v-model="search" type="text" class="form-control" placeholder="Key o titulo" />
           </div>
           <div class="col-12 col-md-3 d-flex gap-2">
-            <button class="btn btn-outline-primary" type="submit">Filtrar</button>
-            <button class="btn btn-outline-secondary" type="button" @click="clearFilters">Limpiar</button>
+            <button class="btn btn-info" type="submit">Filtrar</button>
+            <button class="btn btn-secondary" type="button" @click="clearFilters">Limpiar</button>
           </div>
         </form>
       </div>
@@ -55,13 +55,13 @@
               </td>
               <td class="text-muted">{{ doc.acceptances_count }}</td>
               <td class="text-end">
-                <Link :href="`/admin/legal-documents/${doc.id}`" class="btn btn-sm btn-outline-secondary me-1">
+                <Link :href="`/admin/legal-documents/${doc.id}`" class="btn btn-sm btn-secondary me-1">
                   Ver
                 </Link>
-                <Link :href="`/admin/legal-documents/${doc.id}/edit`" class="btn btn-sm btn-outline-primary me-1">
+                <Link :href="`/admin/legal-documents/${doc.id}/edit`" class="btn btn-sm btn-info me-1">
                   Editar
                 </Link>
-                <button class="btn btn-sm btn-outline-danger" @click="deleteDoc(doc.id)">
+                <button class="btn btn-sm btn-danger" @click="deleteDoc(doc.id)">
                   <i class="bi bi-trash"></i>
                 </button>
               </td>

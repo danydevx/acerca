@@ -8,7 +8,7 @@
           <h1 class="h4 mb-0">Editar Preset de Chatbot</h1>
           <small class="text-muted" v-if="preset">{{ preset.name }}</small>
         </div>
-        <Link href="/admin/modules/ai_chatbot/presets" class="btn btn-outline-secondary">
+        <Link href="/admin/modules/ai_chatbot/presets" class="btn btn-secondary">
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
       </div>
@@ -199,13 +199,13 @@
                   />
                   <button
                     type="button"
-                    class="btn btn-outline-danger"
+                    class="btn btn-danger"
                     @click="removeSuggestion(index)"
                   >
                     <i class="bi bi-x"></i>
                   </button>
                 </div>
-                <button type="button" class="btn btn-outline-primary btn-sm w-100" @click="addSuggestion">
+                <button type="button" class="btn btn-info btn-sm w-100" @click="addSuggestion">
                   <i class="bi bi-plus-lg me-1"></i>Agregar Sugerencia
                 </button>
               </div>
@@ -228,7 +228,7 @@
             <button
               v-if="preset && !preset.is_system"
               type="button"
-              class="btn btn-outline-danger w-100 mt-2"
+              class="btn btn-danger w-100 mt-2"
               :disabled="deleting"
               @click="deletePreset"
             >

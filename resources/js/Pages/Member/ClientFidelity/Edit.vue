@@ -9,12 +9,19 @@
       backLabel="Regresar"
     />
 
-    <div class="row">
-      <div class="col-12">
-        <div class="card border-0 shadow-sm">
+    <form @submit.prevent="submit">
+        <div class="card">
+          <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-pencil-square me-1"></i>Editar tarjeta
+            </h6>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" id="card-active" v-model="form.is_active">
+              <label class="form-check-label" for="card-active">Activo</label>
+            </div>
+          </div>
           <div class="card-body">
-            <form @submit.prevent="submit">
-              <div class="row g-3">
+            <div class="row g-3 mb-3">
                 <div class="col-md-6">
                   <FieldText
                     id="card-client-name"
@@ -90,19 +97,21 @@
               <div v-if="card?.public_code" class="alert alert-info">
                 <strong>Código público:</strong> {{ card.public_code }}
               </div>
-
-              <FormActions
-                :submitText="'Guardar'"
-                :submittingText="'Guardando...'"
-                :cancelHref="`/member/listings/${listing?.id}/fidelity-cards`"
-                :sending="form.processing"
-              />
-            </form>
+          <div class="card-footer bg-transparent border-top pt-3 pb-3 d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-danger rounded-pill py-2" @click="deleteCard">
+              <i class="bi bi-trash me-1"></i>Eliminar
+            </button>
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing?.id}/fidelity-cards`"
+              :sending="form.processing"
+            />
+          </div>
           </div>
         </div>
-      </div>
-    </div>
-  </MemberLayout>
+      </form>
+    </MemberLayout>
 </template>
 
 <script setup>
@@ -167,6 +176,16 @@ watch(() => form.fidelity_reward_id, (newRewardId) => {
 const submit = () => {
   form.post(`/member/listings/${listing.value.id}/fidelity-cards/${card.value.id}`, {
     preserveScroll: true,
+  })
+}
+
+const deleteCard = () => {
+  if (!confirm(`Eliminar la tarjeta de "${card.value?.client_name}"?`)) return
+  router.delete(`/member/listings/${listing.value.id}/fidelity-cards/${card.value.id}`, {
+    preserveScroll: true,
+    onSuccess: () => {
+      window.location.href = `/member/listings/${listing.value.id}/fidelity-cards`
+    },
   })
 }
 </script>

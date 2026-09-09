@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class="minisite-preview__actions">
-      <a v-if="business?.slug" :href="`/b/${business.slug}`" target="_blank" class="btn btn-outline-primary btn-sm">
+      <a v-if="business?.slug" :href="`/b/${business.slug}`" target="_blank" class="btn btn-info btn-sm">
         <i class="bi bi-box-arrow-up-right me-1"></i>Abrir en nueva pestaña
       </a>
     </div>

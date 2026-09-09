@@ -76,7 +76,7 @@
                   :class="{ 'is-invalid': errors.delivery_address }"
                 />
                 <button
-                  class="btn btn-outline-secondary"
+                  class="btn btn-secondary"
                   type="button"
                   @click="useCurrentLocation"
                   title="Usar mi ubicación actual"

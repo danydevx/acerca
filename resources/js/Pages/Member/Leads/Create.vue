@@ -8,10 +8,19 @@
       :backHref="`/member/listings/${listing.id}/leads`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
-          <div class="row g-3 mb-3">
+    <form @submit.prevent="submit">
+        <div class="card">
+          <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-plus-circle me-1"></i>Crear nuevo lead
+            </h6>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" id="lead-active" v-model="form.is_active">
+              <label class="form-check-label" for="lead-active">Activo</label>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row g-3 mb-3">
             <div class="col-md-6">
               <FieldText
                 id="name"
@@ -77,13 +86,19 @@
                 placeholder="Notas adicionales..."
               />
             </div>
-
-            <FormActions :submitText="'Crear Contacto'" :submittingText="'Guardando...'" :cancelHref="`/member/listings/${listing.id}/leads`" :sending="sending" />
+            </div>
+            </div>
+          <div class="card-footer bg-transparent border-top pt-3 pb-3">
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing.id}/leads`"
+              :sending="sending"
+            />
           </div>
-        </form>
-      </div>
-    </div>
-  </MemberLayout>
+        </div>
+      </form>
+    </MemberLayout>
 </template>
 
 <script setup>
@@ -96,8 +111,8 @@ import FieldEmail from '@/Components/Fields/FieldEmail.vue'
 import FieldPhone from '@/Components/Fields/FieldPhone.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
-import PageHeader from '@/Components/Admin/PageHeader.vue'
 import FormActions from '@/Components/FormActions.vue'
+import PageHeader from '@/Components/Admin/PageHeader.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
@@ -119,6 +134,7 @@ const form = reactive({
   notes: '',
   business_location_id: null,
   source: '',
+  is_active: true,
 })
 
 const errors = reactive({

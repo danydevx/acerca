@@ -25,7 +25,7 @@
           <div>
             <button
               type="button"
-              class="btn btn-gradient rounded-pill"
+              class="btn btn-primary rounded-pill"
               @click="reindex"
               :disabled="reindexing || !settings"
             >
@@ -90,7 +90,7 @@
                     <div class="chunk-text">{{ emb.chunk_text }}</div>
                   </div>
                   <button
-                  class="btn btn-outline-danger rounded-pill"
+                  class="btn btn-danger rounded-pill"
                   @click="deleteEmbedding(emb.id)"
                     title="Eliminar fragmento"
                   >
@@ -103,14 +103,14 @@
           <div class="modal-footer d-flex justify-content-between">
             <button
               type="button"
-              class="btn btn-outline-danger rounded-pill"
+              class="btn btn-danger rounded-pill"
               @click="deleteAllEmbeddings"
               :disabled="deleting"
             >
               <span v-if="deleting"><i class="bi bi-hourglass-split me-2"></i>Eliminando...</span>
               <span v-else><i class="bi bi-trash me-2"></i>Eliminar todos ({{ embeddings.length }})</span>
             </button>
-            <button type="button"             class="btn btn-outline-dark rounded-pill" @click="closeModal">Cerrar</button>
+            <button type="button"             class="btn btn-secondary rounded-pill" @click="closeModal">Cerrar</button>
           </div>
         </div>
       </div>

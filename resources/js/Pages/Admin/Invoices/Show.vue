@@ -70,7 +70,7 @@
               <a
                 v-if="invoice.file_url"
                 :href="invoice.file_url"
-                class="btn btn-outline-primary"
+                class="btn btn-info"
                 target="_blank"
                 rel="noreferrer"
               >

@@ -340,11 +340,11 @@
             </div>
           </div>
 
-          <div class="d-flex gap-2 mt-4 pt-4 border-top">
-            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
-              {{ sending ? 'Guardando...' : 'Guardar Configuracion' }}
-            </button>
-          </div>
+          <FormActions
+            :submitText="'Guardar Configuracion'"
+            :submittingText="'Guardando...'"
+            :sending="sending"
+          />
         </form>
     </div>
   </MemberLayout>
@@ -359,6 +359,7 @@ import FieldColorpicker from '@/Components/Fields/FieldColorpicker.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 import FieldUrl from '@/Components/Fields/FieldUrl.vue'
+import FormActions from '@/Components/FormActions.vue'
 import { toast } from 'vue3-toastify'
 
 const page = usePage()

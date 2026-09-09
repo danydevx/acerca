@@ -8,7 +8,7 @@
       :backHref="`/member/listings/${listing?.id}/products`"
     >
       <template #actions>
-        <button class="btn btn-gradient rounded-pill" @click="openCreateModal">
+        <button class="btn btn-primary rounded-pill" @click="openCreateModal">
           <i class="bi bi-plus-lg me-1"></i>Nueva Categoria
         </button>
       </template>
@@ -53,13 +53,13 @@
       <template #cell-actions="{ row }">
         <div class="actions">
           <button
-            class="btn btn-outline-primary rounded-pill"
+            class="btn btn-info rounded-pill"
             @click="openEditModal(row)"
           >
             <i class="bi bi-pencil"></i>
           </button>
           <button
-            class="btn btn-outline-danger rounded-pill"
+            class="btn btn-danger rounded-pill"
             @click="deleteCategory(row)"
           >
             <i class="bi bi-trash"></i>
@@ -112,8 +112,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
+              <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary rounded-pill" :disabled="sending">
                 {{ sending ? (editingCategory ? 'Guardando...' : 'Creando...') : (editingCategory ? 'Guardar Cambios' : 'Crear Categoria') }}
               </button>
             </div>

@@ -39,7 +39,7 @@
               <button
                 v-else
                 type="button"
-                class="btn btn-outline-secondary btn-sm"
+                class="btn btn-secondary btn-sm"
                 @click="setMain(image)"
               >
                 <i class="bi bi-star"></i>
@@ -49,7 +49,7 @@
               <div class="btn-group btn-group-sm">
                 <button
                   type="button"
-                  class="btn btn-outline-danger"
+                  class="btn btn-danger"
                   title="Eliminar"
                   @click="removeImage(image)"
                 >
@@ -79,7 +79,7 @@
         <p class="text-muted mt-2 mb-2">Arrastra imágenes aquí o</p>
         <button
           type="button"
-          class="btn btn-outline-primary btn-sm"
+          class="btn btn-info btn-sm"
           @click="$refs.fileInput.click()"
         >
           <i class="bi bi-plus-lg me-1"></i>

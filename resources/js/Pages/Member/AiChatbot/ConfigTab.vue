@@ -571,12 +571,11 @@
           </div>
         </div>
 
-        <div class="card-footer">
-          <button type="submit" class="btn btn-gradient rounded-pill" :disabled="saving">
-            <span v-if="saving"><i class="bi bi-hourglass-split me-2"></i>Guardando...</span>
-            <span v-else><i class="bi bi-check-lg me-2"></i>Guardar Configuración</span>
-          </button>
-        </div>
+        <FormActions
+          :submitText="'Guardar Configuracion'"
+          :submittingText="'Guardando...'"
+          :sending="saving"
+        />
       </div>
     </form>
   </div>
@@ -591,6 +590,7 @@ import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 import FieldNumber from '@/Components/Fields/FieldNumber.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 import FieldColorpicker from '@/Components/Fields/FieldColorpicker.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const props = defineProps({
   business: Object,

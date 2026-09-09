@@ -8,10 +8,19 @@
       :backHref="`/member/listings/${listing.id}/services`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
-          <div class="row g-3">
+    <form @submit.prevent="submit">
+        <div class="card">
+          <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-plus-circle me-1"></i>Crear nuevo servicio
+            </h6>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" id="service-active" v-model="form.is_active">
+              <label class="form-check-label" for="service-active">Activo</label>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row g-3 mb-3">
             <div class="col-12 col-md-8">
               <FieldText
                 id="service-name"
@@ -111,20 +120,14 @@
             </div>
 
             <div class="col-12 col-md-4">
-              <FieldPhone
+              <FieldWhatsapp
                 id="service-whatsapp"
                 label="WhatsApp"
                 placeholder="55 1234 5678"
                 v-model="form.whatsapp_contact"
+                :countryValue="form.whatsapp_country"
                 :formError="errors.whatsapp_contact"
-              />
-            </div>
-
-            <div class="col-12 col-md-4">
-              <FieldSwitch
-                id="service-active"
-                label="Servicio activo"
-                v-model="form.is_active"
+                @update:countryValue="form.whatsapp_country = $event"
               />
             </div>
 
@@ -158,16 +161,17 @@
               </div>
             </div>
           </div>
-
-          <FormActions
-            submitText="Crear Servicio"
-            submittingText="Creando..."
-            :cancelHref="`/member/listings/${listing.id}/services`"
-            :sending="sending"
-          />
-        </form>
+        </div>
+        <div class="card-footer bg-transparent border-top pt-3 pb-3">
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing.id}/services`"
+              :sending="form.processing"
+            />
+        </div>
       </div>
-    </div>
+    </form>
   </MemberLayout>
 </template>
 
@@ -182,7 +186,7 @@ import FieldNumber from '@/Components/Fields/FieldNumber.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
-import FieldPhone from '@/Components/Fields/FieldPhone.vue'
+import FieldWhatsapp from '@/Components/Fields/FieldWhatsapp.vue'
 import FieldImage from '@/Components/Fields/FieldImage.vue'
 import FormActions from '@/Components/FormActions.vue'
 
@@ -218,6 +222,7 @@ const form = reactive({
   deposit_amount: '',
   allows_online_booking: true,
   whatsapp_contact: '',
+  whatsapp_country: '+52',
   is_active: true,
   sort_order: 0,
   business_location_id: '',

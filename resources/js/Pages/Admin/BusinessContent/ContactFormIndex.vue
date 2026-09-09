@@ -45,7 +45,7 @@
                 </td>
                 <td>{{ formatDate(sub.created_at) }}</td>
                 <td class="text-end">
-                  <Link :href="`/admin/listings/${listing.id}/leads/${sub.id}`" class="btn btn-sm btn-outline-primary">
+                  <Link :href="`/admin/listings/${listing.id}/leads/${sub.id}`" class="btn btn-sm btn-info">
                     Ver
                   </Link>
                 </td>

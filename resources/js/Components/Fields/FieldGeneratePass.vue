@@ -79,12 +79,12 @@
 
         <div class="col-12 col-md-3">
           <div class="d-grid gap-2">
-            <button type="button" class="btn btn-outline-primary" @click="generate">
+            <button type="button" class="btn btn-info" @click="generate">
               <i class="bi bi-shuffle me-1"></i>Generar password
             </button>
             <button
               type="button"
-              class="btn btn-outline-secondary"
+              class="btn btn-secondary"
               :disabled="!passwordValue"
               @click="copy"
             >

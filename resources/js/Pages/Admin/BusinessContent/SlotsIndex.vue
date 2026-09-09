@@ -58,7 +58,7 @@
                 </td>
                 <td class="text-end">
                   <button
-                    class="btn btn-sm btn-outline-primary"
+                    class="btn btn-sm btn-info"
                     @click="openEditModal(slot)"
                     title="Editar"
                   >
@@ -66,7 +66,7 @@
                   </button>
                   <button
                     class="btn btn-sm"
-                    :class="slot.is_available ? 'btn-outline-warning' : 'btn-outline-success'"
+                    :class="slot.is_available ? 'btn-warning' : 'btn-success'"
                     @click="toggleSlot(slot)"
                     :disabled="deleting === slot.id"
                     title="Cambiar estado"
@@ -74,7 +74,7 @@
                     <i :class="slot.is_available ? 'bi bi-x-lg' : 'bi bi-check-lg'"></i>
                   </button>
                   <button
-                    class="btn btn-sm btn-outline-danger ms-1"
+                    class="btn btn-sm btn-danger ms-1"
                     @click="deleteSlot(slot)"
                     :disabled="deleting === slot.id"
                     title="Eliminar"

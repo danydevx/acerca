@@ -81,7 +81,7 @@
           <div class="card-body">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
               <h2 class="h6 mb-0">Tickets abiertos</h2>
-              <Link href="/admin/support" class="btn btn-sm btn-outline-secondary">Ver todos</Link>
+              <Link href="/admin/support" class="btn btn-sm btn-secondary">Ver todos</Link>
             </div>
             <div v-if="openTickets.length" class="list-group list-group-flush">
               <div
@@ -110,7 +110,7 @@
           <div class="card-body">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
               <h2 class="h6 mb-0">Errores recientes</h2>
-              <Link href="/admin/system-errors" class="btn btn-sm btn-outline-secondary">Ver todos</Link>
+              <Link href="/admin/system-errors" class="btn btn-sm btn-secondary">Ver todos</Link>
             </div>
             <div v-if="recentErrors.length" class="list-group list-group-flush">
               <div
@@ -139,7 +139,7 @@
           <div class="card-body">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
               <h2 class="h6 mb-0">Actividad reciente</h2>
-              <Link href="/admin/activity" class="btn btn-sm btn-outline-secondary">Ver todos</Link>
+              <Link href="/admin/activity" class="btn btn-sm btn-secondary">Ver todos</Link>
             </div>
             <div v-if="recentActivity.length" class="list-group list-group-flush">
               <div

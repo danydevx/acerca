@@ -8,9 +8,18 @@
       :backHref="`/member/listings/${listing.id}/appointments`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
+    <form @submit.prevent="submit">
+      <div class="card">
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-plus-circle me-1"></i>Crear nueva cita
+          </h6>
+          <div class="form-check form-switch mb-0">
+            <input class="form-check-input" type="checkbox" id="appointment-active" v-model="form.is_active">
+            <label class="form-check-label" for="appointment-active">Activo</label>
+          </div>
+        </div>
+        <div class="card-body">
           <div class="row g-3 mb-3">
             <div class="col-md-6">
               <FieldText
@@ -102,13 +111,19 @@
                 placeholder="Notas adicionales..."
               />
             </div>
-
-            <FormActions :submitText="'Crear Cita'" :submittingText="'Guardando...'" :cancelHref="`/member/listings/${listing.id}/appointments`" :sending="sending" />
           </div>
-        </form>
+        </div>
+        <div class="card-footer bg-transparent border-top pt-3 pb-3">
+          <FormActions
+            :submitText="'Guardar'"
+            :submittingText="'Guardando...'"
+            :cancelHref="`/member/listings/${listing.id}/appointments`"
+            :sending="sending"
+          />
+        </div>
       </div>
-    </div>
-  </MemberLayout>
+    </form>
+    </MemberLayout>
 </template>
 
 <script setup>
@@ -224,6 +239,7 @@ const form = reactive({
   appointment_date: '',
   start_time: '',
   notes: '',
+  is_active: true,
 })
 
 const submit = () => {

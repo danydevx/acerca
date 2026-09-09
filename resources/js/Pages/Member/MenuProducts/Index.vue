@@ -13,17 +13,17 @@
       <template #actions>
           <button
             v-if="selectedIds.length > 0"
-            class="btn btn-outline-danger rounded-pill"
+            class="btn btn-danger rounded-pill"
             @click="deleteSelected"
             :disabled="deleting"
           >
             <i class="bi bi-trash me-1"></i>
             Eliminar ({{ selectedIds.length }})
           </button>
-        <Link :href="`/member/listings/${listing?.id}/menu-categories`" class="btn btn-outline-dark rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/menu-categories`" class="btn btn-secondary rounded-pill">
           <i class="bi bi-folder me-1"></i>Categorias
         </Link>
-        <Link :href="`/member/listings/${listing?.id}/menu-products/create`" class="btn btn-gradient rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/menu-products/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nuevo Producto
         </Link>
       </template>
@@ -45,7 +45,7 @@
             <option :value="null">Todas las categorias</option>
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.title }}</option>
           </select>
-          <button v-if="filterCategory || searchQuery" type="button" class="btn btn-outline-dark rounded-pill" @click="clearFilters">
+          <button v-if="filterCategory || searchQuery" type="button" class="btn btn-secondary rounded-pill" @click="clearFilters">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -113,13 +113,13 @@
         </div>
         <div class="card-footer bg-transparent py-1">
           <div class="d-flex gap-1">
-            <button @click="cloneProduct(product)" class="btn btn-outline-dark rounded-pill">
+            <button @click="cloneProduct(product)" class="btn btn-secondary rounded-pill">
               <i class="bi bi-copy"></i>
             </button>
-            <Link :href="`/member/listings/${listing?.id}/menu-products/${product.id}/edit`" class="btn btn-outline-primary rounded-pill flex-grow-1">
+            <Link :href="`/member/listings/${listing?.id}/menu-products/${product.id}/edit`" class="btn btn-info rounded-pill flex-grow-1">
               <i class="bi bi-pencil"></i>
             </Link>
-            <button @click="deleteProduct(product)" class="btn btn-outline-danger rounded-pill">
+            <button @click="deleteProduct(product)" class="btn btn-danger rounded-pill">
               <i class="bi bi-trash"></i>
             </button>
           </div>

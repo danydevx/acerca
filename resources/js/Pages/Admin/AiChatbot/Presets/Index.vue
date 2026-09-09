@@ -82,14 +82,14 @@
                   <div class="btn-group btn-group-sm">
                     <Link
                       :href="`/admin/modules/ai_chatbot/presets/${preset.id}/edit`"
-                      class="btn btn-outline-primary"
+                      class="btn btn-info"
                       :class="{ disabled: preset.is_system }"
                     >
                       <i class="bi bi-pencil"></i>
                     </Link>
                     <button
                       type="button"
-                      class="btn btn-outline-secondary"
+                      class="btn btn-secondary"
                       @click="duplicatePreset(preset)"
                     >
                       <i class="bi bi-copy"></i>
@@ -97,7 +97,7 @@
                     <button
                       type="button"
                       class="btn"
-                      :class="preset.is_active ? 'btn-outline-warning' : 'btn-outline-success'"
+                      :class="preset.is_active ? 'btn-warning' : 'btn-success'"
                       @click="togglePreset(preset)"
                     >
                       <i :class="preset.is_active ? 'bi bi-x-lg' : 'bi bi-check-lg'"></i>
@@ -105,7 +105,7 @@
                     <button
                       v-if="!preset.is_system"
                       type="button"
-                      class="btn btn-outline-danger"
+                      class="btn btn-danger"
                       @click="deletePreset(preset)"
                     >
                       <i class="bi bi-trash"></i>

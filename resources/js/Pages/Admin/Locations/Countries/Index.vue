@@ -46,7 +46,7 @@
                     </span>
                   </td>
                   <td>
-                    <button @click="editCountry = country; showEditModal = true" class="btn btn-outline-secondary btn-sm me-1">
+                    <button @click="editCountry = country; showEditModal = true" class="btn btn-secondary btn-sm me-1">
                       <i class="bi bi-pencil"></i>
                     </button>
                   </td>

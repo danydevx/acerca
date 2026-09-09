@@ -15,7 +15,7 @@
                 <button
                   @click="selectEndpoint(ep, key)"
                   class="btn btn-sm w-100 text-start"
-                  :class="selectedEndpoint?.path === ep.path ? 'btn-primary' : 'btn-outline-secondary'"
+                  :class="selectedEndpoint?.path === ep.path ? 'btn-primary' : 'btn-secondary'"
                 >
                   <span class="badge bg-dark me-1">{{ ep.method }}</span>
                   <code class="small">{{ ep.path }}</code>
@@ -73,7 +73,7 @@
               <div v-if="response" class="mt-3">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <span class="small fw-semibold">Response ({{ response.status }})</span>
-                  <button @click="copyResponse" class="btn btn-sm btn-outline-secondary">
+                  <button @click="copyResponse" class="btn btn-sm btn-secondary">
                     Copiar
                   </button>
                 </div>

@@ -54,12 +54,12 @@
                 </td>
                 <td class="text-end">
                   <div class="btn-group btn-group-sm">
-                    <Link :href="`/admin/modules/ai_chatbot/personalities/${personality.id}/edit`" class="btn btn-outline-primary">
+                    <Link :href="`/admin/modules/ai_chatbot/personalities/${personality.id}/edit`" class="btn btn-info">
                       <i class="bi bi-pencil"></i>
                     </Link>
                     <button
                       type="button"
-                      class="btn btn-outline-danger"
+                      class="btn btn-danger"
                       @click="deletePersonality(personality)"
                     >
                       <i class="bi bi-trash"></i>

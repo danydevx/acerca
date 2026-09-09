@@ -4,8 +4,8 @@
 
     <PageHeader :title="'Detalle invitacion'" :breadcrumbs="breadcrumbs" backHref="/admin/invitations">
       <template #actions>
-        <button class="btn btn-outline-primary" type="button" @click="resend">Reenviar</button>
-        <button class="btn btn-outline-danger" type="button" @click="revoke">Revocar</button>
+        <button class="btn btn-info" type="button" @click="resend">Reenviar</button>
+        <button class="btn btn-danger" type="button" @click="revoke">Revocar</button>
       </template>
     </PageHeader>
 

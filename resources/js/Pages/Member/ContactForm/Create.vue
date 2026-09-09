@@ -8,76 +8,85 @@
       :backHref="`/member/listings/${listing?.id}/contact-forms`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
-          <div class="mb-3">
-            <FieldText
-              id="form-name"
-              label="Nombre del Formulario"
-              placeholder="Ej: Contacto General, Solicitud de Cotización"
-              v-model="form.name"
-              :formError="errors.name"
-              required
-            />
-            <small class="text-muted">Nombre interno para identificar el formulario.</small>
+    <form @submit.prevent="submit">
+      <div class="card">
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-plus-circle me-1"></i>Crear formulario
+          </h6>
+          <div class="form-check form-switch mb-0">
+            <input class="form-check-input" type="checkbox" id="form-active" v-model="form.is_active">
+            <label class="form-check-label" for="form-active">Activo</label>
           </div>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 mb-3">
+            <div class="col-12">
+              <FieldText
+                id="form-name"
+                label="Nombre del Formulario"
+                placeholder="Ej: Contacto General, Solicitud de Cotización"
+                v-model="form.name"
+                :formError="errors.name"
+                required
+              />
+              <small class="text-muted">Nombre interno para identificar el formulario.</small>
+            </div>
 
-          <div class="mb-3">
-            <FieldTextarea
-              id="form-description"
-              label="Descripción"
-              v-model="form.description"
-              :formError="errors.description"
-              :rows="2"
-              placeholder="Descripción opcional del formulario..."
-            />
+            <div class="col-12">
+              <FieldTextarea
+                id="form-description"
+                label="Descripción"
+                v-model="form.description"
+                :formError="errors.description"
+                :rows="2"
+                placeholder="Descripción opcional del formulario..."
+              />
+            </div>
+
+            <div class="col-12">
+              <hr class="my-4" />
+              <h5 class="mb-3">Configuración del Formulario</h5>
+            </div>
+
+            <div class="col-12">
+              <FieldTextarea
+                id="form-success-message"
+                label="Mensaje de éxito"
+                v-model="form.success_message"
+                :formError="errors.success_message"
+                :rows="2"
+                placeholder="Mensaje que se muestra al enviar el formulario..."
+              />
+            </div>
+
+            <div class="col-md-6">
+              <FieldSwitch
+                id="form-show-phone"
+                label="Mostrar teléfono del negocio"
+                v-model="form.show_phone"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <FieldSwitch
+                id="form-show-email"
+                label="Mostrar email del negocio"
+                v-model="form.show_email"
+              />
+            </div>
           </div>
-
-          <div class="mb-3">
-            <FieldSwitch
-              id="form-active"
-              label="Formulario activo"
-              v-model="form.is_active"
+        </div>
+        <div class="card-footer bg-transparent border-top pt-3 pb-3">
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing?.id}/contact-forms`"
+              :sending="sending"
             />
-            <small class="text-muted">Solo un formulario puede estar activo a la vez.</small>
-          </div>
-
-          <hr class="my-4" />
-
-          <h5 class="mb-3">Configuración del Formulario</h5>
-
-          <div class="mb-3">
-            <FieldTextarea
-              id="form-success-message"
-              label="Mensaje de éxito"
-              v-model="form.success_message"
-              :formError="errors.success_message"
-              :rows="2"
-              placeholder="Mensaje que se muestra al enviar el formulario..."
-            />
-          </div>
-
-          <div class="mb-3">
-            <FieldSwitch
-              id="form-show-phone"
-              label="Mostrar teléfono del negocio"
-              v-model="form.show_phone"
-            />
-          </div>
-
-          <div class="mb-3">
-            <FieldSwitch
-              id="form-show-email"
-              label="Mostrar email del negocio"
-              v-model="form.show_email"
-            />
-          </div>
-
-          <FormActions :submitText="'Crear Formulario'" :submittingText="'Creando...'" :cancelHref="`/member/listings/${listing?.id}/contact-forms`" :sending="sending" />
-        </form>
+        </div>
       </div>
-    </div>
+    </form>
   </MemberLayout>
 </template>
 

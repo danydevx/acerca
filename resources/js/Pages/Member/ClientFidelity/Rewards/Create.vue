@@ -8,10 +8,19 @@
       backHref="/member/listings/fidelity-rewards"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
-          <div class="row g-3">
+    <form @submit.prevent="submit">
+        <div class="card">
+          <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-plus-circle me-1"></i>Crear recompensa
+            </h6>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" id="reward-active" v-model="form.is_active">
+              <label class="form-check-label" for="reward-active">Activo</label>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row g-3 mb-3">
             <div class="col-12">
               <FieldText
                 id="reward-title"
@@ -73,19 +82,17 @@
               </div>
             </div>
           </div>
-
-          <div class="mt-4">
-            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
-              <span v-if="sending">Guardando...</span>
-              <span v-else>Guardar</span>
-            </button>
-            <Link :href="`/member/listings/${listing?.id}/fidelity-rewards`" class="btn btn-outline-dark rounded-pill ms-2">
-              Cancelar
-            </Link>
           </div>
-        </form>
-      </div>
-    </div>
+          <div class="card-footer bg-transparent border-top pt-3 pb-3">
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing?.id}/fidelity-rewards`"
+              :sending="sending"
+            />
+          </div>
+        </div>
+      </form>
   </MemberLayout>
 </template>
 
@@ -98,6 +105,7 @@ import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldNumber from '@/Components/Fields/FieldNumber.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)

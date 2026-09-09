@@ -4,7 +4,7 @@
 
     <PageHeader title="Tipos de Propiedad" :breadcrumbs="breadcrumbs">
       <template #actions>
-        <Link href="/admin/modules/properties/general-sections" class="btn btn-outline-secondary btn-sm me-2">
+        <Link href="/admin/modules/properties/general-sections" class="btn btn-secondary btn-sm me-2">
           <i class="bi bi-folder-plus me-1"></i>
           Campos Generales
         </Link>
@@ -43,20 +43,20 @@
                 <div class="actions">
                   <Link
                     :href="`/admin/modules/properties/types/${type.id}/sections`"
-                    class="btn btn-sm btn-outline-secondary"
+                    class="btn btn-sm btn-secondary"
                     title="Configurar secciones"
                   >
                     <i class="bi bi-list-check"></i>
                   </Link>
                   <button
-                    class="btn btn-sm btn-outline-primary"
+                    class="btn btn-sm btn-info"
                     @click="editType(type)"
                     title="Editar"
                   >
                     <i class="bi bi-pencil"></i>
                   </button>
                   <button
-                    class="btn btn-sm btn-outline-danger"
+                    class="btn btn-sm btn-danger"
                     @click="deleteType(type)"
                     :disabled="deleting === type.id"
                     title="Eliminar"

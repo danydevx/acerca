@@ -46,7 +46,7 @@
             </div>
             <h2 class="h6 mb-1 fw-bold">Mi cuenta</h2>
             <p class="text-muted small mb-3">Plan, suscripción y datos personales.</p>
-            <Link href="/member/account" class="btn btn-gradient mt-auto rounded-pill">
+            <Link href="/member/account" class="btn btn-primary mt-auto rounded-pill">
               Ver cuenta <i class="bi bi-arrow-right ms-1"></i>
             </Link>
           </div>
@@ -61,7 +61,7 @@
             </div>
             <h2 class="h6 mb-1 fw-bold">Soporte</h2>
             <p class="text-muted small mb-3">Crea un ticket si necesitas ayuda.</p>
-            <Link href="/member/support" class="btn btn-outline-dark mt-auto rounded-pill">
+            <Link href="/member/support" class="btn btn-secondary mt-auto rounded-pill">
               Abrir ticket <i class="bi bi-arrow-right ms-1"></i>
             </Link>
           </div>

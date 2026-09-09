@@ -8,10 +8,19 @@
       :backHref="`/member/listings/${listing.id}/faqs`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
-          <div class="row g-3">
+    <form @submit.prevent="submit">
+        <div class="card">
+          <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-plus-circle me-1"></i>Crear nueva pregunta
+            </h6>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" id="faq-active" v-model="form.is_active">
+              <label class="form-check-label" for="faq-active">Activo</label>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row g-3 mb-3">
             <div class="col-12">
               <FieldText
                 id="faq-question"
@@ -56,25 +65,19 @@
               <small class="text-muted">Menor numero aparece primero.</small>
             </div>
 
-            <div class="col-12 col-md-6">
-              <FieldSwitch
-                id="faq-active"
-                label="Pregunta activa"
-                v-model="form.is_active"
-              />
             </div>
           </div>
-
-          <div class="col-12 d-flex gap-2 mt-4">
-            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
-              {{ sending ? 'Creando...' : 'Crear Pregunta' }}
-            </button>
-            <Link :href="`/member/listings/${listing.id}/faqs`" class="btn btn-outline-dark rounded-pill">Cancelar</Link>
+          <div class="card-footer bg-transparent border-top pt-3 pb-3">
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing.id}/faqs`"
+              :sending="sending"
+            />
           </div>
-        </form>
-      </div>
-    </div>
-  </MemberLayout>
+        </div>
+      </form>
+    </MemberLayout>
 </template>
 
 <script setup>
@@ -88,6 +91,7 @@ import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 import FieldNumber from '@/Components/Fields/FieldNumber.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const props = defineProps({
   listing: { type: Object },

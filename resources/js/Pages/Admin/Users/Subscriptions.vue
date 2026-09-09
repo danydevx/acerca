@@ -175,7 +175,7 @@
         <div v-if="subscription" class="mt-4">
           <hr class="my-4">
           <form @submit.prevent="destroySubscription">
-            <button type="submit" class="btn btn-outline-danger" :disabled="form.processing" onclick="return confirm('Estas seguro de eliminar esta suscripcion?')">
+            <button type="submit" class="btn btn-danger" :disabled="form.processing" onclick="return confirm('Estas seguro de eliminar esta suscripcion?')">
               Eliminar Suscripcion
             </button>
           </form>

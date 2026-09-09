@@ -62,10 +62,10 @@
                     </span>
                   </td>
                   <td>
-                    <a :href="`/admin/locations/municipalities?state_id=${state.id}`" class="btn btn-outline-primary btn-sm me-1" title="Ver municipios">
+                    <a :href="`/admin/locations/municipalities?state_id=${state.id}`" class="btn btn-info btn-sm me-1" title="Ver municipios">
                       <i class="bi bi-geo-alt"></i>
                     </a>
-                    <button @click="editState = state; showEditModal = true" class="btn btn-outline-secondary btn-sm">
+                    <button @click="editState = state; showEditModal = true" class="btn btn-secondary btn-sm">
                       <i class="bi bi-pencil"></i>
                     </button>
                   </td>

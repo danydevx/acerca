@@ -14,7 +14,7 @@
       <p class="text-muted mb-4">{{ message }}</p>
 
       <div class="d-flex justify-content-end gap-2">
-        <button type="button" class="btn btn-outline-secondary" @click="cancel">
+        <button type="button" class="btn btn-secondary" @click="cancel">
           {{ cancelLabel }}
         </button>
         <button type="button" class="btn" :class="confirmClass" @click="confirm">

@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/galleries/create`" class="btn btn-gradient rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/galleries/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
           Nueva galería
         </Link>
@@ -20,7 +20,7 @@
         <i class="bi bi-images display-1 text-muted"></i>
         <h3 class="h5 mt-3">No hay galerías registradas</h3>
         <p class="text-muted">Crea tu primera galería para empezar a organizar imágenes.</p>
-        <Link :href="`/member/listings/${listing?.id}/galleries/create`" class="btn btn-gradient rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/galleries/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
           Crear primera galería
         </Link>
@@ -60,23 +60,23 @@
             </p>
 
             <div class="d-flex flex-wrap gap-2 mt-3">
-              <Link :href="`/member/listings/${listing?.id}/gallery/${gallery.id}`" class="btn btn-outline-primary rounded-pill">
+              <Link :href="`/member/listings/${listing?.id}/gallery/${gallery.id}`" class="btn btn-info rounded-pill">
                 <i class="bi bi-images me-1"></i>Ver imagenes
               </Link>
-              <Link :href="`/member/listings/${listing?.id}/galleries/${gallery.id}/edit`" class="btn btn-outline-dark rounded-pill">
+              <Link :href="`/member/listings/${listing?.id}/galleries/${gallery.id}/edit`" class="btn btn-secondary rounded-pill">
                 <i class="bi bi-pencil me-1"></i>Editar
               </Link>
               <button
                 v-if="!gallery.is_primary"
                 type="button"
-                class="btn btn-gradient rounded-pill"
+                class="btn btn-primary rounded-pill"
                 @click="setPrimary(gallery)"
               >
                 <i class="bi bi-star me-1"></i>Principal
               </button>
               <button
                 type="button"
-                class="btn btn-outline-danger rounded-pill ms-auto"
+                class="btn btn-danger rounded-pill ms-auto"
                 @click="confirmDestroy(gallery)"
               >
                 <i class="bi bi-trash"></i>

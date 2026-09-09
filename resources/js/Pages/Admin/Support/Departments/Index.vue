@@ -43,10 +43,10 @@
               </td>
               <td class="text-muted">{{ dept.tickets_count }}</td>
               <td class="text-end">
-                <button class="btn btn-sm btn-outline-primary me-1" @click="openEditModal(dept)">
+                <button class="btn btn-sm btn-info me-1" @click="openEditModal(dept)">
                   <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-danger" @click="deleteDept(dept.id)" :disabled="dept.tickets_count > 0">
+                <button class="btn btn-sm btn-danger" @click="deleteDept(dept.id)" :disabled="dept.tickets_count > 0">
                   <i class="bi bi-trash"></i>
                 </button>
               </td>

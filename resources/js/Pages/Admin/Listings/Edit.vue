@@ -4,7 +4,7 @@
 
     <PageHeader title="Editar Listado" :breadcrumbs="breadcrumbs" backHref="/admin/listings">
       <template #actions>
-        <Link :href="`/admin/listings/${listing.id}/modules`" class="btn btn-outline-secondary">
+        <Link :href="`/admin/listings/${listing.id}/modules`" class="btn btn-secondary">
           Modulos
         </Link>
       </template>
@@ -56,7 +56,7 @@
             <button type="submit" class="btn btn-primary" :disabled="form.processing">
               {{ form.processing ? 'Actualizando...' : 'Actualizar Listado' }}
             </button>
-            <Link href="/admin/listings" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link href="/admin/listings" class="btn btn-secondary">Cancelar</Link>
           </div>
         </form>
       </div>

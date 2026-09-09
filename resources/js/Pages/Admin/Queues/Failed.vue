@@ -4,8 +4,8 @@
 
     <PageHeader :title="'Jobs fallidos'" :breadcrumbs="breadcrumbs" backHref="/admin/queues">
       <template #actions>
-        <button class="btn btn-outline-primary" type="button" @click="retryAll">Reintentar todos</button>
-        <button class="btn btn-outline-danger" type="button" @click="flushAll">Limpiar todos</button>
+        <button class="btn btn-info" type="button" @click="retryAll">Reintentar todos</button>
+        <button class="btn btn-danger" type="button" @click="flushAll">Limpiar todos</button>
       </template>
     </PageHeader>
 
@@ -34,10 +34,10 @@
               <td class="text-muted">{{ job.exception }}</td>
               <td class="text-end">
                 <div class="d-inline-flex gap-2">
-                  <button class="btn btn-sm btn-outline-primary" type="button" @click="retry(job)">
+                  <button class="btn btn-sm btn-info" type="button" @click="retry(job)">
                     Reintentar
                   </button>
-                  <button class="btn btn-sm btn-outline-danger" type="button" @click="forget(job)">
+                  <button class="btn btn-sm btn-danger" type="button" @click="forget(job)">
                     Eliminar
                   </button>
                 </div>

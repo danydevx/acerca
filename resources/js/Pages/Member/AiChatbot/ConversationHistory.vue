@@ -12,7 +12,7 @@
       </div>
       <Link
         :href="`/member/listings/${listing.id}/ai-chatbot`"
-        class="btn btn-outline-dark rounded-pill"
+        class="btn btn-secondary rounded-pill"
       >
         <i class="bi bi-arrow-left me-1"></i>Volver
       </Link>

@@ -9,12 +9,19 @@
       backLabel="Regresar"
     />
 
-    <div class="row">
-      <div class="col-12">
-        <div class="card border-0 shadow-sm">
+    <form @submit.prevent="submit">
+        <div class="card">
+          <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-plus-circle me-1"></i>Crear nueva tarjeta
+            </h6>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" id="card-active" v-model="form.is_active">
+              <label class="form-check-label" for="card-active">Activo</label>
+            </div>
+          </div>
           <div class="card-body">
-            <form @submit.prevent="submit">
-              <div class="row g-3">
+            <div class="row g-3 mb-3">
                 <div class="col-md-6">
                   <FieldText
                     id="card-client-name"
@@ -76,19 +83,18 @@
                   rows="3"
                 />
               </div>
-
-              <FormActions
-                :submitText="'Guardar'"
-                :submittingText="'Guardando...'"
-                :cancelHref="`/member/listings/${listing?.id}/fidelity-cards`"
-                :sending="sending"
-              />
-            </form>
+          <div class="card-footer bg-transparent border-top pt-3 pb-3">
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing?.id}/fidelity-cards`"
+              :sending="sending"
+            />
+          </div>
           </div>
         </div>
-      </div>
-    </div>
-  </MemberLayout>
+      </form>
+    </MemberLayout>
 </template>
 
 <script setup>

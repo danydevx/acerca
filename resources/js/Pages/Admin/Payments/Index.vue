@@ -43,8 +43,8 @@
             <input v-model="dateTo" type="date" class="form-control" />
           </div>
           <div class="col-12 d-flex gap-2">
-            <button class="btn btn-outline-primary" type="submit">Filtrar</button>
-            <button class="btn btn-outline-secondary" type="button" @click="clearFilters">Limpiar</button>
+            <button class="btn btn-info" type="submit">Filtrar</button>
+            <button class="btn btn-secondary" type="button" @click="clearFilters">Limpiar</button>
           </div>
         </form>
       </div>
@@ -86,7 +86,7 @@
               <td>{{ payment.provider || '-' }}</td>
               <td class="text-muted">{{ payment.provider_reference || '-' }}</td>
               <td class="text-end">
-                <Link :href="`/admin/payments/${payment.id}/edit`" class="btn btn-sm btn-outline-primary">
+                <Link :href="`/admin/payments/${payment.id}/edit`" class="btn btn-sm btn-info">
                   Editar
                 </Link>
               </td>

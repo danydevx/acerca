@@ -8,58 +8,62 @@
       :backHref="`/member/listings/${listing?.id}/team-member-positions`"
     />
 
-    <div class="row">
-      <div class="col-12">
-        <div class="card border-0 shadow-sm">
-          <div class="card-body">
-            <form @submit.prevent="submit">
-              <div class="mb-3">
-                <FieldText
-                  id="position-name"
-                  label="Nombre del puesto"
-                  placeholder="Ej: Recepcionista"
-                  v-model="form.name"
-                  :formError="errors.name"
-                  required
-                />
-              </div>
-
-              <div class="mb-3">
-                <FieldSelect
-                  id="position-parent"
-                  label="Puesto padre (opcional)"
-                  v-model="form.parent_id"
-                  :options="parentPositionOptions"
-                  :formError="errors.parent_id"
-                />
-              </div>
-
-              <div class="mb-3">
-                <FieldTextarea
-                  id="position-description"
-                  label="Descripción (opcional)"
-                  placeholder="Describe las responsabilidades del puesto"
-                  v-model="form.description"
-                  :formError="errors.description"
-                  rows="3"
-                />
-              </div>
-
-              <div class="mb-3">
-                <FieldSwitch
-                  id="position-active"
-                  label="Activo"
-                  v-model="form.is_active"
-                />
-                <div class="form-text">Los puestos inactivos no aparecerán en las opciones de filtro.</div>
-              </div>
-
-              <FormActions :submitText="'Guardar'" :submittingText="'Guardando...'" :cancelHref="`/member/listings/${listing?.id}/team-member-positions`" :sending="sending" />
-            </form>
+    <form @submit.prevent="submit">
+      <div class="card">
+        <div class="card-header bg-transparent border-bottom pb-3 pt-3 d-flex justify-content-between align-items-center">
+          <h5 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-plus-circle me-2"></i>Crear nuevo puesto
+          </h5>
+          <div class="form-check form-switch mb-0">
+            <input class="form-check-input" type="checkbox" id="position-active" v-model="form.is_active">
+            <label class="form-check-label" for="position-active">Activo</label>
           </div>
         </div>
+        <div class="card-body">
+          <div class="row g-3 mb-3">
+            <div class="col-12">
+              <FieldText
+                id="position-name"
+                label="Nombre del puesto"
+                placeholder="Ej: Recepcionista"
+                v-model="form.name"
+                :formError="errors.name"
+                required
+              />
+            </div>
+
+            <div class="col-12">
+              <FieldSelect
+                id="position-parent"
+                label="Puesto padre (opcional)"
+                v-model="form.parent_id"
+                :options="parentPositionOptions"
+                :formError="errors.parent_id"
+              />
+            </div>
+
+            <div class="col-12">
+              <FieldTextarea
+                id="position-description"
+                label="Descripción (opcional)"
+                placeholder="Describe las responsabilidades del puesto"
+                v-model="form.description"
+                :formError="errors.description"
+                rows="3"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-top pt-3 pb-3">
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing?.id}/team-member-positions`"
+              :sending="sending"
+            />
+        </div>
       </div>
-    </div>
+    </form>
   </MemberLayout>
 </template>
 
@@ -72,7 +76,6 @@ import PageHeader from '@/Components/Admin/PageHeader.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
-import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 import FormActions from '@/Components/FormActions.vue'
 
 const page = usePage()

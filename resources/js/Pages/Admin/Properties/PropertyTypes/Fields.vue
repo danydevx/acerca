@@ -50,7 +50,7 @@
             <div v-else class="text-center py-4 text-muted">
               <i class="bi bi-folder-x" style="font-size: 2rem;"></i>
               <p class="mt-2 mb-0">No hay secciones generales creadas.</p>
-              <Link href="/admin/modules/properties/general-sections" class="btn btn-outline-primary btn-sm mt-2">
+              <Link href="/admin/modules/properties/general-sections" class="btn btn-info btn-sm mt-2">
                 Crear Secciones
               </Link>
             </div>
@@ -112,7 +112,7 @@
                       <span class="badge bg-success">{{ assignedAmenityIds.length }}</span>
                       <button
                         @click="openAmenitiesModal"
-                        class="btn btn-outline-success btn-sm"
+                        class="btn btn-success btn-sm"
                         title="Configurar amenidades"
                       >
                         <i class="bi bi-pencil-square"></i>
@@ -148,7 +148,7 @@
                         <button
                           v-if="section.is_general && !section.is_locked"
                           @click="openCustomizeModal(section)"
-                          class="btn btn-outline-secondary"
+                          class="btn btn-secondary"
                           title="Personalizar"
                         >
                           <i class="bi bi-pencil-square"></i>
@@ -156,7 +156,7 @@
                         <button
                           v-if="section.is_general && !section.is_locked"
                           @click="unassignSection(section)"
-                          class="btn btn-outline-danger"
+                          class="btn btn-danger"
                           title="Desasignar"
                         >
                           <i class="bi bi-x-lg"></i>
@@ -164,7 +164,7 @@
                         <button
                           v-if="!section.is_general && !section.is_locked"
                           @click="deleteExclusiveSection(section)"
-                          class="btn btn-outline-danger"
+                          class="btn btn-danger"
                           title="Eliminar"
                         >
                           <i class="bi bi-trash"></i>
@@ -186,7 +186,7 @@
                             <button
                               v-if="!section.is_general"
                               @click="deleteField(section, field)"
-                              class="btn btn-outline-danger btn-sm"
+                              class="btn btn-danger btn-sm"
                               title="Eliminar campo"
                             >
                               <i class="bi bi-trash"></i>
@@ -195,7 +195,7 @@
                         </li>
                       </ul>
                       <div class="text-center mt-2" v-if="!section.is_general">
-                        <button @click="openFieldModal(section)" class="btn btn-outline-primary btn-sm">
+                        <button @click="openFieldModal(section)" class="btn btn-info btn-sm">
                           <i class="bi bi-plus-lg me-1"></i>
                           Agregar Campo
                         </button>
@@ -215,7 +215,7 @@
           <div class="card-footer">
             <div class="d-flex justify-content-between align-items-center">
               <h6 class="mb-0">Secciones Exclusivas</h6>
-              <button @click="openExclusiveSectionModal" class="btn btn-outline-primary btn-sm">
+              <button @click="openExclusiveSectionModal" class="btn btn-info btn-sm">
                 <i class="bi bi-plus-lg me-1"></i>
                 Nueva Sección Exclusiva
               </button>
@@ -251,7 +251,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               <button type="submit" class="btn btn-primary" :disabled="saving">
                 {{ saving ? 'Guardando...' : 'Guardar' }}
               </button>
@@ -281,7 +281,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               <button type="submit" class="btn btn-primary" :disabled="saving">
                 {{ saving ? 'Creando...' : 'Crear' }}
               </button>
@@ -357,12 +357,12 @@
                         <input v-model="opt.label" type="text" class="form-control form-control-sm" placeholder="Label">
                       </div>
                       <div class="col-2">
-                        <button type="button" @click="removeOption(idx)" class="btn btn-outline-danger btn-sm w-100">
+                        <button type="button" @click="removeOption(idx)" class="btn btn-danger btn-sm w-100">
                           <i class="bi bi-x"></i>
                         </button>
                       </div>
                     </div>
-                    <button type="button" @click="addOption" class="btn btn-outline-primary btn-sm">
+                    <button type="button" @click="addOption" class="btn btn-info btn-sm">
                       <i class="bi bi-plus-lg me-1"></i>Agregar Opción
                     </button>
                   </div>
@@ -370,7 +370,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               <button type="submit" class="btn btn-primary" :disabled="saving">
                 {{ saving ? 'Guardando...' : 'Guardar' }}
               </button>
@@ -412,13 +412,13 @@
               </div>
               <div v-if="allAmenities.length === 0" class="text-center py-4 text-muted">
                 <p>No hay amenidades creadas.</p>
-                <Link href="/admin/modules/properties/amenities" class="btn btn-outline-primary btn-sm">
+                <Link href="/admin/modules/properties/amenities" class="btn btn-info btn-sm">
                   Crear Amenidades
                 </Link>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               <button type="submit" class="btn btn-primary" :disabled="savingAmenities">
                 {{ savingAmenities ? 'Guardando...' : 'Guardar' }}
               </button>

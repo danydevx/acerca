@@ -12,7 +12,7 @@
         >
           Agregar Rol
         </button>
-        <Link href="/admin/roles/create" class="btn btn-outline-secondary">Crear en pagina</Link>
+        <Link href="/admin/roles/create" class="btn btn-secondary">Crear en pagina</Link>
       </template>
     </PageHeader>
 
@@ -33,10 +33,10 @@
             />
           </div>
           <div class="col-auto">
-            <button class="btn btn-outline-primary" type="submit">Buscar</button>
+            <button class="btn btn-info" type="submit">Buscar</button>
           </div>
           <div class="col-auto">
-            <button class="btn btn-outline-secondary" type="button" @click="clearSearch">Limpiar</button>
+            <button class="btn btn-secondary" type="button" @click="clearSearch">Limpiar</button>
           </div>
         </form>
       </div>
@@ -78,12 +78,12 @@
               </td>
               <td class="text-end">
                 <div class="d-inline-flex align-items-center gap-2">
-                  <Link :href="`/admin/roles/${role.id}/edit`" class="btn btn-sm btn-outline-primary">
+                  <Link :href="`/admin/roles/${role.id}/edit`" class="btn btn-sm btn-info">
                     Editar
                   </Link>
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-danger"
+                    class="btn btn-sm btn-danger"
                     :disabled="role.users_count > 0 || role.protected"
                     @click="openDelete(role)"
                   >

@@ -8,9 +8,19 @@
       :backHref="`/member/listings/${listing?.id || ''}/galleries`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form class="row g-3" @submit.prevent="submit">
+    <form @submit.prevent="submit">
+        <div class="card">
+          <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-plus-circle me-1"></i>Crear nueva galeria
+            </h6>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" id="gallery-active" v-model="form.is_active">
+              <label class="form-check-label" for="gallery-active">Activo</label>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row g-3 mb-3">
           <div class="col-12 col-md-6">
             <FieldText
               id="gallery-name"
@@ -49,24 +59,20 @@
             />
           </div>
 
-          <div class="col-12 col-md-4">
-            <FieldNumber
-              id="gallery-sort"
-              label="Orden"
-              v-model="form.sort_order"
-              :formError="errors.sort_order"
-              :min="0"
-            />
-          </div>
-
-          <FormActions :submitText="'Crear galería'" :submittingText="'Guardando...'" :cancelHref="`/member/listings/${listing?.id || ''}/galleries`" :sending="sending" />
-        </form>
+          <FormActions
+            :submitText="'Guardar'"
+            :submittingText="'Guardando...'"
+            :cancelHref="`/member/listings/${listing?.id || ''}/galleries`"
+            :sending="sending"
+          />
+        </div>
       </div>
     </div>
+    </form>
   </MemberLayout>
 </template>
 
-<script setup>
+  <script setup>
 import { computed, reactive, ref } from 'vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import { toast } from 'vue3-toastify'

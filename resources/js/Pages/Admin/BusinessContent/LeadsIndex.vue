@@ -53,14 +53,14 @@
                 <td>{{ formatDate(lead.created_at) }}</td>
                 <td class="text-end">
                   <div class="d-flex gap-1 justify-content-end">
-                    <Link :href="`/admin/listings/${listing.id}/leads/${lead.id}`" class="btn btn-sm btn-outline-primary">
+                    <Link :href="`/admin/listings/${listing.id}/leads/${lead.id}`" class="btn btn-sm btn-info">
                       <i class="bi bi-eye"></i>
                     </Link>
-                    <Link :href="`/admin/listings/${listing.id}/leads/${lead.id}/edit`" class="btn btn-sm btn-outline-primary">
+                    <Link :href="`/admin/listings/${listing.id}/leads/${lead.id}/edit`" class="btn btn-sm btn-info">
                       <i class="bi bi-pencil"></i>
                     </Link>
                     <button
-                      class="btn btn-sm btn-outline-danger"
+                      class="btn btn-sm btn-danger"
                       @click="deleteLead(lead)"
                     >
                       <i class="bi bi-trash"></i>

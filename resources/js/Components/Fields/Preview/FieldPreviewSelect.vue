@@ -32,7 +32,7 @@
     <button
       v-if="config.clearable && modelValue"
       type="button"
-      class="btn btn-sm btn-outline-secondary mt-2"
+      class="btn btn-sm btn-secondary mt-2"
       @click="$emit('update:modelValue', '')"
     >
       Limpiar selección

@@ -4,6 +4,11 @@ import vue from '@vitejs/plugin-vue'
 import less from 'less'
 
 export default defineConfig({
+    resolve: {
+        alias: {
+            '@': '/resources/js'
+        }
+    },
     plugins: [
         laravel({
             input: ['resources/less/admin.less', 

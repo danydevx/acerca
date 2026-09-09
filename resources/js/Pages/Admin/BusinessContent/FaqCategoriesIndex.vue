@@ -49,7 +49,7 @@
                   <span v-else class="badge bg-secondary">Inactivo</span>
                 </td>
                 <td class="text-end">
-                  <button class="btn btn-sm btn-outline-primary" @click="openEditModal(cat)">
+                  <button class="btn btn-sm btn-info" @click="openEditModal(cat)">
                     Editar
                   </button>
                 </td>

@@ -188,9 +188,9 @@
           <div v-if="!selectedProduct.has_variants" class="product-modal__quantity">
             <label class="form-label">Cantidad:</label>
             <div class="input-group" style="max-width: 150px;">
-              <button class="btn btn-outline-secondary" @click="decreaseQuantity">-</button>
+              <button class="btn btn-secondary" @click="decreaseQuantity">-</button>
               <input type="number" class="form-control text-center" v-model.number="addQuantity" min="1" />
-              <button class="btn btn-outline-secondary" @click="addQuantity++">+</button>
+              <button class="btn btn-secondary" @click="addQuantity++">+</button>
             </div>
           </div>
 

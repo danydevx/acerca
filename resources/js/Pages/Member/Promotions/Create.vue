@@ -8,10 +8,19 @@
       :backHref="`/member/listings/${listing.id}/promotions`"
     />
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
-          <div class="row g-3 mb-3">
+    <form @submit.prevent="submit">
+        <div class="card">
+          <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-plus-circle me-1"></i>Crear nueva promocion
+            </h6>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" id="promotion-active" v-model="form.is_active">
+              <label class="form-check-label" for="promotion-active">Activo</label>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row g-3 mb-3">
             <div class="col-md-6">
               <FieldText
                 id="promotion-name"
@@ -55,7 +64,7 @@
             </div>
 
             <div class="col-md-4">
-              <FieldNumber
+              <FieldPrice
                 id="promotion-regular-price"
                 label="Precio Regular"
                 v-model="form.regular_price"
@@ -63,7 +72,7 @@
             </div>
 
             <div class="col-md-4">
-              <FieldNumber
+              <FieldPrice
                 id="promotion-price"
                 label="Precio Promo"
                 v-model="form.promotion_price"
@@ -103,19 +112,18 @@
               <small class="text-muted">Menor numero aparece primero.</small>
             </div>
 
-            <div class="col-md-8 d-flex align-items-end">
-              <FieldSwitch
-                id="promotion-active"
-                label="Activo"
-                v-model="form.is_active"
-              />
             </div>
           </div>
-
-          <FormActions :submitText="'Crear Promocion'" :submittingText="'Creando...'" :cancelHref="`/member/listings/${listing.id}/promotions`" :sending="sending" />
-        </form>
+          <div class="card-footer bg-transparent border-top pt-3 pb-3">
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing.id}/promotions`"
+              :sending="sending"
+            />
+        </div>
       </div>
-    </div>
+    </form>
   </MemberLayout>
 </template>
 
@@ -132,6 +140,7 @@ import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 import FieldDate from '@/Components/Fields/FieldDate.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 import FieldImage from '@/Components/Fields/FieldImage.vue'
+import FieldPrice from '@/Components/Fields/FieldPrice.vue'
 import FormActions from '@/Components/FormActions.vue'
 
 const page = usePage()

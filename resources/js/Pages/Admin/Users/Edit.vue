@@ -4,7 +4,7 @@
 
     <PageHeader :title="'Editar usuario'" :breadcrumbs="breadcrumbs" backHref="/admin/users">
       <template #actions>
-        <Link :href="`/admin/users/${user.id}/subscriptions`" class="btn btn-outline-secondary">
+        <Link :href="`/admin/users/${user.id}/subscriptions`" class="btn btn-secondary">
           Suscripcion
         </Link>
       </template>
@@ -86,7 +86,7 @@
                   <button
                     v-if="!user.email_verified_at"
                     type="button"
-                    class="btn btn-sm btn-outline-success"
+                    class="btn btn-sm btn-success"
                     @click="verifyEmail"
                   >
                     Verificar usuario manualmente
@@ -94,7 +94,7 @@
                   <button
                     v-if="!user.email_verified_at"
                     type="button"
-                    class="btn btn-sm btn-outline-warning"
+                    class="btn btn-sm btn-warning"
                     @click="resendVerification"
                   >
                     Reenviar verificacion
@@ -108,7 +108,7 @@
             <button type="submit" class="btn btn-primary" :disabled="form.processing">
               {{ form.processing ? 'Actualizando...' : 'Actualizar' }}
             </button>
-            <Link href="/admin/users" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link href="/admin/users" class="btn btn-secondary">Cancelar</Link>
           </div>
         </form>
       </div>

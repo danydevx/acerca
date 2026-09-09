@@ -8,7 +8,7 @@
       :backHref="`/member/listings/${listing?.id}/minisite/sections`"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/minisite/sections`" class="btn btn-outline-primary rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/minisite/sections`" class="btn btn-info rounded-pill">
           <i class="bi bi-layout-text-sidebar me-1"></i>Secciones
         </Link>
       </template>
@@ -117,7 +117,7 @@
           </div>
 
           <div class="mt-4">
-            <button type="submit" class="btn btn-gradient rounded-pill" :disabled="sending">
+            <button type="submit" class="btn btn-primary rounded-pill" :disabled="sending">
               <i class="bi bi-check-lg me-1"></i>
               {{ sending ? 'Guardando...' : 'Guardar Configuración' }}
             </button>

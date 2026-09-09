@@ -66,10 +66,10 @@
                     <span v-else class="badge bg-secondary">Inactivo</span>
                   </td>
                   <td>
-                    <button class="btn btn-sm btn-outline-primary me-1" @click="openEditModal(network)">
+                    <button class="btn btn-sm btn-info me-1" @click="openEditModal(network)">
                       <i class="bi bi-pencil"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-danger" @click="deleteNetwork(network)">
+                    <button class="btn btn-sm btn-danger" @click="deleteNetwork(network)">
                       <i class="bi bi-trash"></i>
                     </button>
                   </td>

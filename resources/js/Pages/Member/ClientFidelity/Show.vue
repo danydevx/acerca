@@ -58,12 +58,12 @@
               </Link>
               <Link
                 :href="`/member/listings/${listing?.id}/fidelity-cards/${card?.id}/edit`"
-                class="btn btn-outline-primary btn-sm"
+                class="btn btn-info btn-sm"
               >
                 <i class="bi bi-pencil me-1"></i>Editar
               </Link>
               <button
-                class="btn btn-outline-danger btn-sm"
+                class="btn btn-danger btn-sm"
                 @click="deleteCard"
               >
                 <i class="bi bi-trash me-1"></i>Eliminar

@@ -35,10 +35,10 @@
                 </span>
               </div>
               <div class="btn-group btn-group-sm">
-                <Link :href="`/admin/minisite-themes/${theme.id}/edit`" class="btn btn-outline-primary">
+                <Link :href="`/admin/minisite-themes/${theme.id}/edit`" class="btn btn-info">
                   <i class="bi bi-pencil"></i>
                 </Link>
-                <button @click="deleteTheme(theme)" class="btn btn-outline-danger" :disabled="theme.businesses_count > 0">
+                <button @click="deleteTheme(theme)" class="btn btn-danger" :disabled="theme.businesses_count > 0">
                   <i class="bi bi-trash"></i>
                 </button>
               </div>

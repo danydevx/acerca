@@ -19,7 +19,7 @@
               </div>
               <h5 class="card-title">Países</h5>
               <p class="card-text text-muted small">Administra los países disponibles</p>
-              <Link href="/admin/locations/countries" class="btn btn-outline-primary">
+              <Link href="/admin/locations/countries" class="btn btn-info">
                 <i class="bi bi-arrow-right me-1"></i>Gestionar
               </Link>
             </div>
@@ -34,7 +34,7 @@
               </div>
               <h5 class="card-title">Estados</h5>
               <p class="card-text text-muted small">Administra los estados por país</p>
-              <Link href="/admin/locations/states" class="btn btn-outline-success">
+              <Link href="/admin/locations/states" class="btn btn-success">
                 <i class="bi bi-arrow-right me-1"></i>Gestionar
               </Link>
             </div>
@@ -49,7 +49,7 @@
               </div>
               <h5 class="card-title">Municipios</h5>
               <p class="card-text text-muted small">Administra los municipios por estado</p>
-              <Link href="/admin/locations/municipalities" class="btn btn-outline-warning">
+              <Link href="/admin/locations/municipalities" class="btn btn-warning">
                 <i class="bi bi-arrow-right me-1"></i>Gestionar
               </Link>
             </div>

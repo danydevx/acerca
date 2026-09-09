@@ -57,18 +57,18 @@
                 </td>
                 <td class="text-end">
                   <div class="d-flex gap-1 justify-content-end">
-                    <Link :href="`/admin/listings/${listing.id}/appointments/${apt.id}/edit`" class="btn btn-sm btn-outline-primary">
+                    <Link :href="`/admin/listings/${listing.id}/appointments/${apt.id}/edit`" class="btn btn-sm btn-info">
                       <i class="bi bi-pencil"></i>
                     </Link>
                     <button
                       v-if="apt.status !== 'cancelled'"
-                      class="btn btn-sm btn-outline-warning"
+                      class="btn btn-sm btn-warning"
                       @click="cancelAppointment(apt)"
                     >
                       <i class="bi bi-x-lg"></i>
                     </button>
                     <button
-                      class="btn btn-sm btn-outline-danger"
+                      class="btn btn-sm btn-danger"
                       @click="deleteAppointment(apt)"
                     >
                       <i class="bi bi-trash"></i>

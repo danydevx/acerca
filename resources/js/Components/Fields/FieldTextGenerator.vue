@@ -22,7 +22,7 @@
     <div v-if="generatorLabel" class="mt-1">
       <button
         type="button"
-        class="btn btn-outline-secondary btn-sm"
+        class="btn btn-secondary btn-sm"
         @click="$emit('generate')"
         :title="generatorLabel"
       >

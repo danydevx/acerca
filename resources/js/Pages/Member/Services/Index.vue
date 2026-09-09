@@ -8,7 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/services/create`" class="btn btn-gradient rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/services/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nuevo servicio
         </Link>
       </template>
@@ -17,13 +17,13 @@
     <div class="mb-3 d-flex gap-2">
       <Link
         :href="`/member/listings/${listing?.id}/services`"
-        class="btn btn-outline-dark rounded-pill"
+        class="btn btn-secondary rounded-pill"
       >
         Todas
       </Link>
       <Link
         :href="`/member/listings/${listing?.id}/service-categories`"
-        class="btn btn-outline-dark rounded-pill"
+        class="btn btn-secondary rounded-pill"
       >
         <i class="bi bi-folder me-1"></i>Categorias
       </Link>
@@ -99,17 +99,17 @@
       <template #cell-actions="{ row }">
         <div class="actions">
           <button
-            class="btn btn-outline-dark rounded-pill"
+            class="btn btn-secondary rounded-pill"
             @click="cloneService(row)"
             :disabled="cloning === row.id"
             title="Clonar servicio"
           >
             <i class="bi bi-copy"></i>
           </button>
-          <Link :href="`/member/listings/${listing?.id}/services/${row.id}/edit`" class="btn btn-outline-primary rounded-pill">
+          <Link :href="`/member/listings/${listing?.id}/services/${row.id}/edit`" class="btn btn-info rounded-pill">
             <i class="bi bi-pencil"></i>
           </Link>
-          <button class="btn btn-outline-danger rounded-pill" @click="deleteService(row)">
+          <button class="btn btn-danger rounded-pill" @click="deleteService(row)">
             <i class="bi bi-trash"></i>
           </button>
         </div>

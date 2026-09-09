@@ -9,7 +9,7 @@
       <template #actions>
         <Link
           :href="`/member/listings/${listing?.id}/analytics`"
-          class="btn btn-outline-primary rounded-pill"
+          class="btn btn-info rounded-pill"
         >
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
@@ -215,11 +215,11 @@
         <div class="d-flex justify-content-end gap-2">
           <Link
             :href="`/member/listings/${listing?.id}/analytics`"
-            class="btn btn-outline-dark rounded-pill"
+            class="btn btn-secondary rounded-pill"
           >
             Cancelar
           </Link>
-          <button type="submit" class="btn btn-gradient rounded-pill" :disabled="saving">
+          <button type="submit" class="btn btn-primary rounded-pill" :disabled="saving">
             <span v-if="saving"><i class="bi bi-hourglass-split me-1"></i>Guardando...</span>
             <span v-else><i class="bi bi-check me-1"></i>Guardar cambios</span>
           </button>

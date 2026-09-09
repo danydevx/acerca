@@ -8,7 +8,7 @@
       :backHref="`/member/listings/${listing?.id}/modules`"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/checkin`" class="btn btn-outline-dark rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/checkin`" class="btn btn-secondary rounded-pill">
           <i class="bi bi-qr-code-scan me-1"></i>Check-in
         </Link>
       </template>
@@ -46,7 +46,7 @@
             />
           </div>
           <div class="col-md-2">
-            <button type="submit" class="btn btn-gradient rounded-pill w-100" :disabled="sending">
+            <button type="submit" class="btn btn-primary rounded-pill w-100" :disabled="sending">
               <i class="bi bi-plus-lg me-1"></i>Agregar
             </button>
           </div>
@@ -82,7 +82,7 @@
                 <td>{{ guest.plus_ones ?? 0 }}</td>
                 <td>{{ guest.notes || '-' }}</td>
                 <td>
-                  <button class="btn btn-outline-danger rounded-pill" @click="deleteGuest(guest)">
+                  <button class="btn btn-danger rounded-pill" @click="deleteGuest(guest)">
                     <i class="bi bi-trash"></i>
                   </button>
                 </td>

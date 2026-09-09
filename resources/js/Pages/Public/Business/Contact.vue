@@ -102,10 +102,10 @@
             </div>
 
             <div v-if="business.phone || business.email" class="mt-3">
-              <a v-if="business.phone" :href="`tel:${business.phone}`" class="btn btn-outline-primary w-100 mb-2">
+              <a v-if="business.phone" :href="`tel:${business.phone}`" class="btn btn-info w-100 mb-2">
                 <i class="bi bi-telephone me-2"></i>Llamar
               </a>
-              <a v-if="business.email" :href="`mailto:${business.email}`" class="btn btn-outline-secondary w-100">
+              <a v-if="business.email" :href="`mailto:${business.email}`" class="btn btn-secondary w-100">
                 <i class="bi bi-envelope me-2"></i>Enviar email
               </a>
             </div>
@@ -113,7 +113,7 @@
         </div>
 
         <div class="text-center mt-5">
-          <Link :href="`/b/${business.slug}`" class="btn btn-outline-primary">
+          <Link :href="`/b/${business.slug}`" class="btn btn-info">
             <i class="bi bi-arrow-left me-2"></i>Volver al inicio
           </Link>
         </div>

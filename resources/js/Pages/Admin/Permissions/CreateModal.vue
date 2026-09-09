@@ -27,10 +27,10 @@
           </div>
 
           <div class="modal-footer">
-            <Link href="/admin/permissions/create" class="btn btn-outline-secondary">
+            <Link href="/admin/permissions/create" class="btn btn-secondary">
               Formulario completo
             </Link>
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Cancelar
             </button>
             <button type="submit" class="btn btn-primary" :disabled="form.processing">

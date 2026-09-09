@@ -54,7 +54,7 @@
                 <input name="date_to" type="date" class="form-control" />
               </div>
               <div class="col-12">
-                <button type="reset" class="btn btn-outline-secondary btn-sm">Limpiar filtros</button>
+                <button type="reset" class="btn btn-secondary btn-sm">Limpiar filtros</button>
               </div>
             </form>
           </div>
@@ -104,7 +104,7 @@
                 <input name="date_to" type="date" class="form-control" />
               </div>
               <div class="col-12">
-                <button type="reset" class="btn btn-outline-secondary btn-sm">Limpiar filtros</button>
+                <button type="reset" class="btn btn-secondary btn-sm">Limpiar filtros</button>
               </div>
             </form>
           </div>
@@ -158,7 +158,7 @@
                 <input name="date_to" type="date" class="form-control" />
               </div>
               <div class="col-12">
-                <button type="reset" class="btn btn-outline-secondary btn-sm">Limpiar filtros</button>
+                <button type="reset" class="btn btn-secondary btn-sm">Limpiar filtros</button>
               </div>
             </form>
           </div>
@@ -212,7 +212,7 @@
                 <input name="date_to" type="date" class="form-control" />
               </div>
               <div class="col-12">
-                <button type="reset" class="btn btn-outline-secondary btn-sm">Limpiar filtros</button>
+                <button type="reset" class="btn btn-secondary btn-sm">Limpiar filtros</button>
               </div>
             </form>
           </div>
@@ -257,7 +257,7 @@
                 <input name="date_to" type="date" class="form-control" />
               </div>
               <div class="col-12">
-                <button type="reset" class="btn btn-outline-secondary btn-sm">Limpiar filtros</button>
+                <button type="reset" class="btn btn-secondary btn-sm">Limpiar filtros</button>
               </div>
             </form>
           </div>

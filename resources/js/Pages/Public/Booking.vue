@@ -107,7 +107,7 @@
                     </div>
 
                     <div class="d-flex gap-2">
-                        <button class="btn btn-outline-secondary" @click="step = 1">Atrás</button>
+                        <button class="btn btn-secondary" @click="step = 1">Atrás</button>
                         <button
                             class="btn btn-primary flex-grow-1"
                             :disabled="!selectedDate || !selectedTime"
@@ -178,7 +178,7 @@
                         </div>
 
                         <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-outline-secondary" @click="step = 2">Atrás</button>
+                            <button type="button" class="btn btn-secondary" @click="step = 2">Atrás</button>
                             <button type="submit" class="btn btn-primary flex-grow-1" :disabled="form.processing">
                                 Confirmar Reserva
                             </button>

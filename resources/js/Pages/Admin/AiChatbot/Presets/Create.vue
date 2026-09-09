@@ -8,7 +8,7 @@
           <h1 class="h4 mb-0">Crear Preset de Chatbot</h1>
           <small class="text-muted">Configura una nueva plantilla de chatbot</small>
         </div>
-        <Link href="/admin/modules/ai_chatbot/presets" class="btn btn-outline-secondary">
+        <Link href="/admin/modules/ai_chatbot/presets" class="btn btn-secondary">
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
       </div>
@@ -203,13 +203,13 @@
                   />
                   <button
                     type="button"
-                    class="btn btn-outline-danger"
+                    class="btn btn-danger"
                     @click="removeSuggestion(index)"
                   >
                     <i class="bi bi-x"></i>
                   </button>
                 </div>
-                <button type="button" class="btn btn-outline-primary btn-sm w-100" @click="addSuggestion">
+                <button type="button" class="btn btn-info btn-sm w-100" @click="addSuggestion">
                   <i class="bi bi-plus-lg me-1"></i>Agregar Sugerencia
                 </button>
               </div>

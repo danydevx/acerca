@@ -59,10 +59,10 @@
               <span v-else-if="product.show_price && product.variants?.length" class="fw-bold">Desde ${{ product.variants[0].price }}</span>
               <span v-else class="text-muted">Precio no visible</span>
               <div class="btn-group btn-group-sm">
-                <button @click="editProduct(product)" class="btn btn-outline-primary">
+                <button @click="editProduct(product)" class="btn btn-info">
                   <i class="bi bi-pencil"></i>
                 </button>
-                <button @click="deleteProduct(product)" class="btn btn-outline-danger">
+                <button @click="deleteProduct(product)" class="btn btn-danger">
                   <i class="bi bi-trash"></i>
                 </button>
               </div>
@@ -158,14 +158,14 @@
                     <input v-model.number="variant.sort_order" type="number" class="form-control" placeholder="Orden">
                   </div>
                   <div class="col-md-2">
-                    <button type="button" class="btn btn-outline-danger w-100" @click="removeVariant(index)">
+                    <button type="button" class="btn btn-danger w-100" @click="removeVariant(index)">
                       <i class="bi bi-trash"></i>
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <button type="button" class="btn btn-outline-secondary btn-sm" @click="addVariant">
+            <button type="button" class="btn btn-secondary btn-sm" @click="addVariant">
               <i class="bi bi-plus"></i> Agregar variante
             </button>
           <div class="modal-footer">

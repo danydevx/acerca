@@ -8,23 +8,19 @@
       :backHref="'/member/listings'"
     />
 
-    <div v-if="$page.props.flash?.success" class="alert alert-success alert-dismissible fade show" role="alert">
-      {{ $page.props.flash.success }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    <div v-if="$page.props.flash?.error" class="alert alert-danger alert-dismissible fade show" role="alert">
-      {{ $page.props.flash.error }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <form @submit.prevent="submit">
-          <div class="row g-3">
-            <div class="col-12">
-              <h5 class="border-bottom pb-2 mb-3">Contenido</h5>
-            </div>
-
+    <form @submit.prevent="submit">
+      <div class="card">
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-pencil-square me-1"></i>Acerca de
+          </h6>
+          <div class="form-check form-switch mb-0">
+            <input class="form-check-input" type="checkbox" id="is-active" v-model="form.is_active">
+            <label class="form-check-label" for="is-active">Activo</label>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 mb-3">
             <div class="col-md-6">
               <FieldText
                 id="about-title"
@@ -54,84 +50,60 @@
             </div>
 
             <div class="col-12">
-              <h5 class="border-bottom pb-2 mb-3 mt-4">Imagenes</h5>
+              <hr />
+              <h6 class="mb-3">Imagenes</h6>
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Imagen principal</label>
-              <input
-                ref="imageInput"
-                type="file"
-                class="form-control"
+              <FieldImage
+                id="about-image"
+                label="Imagen principal"
+                v-model="mainImage"
+                :initialPreview="initialPreview"
+                :maxFiles="1"
+                :maxSizeMb="5"
                 accept="image/jpeg,image/png,image/webp,image/gif"
-                @change="handleImageChange"
+                @update:keep="onImageKeepChange"
               />
-              <div v-if="imagePreview || form.image_path" class="mt-2">
-                <img :src="imagePreview || form.image_path" class="img-thumbnail" style="max-height: 200px;" alt="Preview" />
-              </div>
-              <small class="text-muted d-block">JPG, PNG o WebP, max 5MB.</small>
-              <button
-                v-if="form.image_path && !form.remove_image"
-                type="button"
-                class="btn btn-outline-danger btn-sm mt-2"
-                @click="removeImage('image')"
-              >
-                <i class="bi bi-trash me-1"></i>Eliminar imagen
-              </button>
+              <small class="text-muted">JPG, PNG o WebP, max 5MB</small>
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Logotipo</label>
-              <input
-                ref="logoInput"
-                type="file"
-                class="form-control"
+              <FieldImage
+                id="about-logo"
+                label="Logotipo"
+                v-model="logoImage"
+                :initialPreview="initialLogoPreview"
+                :maxFiles="1"
+                :maxSizeMb="5"
                 accept="image/jpeg,image/png,image/webp,image/gif"
-                @change="handleLogoChange"
+                @update:keep="onLogoKeepChange"
               />
-              <div v-if="logoPreview || form.logo_path" class="mt-2">
-                <img :src="logoPreview || form.logo_path" class="img-thumbnail" style="max-height: 150px;" alt="Logo Preview" />
-              </div>
-              <small class="text-muted d-block">JPG, PNG o WebP, max 5MB.</small>
-              <button
-                v-if="form.logo_path && !form.remove_logo"
-                type="button"
-                class="btn btn-outline-danger btn-sm mt-2"
-                @click="removeImage('logo')"
-              >
-                <i class="bi bi-trash me-1"></i>Eliminar logotipo
-              </button>
-            </div>
-
-            <div class="col-md-4">
-              <FieldSwitch
-                id="is-active"
-                label="Acerca de activo"
-                v-model="form.is_active"
-              />
+              <small class="text-muted">JPG, PNG o WebP, max 5MB</small>
             </div>
           </div>
-
-          <FormActions
-            :submitText="'Guardar cambios'"
-            :submittingText="'Guardando...'"
-            :cancelHref="'/member/listings'"
-            :sending="sending"
-          />
-        </form>
+        </div>
+        <FormActions
+          :submitText="'Guardar'"
+          :submittingText="'Guardando...'"
+          :cancelHref="'/member/listings'"
+          :sending="sending"
+        />
       </div>
-    </div>
+    </form>
   </MemberLayout>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { Head, useForm, usePage } from '@inertiajs/vue3'
+import { ref, reactive, computed } from 'vue'
+import { Head, Link, usePage, router } from '@inertiajs/vue3'
+import { toast } from 'vue3-toastify'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
+import FieldImage from '@/Components/Fields/FieldImage.vue'
 import FormActions from '@/Components/FormActions.vue'
 
 const props = defineProps({
@@ -162,81 +134,56 @@ const breadcrumbs = computed(() => {
   ]
 })
 
-const imagePreview = ref(null)
-const logoPreview = ref(null)
-const imageInput = ref(null)
-const logoInput = ref(null)
+const sending = ref(false)
+const mainImage = ref(null)
+const logoImage = ref(null)
+const keepImage = ref(true)
+const keepLogo = ref(true)
 
-const form = useForm({
+const initialPreview = computed(() => props.about?.image_path || '')
+const initialLogoPreview = computed(() => props.about?.logo_path || '')
+
+const onImageKeepChange = (value) => {
+  keepImage.value = value
+}
+
+const onLogoKeepChange = (value) => {
+  keepLogo.value = value
+}
+
+const errors = reactive({
+  title: '',
+  subtitle: '',
+  description: '',
+})
+
+const form = reactive({
   title: props.about?.title || '',
   subtitle: props.about?.subtitle || '',
   description: props.about?.description || '',
-  image: null,
-  image_path: props.about?.image_path || '',
-  logo: null,
-  logo_path: props.about?.logo_path || '',
-  remove_image: false,
-  remove_logo: false,
   is_active: props.about?.is_active ?? true,
 })
 
-const sending = ref(false)
+const validateForm = () => {
+  let isValid = true
+  errors.title = ''
+  errors.subtitle = ''
+  errors.description = ''
 
-const handleImageChange = (event) => {
-  const file = event.target.files[0]
-  if (!file) return
-
-  if (file.size > 5 * 1024 * 1024) {
-    alert('El archivo supera el tamaño máximo de 5MB.')
-    return
+  if (!form.title || form.title.trim() === '') {
+    errors.title = 'El titulo es obligatorio.'
+    isValid = false
   }
 
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
-  if (!allowedTypes.includes(file.type)) {
-    alert('Solo se permiten imágenes (JPEG, PNG, WebP, GIF).')
-    return
-  }
-
-  form.image = file
-  imagePreview.value = URL.createObjectURL(file)
-  form.remove_image = false
-}
-
-const handleLogoChange = (event) => {
-  const file = event.target.files[0]
-  if (!file) return
-
-  if (file.size > 5 * 1024 * 1024) {
-    alert('El archivo supera el tamaño máximo de 5MB.')
-    return
-  }
-
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
-  if (!allowedTypes.includes(file.type)) {
-    alert('Solo se permiten imágenes (JPEG, PNG, WebP, GIF).')
-    return
-  }
-
-  form.logo = file
-  logoPreview.value = URL.createObjectURL(file)
-  form.remove_logo = false
-}
-
-const removeImage = (type) => {
-  if (type === 'image') {
-    form.remove_image = true
-    imagePreview.value = null
-    form.image = null
-    if (imageInput.value) imageInput.value.value = ''
-  } else {
-    form.remove_logo = true
-    logoPreview.value = null
-    form.logo = null
-    if (logoInput.value) logoInput.value.value = ''
-  }
+  return isValid
 }
 
 const submit = () => {
+  if (!validateForm()) {
+    toast.warning('Por favor completa los campos requeridos')
+    return
+  }
+
   sending.value = true
 
   const data = new FormData()
@@ -245,22 +192,33 @@ const submit = () => {
   data.append('description', form.description || '')
   data.append('is_active', form.is_active ? '1' : '0')
 
-  if (form.image) {
-    data.append('image', form.image)
-  }
-  if (form.logo) {
-    data.append('logo', form.logo)
-  }
-  if (form.remove_image) {
+  if (mainImage.value instanceof File) {
+    data.append('image', mainImage.value)
+  } else if (!keepImage.value && props.about?.image_path) {
     data.append('remove_image', '1')
   }
-  if (form.remove_logo) {
+
+  if (logoImage.value instanceof File) {
+    data.append('logo', logoImage.value)
+  } else if (!keepLogo.value && props.about?.logo_path) {
     data.append('remove_logo', '1')
   }
 
-  form.post(`/member/listings/${props.listing.id}/about`, {
-    forceFormData: true,
+  router.post(`/member/listings/${props.listing.id}/about`, data, {
     preserveScroll: true,
+    onSuccess: () => {
+      sending.value = false
+      toast.success('Cambios guardados correctamente')
+    },
+    onError: (errs) => {
+      sending.value = false
+      Object.keys(errs).forEach(key => {
+        if (key in errors) {
+          errors[key] = errs[key]
+        }
+      })
+      toast.error('Error al guardar')
+    },
     onFinish: () => {
       sending.value = false
     },

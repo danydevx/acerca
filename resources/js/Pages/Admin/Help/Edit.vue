@@ -83,7 +83,7 @@
             <button type="submit" class="btn btn-primary" :disabled="form.processing">
               {{ form.processing ? 'Guardando...' : 'Guardar cambios' }}
             </button>
-            <Link href="/admin/help" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link href="/admin/help" class="btn btn-secondary">Cancelar</Link>
           </div>
         </form>
       </div>

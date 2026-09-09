@@ -7,7 +7,7 @@
       :breadcrumbs="breadcrumbs"
     >
       <template #actions>
-        <Link :href="`/member/listings/${listing?.id}/fidelity-rewards`" class="btn btn-outline-primary rounded-pill">
+        <Link :href="`/member/listings/${listing?.id}/fidelity-rewards`" class="btn btn-info rounded-pill">
           <i class="bi bi-gift me-1"></i>
           Ver recompensas
         </Link>
@@ -108,7 +108,7 @@
                       />
                     </div>
                     <div class="col-md-1">
-                      <button class="btn btn-outline-dark rounded-pill" type="button" @click="clearFilters">
+                      <button class="btn btn-secondary rounded-pill" type="button" @click="clearFilters">
                         <i class="bi bi-x-lg"></i>
                       </button>
                     </div>
@@ -185,7 +185,7 @@
                       />
                     </div>
                     <div class="col-md-1">
-                      <button class="btn btn-outline-dark rounded-pill" type="button" @click="clearFilters">
+                      <button class="btn btn-secondary rounded-pill" type="button" @click="clearFilters">
                         <i class="bi bi-x-lg"></i>
                       </button>
                     </div>
@@ -238,7 +238,7 @@
                         :key="link.label"
                         :href="link.url || '#'"
                         class="btn btn-sm mx-1 rounded-pill"
-                        :class="[link.active ? 'btn-gradient' : 'btn-outline-dark', !link.url ? 'disabled' : '']"
+                        :class="[link.active ? 'btn-primary' : 'btn-secondary', !link.url ? 'disabled' : '']"
                         v-html="link.label"
                       />
                     </div>

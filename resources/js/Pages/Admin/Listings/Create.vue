@@ -78,7 +78,7 @@
             <button type="submit" class="btn btn-primary" :disabled="form.processing">
               {{ form.processing ? 'Creando...' : 'Crear Negocio' }}
             </button>
-            <Link href="/admin/listings" class="btn btn-outline-secondary">Cancelar</Link>
+            <Link href="/admin/listings" class="btn btn-secondary">Cancelar</Link>
           </div>
         </form>
       </div>

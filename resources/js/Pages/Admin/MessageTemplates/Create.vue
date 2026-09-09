@@ -60,7 +60,7 @@
                 v-for="variable in variables"
                 :key="variable"
                 type="button"
-                class="btn btn-sm btn-outline-secondary"
+                class="btn btn-sm btn-secondary"
                 @click="copy(variable)"
               >
                 {{ variable }}

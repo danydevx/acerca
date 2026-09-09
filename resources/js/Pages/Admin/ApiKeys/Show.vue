@@ -6,7 +6,7 @@
       <template #actions>
         <button
           v-if="!apiKey.revoked_at"
-          class="btn btn-outline-danger"
+          class="btn btn-danger"
           type="button"
           @click="revokeKey"
         >

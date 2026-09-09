@@ -50,10 +50,10 @@
                     <span v-else class="badge bg-secondary">Inactivo</span>
                   </td>
                   <td>
-                    <button class="btn btn-sm btn-outline-primary me-1" @click="openEditModal(service)">
+                    <button class="btn btn-sm btn-info me-1" @click="openEditModal(service)">
                       <i class="bi bi-pencil"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-danger" @click="deleteService(service)">
+                    <button class="btn btn-sm btn-danger" @click="deleteService(service)">
                       <i class="bi bi-trash"></i>
                     </button>
                   </td>

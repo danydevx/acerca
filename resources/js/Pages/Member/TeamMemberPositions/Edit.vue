@@ -8,67 +8,67 @@
       :backHref="`/member/listings/${listing?.id}/team-member-positions`"
     />
 
-    <div class="row">
-      <div class="col-12">
-        <div class="card border-0 shadow-sm">
-          <div class="card-body">
-            <form @submit.prevent="submit">
-              <div class="mb-3">
-                <FieldText
-                  id="position-name"
-                  label="Nombre del puesto"
-                  placeholder="Ej: Recepcionista"
-                  v-model="form.name"
-                  :formError="form.errors.name"
-                  required
-                />
-              </div>
+    <form @submit.prevent="submit">
+      <div class="card">
+        <div class="card-header bg-transparent border-bottom pb-3 pt-3 d-flex justify-content-between align-items-center">
+          <h5 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-pencil-square me-2"></i>Editar puesto
+          </h5>
+          <div class="form-check form-switch mb-0">
+            <input class="form-check-input" type="checkbox" id="position-active" v-model="form.is_active">
+            <label class="form-check-label" for="position-active">Activo</label>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 mb-3">
+            <div class="col-12">
+              <FieldText
+                id="position-name"
+                label="Nombre del puesto"
+                placeholder="Ej: Recepcionista"
+                v-model="form.name"
+                :formError="form.errors.name"
+                required
+              />
+            </div>
 
-              <div class="mb-3">
-                <FieldSelect
-                  id="position-parent"
-                  label="Puesto padre (opcional)"
-                  v-model="form.parent_id"
-                  :options="parentPositionOptions"
-                  :formError="form.errors.parent_id"
-                />
-              </div>
+            <div class="col-12">
+              <FieldSelect
+                id="position-parent"
+                label="Puesto padre (opcional)"
+                v-model="form.parent_id"
+                :options="parentPositionOptions"
+                :formError="form.errors.parent_id"
+              />
+            </div>
 
-              <div class="mb-3">
-                <FieldTextarea
-                  id="position-description"
-                  label="Descripción (opcional)"
-                  placeholder="Describe las responsabilidades del puesto"
-                  v-model="form.description"
-                  :formError="form.errors.description"
-                  rows="3"
-                />
-              </div>
-
-              <div class="mb-3">
-                <FieldSwitch
-                  id="position-active"
-                  label="Activo"
-                  v-model="form.is_active"
-                  :formError="form.errors.is_active"
-                />
-                <div class="form-text">Los puestos inactivos no aparecerán en las opciones de filtro.</div>
-              </div>
-
-              <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-gradient rounded-pill" :disabled="form.processing">
-                  <i class="bi bi-check me-1"></i>
-                  {{ form.processing ? 'Guardando...' : 'Guardar' }}
-                </button>
-                <Link :href="`/member/listings/${listing?.id}/team-member-positions`" class="btn btn-outline-dark rounded-pill">
-                  Cancelar
-                </Link>
-              </div>
-            </form>
+            <div class="col-12">
+              <FieldTextarea
+                id="position-description"
+                label="Descripción (opcional)"
+                placeholder="Describe las responsabilidades del puesto"
+                v-model="form.description"
+                :formError="form.errors.description"
+                rows="3"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-top pt-3 pb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-danger rounded-pill py-2" @click="deletePosition">
+              <i class="bi bi-trash me-1"></i>Eliminar
+            </button>
+            <FormActions
+              :submitText="'Guardar'"
+              :submittingText="'Guardando...'"
+              :cancelHref="`/member/listings/${listing?.id}/team-member-positions`"
+              :sending="form.processing"
+            />
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </MemberLayout>
 </template>
 
@@ -76,12 +76,13 @@
 import { computed } from 'vue'
 import { Head, Link, usePage } from '@inertiajs/vue3'
 import { useForm } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
-import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
+import FormActions from '@/Components/FormActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
@@ -114,6 +115,16 @@ const form = useForm({
 const submit = () => {
   form.put(`/member/listings/${listing.value.id}/team-member-positions/${position.value.id}`, {
     preserveScroll: true,
+  })
+}
+
+const deletePosition = () => {
+  if (!confirm(`Eliminar el puesto "${position.value?.name}"?`)) return
+  router.delete(`/member/listings/${listing.value.id}/team-member-positions/${position.value.id}`, {
+    preserveScroll: true,
+    onSuccess: () => {
+      window.location.href = `/member/listings/${listing.value.id}/team-member-positions`
+    },
   })
 }
 </script>
