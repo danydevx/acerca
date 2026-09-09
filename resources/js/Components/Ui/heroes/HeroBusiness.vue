@@ -79,7 +79,7 @@ defineProps({
   background: var(--bulma-scheme-main);
   border-radius: var(--bulma-radius-large);
   overflow: hidden;
-  box-shadow: 0 4px 12px oklch(0 0 0 / 0.08);
+  box-shadow: var(--dl-shadow-sm);
 
   &__body {
     display: flex;

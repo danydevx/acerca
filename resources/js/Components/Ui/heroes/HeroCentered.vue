@@ -21,7 +21,15 @@
       />
       <HeroBadges v-if="badges?.length" :badges="badges" alignment="center" />
       <HeroDescription v-if="description" :text="description" :centered="true" />
-      <UiSocialLinks v-if="socials?.length" :items="socials" />
+      <UiSocialLinks
+        v-if="socials?.length"
+        :items="socials"
+        :variant="socialsVariant"
+        :color-scheme="socialsColorScheme"
+        :layout="socialsLayout"
+        :icon-only="socialsIconOnly"
+        :text-only="socialsTextOnly"
+      />
       <HeroActions v-if="actions?.length" :actions="actions" alignment="center" />
     </div>
   </section>
@@ -53,7 +61,26 @@ defineProps({
     type: String,
     default: '2xl',
   },
-  iconOnlySocials: {
+  socialsVariant: {
+    type: String,
+    default: 'rounded',
+    validator: (v) => ['default', 'filled', 'outlined', 'rounded', 'pill', 'soft', 'gradient'].includes(v),
+  },
+  socialsColorScheme: {
+    type: String,
+    default: 'auto',
+    validator: (v) => ['auto', 'brand', 'whatsapp', 'facebook', 'instagram', 'linkedin', 'youtube', 'twitter'].includes(v),
+  },
+  socialsLayout: {
+    type: String,
+    default: 'start',
+    validator: (v) => ['start', 'end'].includes(v),
+  },
+  socialsIconOnly: {
+    type: Boolean,
+    default: true,
+  },
+  socialsTextOnly: {
     type: Boolean,
     default: false,
   },
@@ -65,11 +92,11 @@ defineProps({
   background: var(--bulma-scheme-main);
   border-radius: var(--bulma-radius-large);
   overflow: hidden;
-  box-shadow: 0 4px 12px oklch(0 0 0 / 0.08);
+  box-shadow: var(--dl-shadow-sm);
 
   &__cover {
     position: relative;
-    height: 160px;
+    height: 10rem;
     background: var(--bulma-scheme-main-bis);
   }
 

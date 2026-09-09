@@ -20,9 +20,11 @@
       </div>
     </div>
 
-    <div v-if="(showValidation && validationMessage) || formError" class="text-danger mt-2">
+    <div v-if="(showValidation && validationMessage) || formError" class="invalid-feedback">
       {{ formError || validationMessage }}
     </div>
+
+    <div v-if="helpText" class="form-text">{{ helpText }}</div>
   </div>
 </template>
 
@@ -39,6 +41,7 @@ const props = defineProps({
   formError: { type: String, default: '' },
   validateFunction: { type: Function, default: null },
   classObject: { type: String, default: '' },
+  helpText: { type: String, default: '' },
 })
 
 const emit = defineEmits(['update:modelValue'])

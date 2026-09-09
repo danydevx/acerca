@@ -22,31 +22,41 @@
         <h2 class="h6 mb-3">Nuevo webhook</h2>
         <form class="row g-2" @submit.prevent="submit">
           <div class="col-12 col-md-4">
-            <label class="form-label">Nombre</label>
-            <input v-model="form.name" type="text" class="form-control" :class="{ 'is-invalid': form.errors.name }" />
-            <div v-if="form.errors.name" class="invalid-feedback">{{ form.errors.name }}</div>
+            <FieldText
+              id="webhook-name"
+              label="Nombre"
+              v-model="form.name"
+              :form-error="form.errors.name"
+            />
           </div>
           <div class="col-12 col-md-5">
-            <label class="form-label">URL</label>
-            <input v-model="form.url" type="url" class="form-control" :class="{ 'is-invalid': form.errors.url }" />
-            <div v-if="form.errors.url" class="invalid-feedback">{{ form.errors.url }}</div>
+            <FieldUrl
+              id="webhook-url"
+              label="URL"
+              v-model="form.url"
+              :form-error="form.errors.url"
+              placeholder="https://..."
+            />
           </div>
           <div class="col-12 col-md-3">
-            <label class="form-label">Activo</label>
-            <select v-model="form.is_active" class="form-select">
-              <option :value="true">Si</option>
-              <option :value="false">No</option>
-            </select>
+            <FieldSelect
+              id="webhook-active"
+              label="Activo"
+              v-model="form.is_active"
+              :options="[
+                { value: true, label: 'Si' },
+                { value: false, label: 'No' }
+              ]"
+            />
           </div>
           <div class="col-12">
-            <label class="form-label">Eventos</label>
-            <div class="d-flex flex-wrap gap-2">
-              <label v-for="event in availableEvents" :key="event" class="form-check">
-                <input class="form-check-input" type="checkbox" :value="event" v-model="form.events" />
-                <span class="form-check-label">{{ event }}</span>
-              </label>
-            </div>
-            <div v-if="form.errors.events" class="text-danger small mt-1">{{ form.errors.events }}</div>
+            <FieldCheckboxes
+              id="webhook-events"
+              label="Eventos"
+              v-model="form.events"
+              :options="availableEvents.map(e => ({ value: e, label: e }))"
+              :form-error="form.errors.events"
+            />
           </div>
           <div class="col-12">
             <button class="btn btn-gradient rounded-pill" type="submit" :disabled="form.processing">
@@ -118,28 +128,38 @@
           <div class="modal-body">
             <form class="row g-2" @submit.prevent="submitEdit">
               <div class="col-12 col-md-4">
-                <label class="form-label">Nombre</label>
-                <input v-model="editForm.name" type="text" class="form-control" />
+                <FieldText
+                  id="edit-webhook-name"
+                  label="Nombre"
+                  v-model="editForm.name"
+                />
               </div>
               <div class="col-12 col-md-5">
-                <label class="form-label">URL</label>
-                <input v-model="editForm.url" type="url" class="form-control" />
+                <FieldUrl
+                  id="edit-webhook-url"
+                  label="URL"
+                  v-model="editForm.url"
+                  placeholder="https://..."
+                />
               </div>
               <div class="col-12 col-md-3">
-                <label class="form-label">Activo</label>
-                <select v-model="editForm.is_active" class="form-select">
-                  <option :value="true">Si</option>
-                  <option :value="false">No</option>
-                </select>
+                <FieldSelect
+                  id="edit-webhook-active"
+                  label="Activo"
+                  v-model="editForm.is_active"
+                  :options="[
+                    { value: true, label: 'Si' },
+                    { value: false, label: 'No' }
+                  ]"
+                />
               </div>
               <div class="col-12">
-                <label class="form-label">Eventos</label>
-                <div class="d-flex flex-wrap gap-2">
-                  <label v-for="event in availableEvents" :key="event" class="form-check">
-                    <input class="form-check-input" type="checkbox" :value="event" v-model="editForm.events" />
-                    <span class="form-check-label">{{ event }}</span>
-                  </label>
-                </div>
+                <FieldCheckboxes
+                  id="edit-webhook-events"
+                  label="Eventos"
+                  v-model="editForm.events"
+                  :options="availableEvents.map(e => ({ value: e, label: e }))"
+                />
               </div>
             </form>
           </div>
@@ -159,6 +179,11 @@
 import { computed, ref } from 'vue'
 import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
+import FieldText from '@/Components/Fields/FieldText.vue'
+import FieldUrl from '@/Components/Fields/FieldUrl.vue'
+import FieldSelect from '@/Components/Fields/FieldSelect.vue'
+import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
+import FieldCheckboxes from '@/Components/Fields/FieldCheckboxes.vue'
 
 const props = defineProps({
   endpoints: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="ui-horizontal-scroll dl-bulma-horizontal-scroll" :class="{ 'dl-bulma-horizontal-scroll--snap': snap, 'dl-bulma-horizontal-scroll--peek': peek }">
+  <div class="ui-horizontal-scroll" :class="{ 'ui-horizontal-scroll--snap': snap, 'ui-horizontal-scroll--peek': peek }">
     <slot></slot>
   </div>
 </template>
@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-.dl-bulma-horizontal-scroll {
+.ui-horizontal-scroll {
   display: flex;
   gap: 0.75rem;
   overflow-x: auto;

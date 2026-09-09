@@ -66,7 +66,7 @@ defineProps({
     height: 4rem;
     background: var(--bulma-success);
     border-radius: 50%;
-    color: white;
+    color: var(--bulma-success-invert);
     animation: successPop 0.4s ease;
 
     i {

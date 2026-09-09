@@ -16,22 +16,28 @@
       <div class="card-body">
         <form class="row g-2 align-items-end" @submit.prevent="submitSearch">
           <div class="col-12 col-md-4">
-            <label class="form-label">Buscar</label>
-            <input v-model="search" type="text" class="form-control" placeholder="Asunto o categoria" />
+            <FieldText
+              id="support-search"
+              label="Buscar"
+              v-model="search"
+              placeholder="Asunto o categoria"
+            />
           </div>
           <div class="col-6 col-md-2">
-            <label class="form-label">Estado</label>
-            <select v-model="status" class="form-select">
-              <option value="">Todos</option>
-              <option v-for="item in statuses" :key="item" :value="item">{{ item }}</option>
-            </select>
+            <FieldSelect
+              id="support-status"
+              label="Estado"
+              v-model="status"
+              :options="[{ value: '', label: 'Todos' }, ...statuses.map(s => ({ value: s, label: s }))]"
+            />
           </div>
           <div class="col-6 col-md-2">
-            <label class="form-label">Prioridad</label>
-            <select v-model="priority" class="form-select">
-              <option value="">Todas</option>
-              <option v-for="item in priorities" :key="item" :value="item">{{ item }}</option>
-            </select>
+            <FieldSelect
+              id="support-priority"
+              label="Prioridad"
+              v-model="priority"
+              :options="[{ value: '', label: 'Todas' }, ...priorities.map(p => ({ value: p, label: p }))]"
+            />
           </div>
           <div class="col-12 col-md-2 d-flex gap-2">
             <button class="btn btn-outline-primary rounded-pill" type="submit">Filtrar</button>
@@ -102,6 +108,8 @@
 import { ref, computed } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
+import FieldText from '@/Components/Fields/FieldText.vue'
+import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 
 const props = defineProps({
   tickets: {

@@ -30,19 +30,19 @@ defineProps({
   align-items: baseline;
   gap: 0.5rem;
 
-  &-original {
+  &__original {
     font-size: 0.875rem;
     color: var(--bulma-text-weak);
     text-decoration: line-through;
   }
 
-  &-current {
+  &__current {
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--bulma-text);
   }
 
-  &--discount &-current {
+  &--discount &__current {
     color: var(--bulma-danger);
   }
 }

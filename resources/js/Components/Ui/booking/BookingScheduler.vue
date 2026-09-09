@@ -73,7 +73,7 @@
           <div v-if="showConfirmButton" class="booking-scheduler__actions">
             <button
               type="button"
-              class="button is-link"
+              class="booking-scheduler__btn booking-scheduler__btn--link"
               :disabled="!canConfirm"
               @click="handleConfirm"
             >
@@ -337,9 +337,33 @@ const handleConfirm = () => {
   &__actions {
     display: flex;
     gap: 0.75rem;
+  }
 
-    .button {
-      min-width: 120px;
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 7.5rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--bulma-radius);
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &--link {
+      background: var(--bulma-link);
+      color: var(--bulma-link-invert);
+      border: 1px solid var(--bulma-link);
+
+      &:hover:not(:disabled) {
+        background: color-mix(in oklch, var(--bulma-link) 85%, black);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
   }
 }

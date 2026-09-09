@@ -13,7 +13,12 @@
       :network="item.network"
       :url="item.url"
       :icon-only="iconOnly"
-      :show-label="!iconOnly"
+      :text-only="textOnly"
+      :show-label="true"
+      :variant="variant"
+      :size="size"
+      :color-scheme="colorScheme"
+      :layout="layout"
     />
   </div>
 </template>
@@ -33,6 +38,30 @@ defineProps({
   iconOnly: {
     type: Boolean,
     default: false,
+  },
+  textOnly: {
+    type: Boolean,
+    default: false,
+  },
+  layout: {
+    type: String,
+    default: 'start',
+    validator: (v) => ['start', 'end', 'top', 'bottom'].includes(v),
+  },
+  variant: {
+    type: String,
+    default: 'default',
+    validator: (v) => ['default', 'filled', 'outlined', 'rounded', 'pill', 'soft', 'gradient'].includes(v),
+  },
+  size: {
+    type: String,
+    default: 'md',
+    validator: (v) => ['sm', 'md', 'lg'].includes(v),
+  },
+  colorScheme: {
+    type: String,
+    default: 'auto',
+    validator: (v) => ['auto', 'brand', 'whatsapp', 'facebook', 'instagram', 'linkedin', 'youtube', 'twitter'].includes(v),
   },
 })
 </script>

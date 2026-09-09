@@ -31,8 +31,8 @@
       </div>
       <div v-if="$slots.actions || showActions" class="catalog-card__actions">
         <slot name="actions">
-          <button v-if="showActions" class="button is-small" :class="primaryAction ? 'is-primary' : ''">{{ primaryAction || 'Details' }}</button>
-          <button v-if="showActions && secondaryAction" class="button is-small is-outlined">{{ secondaryAction }}</button>
+          <button v-if="showActions" class="catalog-card__btn" :class="primaryAction ? 'catalog-card__btn--primary' : ''">{{ primaryAction || 'Details' }}</button>
+          <button v-if="showActions && secondaryAction" class="catalog-card__btn catalog-card__btn--outline">{{ secondaryAction }}</button>
         </slot>
       </div>
     </div>
@@ -74,14 +74,14 @@ defineProps({
   transition: box-shadow 150ms;
 
   &:hover {
-    box-shadow: 0 4px 12px oklch(0 0 0 / 0.1);
+    box-shadow: var(--dl-shadow-sm);
   }
 
   &--horizontal {
     flex-direction: row;
 
     .catalog-card__media {
-      width: 200px;
+      width: 12.5rem;
       aspect-ratio: 4 / 3;
     }
 
@@ -169,6 +169,39 @@ defineProps({
     display: flex;
     gap: 0.5rem;
     margin-top: 0.5rem;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--bulma-radius);
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &--primary {
+      background: var(--bulma-primary);
+      color: var(--bulma-primary-invert);
+      border: 1px solid var(--bulma-primary);
+
+      &:hover {
+        background: color-mix(in oklch, var(--bulma-primary) 85%, black);
+      }
+    }
+
+    &--outline {
+      background: transparent;
+      color: var(--bulma-link);
+      border: 1px solid var(--bulma-link);
+
+      &:hover {
+        background: var(--bulma-link);
+        color: var(--bulma-link-invert);
+      }
+    }
   }
 }
 </style>

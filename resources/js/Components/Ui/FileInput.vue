@@ -11,24 +11,24 @@
       @dragleave.prevent="isDragover = false"
       @drop.prevent="handleDrop"
     >
-    <div class="dl-bulma-file-input__content is-clickable" @click="inputRef.click()">
-      <i class="bi bi-cloud-arrow-up dl-bulma-file-input__icon is-size-2"></i>
-      <p class="dl-bulma-file-input__text is-size-7">
+    <div class="dl-bulma-file-input__content" @click="inputRef.click()">
+      <i class="bi bi-cloud-arrow-up dl-bulma-file-input__icon"></i>
+      <p class="dl-bulma-file-input__text">
         <span v-if="!selectedFiles.length">Drag and drop or <u>browse</u></span>
         <span v-else>{{ selectedFiles.length }} file(s) selected</span>
       </p>
-      <p v-if="accept" class="dl-bulma-file-input__hint is-size-7 has-text-grey">{{ accept }}</p>
+      <p v-if="accept" class="dl-bulma-file-input__hint">{{ accept }}</p>
     </div>
     <div v-if="selectedFiles.length" class="dl-bulma-file-input__files">
-      <div v-for="(file, index) in selectedFiles" :key="index" class="dl-bulma-file-input__file is-flex is-align-items-center">
-        <i class="bi bi-file-earmark has-text-grey"></i>
-        <span class="is-flex-grow-1 pl-2">{{ file.name }}</span>
+      <div v-for="(file, index) in selectedFiles" :key="index" class="dl-bulma-file-input__file">
+        <i class="bi bi-file-earmark"></i>
+        <span class="dl-bulma-file-input__filename">{{ file.name }}</span>
         <button class="dl-bulma-file-input__remove" @click.stop="removeFile(index)">
           <i class="bi bi-x"></i>
         </button>
       </div>
     </div>
-    <p v-if="error" class="dl-bulma-file-input__error is-size-7">{{ error }}</p>
+    <p v-if="error" class="dl-bulma-file-input__error">{{ error }}</p>
   </div>
 </template>
 
@@ -92,12 +92,18 @@ const removeFile = (index) => {
     display: none;
   }
 
+  &__content {
+    cursor: pointer;
+  }
+
   &__icon {
+    font-size: 2rem;
     color: var(--bulma-text-weak);
     margin-bottom: 0.5rem;
   }
 
   &__text {
+    font-size: 0.875rem;
     color: var(--bulma-text-weak);
     margin: 0;
 
@@ -107,6 +113,8 @@ const removeFile = (index) => {
   }
 
   &__hint {
+    font-size: 0.875rem;
+    color: var(--bulma-text-weak);
     margin: 0.5rem 0 0;
   }
 
@@ -116,11 +124,23 @@ const removeFile = (index) => {
   }
 
   &__file {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     padding: 0.5rem;
     background: var(--bulma-scheme-main);
     border-radius: 6px;
     margin-bottom: 0.5rem;
     color: var(--bulma-text);
+  }
+
+  &__filename {
+    flex: 1;
+    padding-left: 0.5rem;
+    font-size: 0.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__remove {
@@ -138,6 +158,7 @@ const removeFile = (index) => {
   }
 
   &__error {
+    font-size: 0.875rem;
     color: var(--bulma-danger);
     margin: 0.5rem 0 0;
   }

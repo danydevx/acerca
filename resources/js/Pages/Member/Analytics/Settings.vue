@@ -180,25 +180,33 @@
           <div class="card-body">
             <div class="row g-3">
               <div class="col-md-6">
-                <label class="form-label">Timeout de sesión</label>
-                <select v-model="form.session_timeout_minutes" class="form-select">
-                  <option :value="15">15 minutos</option>
-                  <option :value="30">30 minutos</option>
-                  <option :value="60">1 hora</option>
-                  <option :value="120">2 horas</option>
-                </select>
-                <small class="text-muted">Tiempo de inactividad para cerrar una sesión</small>
+                <FieldSelect
+                  id="session-timeout"
+                  label="Timeout de sesión"
+                  v-model="form.session_timeout_minutes"
+                  :options="[
+                    { value: 15, label: '15 minutos' },
+                    { value: 30, label: '30 minutos' },
+                    { value: 60, label: '1 hora' },
+                    { value: 120, label: '2 horas' }
+                  ]"
+                  help-text="Tiempo de inactividad para cerrar una sesión"
+                />
               </div>
               <div class="col-md-6">
-                <label class="form-label">Retención de datos</label>
-                <select v-model="form.data_retention_months" class="form-select">
-                  <option :value="3">3 meses</option>
-                  <option :value="6">6 meses</option>
-                  <option :value="12">12 meses</option>
-                  <option :value="24">24 meses</option>
-                  <option :value="36">36 meses</option>
-                </select>
-                <small class="text-muted">Los datos más antiguos se eliminarán automáticamente</small>
+                <FieldSelect
+                  id="data-retention"
+                  label="Retención de datos"
+                  v-model="form.data_retention_months"
+                  :options="[
+                    { value: 3, label: '3 meses' },
+                    { value: 6, label: '6 meses' },
+                    { value: 12, label: '12 meses' },
+                    { value: 24, label: '24 meses' },
+                    { value: 36, label: '36 meses' }
+                  ]"
+                  help-text="Los datos más antiguos se eliminarán automáticamente"
+                />
               </div>
             </div>
           </div>
@@ -225,6 +233,7 @@
 import { ref, computed } from 'vue'
 import { Head, Link, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
+import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)

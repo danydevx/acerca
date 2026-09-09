@@ -1,7 +1,21 @@
 <template>
-  <div class="empty-state" :class="{ 'empty-state--compact': compact }">
-    <div class="empty-state__icon">
-      <i :class="icon"></i>
+  <div
+    class="empty-state"
+    :class="[
+      `empty-state--${variant}`,
+      { 'empty-state--compact': compact }
+    ]"
+  >
+    <div class="empty-state__icon-wrapper">
+      <div class="empty-state__icon">
+        <i :class="icon"></i>
+      </div>
+      <div v-if="variant === 'illustration'" class="empty-state__illustration">
+        <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 60C20 60 30 40 60 40C90 40 100 60 100 60" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="60" cy="30" r="10" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
     </div>
     <div class="empty-state__content">
       <h4 v-if="title" class="empty-state__title">{{ title }}</h4>
@@ -31,6 +45,11 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  variant: {
+    type: String,
+    default: 'default',
+    validator: (v) => ['default', 'soft', 'outlined', 'filled', 'illustration'].includes(v),
+  },
 })
 </script>
 
@@ -40,7 +59,7 @@ defineProps({
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 1rem;
+  gap: 1.25rem;
   padding: 3rem 2rem;
 
   &--compact {
@@ -56,6 +75,66 @@ defineProps({
     }
   }
 
+  &--soft {
+    background: var(--bulma-scheme-main-bis);
+    border-radius: var(--bulma-radius-large);
+
+    .empty-state__icon {
+      background: var(--bulma-scheme-main);
+      box-shadow: var(--dl-shadow-sm);
+    }
+  }
+
+  &--outlined {
+    border: 2px dashed var(--bulma-border);
+    border-radius: var(--bulma-radius-large);
+
+    .empty-state__icon {
+      background: transparent;
+      border: 2px dashed var(--bulma-border);
+    }
+  }
+
+  &--filled {
+    background: var(--bulma-scheme-main-bis);
+    border-radius: var(--bulma-radius-large);
+
+    .empty-state__icon {
+      background: var(--bulma-primary);
+      color: var(--bulma-primary-invert);
+    }
+  }
+
+  &--illustration {
+    .empty-state__icon-wrapper {
+      position: relative;
+    }
+
+    .empty-state__icon {
+      background: transparent;
+      color: var(--bulma-text-weak);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .empty-state__illustration {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &__icon-wrapper {
+    position: relative;
+  }
+
   &__icon {
     display: flex;
     align-items: center;
@@ -65,10 +144,16 @@ defineProps({
     background: var(--bulma-scheme-main-bis);
     border-radius: 50%;
     color: var(--bulma-text-weak);
+    transition: all 0.3s ease;
 
     i {
       font-size: 2.5rem;
     }
+  }
+
+  &:hover .empty-state__icon {
+    transform: scale(1.05);
+    box-shadow: var(--dl-shadow-md);
   }
 
   &__content {
@@ -94,6 +179,15 @@ defineProps({
 
   &__actions {
     margin-top: 0.75rem;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
   }
 }
 </style>

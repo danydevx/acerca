@@ -109,7 +109,7 @@ defineEmits(['item-click', 'select', 'remove'])
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background: oklch(0 0 0 / 0.5);
+    background: var(--dl-overlay);
     opacity: 0;
     transition: opacity 150ms;
   }
@@ -120,7 +120,7 @@ defineEmits(['item-click', 'select', 'remove'])
     justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
-    background: white;
+    background: var(--bulma-scheme-main);
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -142,8 +142,8 @@ defineEmits(['item-click', 'select', 'remove'])
     left: 0;
     right: 0;
     padding: 0.75rem;
-    background: linear-gradient(transparent, oklch(0 0 0 / 0.7));
-    color: white;
+    background: linear-gradient(transparent, var(--dl-overlay-strong));
+    color: var(--bulma-scheme-main);
     font-size: 0.875rem;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -161,7 +161,7 @@ defineEmits(['item-click', 'select', 'remove'])
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--bulma-primary-invert);
     font-size: 0.75rem;
   }
 }

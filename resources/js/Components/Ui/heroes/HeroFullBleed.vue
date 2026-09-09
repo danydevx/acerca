@@ -13,7 +13,15 @@
         <HeroBadges v-if="badges?.length" :badges="badges" />
         <HeroDescription v-if="description" :text="description" />
         <HeroActions v-if="actions?.length" :actions="actions" />
-        <UiSocialLinks v-if="socials?.length" :items="socials" />
+        <UiSocialLinks
+          v-if="socials?.length"
+          :items="socials"
+          :variant="socialsVariant"
+          :color-scheme="socialsColorScheme"
+          :layout="socialsLayout"
+          :icon-only="socialsIconOnly"
+          :text-only="socialsTextOnly"
+        />
       </slot>
     </div>
   </section>
@@ -47,6 +55,29 @@ const props = defineProps({
     type: String,
     default: 'xl',
   },
+  socialsVariant: {
+    type: String,
+    default: 'rounded',
+    validator: (v) => ['default', 'filled', 'outlined', 'rounded', 'pill', 'soft', 'gradient'].includes(v),
+  },
+  socialsColorScheme: {
+    type: String,
+    default: 'auto',
+    validator: (v) => ['auto', 'brand', 'whatsapp', 'facebook', 'instagram', 'linkedin', 'youtube', 'twitter'].includes(v),
+  },
+  socialsLayout: {
+    type: String,
+    default: 'start',
+    validator: (v) => ['start', 'end'].includes(v),
+  },
+  socialsIconOnly: {
+    type: Boolean,
+    default: true,
+  },
+  socialsTextOnly: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const backgroundStyle = computed(() => {
@@ -66,7 +97,7 @@ const backgroundStyle = computed(() => {
 <style lang="scss" scoped>
 .hero-fullbleed {
   position: relative;
-  min-height: 400px;
+  min-height: 25rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,32 +114,35 @@ const backgroundStyle = computed(() => {
     gap: 1rem;
     padding: 2rem 1.5rem;
     max-width: 600px;
-    color: white;
+    color: var(--bulma-scheme-main);
 
     :deep(.hero-identity__name) {
-      color: white;
+      color: var(--bulma-scheme-main);
     }
 
     :deep(.hero-identity__title),
     :deep(.hero-identity__company) {
-      color: oklch(100% 0 0 / 0.9);
+      color: var(--bulma-scheme-main);
+      opacity: 0.9;
     }
 
     :deep(.hero-description) {
-      color: oklch(100% 0 0 / 0.9);
+      color: var(--bulma-scheme-main);
+      opacity: 0.9;
     }
 
     :deep(.hero-badge--default) {
       background: oklch(100% 0 0 / 0.2);
-      color: white;
+      color: var(--bulma-scheme-main);
     }
 
     :deep(.hero-actions__btn--primary) {
-      background: white;
+      background: var(--bulma-scheme-main);
       color: var(--bulma-link);
 
       &:hover {
-        background: oklch(100% 0 0 / 0.9);
+        background: var(--bulma-scheme-main);
+        opacity: 0.9;
       }
     }
 
@@ -118,10 +152,10 @@ const backgroundStyle = computed(() => {
 
     :deep(.social-links__link) {
       background: oklch(100% 0 0 / 0.15);
-      color: white;
+      color: var(--bulma-scheme-main);
 
       &:hover {
-        background: white;
+        background: var(--bulma-scheme-main);
         color: var(--bulma-link);
       }
     }

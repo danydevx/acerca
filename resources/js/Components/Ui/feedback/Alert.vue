@@ -1,7 +1,12 @@
 <template>
   <div
     class="alert"
-    :class="[`alert--${type}`, { 'alert--dismissible': dismissible }]"
+    :class="[
+      `alert--${type}`,
+      `alert--${variant}`,
+      { 'alert--dismissible': dismissible },
+      { 'alert--bordered': bordered },
+    ]"
     role="alert"
   >
     <div class="alert__icon">
@@ -22,7 +27,7 @@
         aria-label="Cerrar"
         @click="handleDismiss"
       >
-        <i class="bi bi-x"></i>
+        <i class="bi bi-x-lg"></i>
       </button>
     </div>
   </div>
@@ -36,6 +41,15 @@ const props = defineProps({
     type: String,
     default: 'info',
     validator: (v) => ['info', 'success', 'warning', 'error', 'tip'].includes(v),
+  },
+  variant: {
+    type: String,
+    default: 'default',
+    validator: (v) => ['default', 'soft', 'solid', 'left-accent', 'top-accent'].includes(v),
+  },
+  bordered: {
+    type: Boolean,
+    default: false,
   },
   title: {
     type: String,
@@ -79,7 +93,9 @@ const handleDismiss = () => {
   gap: 0.875rem;
   padding: 1rem;
   border-radius: var(--bulma-radius);
-  border: 1px solid;
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
 
   &__icon {
     font-size: 1.25rem;
@@ -115,29 +131,70 @@ const handleDismiss = () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
     padding: 0;
     border: none;
     background: transparent;
     cursor: pointer;
     opacity: 0.6;
     border-radius: var(--bulma-radius-small);
-    transition: opacity 0.15s;
+    transition: all 0.15s ease;
 
     &:hover {
       opacity: 1;
+      background: oklch(0 0 0 / 0.1);
     }
 
     i {
-      font-size: 1rem;
+      font-size: 0.875rem;
     }
   }
 
-  &--info {
-    background: color-mix(in oklch, var(--bulma-info) 10%, transparent);
-    border-color: color-mix(in oklch, var(--bulma-info) 30%, transparent);
-    color: var(--bulma-info);
+  &--left-accent {
+    border-left: 4px solid currentColor;
+    border-radius: 0 var(--bulma-radius) var(--bulma-radius) 0;
+  }
+
+  &--top-accent {
+    border-top: 3px solid currentColor;
+    border-radius: 0 0 var(--bulma-radius) var(--bulma-radius);
+  }
+
+  &--bordered {
+    border-width: 1px;
+  }
+
+  &--soft {
+    &.alert--info {
+      background: color-mix(in oklch, var(--bulma-info) 12%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-info) 25%, transparent);
+      color: var(--bulma-info);
+    }
+
+    &.alert--success {
+      background: color-mix(in oklch, var(--bulma-success) 12%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-success) 25%, transparent);
+      color: var(--bulma-success);
+    }
+
+    &.alert--warning {
+      background: color-mix(in oklch, var(--bulma-warning) 12%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-warning) 25%, transparent);
+      color: var(--bulma-warning);
+    }
+
+    &.alert--error {
+      background: color-mix(in oklch, var(--bulma-danger) 12%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-danger) 25%, transparent);
+      color: var(--bulma-danger);
+    }
+
+    &.alert--tip {
+      background: color-mix(in oklch, var(--bulma-primary) 12%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-primary) 25%, transparent);
+      color: var(--bulma-primary);
+    }
 
     .alert__title,
     .alert__message {
@@ -145,43 +202,83 @@ const handleDismiss = () => {
     }
   }
 
-  &--success {
-    background: color-mix(in oklch, var(--bulma-success) 10%, transparent);
-    border-color: color-mix(in oklch, var(--bulma-success) 30%, transparent);
-    color: var(--bulma-success);
+  &--solid {
+    &.alert--info {
+      background: var(--bulma-info);
+      border-color: var(--bulma-info);
+      color: var(--bulma-info-invert);
+    }
+
+    &.alert--success {
+      background: var(--bulma-success);
+      border-color: var(--bulma-success);
+      color: var(--bulma-success-invert);
+    }
+
+    &.alert--warning {
+      background: var(--bulma-warning);
+      border-color: var(--bulma-warning);
+      color: var(--bulma-warning-invert);
+    }
+
+    &.alert--error {
+      background: var(--bulma-danger);
+      border-color: var(--bulma-danger);
+      color: var(--bulma-danger-invert);
+    }
+
+    &.alert--tip {
+      background: var(--bulma-primary);
+      border-color: var(--bulma-primary);
+      color: var(--bulma-primary-invert);
+    }
 
     .alert__title,
     .alert__message {
-      color: var(--bulma-text);
+      color: inherit;
+    }
+
+    .alert__close {
+      color: inherit;
+      opacity: 0.8;
+
+      &:hover {
+        opacity: 1;
+        background: oklch(100% 0 0 / 0.2);
+      }
     }
   }
 
-  &--warning {
-    background: color-mix(in oklch, var(--bulma-warning) 10%, transparent);
-    border-color: color-mix(in oklch, var(--bulma-warning) 30%, transparent);
-    color: var(--bulma-warning);
-
-    .alert__title,
-    .alert__message {
-      color: var(--bulma-text);
+  &--default {
+    &.alert--info {
+      background: color-mix(in oklch, var(--bulma-info) 10%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-info) 30%, transparent);
+      color: var(--bulma-info);
     }
-  }
 
-  &--error {
-    background: color-mix(in oklch, var(--bulma-danger) 10%, transparent);
-    border-color: color-mix(in oklch, var(--bulma-danger) 30%, transparent);
-    color: var(--bulma-danger);
-
-    .alert__title,
-    .alert__message {
-      color: var(--bulma-text);
+    &.alert--success {
+      background: color-mix(in oklch, var(--bulma-success) 10%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-success) 30%, transparent);
+      color: var(--bulma-success);
     }
-  }
 
-  &--tip {
-    background: color-mix(in oklch, var(--bulma-primary) 10%, transparent);
-    border-color: color-mix(in oklch, var(--bulma-primary) 30%, transparent);
-    color: var(--bulma-primary);
+    &.alert--warning {
+      background: color-mix(in oklch, var(--bulma-warning) 10%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-warning) 30%, transparent);
+      color: var(--bulma-warning);
+    }
+
+    &.alert--error {
+      background: color-mix(in oklch, var(--bulma-danger) 10%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-danger) 30%, transparent);
+      color: var(--bulma-danger);
+    }
+
+    &.alert--tip {
+      background: color-mix(in oklch, var(--bulma-primary) 10%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-primary) 30%, transparent);
+      color: var(--bulma-primary);
+    }
 
     .alert__title,
     .alert__message {

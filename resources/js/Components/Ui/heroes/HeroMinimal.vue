@@ -16,7 +16,15 @@
       />
       <HeroDescription v-if="description" :text="description" :centered="centered" />
       <HeroActions v-if="actions?.length" :actions="actions" :alignment="centered ? 'center' : 'left'" />
-      <UiSocialLinks v-if="socials?.length" :items="socials" />
+      <UiSocialLinks
+        v-if="socials?.length"
+        :items="socials"
+        :variant="socialsVariant"
+        :color-scheme="socialsColorScheme"
+        :layout="socialsLayout"
+        :icon-only="socialsIconOnly"
+        :text-only="socialsTextOnly"
+      />
     </div>
   </section>
 </template>
@@ -47,6 +55,29 @@ defineProps({
     type: String,
     default: 'md',
   },
+  socialsVariant: {
+    type: String,
+    default: 'rounded',
+    validator: (v) => ['default', 'filled', 'outlined', 'rounded', 'pill', 'soft', 'gradient'].includes(v),
+  },
+  socialsColorScheme: {
+    type: String,
+    default: 'auto',
+    validator: (v) => ['auto', 'brand', 'whatsapp', 'facebook', 'instagram', 'linkedin', 'youtube', 'twitter'].includes(v),
+  },
+  socialsLayout: {
+    type: String,
+    default: 'start',
+    validator: (v) => ['start', 'end'].includes(v),
+  },
+  socialsIconOnly: {
+    type: Boolean,
+    default: true,
+  },
+  socialsTextOnly: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
 
@@ -58,7 +89,7 @@ defineProps({
   padding: 1.5rem;
   background: var(--bulma-scheme-main);
   border-radius: var(--bulma-radius-large);
-  box-shadow: 0 4px 12px oklch(0 0 0 / 0.08);
+  box-shadow: var(--dl-shadow-sm);
 
   &--centered {
     flex-direction: column;

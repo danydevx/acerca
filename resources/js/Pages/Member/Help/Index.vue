@@ -14,15 +14,20 @@
       <div class="card-body">
         <form class="row g-2 align-items-end" @submit.prevent="submitSearch">
           <div class="col-12 col-md-6">
-            <label class="form-label">Buscar</label>
-            <input v-model="search" type="text" class="form-control" placeholder="Buscar en ayuda" />
+            <FieldText
+              id="help-search"
+              label="Buscar"
+              v-model="search"
+              placeholder="Buscar en ayuda"
+            />
           </div>
           <div class="col-12 col-md-4">
-            <label class="form-label">Categoria</label>
-            <select v-model="category" class="form-select">
-              <option value="">Todas</option>
-              <option v-for="item in categories" :key="item" :value="item">{{ item }}</option>
-            </select>
+            <FieldSelect
+              id="help-category"
+              label="Categoria"
+              v-model="category"
+              :options="[{ value: '', label: 'Todas' }, ...categories.map(c => ({ value: c, label: c }))]"
+            />
           </div>
           <div class="col-12 col-md-2 d-flex gap-2">
             <button class="btn btn-outline-primary rounded-pill" type="submit">Filtrar</button>
@@ -68,6 +73,8 @@ import { ref } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import Pagination from '@/Components/Member/Pagination.vue'
+import FieldText from '@/Components/Fields/FieldText.vue'
+import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 
 const props = defineProps({
   articles: {

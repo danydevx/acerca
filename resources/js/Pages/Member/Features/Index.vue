@@ -133,14 +133,18 @@
           </div>
           <form @submit.prevent="submitCreate">
             <div class="modal-body">
-              <div class="mb-3">
-                <label class="form-label">Titulo</label>
-                <input v-model="createForm.title" type="text" class="form-control" required>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Descripcion</label>
-                <textarea v-model="createForm.description" class="form-control" rows="2"></textarea>
-              </div>
+              <FieldText
+                id="create-feature-title"
+                label="Titulo"
+                v-model="createForm.title"
+                required
+              />
+              <FieldTextarea
+                id="create-feature-description"
+                label="Descripcion"
+                v-model="createForm.description"
+                :rows="2"
+              />
               <div class="mb-3">
                 <label class="form-label">Icono (Bootstrap Icons)</label>
                 <div class="input-group">
@@ -148,19 +152,18 @@
                   <input v-model="createForm.icon" type="text" class="form-control" placeholder="bi bi-check">
                 </div>
               </div>
-              <div class="mb-3" v-if="locations.length > 0">
-                <label class="form-label">Ubicacion (opcional)</label>
-                <select v-model="createForm.location_id" class="form-select">
-                  <option :value="null">Todas las ubicaciones</option>
-                  <option v-for="loc in locations" :key="loc.id" :value="loc.id">
-                    {{ loc.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-check form-switch">
-                <input v-model="createForm.is_active" class="form-check-input" type="checkbox" id="createIsActive">
-                <label class="form-check-label" for="createIsActive">Activo</label>
-              </div>
+              <FieldSelect
+                v-if="locations.length > 0"
+                id="create-feature-location"
+                label="Ubicacion (opcional)"
+                v-model="createForm.location_id"
+                :options="[{ value: null, label: 'Todas las ubicaciones' }, ...locations.map(l => ({ value: l.id, label: l.name }))]"
+              />
+              <FieldSwitch
+                id="create-feature-active"
+                label="Activo"
+                v-model="createForm.is_active"
+              />
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
@@ -183,14 +186,18 @@
           </div>
           <form @submit.prevent="submitEdit">
             <div class="modal-body">
-              <div class="mb-3">
-                <label class="form-label">Titulo</label>
-                <input v-model="editForm.title" type="text" class="form-control" required>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Descripcion</label>
-                <textarea v-model="editForm.description" class="form-control" rows="2"></textarea>
-              </div>
+              <FieldText
+                id="edit-feature-title"
+                label="Titulo"
+                v-model="editForm.title"
+                required
+              />
+              <FieldTextarea
+                id="edit-feature-description"
+                label="Descripcion"
+                v-model="editForm.description"
+                :rows="2"
+              />
               <div class="mb-3">
                 <label class="form-label">Icono (Bootstrap Icons)</label>
                 <div class="input-group">
@@ -198,19 +205,18 @@
                   <input v-model="editForm.icon" type="text" class="form-control" placeholder="bi bi-check">
                 </div>
               </div>
-              <div class="mb-3" v-if="locations.length > 0">
-                <label class="form-label">Ubicacion</label>
-                <select v-model="editForm.location_id" class="form-select">
-                  <option :value="null">Todas las ubicaciones</option>
-                  <option v-for="loc in locations" :key="loc.id" :value="loc.id">
-                    {{ loc.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-check form-switch">
-                <input v-model="editForm.is_active" class="form-check-input" type="checkbox" id="editIsActive">
-                <label class="form-check-label" for="editIsActive">Activo</label>
-              </div>
+              <FieldSelect
+                v-if="locations.length > 0"
+                id="edit-feature-location"
+                label="Ubicacion"
+                v-model="editForm.location_id"
+                :options="[{ value: null, label: 'Todas las ubicaciones' }, ...locations.map(l => ({ value: l.id, label: l.name }))]"
+              />
+              <FieldSwitch
+                id="edit-feature-active"
+                label="Activo"
+                v-model="editForm.is_active"
+              />
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-dismiss="modal">Cancelar</button>
@@ -302,6 +308,10 @@ import PageHeader from '@/Components/Admin/PageHeader.vue'
 import { Modal } from 'bootstrap'
 import Sortable from 'sortablejs'
 import { toast } from 'vue3-toastify'
+import FieldText from '@/Components/Fields/FieldText.vue'
+import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
+import FieldSelect from '@/Components/Fields/FieldSelect.vue'
+import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 
 const props = defineProps({
   listing: Object,

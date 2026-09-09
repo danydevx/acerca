@@ -13,75 +13,48 @@
         <form @submit.prevent="submit">
           <div class="row g-3">
             <div class="col-12">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    id="schedule-name"
-                    v-model="form.name"
-                    class="form-control"
-                    :class="{ 'is-invalid': errors.name }"
-                    placeholder=" "
-                  />
-                  <label for="schedule-name">Nombre del horario <strong class="text-danger">*</strong></label>
-                  <div v-if="errors.name" class="invalid-feedback">{{ errors.name }}</div>
-                </div>
-                <small class="text-muted">Ej: Horario Regular, Matutino, Nocturno, Diciembre</small>
-              </div>
+              <FieldText
+                id="schedule-name"
+                label="Nombre del horario"
+                v-model="form.name"
+                :form-error="errors.name"
+                placeholder=" "
+                required
+                help-text="Ej: Horario Regular, Matutino, Nocturno, Diciembre"
+              />
             </div>
 
             <div class="col-12">
-              <label class="form-label">Días de la semana <strong class="text-danger">*</strong></label>
-              <div class="d-flex flex-wrap gap-2">
-                <div
-                  v-for="day in daysOfWeek"
-                  :key="day.value"
-                  class="form-check"
-                >
-                  <input
-                    type="checkbox"
-                    :id="`day-${day.value}`"
-                    :value="day.value"
-                    v-model="form.days_of_week"
-                    class="form-check-input"
-                  />
-                  <label :for="`day-${day.value}`" class="form-check-label">{{ day.label }}</label>
-                </div>
-              </div>
-              <div v-if="errors.days_of_week" class="text-danger small mt-1">{{ errors.days_of_week }}</div>
-              <small class="text-muted">Selecciona los días que aplica este horario. Déjalos todos vacíos para todos los días.</small>
+              <FieldCheckboxes
+                id="schedule-days"
+                label="Días de la semana"
+                v-model="form.days_of_week"
+                :items="daysOfWeekForCheckboxes"
+                id-prefix="day-"
+                :form-error="errors.days_of_week"
+                required
+                help-text="Selecciona los días que aplica este horario. Déjalos todos vacíos para todos los días."
+              />
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="time"
-                    id="opening-time"
-                    v-model="form.opening_time"
-                    class="form-control"
-                    :class="{ 'is-invalid': errors.opening_time }"
-                  />
-                  <label for="opening-time">Hora de apertura <strong class="text-danger">*</strong></label>
-                  <div v-if="errors.opening_time" class="invalid-feedback">{{ errors.opening_time }}</div>
-                </div>
-              </div>
+              <FieldTime
+                id="opening-time"
+                label="Hora de apertura"
+                v-model="form.opening_time"
+                :form-error="errors.opening_time"
+                required
+              />
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="time"
-                    id="closing-time"
-                    v-model="form.closing_time"
-                    class="form-control"
-                    :class="{ 'is-invalid': errors.closing_time }"
-                  />
-                  <label for="closing-time">Hora de cierre <strong class="text-danger">*</strong></label>
-                  <div v-if="errors.closing_time" class="invalid-feedback">{{ errors.closing_time }}</div>
-                </div>
-              </div>
+              <FieldTime
+                id="closing-time"
+                label="Hora de cierre"
+                v-model="form.closing_time"
+                :form-error="errors.closing_time"
+                required
+              />
             </div>
 
             <div class="col-12">
@@ -90,44 +63,28 @@
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="time"
-                    id="lunch-start-time"
-                    v-model="form.lunch_start_time"
-                    class="form-control"
-                  />
-                  <label for="lunch-start-time">Inicio del almuerzo</label>
-                </div>
-              </div>
+              <FieldTime
+                id="lunch-start-time"
+                label="Inicio del almuerzo"
+                v-model="form.lunch_start_time"
+              />
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="time"
-                    id="lunch-end-time"
-                    v-model="form.lunch_end_time"
-                    class="form-control"
-                  />
-                  <label for="lunch-end-time">Fin del almuerzo</label>
-                </div>
-              </div>
+              <FieldTime
+                id="lunch-end-time"
+                label="Fin del almuerzo"
+                v-model="form.lunch_end_time"
+              />
             </div>
 
             <div class="col-12">
-              <div class="form-check form-switch">
-                <input
-                  type="checkbox"
-                  id="is-active"
-                  v-model="form.is_active"
-                  class="form-check-input"
-                />
-                <label class="form-check-label" for="is-active">Horario activo</label>
-              </div>
-              <small class="text-muted">Los horarios inactivos no se mostrarán en el minisite público.</small>
+              <FieldSwitch
+                id="is-active"
+                label="Horario activo"
+                v-model="form.is_active"
+                help-text="Los horarios inactivos no se mostrarán en el minisite público."
+              />
             </div>
           </div>
 
@@ -144,6 +101,10 @@ import { Head, Link, usePage, router } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import FormActions from '@/Components/FormActions.vue'
+import FieldText from '@/Components/Fields/FieldText.vue'
+import FieldTime from '@/Components/Fields/FieldTime.vue'
+import FieldCheckboxes from '@/Components/Fields/FieldCheckboxes.vue'
+import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
@@ -157,6 +118,16 @@ const daysOfWeek = [
   { value: 4, label: 'Jueves' },
   { value: 5, label: 'Viernes' },
   { value: 6, label: 'Sábado' },
+]
+
+const daysOfWeekForCheckboxes = [
+  { id: 0, label: 'Domingo' },
+  { id: 1, label: 'Lunes' },
+  { id: 2, label: 'Martes' },
+  { id: 3, label: 'Miércoles' },
+  { id: 4, label: 'Jueves' },
+  { id: 5, label: 'Viernes' },
+  { id: 6, label: 'Sábado' },
 ]
 
 const errors = reactive({

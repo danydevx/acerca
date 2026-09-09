@@ -24,6 +24,30 @@
           </UiCallout>
         </div>
       </div>
+      <hr>
+      <h5 class="title is-6 mb-3">Variants</h5>
+      <div class="columns is-multiline">
+        <div class="column is-6">
+          <UiCallout variant="soft" type="info" title="Soft Info">
+            Soft variant with subtle background.
+          </UiCallout>
+        </div>
+        <div class="column is-6">
+          <UiCallout variant="solid" type="success" title="Solid Success">
+            Solid variant with full color background.
+          </UiCallout>
+        </div>
+        <div class="column is-6">
+          <UiCallout variant="left-accent" type="warning" title="Left Accent">
+            Left accent border style.
+          </UiCallout>
+        </div>
+        <div class="column is-6">
+          <UiCallout variant="top-accent" type="danger" title="Top Accent">
+            Top accent border style.
+          </UiCallout>
+        </div>
+      </div>
     </div>
 
     <div class="box">
@@ -32,21 +56,46 @@
         <div class="column is-4">
           <UiEmptyState
             title="No items found"
-            message="There are no items to display at this time."
+            description="There are no items to display at this time."
           />
         </div>
         <div class="column is-4">
           <UiEmptyState
             title="No results"
-            message="Try adjusting your search or filters."
+            description="Try adjusting your search or filters."
             icon="search"
           />
         </div>
         <div class="column is-4">
           <UiEmptyState
             title="No notifications"
-            message="You're all caught up!"
+            description="You're all caught up!"
             icon="bell"
+          />
+        </div>
+      </div>
+      <hr>
+      <h5 class="title is-6 mb-3">Variants</h5>
+      <div class="columns is-multiline">
+        <div class="column is-4">
+          <UiEmptyState
+            title="No items"
+            description="Empty list state."
+            variant="soft"
+          />
+        </div>
+        <div class="column is-4">
+          <UiEmptyState
+            title="No items"
+            description="Outlined variant."
+            variant="outlined"
+          />
+        </div>
+        <div class="column is-4">
+          <UiEmptyState
+            title="No items"
+            description="Filled variant."
+            variant="filled"
           />
         </div>
       </div>
@@ -56,7 +105,7 @@
       <h3 class="title is-4">Skeleton Loaders</h3>
       <div class="columns is-multiline">
         <div class="column is-3">
-          <UiSkeleton width="100%" height="100px" />
+          <UiSkeleton width="100%" height="100px" type="rect" />
           <p class="mt-2">Rectangle</p>
         </div>
         <div class="column is-3">
@@ -64,8 +113,20 @@
           <p class="mt-2">Circle</p>
         </div>
         <div class="column is-6">
-          <UiSkeleton width="100%" height="60px" type="text" :lines="2" />
-          <p class="mt-2">Text Lines</p>
+          <UiSkeleton width="100%" height="60px" type="paragraph" />
+          <p class="mt-2">Paragraph</p>
+        </div>
+        <div class="column is-3">
+          <UiSkeleton width="100%" height="48px" type="button" />
+          <p class="mt-2">Button</p>
+        </div>
+        <div class="column is-3">
+          <UiSkeleton width="80px" height="24px" type="badge" />
+          <p class="mt-2">Badge</p>
+        </div>
+        <div class="column is-6">
+          <UiSkeleton width="100%" height="200px" type="card" />
+          <p class="mt-2">Card</p>
         </div>
       </div>
     </div>

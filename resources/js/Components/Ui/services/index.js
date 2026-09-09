@@ -1,4 +1,5 @@
 export { default as ServiceCard } from './ServiceCard.vue'
+export { default as ServiceCardOverlay } from './ServiceCardOverlay.vue'
 export { default as ServiceRow } from './ServiceRow.vue'
 export { default as ServiceGrid } from './ServiceGrid.vue'
 export { default as ServiceList } from './ServiceList.vue'
@@ -9,3 +10,6 @@ export { default as ServiceToggle } from './ServiceToggle.vue'
 export { default as ServiceCompare } from './ServiceCompare.vue'
 export { default as ServiceStepper } from './ServiceStepper.vue'
 export { default as ServiceFilter } from './ServiceFilter.vue'
+
+export { default as ServiceMediaOverlay } from './structure/overlay/ServiceMediaOverlay.vue'
+export { default as ServicePriceDisplay } from './structure/overlay/ServicePriceDisplay.vue'

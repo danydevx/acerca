@@ -172,14 +172,198 @@
 
     <div class="box">
       <h3 class="title is-4">Social Links</h3>
+      <h5 class="title is-6 mb-3">Content Variants</h5>
       <div class="mb-4">
         <UiSocialLinks :items="socialItems" />
       </div>
       <div class="mb-4">
         <UiSocialLinks :items="socialItems" :icon-only="true" />
       </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" :text-only="true" />
+      </div>
+      <hr>
+      <h5 class="title is-6 mb-3">Style Variants</h5>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" variant="default" />
+      </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" variant="filled" />
+      </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" variant="outlined" />
+      </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" variant="soft" />
+      </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" variant="gradient" />
+      </div>
+      <hr>
+      <h5 class="title is-6 mb-3">Shape Variants</h5>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" variant="default" />
+      </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" variant="rounded" :icon-only="true" />
+      </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" variant="pill" />
+      </div>
+      <hr>
+      <h5 class="title is-6 mb-3">Content + Shape Combinations</h5>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon + Text</h6>
+        <UiSocialLinks :items="socialItems" variant="default" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon + Text (Filled)</h6>
+        <UiSocialLinks :items="socialItems" variant="filled" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon + Text (Outlined)</h6>
+        <UiSocialLinks :items="socialItems" variant="outlined" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon + Text (Pill)</h6>
+        <UiSocialLinks :items="socialItems" variant="pill" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon Only (Circle)</h6>
+        <UiSocialLinks :items="socialItems" :icon-only="true" variant="default" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon Only (Filled Circle)</h6>
+        <UiSocialLinks :items="socialItems" :icon-only="true" variant="filled" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Text Only (No Icon)</h6>
+        <UiSocialLinks :items="socialItems" :text-only="true" variant="default" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Text Only (Outlined)</h6>
+        <UiSocialLinks :items="socialItems" :text-only="true" variant="outlined" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Text Only (Pill)</h6>
+        <UiSocialLinks :items="socialItems" :text-only="true" variant="pill" />
+      </div>
+      <hr>
+      <h5 class="title is-6 mb-3">Layout Variants (Icon Position)</h5>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon Start (default)</h6>
+        <UiSocialLinks :items="socialItems.slice(0, 3)" layout="start" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon End (text ← icon)</h6>
+        <UiSocialLinks :items="socialItems.slice(0, 3)" layout="end" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon Top (icon above text)</h6>
+        <UiSocialLinks :items="socialItems.slice(0, 3)" layout="top" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon Bottom (icon below text)</h6>
+        <UiSocialLinks :items="socialItems.slice(0, 3)" layout="bottom" />
+      </div>
+      <hr>
+      <h5 class="title is-6 mb-3">Layout + Variant Combinations</h5>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon Top + Filled</h6>
+        <UiSocialLinks :items="socialItems.slice(0, 3)" layout="top" variant="filled" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon Top + Outlined</h6>
+        <UiSocialLinks :items="socialItems.slice(0, 3)" layout="top" variant="outlined" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon Top + Pill</h6>
+        <UiSocialLinks :items="socialItems.slice(0, 3)" layout="top" variant="pill" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon Top + Soft</h6>
+        <UiSocialLinks :items="socialItems.slice(0, 3)" layout="top" variant="soft" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon Bottom + Filled</h6>
+        <UiSocialLinks :items="socialItems.slice(0, 3)" layout="bottom" variant="filled" />
+      </div>
+      <div class="mb-4">
+        <h6 class="title is-7 mb-2">Icon End + Pill</h6>
+        <UiSocialLinks :items="socialItems.slice(0, 3)" layout="end" variant="pill" />
+      </div>
+      <hr>
+      <h5 class="title is-6 mb-3">Colored by Network</h5>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" color-scheme="brand" />
+      </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" :icon-only="true" color-scheme="brand" />
+      </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" :text-only="true" color-scheme="brand" />
+      </div>
+      <hr>
+      <h5 class="title is-6 mb-3">Sizes</h5>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems.slice(0, 3)" size="sm" />
+      </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="socialItems" size="lg" />
+      </div>
+      <hr>
+      <h5 class="title is-6 mb-3">More Network Icons</h5>
+      <div class="mb-4">
+        <UiSocialLinks :items="moreSocialItems" :icon-only="true" />
+      </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="moreSocialItems" :icon-only="true" color-scheme="brand" />
+      </div>
+      <div class="mb-4">
+        <UiSocialLinks :items="moreSocialItems" variant="pill" />
+      </div>
+    </div>
+
+    <div class="box">
+      <h3 class="title is-4">WhatsApp Buttons</h3>
+      <div class="mb-4">
+        <h5 class="title is-6 mb-2">Default WhatsApp Button</h5>
+        <UiSocialLinks :items="whatsappItem" color-scheme="whatsapp" />
+      </div>
+      <div class="mb-4">
+        <h5 class="title is-6 mb-2">WhatsApp Rounded Icon</h5>
+        <UiSocialLinks :items="whatsappItem" variant="rounded" :icon-only="true" color-scheme="whatsapp" />
+      </div>
+      <div class="mb-4">
+        <h5 class="title is-6 mb-2">WhatsApp Pill Button</h5>
+        <UiSocialLinks :items="whatsappItem" variant="pill" color-scheme="whatsapp" />
+      </div>
+      <div class="mb-4">
+        <h5 class="title is-6 mb-2">WhatsApp Soft</h5>
+        <UiSocialLinks :items="whatsappItem" variant="soft" color-scheme="whatsapp" />
+      </div>
+      <div class="mb-4">
+        <h5 class="title is-6 mb-2">WhatsApp Outlined</h5>
+        <UiSocialLinks :items="whatsappItem" variant="outlined" color-scheme="whatsapp" />
+      </div>
+      <div class="mb-4">
+        <h5 class="title is-6 mb-2">WhatsApp Filled</h5>
+        <UiSocialLinks :items="whatsappItem" variant="filled" />
+      </div>
+      <div class="mb-4">
+        <h5 class="title is-6 mb-2">WhatsApp Gradient</h5>
+        <UiSocialLinks :items="whatsappItem" variant="gradient" />
+      </div>
+      <hr>
+      <h5 class="title is-6 mb-3">Multiple WhatsApp Sizes</h5>
+      <div class="mb-3">
+        <UiSocialLinks :items="whatsappItem" size="sm" color-scheme="whatsapp" />
+      </div>
+      <div class="mb-3">
+        <UiSocialLinks :items="whatsappItem" size="md" color-scheme="whatsapp" />
+      </div>
       <div>
-        <UiSocialLinks :items="socialItems" :horizontal="true" />
+        <UiSocialLinks :items="whatsappItem" size="lg" color-scheme="whatsapp" />
       </div>
     </div>
 
@@ -1015,6 +1199,23 @@ const socialItems = ref([
   { network: 'whatsapp', url: 'https://wa.me/521234567890' },
   { network: 'twitter', url: 'https://twitter.com/example' },
   { network: 'youtube', url: 'https://youtube.com/@example' },
+])
+
+const whatsappItem = ref([
+  { network: 'whatsapp', url: 'https://wa.me/521234567890' },
+])
+
+const moreSocialItems = ref([
+  { network: 'tiktok', url: 'https://tiktok.com/@example' },
+  { network: 'linkedin', url: 'https://linkedin.com/in/example' },
+  { network: 'messenger', url: 'https://m.me/example' },
+  { network: 'telegram', url: 'https://t.me/example' },
+  { network: 'discord', url: 'https://discord.com/invite/example' },
+  { network: 'github', url: 'https://github.com/example' },
+  { network: 'spotify', url: 'https://spotify.com/artist/example' },
+  { network: 'wechat', url: 'https://wechat.com/example' },
+  { network: 'line', url: 'https://line.me/ti/p/~example' },
+  { network: 'vk', url: 'https://vk.com/example' },
 ])
 
 const contactItems = ref([

@@ -178,11 +178,11 @@ const displayValue = computed(() => {
     &--striped {
       background-image: linear-gradient(
         45deg,
-        rgba(255, 255, 255, 0.15) 25%,
+        oklch(100% 0 0 / 0.15) 25%,
         transparent 25%,
         transparent 50%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.15) 75%,
+        oklch(100% 0 0 / 0.15) 50%,
+        oklch(100% 0 0 / 0.15) 75%,
         transparent 75%,
         transparent
       );
@@ -205,8 +205,8 @@ const displayValue = computed(() => {
     transform: translateY(-50%);
     font-size: 0.75rem;
     font-weight: 600;
-    color: white;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    color: var(--bulma-scheme-main);
+    text-shadow: 0 1px 2px oklch(0% 0 0 / 0.2);
   }
 
   &__hint {

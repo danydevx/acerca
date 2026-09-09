@@ -68,7 +68,7 @@ defineProps({
   position: relative;
   border-radius: var(--bulma-radius-large);
   overflow: hidden;
-  min-height: 280px;
+  min-height: 17.5rem;
   display: flex;
   align-items: flex-end;
 
@@ -98,20 +98,21 @@ defineProps({
     gap: 0.75rem;
     padding: 1.5rem 1rem;
     width: 100%;
-    color: white;
+    color: var(--bulma-scheme-main);
 
     :deep(.hero-identity__name) {
-      color: white;
+      color: var(--bulma-scheme-main);
     }
 
     :deep(.hero-identity__title),
     :deep(.hero-identity__company) {
-      color: oklch(100% 0 0 / 0.9);
+      color: var(--bulma-scheme-main);
+      opacity: 0.9;
     }
 
     :deep(.hero-badge--default) {
       background: oklch(100% 0 0 / 0.2);
-      color: white;
+      color: var(--bulma-scheme-main);
     }
   }
 

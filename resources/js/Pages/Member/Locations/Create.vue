@@ -13,83 +13,53 @@
         <form @submit.prevent="submit" id="location-form">
           <div class="row g-3">
             <div class="col-12 col-md-8">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    id="location-name"
-                    v-model="form.name"
-                    class="form-control"
-                    :class="{ 'is-invalid': errors.name }"
-                    placeholder=" "
-                  />
-                  <label for="location-name">Nombre <strong class="text-danger">*</strong></label>
-                  <div v-if="errors.name" class="invalid-feedback">{{ errors.name }}</div>
-                </div>
-              </div>
+              <FieldText
+                id="location-name"
+                label="Nombre"
+                v-model="form.name"
+                :form-error="errors.name"
+                placeholder=" "
+                required
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="form-group">
-                <div class="form-check form-switch mt-3 pt-3">
-                  <input
-                    type="checkbox"
-                    id="location-primary"
-                    v-model="form.is_primary"
-                    class="form-check-input"
-                  />
-                  <label class="form-check-label" for="location-primary">Ubicacion principal</label>
-                </div>
-              </div>
+              <FieldSwitch
+                id="location-primary"
+                label="Ubicacion principal"
+                v-model="form.is_primary"
+              />
             </div>
 
             <div class="col-12">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    id="location-address-1"
-                    v-model="form.address_line_1"
-                    class="form-control"
-                    :class="{ 'is-invalid': errors.address_line_1 }"
-                    placeholder=" "
-                  />
-                  <label for="location-address-1">Direccion linea 1 <strong class="text-danger">*</strong></label>
-                  <div v-if="errors.address_line_1" class="invalid-feedback">{{ errors.address_line_1 }}</div>
-                </div>
-              </div>
+              <FieldText
+                id="location-address-1"
+                label="Direccion linea 1"
+                v-model="form.address_line_1"
+                :form-error="errors.address_line_1"
+                placeholder=" "
+                required
+              />
             </div>
 
             <div class="col-12">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    id="location-address-2"
-                    v-model="form.address_line_2"
-                    class="form-control"
-                    placeholder=" "
-                  />
-                  <label for="location-address-2">Direccion linea 2</label>
-                </div>
-              </div>
+              <FieldText
+                id="location-address-2"
+                label="Direccion linea 2"
+                v-model="form.address_line_2"
+                placeholder=" "
+              />
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    id="location-city"
-                    v-model="form.city"
-                    class="form-control"
-                    :class="{ 'is-invalid': errors.city }"
-                    placeholder=" "
-                  />
-                  <label for="location-city">Ciudad / Colonia <strong class="text-danger">*</strong></label>
-                  <div v-if="errors.city" class="invalid-feedback">{{ errors.city }}</div>
-                </div>
-              </div>
+              <FieldText
+                id="location-city"
+                label="Ciudad / Colonia"
+                v-model="form.city"
+                :form-error="errors.city"
+                placeholder=" "
+                required
+              />
             </div>
 
             <div class="col-12 col-md-6">
@@ -106,50 +76,31 @@
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    id="location-postal"
-                    v-model="form.postal_code"
-                    class="form-control"
-                    placeholder=" "
-                  />
-                  <label for="location-postal">Codigo Postal</label>
-                </div>
-              </div>
+              <FieldText
+                id="location-postal"
+                label="Codigo Postal"
+                v-model="form.postal_code"
+                placeholder=" "
+              />
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="tel"
-                    id="location-phone"
-                    v-model="form.phone"
-                    class="form-control"
-                    placeholder=" "
-                  />
-                  <label for="location-phone">Telefono</label>
-                </div>
-              </div>
+              <FieldTel
+                id="location-phone"
+                label="Telefono"
+                v-model="form.phone"
+                placeholder=" "
+              />
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="email"
-                    id="location-email"
-                    v-model="form.email"
-                    class="form-control"
-                    :class="{ 'is-invalid': errors.email }"
-                    placeholder=" "
-                  />
-                  <label for="location-email">Email</label>
-                  <div v-if="errors.email" class="invalid-feedback">{{ errors.email }}</div>
-                </div>
-              </div>
+              <FieldEmail
+                id="location-email"
+                label="Email"
+                v-model="form.email"
+                :form-error="errors.email"
+                placeholder=" "
+              />
             </div>
 
             <div class="col-12">
@@ -164,18 +115,12 @@
             </div>
 
             <div class="col-12">
-              <div class="form-group">
-                <div class="form-floating">
-                  <input
-                    type="url"
-                    id="location-directions"
-                    v-model="form.directions_url"
-                    class="form-control"
-                    placeholder=" "
-                  />
-                  <label for="location-directions">Como llegar (URL de Google Maps)</label>
-                </div>
-              </div>
+              <FieldUrl
+                id="location-directions"
+                label="Como llegar (URL de Google Maps)"
+                v-model="form.directions_url"
+                placeholder="https://maps.google.com/..."
+              />
             </div>
 
             <div class="col-12">
@@ -185,20 +130,16 @@
                 v-model="locationImage"
                 :maxSizeMb="2"
                 accept="image/jpeg,image/png"
+                help-text="JPG o PNG, max 2MB. Opcional."
               />
-              <small class="text-muted">JPG o PNG, max 2MB. Opcional.</small>
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="form-check form-switch mt-3 pt-3">
-                <input
-                  type="checkbox"
-                  id="location-active"
-                  v-model="form.is_active"
-                  class="form-check-input"
-                />
-                <label class="form-check-label" for="location-active">Ubicacion activa</label>
-              </div>
+              <FieldSwitch
+                id="location-active"
+                label="Ubicacion activa"
+                v-model="form.is_active"
+              />
             </div>
           </div>
 
@@ -223,6 +164,11 @@ import PageHeader from '@/Components/Admin/PageHeader.vue'
 import MapPicker from '@/Components/MapPicker.vue'
 import LocationSelector from '@/Components/LocationSelector.vue'
 import FieldImage from '@/Components/Fields/FieldImage.vue'
+import FieldText from '@/Components/Fields/FieldText.vue'
+import FieldEmail from '@/Components/Fields/FieldEmail.vue'
+import FieldTel from '@/Components/Fields/FieldPhone.vue'
+import FieldUrl from '@/Components/Fields/FieldUrl.vue'
+import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 
 const props = defineProps({
   listing: {

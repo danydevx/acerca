@@ -13,59 +13,46 @@
         <form @submit.prevent="submit">
           <div class="row g-3">
             <div class="col-12">
-              <label class="form-label">Título <span class="text-danger">*</span></label>
-              <input
+              <FieldText
                 id="reward-title"
+                label="Título"
                 v-model="form.title"
-                type="text"
-                class="form-control"
-                :class="{ 'is-invalid': errors.title }"
+                :form-error="errors.title"
                 placeholder="ej. Café gratis"
+                required
               />
-              <div v-if="errors.title" class="invalid-feedback">{{ errors.title }}</div>
             </div>
 
             <div class="col-12">
-              <label class="form-label">Descripción</label>
-              <textarea
+              <FieldTextarea
                 id="reward-description"
+                label="Descripción"
                 v-model="form.description"
-                class="form-control"
-                rows="3"
+                :rows="3"
                 placeholder="Descripción del premio que obtendrá el cliente..."
-              ></textarea>
-            </div>
-
-            <div class="col-md-6">
-              <label class="form-label">Número de visitas <span class="text-danger">*</span></label>
-              <input
-                id="reward-max-visits"
-                v-model.number="form.max_visits"
-                type="number"
-                class="form-control"
-                :class="{ 'is-invalid': errors.max_visits }"
-                min="2"
-                max="100"
-                placeholder="ej. 5"
               />
-              <div v-if="errors.max_visits" class="invalid-feedback">{{ errors.max_visits }}</div>
-              <small class="text-muted">Cantidad de visitas para completar la tarjeta</small>
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">Estado</label>
-              <div class="form-check form-switch mt-2">
-                <input
-                  id="reward-is-active"
-                  v-model="form.is_active"
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                />
-                <label class="form-check-label" for="reward-is-active">
-                  {{ form.is_active ? 'Activa' : 'Inactiva' }}
-                </label>
-              </div>
+              <FieldNumber
+                id="reward-max-visits"
+                label="Número de visitas"
+                v-model="form.max_visits"
+                :form-error="errors.max_visits"
+                :min="2"
+                :max="100"
+                placeholder="ej. 5"
+                help-text="Cantidad de visitas para completar la tarjeta"
+                required
+              />
+            </div>
+
+            <div class="col-md-6">
+              <FieldSwitch
+                id="reward-is-active"
+                label="Estado"
+                v-model="form.is_active"
+              />
             </div>
 
             <div class="col-12">
@@ -79,7 +66,7 @@
                 @change="handleImageChange"
               />
               <div v-if="errors.image" class="invalid-feedback">{{ errors.image }}</div>
-              <small class="text-muted">Imagen representativa del premio (opcional)</small>
+              <div class="form-text">Imagen representativa del premio (opcional)</div>
 
               <div v-if="imagePreview" class="mt-3">
                 <img :src="imagePreview" alt="Preview" class="img-thumbnail" style="max-height: 200px;" />
@@ -107,6 +94,10 @@ import { ref, computed } from 'vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
+import FieldText from '@/Components/Fields/FieldText.vue'
+import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
+import FieldNumber from '@/Components/Fields/FieldNumber.vue'
+import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)

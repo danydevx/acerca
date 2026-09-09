@@ -31,7 +31,15 @@
         />
       </div>
       <HeroActions v-if="actions?.length" :actions="actions" />
-      <UiSocialLinks v-if="socials?.length" :items="socials" />
+      <UiSocialLinks
+        v-if="socials?.length"
+        :items="socials"
+        :variant="socialsVariant"
+        :color-scheme="socialsColorScheme"
+        :layout="socialsLayout"
+        :icon-only="socialsIconOnly"
+        :text-only="socialsTextOnly"
+      />
     </div>
   </section>
 </template>
@@ -66,6 +74,29 @@ defineProps({
     type: String,
     default: 'md',
   },
+  socialsVariant: {
+    type: String,
+    default: 'default',
+    validator: (v) => ['default', 'filled', 'outlined', 'rounded', 'pill', 'soft', 'gradient'].includes(v),
+  },
+  socialsColorScheme: {
+    type: String,
+    default: 'auto',
+    validator: (v) => ['auto', 'brand', 'whatsapp', 'facebook', 'instagram', 'linkedin', 'youtube', 'twitter'].includes(v),
+  },
+  socialsLayout: {
+    type: String,
+    default: 'start',
+    validator: (v) => ['start', 'end', 'top', 'bottom'].includes(v),
+  },
+  socialsIconOnly: {
+    type: Boolean,
+    default: false,
+  },
+  socialsTextOnly: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
 
@@ -76,7 +107,7 @@ defineProps({
   background: var(--bulma-scheme-main);
   border-radius: var(--bulma-radius-large);
   overflow: hidden;
-  box-shadow: 0 4px 12px oklch(0 0 0 / 0.08);
+  box-shadow: var(--dl-shadow-sm);
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -89,7 +120,7 @@ defineProps({
 
   &__media {
     flex: 0 0 40%;
-    min-height: 200px;
+    min-height: 12.5rem;
     background: var(--bulma-scheme-main-bis);
 
     @media (min-width: 768px) {
@@ -106,7 +137,7 @@ defineProps({
   &__placeholder {
     width: 100%;
     height: 100%;
-    min-height: 200px;
+    min-height: 12.5rem;
     display: flex;
     align-items: center;
     justify-content: center;

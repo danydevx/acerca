@@ -142,14 +142,14 @@ const hasHeader = computed(() => props.title || props.description || (props.show
   &__backdrop {
     position: absolute;
     inset: 0;
-    background: oklch(0 0 0 / 0.5);
+    background: var(--dl-overlay);
   }
 
   &__panel {
     position: relative;
     background: var(--bulma-scheme-main);
-    border-radius: 12px;
-    box-shadow: 0 25px 50px -12px oklch(0 0 0 / 0.25);
+    border-radius: var(--bulma-radius-large);
+    box-shadow: var(--dl-shadow-elevated);
     max-height: 90vh;
     overflow: hidden;
     display: flex;
@@ -157,17 +157,17 @@ const hasHeader = computed(() => props.title || props.description || (props.show
 
     &--sm {
       width: 100%;
-      max-width: 400px;
+      max-width: 25rem;
     }
 
     &--md {
       width: 100%;
-      max-width: 500px;
+      max-width: 31.25rem;
     }
 
     &--lg {
       width: 100%;
-      max-width: 800px;
+      max-width: 50rem;
     }
   }
 
@@ -220,7 +220,7 @@ const hasHeader = computed(() => props.title || props.description || (props.show
     cursor: pointer;
     color: var(--bulma-text-weak);
     padding: 0.25rem;
-    border-radius: 4px;
+    border-radius: var(--bulma-radius-small);
     flex-shrink: 0;
 
     &:hover {

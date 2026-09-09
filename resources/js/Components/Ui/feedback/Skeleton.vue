@@ -1,5 +1,9 @@
 <template>
-  <div class="skeleton" :class="[`skeleton--${variant}`]" :style="customStyle"></div>
+  <div
+    class="skeleton"
+    :class="[`skeleton--${variant}`, { 'skeleton--glow': glow }]"
+    :style="customStyle"
+  ></div>
 </template>
 
 <script setup>
@@ -7,7 +11,11 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'text',
-    validator: (v) => ['text', 'title', 'avatar', 'avatar-sm', 'avatar-lg', 'thumbnail', 'rect', 'circle', 'circle-sm', 'circle-lg', 'button', 'badge', 'card', 'image'].includes(v),
+    validator: (v) => [
+      'text', 'title', 'avatar', 'avatar-sm', 'avatar-lg',
+      'thumbnail', 'rect', 'circle', 'circle-sm', 'circle-lg',
+      'button', 'badge', 'card', 'image', 'paragraph', 'list', 'avatar-text'
+    ].includes(v),
   },
   width: {
     type: String,
@@ -20,6 +28,10 @@ const props = defineProps({
   borderRadius: {
     type: String,
     default: null,
+  },
+  glow: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -41,6 +53,11 @@ const customStyle = {
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s ease-in-out infinite;
   border-radius: var(--bulma-radius);
+
+  &--glow {
+    box-shadow: 0 0 20px oklch(0 0 0 / 0.1);
+    animation: skeleton-loading 1.5s ease-in-out infinite, skeleton-glow 2s ease-in-out infinite;
+  }
 
   &--text {
     height: 1rem;
@@ -123,6 +140,74 @@ const customStyle = {
     aspect-ratio: 16 / 9;
     border-radius: var(--bulma-radius-large);
   }
+
+  &--paragraph {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    &::before {
+      content: '';
+      display: block;
+      height: 1rem;
+      width: 100%;
+      border-radius: var(--bulma-radius-small);
+      background: inherit;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      height: 1rem;
+      width: 85%;
+      border-radius: var(--bulma-radius-small);
+      background: inherit;
+    }
+  }
+
+  &--list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      height: 3rem;
+      width: 100%;
+      border-radius: var(--bulma-radius);
+      background: inherit;
+    }
+  }
+
+  &--avatar-text {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: inherit;
+      flex-shrink: 0;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      height: 1rem;
+      width: 60%;
+      border-radius: var(--bulma-radius-small);
+      background: inherit;
+    }
+  }
 }
 
 @keyframes skeleton-loading {
@@ -131,6 +216,15 @@ const customStyle = {
   }
   100% {
     background-position: -200% 0;
+  }
+}
+
+@keyframes skeleton-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px oklch(0 0 0 / 0.05);
+  }
+  50% {
+    box-shadow: 0 0 25px oklch(0 0 0 / 0.15);
   }
 }
 </style>

@@ -311,6 +311,96 @@
         </div>
       </div>
     </div>
+
+    <div class="box">
+      <h3 class="title is-4">Hero Slider</h3>
+      <div class="columns is-multiline">
+        <div class="column is-12">
+          <HeroSlider
+            :slides="sliderHeroData"
+            autoplay
+            :delay="6000"
+            :show-navigation="true"
+            :show-pagination="true"
+            effect="fade"
+          />
+        </div>
+      </div>
+      <hr>
+      <div class="columns is-multiline">
+        <div class="column is-6">
+          <h5 class="title is-6">Slider con effect="slide"</h5>
+          <HeroSlider
+            :slides="sliderHeroData.slice(0, 2)"
+            :show-navigation="true"
+            :show-pagination="true"
+          />
+        </div>
+        <div class="column is-6">
+          <h5 class="title is-6">Slider alineado a la izquierda</h5>
+          <HeroSlider
+            :slides="sliderHeroData.slice(0, 2)"
+            content-align="left"
+            :show-navigation="true"
+            :show-pagination="true"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="box">
+      <h3 class="title is-4">Hero Social Only</h3>
+      <p class="subtitle is-6">Overlay minimal con título e iconos de redes sociales</p>
+      <div class="columns is-multiline">
+        <div class="column is-6">
+          <h5 class="title is-6">Default</h5>
+          <HeroSocialOnly
+            name="La Trattoria"
+            subtitle="Restaurante Italiano"
+            :socials="profileData.socials"
+            overlay-variant="gradient-bottom"
+          />
+        </div>
+        <div class="column is-6">
+          <h5 class="title is-6">Con cover</h5>
+          <HeroSocialOnly
+            name="Barbería El Reyes"
+            subtitle="Cortes clásicos y modernos"
+            :cover="profileData.cover"
+            :socials="profileData.socials"
+            overlay-variant="dark"
+          />
+        </div>
+        <div class="column is-4">
+          <h5 class="title is-6">Minimal</h5>
+          <HeroSocialOnly
+            name="Spa Bienestar"
+            :socials="profileData.socials"
+            variant="minimal"
+            overlay-variant="soft"
+          />
+        </div>
+        <div class="column is-4">
+          <h5 class="title is-6">Alineado izquierda</h5>
+          <HeroSocialOnly
+            name="Café Aromas"
+            subtitle="Specialty Coffee"
+            :socials="profileData.socials"
+            align="left"
+            overlay-variant="gradient-center"
+          />
+        </div>
+        <div class="column is-4">
+          <h5 class="title is-6">Brand variant</h5>
+          <HeroSocialOnly
+            name="Tech Store"
+            subtitle="Innovación a tu alcance"
+            :socials="profileData.socials"
+            overlay-variant="brand"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -325,6 +415,8 @@ import {
   HeroBusiness,
   HeroFloating,
   HeroFullBleed,
+  HeroSlider,
+  HeroSocialOnly,
 } from '@/Components/Ui/heroes'
 
 const profileData = ref({
@@ -389,6 +481,33 @@ const businessData = ref({
 const primaryActions = ref([
   { label: 'Contactar', href: '#', variant: 'primary' },
   { label: 'Ver más', href: '#', variant: 'secondary' },
+])
+
+const sliderHeroData = ref([
+  {
+    cover: 'https://picsum.photos/1200/600?random=201',
+    name: 'La Trattoria',
+    title: 'Restaurante Italiano',
+    description: 'Auténtica cocina italiana con ingredientes frescos y recetas tradicionales.',
+    badges: [{ text: 'Abierto', variant: 'success' }],
+    actions: [{ label: 'Ver menú', href: '#', variant: 'primary' }],
+  },
+  {
+    cover: 'https://picsum.photos/1200/600?random=202',
+    name: 'Barbería El Reyes',
+    title: 'Cortes clássicos y modernos',
+    description: 'Más de 20 años de experiencia en cortes masculinos.',
+    badges: [{ text: 'Premium', variant: 'warning' }],
+    actions: [{ label: 'Reservar', href: '#', variant: 'primary' }],
+  },
+  {
+    cover: 'https://picsum.photos/1200/600?random=203',
+    name: 'Spa Bienestar',
+    title: 'Relajación y salud',
+    description: 'Tratamientos de spa y masajes terapéuticos.',
+    badges: [{ text: 'Nuevo', variant: 'info' }],
+    actions: [{ label: 'Agendar', href: '#', variant: 'primary' }],
+  },
 ])
 
 const contactActions = ref([

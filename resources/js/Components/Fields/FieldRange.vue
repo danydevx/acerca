@@ -18,7 +18,7 @@
       <output :for="id" :aria-hidden="true">{{ modelValue }}</output>
     </div>
 
-    <div v-if="(showValidation && validationMessage) || formError" class="text-danger mt-2">
+    <div v-if="(showValidation && validationMessage) || formError" class="invalid-feedback">
       {{ formError || validationMessage }}
     </div>
   </div>

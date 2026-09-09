@@ -42,6 +42,15 @@
   --dl-nav-link: #3B82F6;
   --dl-nav-link-hover: #2563eb;
   --dl-nav-border: rgba(0, 0, 0, 0.1);
+
+  // Overlay
+  --dl-overlay: oklch(0 0 0 / 0.5);
+  --dl-overlay-strong: oklch(0 0 0 / 0.7);
+
+  // Shadows
+  --dl-shadow-sm: 0 4px 12px oklch(0 0 0 / 0.08);
+  --dl-shadow-md: 0 8px 32px oklch(0 0 0 / 0.12);
+  --dl-shadow-elevated: 0 -4px 20px oklch(0 0 0 / 0.15);
 }
 
 // Dark mode support (future)

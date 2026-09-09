@@ -20,7 +20,7 @@
     <div class="card border-0 shadow-sm">
       <div class="card-body">
         <form @submit.prevent="submit">
-          <div class="row g-4">
+          <div class="row g-3">
             <div class="col-12">
               <h5 class="border-bottom pb-2 mb-3">Contenido</h5>
             </div>

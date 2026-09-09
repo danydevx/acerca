@@ -18,30 +18,42 @@
         :value="modelValue"
         class="form-control"
         :placeholder="placeholder || '#000000'"
-        :class="{ 'is-invalid': formError }"
+        :class="{ 'is-invalid': hasError }"
         @input="onTextInput"
         @blur="onBlur"
       />
     </div>
-    <small v-if="hint" class="text-muted d-block mt-1">{{ hint }}</small>
-    <div v-if="formError" class="invalid-feedback d-block">
-      {{ formError }}
+    <div v-if="hint" class="form-text">{{ hint }}</div>
+    <div v-if="hasError" class="invalid-feedback">
+      {{ formError || validationMessage }}
     </div>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   id: { type: String, required: true },
   label: String,
   modelValue: { type: String, default: '' },
   placeholder: { type: String, default: '#000000' },
   required: Boolean,
-  formError: String,
+  showValidation: { type: Boolean, default: false },
+  formError: { type: String, default: '' },
+  validateFunction: { type: Function, default: null },
   hint: String,
 })
 
 const emit = defineEmits(['update:modelValue', 'blur'])
+
+const validationMessage = computed(() => {
+  return props.validateFunction ? props.validateFunction() : ''
+})
+
+const hasError = computed(() => {
+  return (props.showValidation && !!props.validationMessage) || !!props.formError
+})
 
 const isValidHex = (value) => /^#([0-9A-Fa-f]{3}){1,2}$/.test(value)
 

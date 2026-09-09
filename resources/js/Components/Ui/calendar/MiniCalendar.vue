@@ -164,7 +164,7 @@ const selectDate = (date) => {
 <style lang="scss" scoped>
 .mini-calendar {
   width: 100%;
-  max-width: 320px;
+  max-width: 20rem;
   background: var(--bulma-scheme-main);
   border: 1px solid var(--bulma-border);
   border-radius: var(--bulma-radius-large);
@@ -237,7 +237,7 @@ const selectDate = (date) => {
   }
 
   &--compact {
-    max-width: 280px;
+    max-width: 17.5rem;
     padding: 0.5rem;
 
     .mini-calendar__header {

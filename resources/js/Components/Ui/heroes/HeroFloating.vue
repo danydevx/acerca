@@ -17,7 +17,15 @@
       <HeroBadges v-if="badges?.length" :badges="badges" />
       <HeroDescription v-if="description" :text="description" />
       <HeroActions v-if="actions?.length" :actions="actions" />
-      <UiSocialLinks v-if="socials?.length" :items="socials" />
+      <UiSocialLinks
+        v-if="socials?.length"
+        :items="socials"
+        :variant="socialsVariant"
+        :color-scheme="socialsColorScheme"
+        :layout="socialsLayout"
+        :icon-only="socialsIconOnly"
+        :text-only="socialsTextOnly"
+      />
     </div>
   </section>
 </template>
@@ -50,6 +58,29 @@ defineProps({
     type: String,
     default: 'lg',
   },
+  socialsVariant: {
+    type: String,
+    default: 'rounded',
+    validator: (v) => ['default', 'filled', 'outlined', 'rounded', 'pill', 'soft', 'gradient'].includes(v),
+  },
+  socialsColorScheme: {
+    type: String,
+    default: 'auto',
+    validator: (v) => ['auto', 'brand', 'whatsapp', 'facebook', 'instagram', 'linkedin', 'youtube', 'twitter'].includes(v),
+  },
+  socialsLayout: {
+    type: String,
+    default: 'start',
+    validator: (v) => ['start', 'end'].includes(v),
+  },
+  socialsIconOnly: {
+    type: Boolean,
+    default: true,
+  },
+  socialsTextOnly: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
 
@@ -62,7 +93,7 @@ defineProps({
   &__card {
     position: relative;
     margin: -3rem auto 0;
-    max-width: 320px;
+    max-width: 20rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -70,7 +101,7 @@ defineProps({
     padding: 1.5rem 1.25rem 2rem;
     background: var(--bulma-scheme-main);
     border-radius: var(--bulma-radius-large);
-    box-shadow: 0 8px 32px oklch(0 0 0 / 0.12);
+    box-shadow: var(--dl-shadow-md);
     gap: 0.75rem;
     z-index: 1;
   }

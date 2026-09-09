@@ -176,7 +176,7 @@ const truncatedDescription = computed(() => {
     flex-direction: row;
 
     .event-card__media {
-      width: 160px;
+      width: 10rem;
       aspect-ratio: auto;
       flex-shrink: 0;
     }

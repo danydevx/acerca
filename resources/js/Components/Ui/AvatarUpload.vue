@@ -14,10 +14,10 @@
     <div v-if="!uploading" class="avatar-upload__info">
       <p class="avatar-upload__name">{{ label }}</p>
       <div class="avatar-upload__actions">
-        <button class="button is-small is-primary" @click="$emit('change')">
+        <button class="avatar-upload__btn avatar-upload__btn--primary" @click="$emit('change')">
           {{ changeLabel }}
         </button>
-        <button v-if="removable && src" class="button is-small is-danger is-outlined" @click="$emit('remove')">
+        <button v-if="removable && src" class="avatar-upload__btn avatar-upload__btn--danger" @click="$emit('remove')">
           {{ removeLabel }}
         </button>
       </div>
@@ -87,7 +87,7 @@ defineEmits(['change', 'remove'])
     left: 0;
     right: 0;
     padding: 0.5rem;
-    background: oklch(0 0 0 / 0.5);
+    background: var(--dl-overlay);
   }
 
   &__info {
@@ -103,6 +103,39 @@ defineEmits(['change', 'remove'])
   &__actions {
     display: flex;
     gap: 0.5rem;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--bulma-radius);
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &--primary {
+      background: var(--bulma-primary);
+      color: var(--bulma-primary-invert);
+      border: 1px solid var(--bulma-primary);
+
+      &:hover {
+        background: color-mix(in oklch, var(--bulma-primary) 85%, black);
+      }
+    }
+
+    &--danger {
+      background: transparent;
+      color: var(--bulma-danger);
+      border: 1px solid var(--bulma-danger);
+
+      &:hover {
+        background: var(--bulma-danger);
+        color: var(--bulma-danger-invert);
+      }
+    }
   }
 
   &__status {

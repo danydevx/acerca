@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <div v-if="hasError" class="text-danger mt-2">
+    <div v-if="hasError" class="invalid-feedback">
       {{ formError || validationMessage }}
     </div>
   </div>

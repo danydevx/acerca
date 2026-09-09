@@ -38,19 +38,19 @@ defineEmits(['update:modelValue'])
   &__backdrop {
     position: absolute;
     inset: 0;
-    background: oklch(0 0 0 / 0.5);
+    background: var(--dl-overlay);
   }
 
   &__panel {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 300px;
+    width: 18.75rem;
     max-width: 90vw;
     background: var(--bulma-scheme-main);
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 20px oklch(0 0 0 / 0.2);
+    box-shadow: var(--dl-shadow-elevated);
   }
 
   &--left &__panel {
@@ -67,7 +67,7 @@ defineEmits(['update:modelValue'])
     cursor: pointer;
     color: var(--bulma-text-weak);
     padding: 0.5rem;
-    border-radius: 4px;
+    border-radius: var(--bulma-radius-small);
 
     &:hover {
       background: var(--bulma-scheme-main-bis);

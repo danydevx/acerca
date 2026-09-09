@@ -22,30 +22,23 @@
         <h2 class="h6 mb-3">Crear API key</h2>
         <form class="row g-2" @submit.prevent="submit">
           <div class="col-12 col-md-5">
-            <label class="form-label">Nombre</label>
-            <input
+            <FieldText
+              id="apikey-name"
+              label="Nombre"
               v-model="form.name"
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': form.errors.name }"
+              :form-error="form.errors.name"
               placeholder="Ej: Integracion CRM"
               required
             />
-            <div v-if="form.errors.name" class="invalid-feedback">
-              {{ form.errors.name }}
-            </div>
           </div>
           <div class="col-12 col-md-3">
-            <label class="form-label">Expira (opcional)</label>
-            <input
+            <FieldText
+              id="apikey-expires"
+              label="Expira (opcional)"
               v-model="form.expires_at"
               type="date"
-              class="form-control"
-              :class="{ 'is-invalid': form.errors.expires_at }"
+              :form-error="form.errors.expires_at"
             />
-            <div v-if="form.errors.expires_at" class="invalid-feedback">
-              {{ form.errors.expires_at }}
-            </div>
           </div>
           <div class="col-12 col-md-4 d-flex align-items-end">
             <button class="btn btn-gradient rounded-pill w-100" type="submit" :disabled="form.processing">
@@ -117,6 +110,7 @@
 import { computed } from 'vue'
 import { Head, router, useForm, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
+import FieldText from '@/Components/Fields/FieldText.vue'
 
 const props = defineProps({
   apiKeys: {

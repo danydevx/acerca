@@ -51,6 +51,15 @@
           <li :class="{ 'is-active': activeComponent === 'filter' }">
             <a @click="activeComponent = 'filter'">ServiceFilter</a>
           </li>
+          <li :class="{ 'is-active': activeComponent === 'overlay' }">
+            <a @click="activeComponent = 'overlay'">ServiceCardOverlay</a>
+          </li>
+          <li :class="{ 'is-active': activeComponent === 'mediaOverlay' }">
+            <a @click="activeComponent = 'mediaOverlay'">ServiceMediaOverlay</a>
+          </li>
+          <li :class="{ 'is-active': activeComponent === 'priceDisplay' }">
+            <a @click="activeComponent = 'priceDisplay'">ServicePriceDisplay</a>
+          </li>
         </ul>
       </div>
 
@@ -213,6 +222,115 @@
           </div>
         </div>
       </div>
+
+      <div v-if="activeComponent === 'overlay'">
+        <h5 class="title is-6 mb-3">ServiceCardOverlay - Variants</h5>
+        <div class="columns is-multiline">
+          <div class="column is-4">
+            <ServiceCardOverlay :item="sampleItem" variant="default" />
+          </div>
+          <div class="column is-4">
+            <ServiceCardOverlay :item="sampleItem" variant="compact" />
+          </div>
+          <div class="column is-4">
+            <ServiceCardOverlay :item="sampleItem" variant="featured" />
+          </div>
+        </div>
+        <hr>
+        <h5 class="title is-6 mb-3">ServiceCardOverlay - Overlay Variants</h5>
+        <div class="columns is-multiline">
+          <div class="column is-4">
+            <ServiceCardOverlay :item="sampleItem" overlay-variant="gradient-bottom" />
+          </div>
+          <div class="column is-4">
+            <ServiceCardOverlay :item="sampleItem" overlay-variant="gradient-center" />
+          </div>
+          <div class="column is-4">
+            <ServiceCardOverlay :item="sampleItem" overlay-variant="dark" />
+          </div>
+        </div>
+        <hr>
+        <h5 class="title is-6 mb-3">ServiceCardOverlay - Grid</h5>
+        <ServiceGrid :items="currentDataset" :columns="3">
+          <template #default="{ item }">
+            <ServiceCardOverlay :item="item" variant="compact" />
+          </template>
+        </ServiceGrid>
+      </div>
+
+      <div v-if="activeComponent === 'mediaOverlay'">
+        <h5 class="title is-6 mb-3">ServiceMediaOverlay - Variants</h5>
+        <div class="columns is-multiline">
+          <div class="column is-4">
+            <ServiceMediaOverlay
+              src="https://picsum.photos/400/300?random=100"
+              alt="Demo image"
+              variant="gradient-bottom"
+            />
+          </div>
+          <div class="column is-4">
+            <ServiceMediaOverlay
+              src="https://picsum.photos/400/300?random=101"
+              alt="Demo image"
+              variant="gradient-center"
+              badge="Popular"
+            />
+          </div>
+          <div class="column is-4">
+            <ServiceMediaOverlay
+              src="https://picsum.photos/400/300?random=102"
+              alt="Demo image"
+              variant="dark"
+              :discount="20"
+            />
+          </div>
+        </div>
+        <hr>
+        <h5 class="title is-6 mb-3">ServiceMediaOverlay - Overlay Positions</h5>
+        <div class="columns is-multiline">
+          <div class="column is-4">
+            <ServiceMediaOverlay
+              src="https://picsum.photos/400/300?random=103"
+              alt="Demo image"
+              variant="gradient-bottom"
+              overlay-position="bottom"
+            />
+          </div>
+          <div class="column is-4">
+            <ServiceMediaOverlay
+              src="https://picsum.photos/400/300?random=104"
+              alt="Demo image"
+              variant="gradient-bottom"
+              overlay-position="center"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div v-if="activeComponent === 'priceDisplay'">
+        <h5 class="title is-6 mb-3">ServicePriceDisplay - Variants</h5>
+        <div class="columns is-multiline">
+          <div class="column is-4">
+            <ServicePriceDisplay :price="350" :original-price="450" />
+          </div>
+          <div class="column is-4">
+            <ServicePriceDisplay :price="350" price-from />
+          </div>
+          <div class="column is-4">
+            <ServicePriceDisplay :price="280" :original-price="350" :discount="20" />
+          </div>
+        </div>
+        <hr>
+        <h5 class="title is-6 mb-3">ServicePriceDisplay - Compact</h5>
+        <div class="columns">
+          <div class="column is-3">
+            <ServicePriceDisplay :price="350" compact />
+          </div>
+          <div class="column is-3">
+            <ServicePriceDisplay :price="350" :original-price="450" compact />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -221,6 +339,7 @@
 import { ref, computed } from 'vue'
 import {
   ServiceCard,
+  ServiceCardOverlay,
   ServiceRow,
   ServiceGrid,
   ServiceList,
@@ -231,6 +350,8 @@ import {
   ServiceCompare,
   ServiceStepper,
   ServiceFilter,
+  ServiceMediaOverlay,
+  ServicePriceDisplay,
 } from '@/Components/Ui/services/index.js'
 
 const activeIndustry = ref('restaurant')

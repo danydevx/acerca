@@ -11,7 +11,7 @@
     <div class="card border-0 shadow-sm">
       <div class="card-body">
         <form @submit.prevent="submit">
-          <div class="row g-4">
+          <div class="row g-3">
             <div class="col-12">
               <h5 class="border-bottom pb-2 mb-3">Contenido</h5>
             </div>
@@ -116,27 +116,27 @@
             </div>
 
             <div v-if="form.background_type === 'color'" class="col-md-4">
-              <label class="form-label">Color</label>
-              <div class="input-group">
-                <input v-model="form.background_color" type="color" class="form-control form-control-color">
-                <input v-model="form.background_color" type="text" class="form-control">
-              </div>
+              <FieldColorpicker
+                id="background-color"
+                label="Color"
+                v-model="form.background_color"
+              />
             </div>
 
             <div v-if="form.background_type === 'gradient'" class="col-md-4">
-              <label class="form-label">Color inicial</label>
-              <div class="input-group">
-                <input v-model="form.background_gradient_start" type="color" class="form-control form-control-color">
-                <input v-model="form.background_gradient_start" type="text" class="form-control">
-              </div>
+              <FieldColorpicker
+                id="background-gradient-start"
+                label="Color inicial"
+                v-model="form.background_gradient_start"
+              />
             </div>
 
             <div v-if="form.background_type === 'gradient'" class="col-md-4">
-              <label class="form-label">Color final</label>
-              <div class="input-group">
-                <input v-model="form.background_gradient_end" type="color" class="form-control form-control-color">
-                <input v-model="form.background_gradient_end" type="text" class="form-control">
-              </div>
+              <FieldColorpicker
+                id="background-gradient-end"
+                label="Color final"
+                v-model="form.background_gradient_end"
+              />
             </div>
 
             <div v-if="form.background_type === 'image'" class="col-md-8">
@@ -245,6 +245,7 @@ import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 import FieldUrl from '@/Components/Fields/FieldUrl.vue'
+import FieldColorpicker from '@/Components/Fields/FieldColorpicker.vue'
 import FormActions from '@/Components/FormActions.vue'
 
 const props = defineProps({

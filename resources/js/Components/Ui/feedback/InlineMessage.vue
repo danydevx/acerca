@@ -1,7 +1,12 @@
 <template>
   <div
     class="inline-message"
-    :class="`inline-message--${type}`"
+    :class="[
+      `inline-message--${type}`,
+      `inline-message--${variant}`,
+      { 'inline-message--dismissible': dismissible },
+      { 'inline-message--with-title': title },
+    ]"
     role="alert"
   >
     <i class="inline-message__icon" :class="iconClass"></i>
@@ -16,7 +21,7 @@
       aria-label="Cerrar"
       @click="$emit('dismiss')"
     >
-      <i class="bi bi-x"></i>
+      <i class="bi bi-x-lg"></i>
     </button>
   </div>
 </template>
@@ -29,6 +34,11 @@ const props = defineProps({
     type: String,
     default: 'info',
     validator: (v) => ['info', 'success', 'warning', 'error', 'tip'].includes(v),
+  },
+  variant: {
+    type: String,
+    default: 'default',
+    validator: (v) => ['default', 'soft', 'solid', 'left-accent', 'top-accent'].includes(v),
   },
   title: {
     type: String,
@@ -66,12 +76,13 @@ const iconClass = computed(() => props.icon || iconMap[props.type])
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  padding: 0.875rem 1rem;
+  padding: 0.75rem 1rem;
   border-radius: var(--bulma-radius);
-  border: 1px solid;
+  border: 1px solid transparent;
+  position: relative;
 
   &__icon {
-    font-size: 1.125rem;
+    font-size: 1rem;
     flex-shrink: 0;
     margin-top: 0.125rem;
   }
@@ -83,6 +94,10 @@ const iconClass = computed(() => props.icon || iconMap[props.type])
     gap: 0.125rem;
   }
 
+  &--with-title &__content {
+    gap: 0.25rem;
+  }
+
   &__title {
     font-size: 0.875rem;
     font-weight: 600;
@@ -92,6 +107,7 @@ const iconClass = computed(() => props.icon || iconMap[props.type])
   &__message {
     font-size: 0.8125rem;
     line-height: 1.5;
+    color: var(--bulma-text);
   }
 
   &__dismiss {
@@ -103,72 +119,136 @@ const iconClass = computed(() => props.icon || iconMap[props.type])
     padding: 0;
     border: none;
     background: transparent;
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: pointer;
     border-radius: var(--bulma-radius-small);
-    transition: opacity 0.15s;
+    transition: all 0.15s ease;
+    margin: -0.125rem -0.25rem 0 0;
 
     &:hover {
       opacity: 1;
+      background: oklch(0 0 0 / 0.1);
     }
 
     i {
-      font-size: 0.875rem;
+      font-size: 0.75rem;
     }
   }
 
-  &--info {
-    background: color-mix(in oklch, var(--bulma-info) 10%, transparent);
-    border-color: color-mix(in oklch, var(--bulma-info) 30%, transparent);
-    color: var(--bulma-info);
+  &--left-accent {
+    border-left: 3px solid currentColor;
+    border-radius: 0 var(--bulma-radius) var(--bulma-radius) 0;
+    padding-left: 1rem;
+  }
 
-    .inline-message__title,
-    .inline-message__message {
-      color: var(--bulma-text);
+  &--top-accent {
+    border-top: 2px solid currentColor;
+    border-radius: 0 0 var(--bulma-radius) var(--bulma-radius);
+  }
+
+  &--soft {
+    &.inline-message--info {
+      background: color-mix(in oklch, var(--bulma-info) 10%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-info) 20%, transparent);
+      color: var(--bulma-info);
+    }
+
+    &.inline-message--success {
+      background: color-mix(in oklch, var(--bulma-success) 10%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-success) 20%, transparent);
+      color: var(--bulma-success);
+    }
+
+    &.inline-message--warning {
+      background: color-mix(in oklch, var(--bulma-warning) 10%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-warning) 20%, transparent);
+      color: var(--bulma-warning);
+    }
+
+    &.inline-message--error {
+      background: color-mix(in oklch, var(--bulma-danger) 10%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-danger) 20%, transparent);
+      color: var(--bulma-danger);
+    }
+
+    &.inline-message--tip {
+      background: color-mix(in oklch, var(--bulma-primary) 10%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-primary) 20%, transparent);
+      color: var(--bulma-primary);
     }
   }
 
-  &--success {
-    background: color-mix(in oklch, var(--bulma-success) 10%, transparent);
-    border-color: color-mix(in oklch, var(--bulma-success) 30%, transparent);
-    color: var(--bulma-success);
+  &--solid {
+    &.inline-message--info {
+      background: var(--bulma-info);
+      color: var(--bulma-info-invert);
+    }
+
+    &.inline-message--success {
+      background: var(--bulma-success);
+      color: var(--bulma-success-invert);
+    }
+
+    &.inline-message--warning {
+      background: var(--bulma-warning);
+      color: var(--bulma-warning-invert);
+    }
+
+    &.inline-message--error {
+      background: var(--bulma-danger);
+      color: var(--bulma-danger-invert);
+    }
+
+    &.inline-message--tip {
+      background: var(--bulma-primary);
+      color: var(--bulma-primary-invert);
+    }
 
     .inline-message__title,
     .inline-message__message {
-      color: var(--bulma-text);
+      color: inherit;
+    }
+
+    .inline-message__dismiss {
+      color: inherit;
+      opacity: 0.7;
+
+      &:hover {
+        opacity: 1;
+        background: oklch(100% 0 0 / 0.2);
+      }
     }
   }
 
-  &--warning {
-    background: color-mix(in oklch, var(--bulma-warning) 10%, transparent);
-    border-color: color-mix(in oklch, var(--bulma-warning) 30%, transparent);
-    color: var(--bulma-warning);
-
-    .inline-message__title,
-    .inline-message__message {
-      color: var(--bulma-text);
+  &--default {
+    &.inline-message--info {
+      background: color-mix(in oklch, var(--bulma-info) 8%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-info) 25%, transparent);
+      color: var(--bulma-info);
     }
-  }
 
-  &--error {
-    background: color-mix(in oklch, var(--bulma-danger) 10%, transparent);
-    border-color: color-mix(in oklch, var(--bulma-danger) 30%, transparent);
-    color: var(--bulma-danger);
-
-    .inline-message__title,
-    .inline-message__message {
-      color: var(--bulma-text);
+    &.inline-message--success {
+      background: color-mix(in oklch, var(--bulma-success) 8%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-success) 25%, transparent);
+      color: var(--bulma-success);
     }
-  }
 
-  &--tip {
-    background: color-mix(in oklch, var(--bulma-primary) 10%, transparent);
-    border-color: color-mix(in oklch, var(--bulma-primary) 30%, transparent);
-    color: var(--bulma-primary);
+    &.inline-message--warning {
+      background: color-mix(in oklch, var(--bulma-warning) 8%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-warning) 25%, transparent);
+      color: var(--bulma-warning);
+    }
 
-    .inline-message__title,
-    .inline-message__message {
-      color: var(--bulma-text);
+    &.inline-message--error {
+      background: color-mix(in oklch, var(--bulma-danger) 8%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-danger) 25%, transparent);
+      color: var(--bulma-danger);
+    }
+
+    &.inline-message--tip {
+      background: color-mix(in oklch, var(--bulma-primary) 8%, transparent);
+      border-color: color-mix(in oklch, var(--bulma-primary) 25%, transparent);
+      color: var(--bulma-primary);
     }
   }
 }

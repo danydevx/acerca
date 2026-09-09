@@ -1,17 +1,17 @@
 <template>
   <div class="image-input" :class="{ 'has-error': error }">
     <div v-if="!modelValue" class="image-input__placeholder" @click="triggerInput">
-      <i class="bi bi-image has-text-grey"></i>
+      <i class="bi bi-image"></i>
       <span>Click to select image</span>
     </div>
 
     <div v-else class="image-input__preview">
       <img :src="modelValue" :alt="alt">
       <div class="image-input__overlay">
-        <button class="button is-small is-light" @click="triggerInput">
+        <button class="image-input__btn image-input__btn--light" @click="triggerInput">
           <i class="bi bi-arrow-repeat"></i>
         </button>
-        <button v-if="removable" class="button is-small is-danger" @click="removeImage">
+        <button v-if="removable" class="image-input__btn image-input__btn--danger" @click="removeImage">
           <i class="bi bi-trash"></i>
         </button>
       </div>
@@ -21,7 +21,7 @@
       ref="inputRef"
       type="file"
       :accept="accept"
-      class="is-hidden"
+      class="image-input__input"
       @change="handleChange"
     >
 
@@ -72,6 +72,10 @@ const removeImage = () => {
   position: relative;
   width: 200px;
 
+  &__input {
+    display: none;
+  }
+
   &__placeholder {
     width: 200px;
     height: 150px;
@@ -85,18 +89,19 @@ const removeImage = () => {
     cursor: pointer;
     transition: all 0.2s;
 
-    &:hover {
-      border-color: var(--bulma-link);
-      background: var(--bulma-scheme-main-bis);
-    }
-
     i {
       font-size: 2rem;
+      color: var(--bulma-text-weak);
     }
 
     span {
       font-size: 0.875rem;
       color: var(--bulma-text-weak);
+    }
+
+    &:hover {
+      border-color: var(--bulma-link);
+      background: var(--bulma-scheme-main-bis);
     }
   }
 
@@ -112,21 +117,52 @@ const removeImage = () => {
       height: 100%;
       object-fit: cover;
     }
+
+    &:hover .image-input__overlay {
+      opacity: 1;
+    }
   }
 
   &__overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--dl-overlay);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     opacity: 0;
     transition: opacity 0.2s;
+  }
 
-    .image-input__preview:hover & {
-      opacity: 1;
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &--light {
+      background: var(--bulma-scheme-main);
+      color: var(--bulma-text);
+
+      &:hover {
+        background: var(--bulma-scheme-main-bis);
+      }
+    }
+
+    &--danger {
+      background: var(--bulma-danger);
+      color: var(--bulma-danger-invert);
+
+      &:hover {
+        background: color-mix(in oklch, var(--bulma-danger) 85%, black);
+      }
     }
   }
 

@@ -3,7 +3,7 @@
     <div
       v-for="(item, index) in items"
       :key="index"
-      class="dl-bulma-list__item is-flex is-align-items-center is-gap-3 p-3 px-4"
+      class="dl-bulma-list__item"
       :class="{
         'dl-bulma-list__item--interactive': interactive || item.onClick,
         'dl-bulma-list__item--disabled': item.disabled,
@@ -12,22 +12,22 @@
       @click="!item.disabled && item.onClick && item.onClick(item)"
       @keydown.enter="!item.disabled && item.onClick && item.onClick(item)"
     >
-      <div v-if="item.avatar || item.icon" class="dl-bulma-list__leading is-flex-shrink-0">
+      <div v-if="item.avatar || item.icon" class="dl-bulma-list__leading">
         <img
           v-if="item.avatar && !item.avatar.startsWith('bi ')"
           :src="item.avatar"
-          class="dl-bulma-list__avatar image is-48x48"
+          class="dl-bulma-list__avatar"
           :alt="item.title"
         >
-        <span v-else-if="item.icon" class="dl-bulma-list__icon is-flex is-justify-content-center is-align-items-center">
-          <i :class="item.icon + ' is-size-5'" aria-hidden="true"></i>
+        <span v-else-if="item.icon" class="dl-bulma-list__icon">
+          <i :class="item.icon" aria-hidden="true"></i>
         </span>
       </div>
-      <div class="dl-bulma-list__content is-flex-grow-1">
-        <div class="dl-bulma-list__title is-size-6 has-text-weight-medium">{{ item.title }}</div>
-        <div v-if="item.subtitle" class="dl-bulma-list__subtitle is-size-7 has-text-grey">{{ item.subtitle }}</div>
+      <div class="dl-bulma-list__content">
+        <div class="dl-bulma-list__title">{{ item.title }}</div>
+        <div v-if="item.subtitle" class="dl-bulma-list__subtitle">{{ item.subtitle }}</div>
       </div>
-      <div v-if="item.badge || $slots.trailing" class="dl-bulma-list__trailing is-flex is-flex-shrink-0 is-align-items-center is-gap-2">
+      <div v-if="item.badge || $slots.trailing" class="dl-bulma-list__trailing">
         <span v-if="item.badge" class="dl-bulma-list__badge" :class="`dl-bulma-list__badge--${item.badgeType}`">
           {{ item.badge }}
         </span>
@@ -78,6 +78,11 @@ defineProps({
   }
 
   &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+
     &--interactive {
       cursor: pointer;
       transition: background-color 0.15s;
@@ -97,23 +102,52 @@ defineProps({
     }
   }
 
+  &__leading {
+    flex-shrink: 0;
+  }
+
   &__avatar {
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
     object-fit: cover;
   }
 
   &__icon {
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--bulma-text-weak);
+
+    i {
+      font-size: 1.25rem;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
   }
 
   &__title {
+    font-size: 0.875rem;
+    font-weight: 500;
     color: var(--bulma-text);
   }
 
   &__subtitle {
+    font-size: 0.75rem;
+    color: var(--bulma-text-weak);
     margin-top: 0.125rem;
+  }
+
+  &__trailing {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   &__badge {

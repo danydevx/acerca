@@ -16,84 +16,76 @@
           <h5 class="mb-0"><i class="bi bi-robot me-2"></i>Configuración del Chatbot</h5>
         </div>
         <div class="card-body">
-          <div class="row g-4">
+          <div class="row g-3">
             <div class="col-12 col-md-6">
-              <div class="mb-3">
-                <label class="form-label">Proveedor de IA</label>
-                <select v-model="form.provider" class="form-select">
-                  <option value="openai">OpenAI</option>
-                  <option value="minimax">MiniMax</option>
-                </select>
-              </div>
+              <FieldSelect
+                id="chatbot-provider"
+                label="Proveedor de IA"
+                v-model="form.provider"
+                :options="[
+                  { value: 'openai', label: 'OpenAI' },
+                  { value: 'minimax', label: 'MiniMax' }
+                ]"
+              />
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="mb-3">
-                <label class="form-label">API Key</label>
-                <input
-                  type="password"
-                  v-model="form.api_key"
-                  class="form-control"
-                  placeholder="sk-..."
-                  autocomplete="off"
-                />
-                <small class="text-muted">Tu API key se guarda de forma segura y encriptada</small>
-              </div>
+              <FieldText
+                id="chatbot-api-key"
+                label="API Key"
+                v-model="form.api_key"
+                type="password"
+                placeholder="sk-..."
+                autocomplete="off"
+                help-text="Tu API key se guarda de forma segura y encriptada"
+              />
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="mb-3">
-                <label class="form-label">Modelo de Chat</label>
-                <select v-model="form.model" class="form-select">
-                  <option value="gpt-4o-mini">GPT-4o Mini (Recomendado)</option>
-                  <option value="gpt-4o">GPT-4o</option>
-                  <option value="gpt-4-turbo">GPT-4 Turbo</option>
-                  <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
-                </select>
-              </div>
+              <FieldSelect
+                id="chatbot-model"
+                label="Modelo de Chat"
+                v-model="form.model"
+                :options="[
+                  { value: 'gpt-4o-mini', label: 'GPT-4o Mini (Recomendado)' },
+                  { value: 'gpt-4o', label: 'GPT-4o' },
+                  { value: 'gpt-4-turbo', label: 'GPT-4 Turbo' },
+                  { value: 'gpt-3.5-turbo', label: 'GPT-3.5 Turbo' }
+                ]"
+              />
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="mb-3">
-                <label class="form-label">Modelo de Embeddings</label>
-                <select v-model="form.embedding_model" class="form-select">
-                  <option value="text-embedding-3-small">text-embedding-3-small (Recomendado)</option>
-                  <option value="text-embedding-3-large">text-embedding-3-large</option>
-                  <option value="text-embedding-ada-002">text-embedding-ada-002</option>
-                </select>
-              </div>
+              <FieldSelect
+                id="chatbot-embedding-model"
+                label="Modelo de Embeddings"
+                v-model="form.embedding_model"
+                :options="[
+                  { value: 'text-embedding-3-small', label: 'text-embedding-3-small (Recomendado)' },
+                  { value: 'text-embedding-3-large', label: 'text-embedding-3-large' },
+                  { value: 'text-embedding-ada-002', label: 'text-embedding-ada-002' }
+                ]"
+              />
             </div>
 
             <div class="col-12">
-              <div class="mb-3">
-                <label class="form-label">System Prompt</label>
-                <textarea
-                  v-model="form.system_prompt"
-                  class="form-control"
-                  rows="4"
-                  placeholder="Eres un asistente amigable de {business_name}..."
-                ></textarea>
-                <small class="text-muted">
-                  Usa <code>{business_name}</code> para incluir el nombre del negocio automáticamente.
-                </small>
-              </div>
+              <FieldTextarea
+                id="chatbot-system-prompt"
+                label="System Prompt"
+                v-model="form.system_prompt"
+                placeholder="Eres un asistente amigable de {business_name}..."
+                :rows="4"
+                help-text="Usa {business_name} para incluir el nombre del negocio automáticamente."
+              />
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="mb-3">
-                <label class="form-label">Preset Principal</label>
-                <select v-model="form.preset_id" class="form-select">
-                  <option :value="null">Ninguno (personalizado)</option>
-                  <option v-for="preset in presets" :key="preset.id" :value="preset.id">
-                    {{ preset.name }} {{ preset.business_id ? '(Propio)' : '' }}
-                  </option>
-                </select>
-                <small class="text-muted">
-                  <a :href="`/member/listings/${business.id}/ai-chatbot/presets`" target="_blank">
-                    Gestionar presets
-                  </a>
-                </small>
-              </div>
+              <FieldSelect
+                id="chatbot-preset"
+                label="Preset Principal"
+                v-model="form.preset_id"
+                :options="presetOptions"
+              />
             </div>
 
             <div class="col-12">
@@ -119,22 +111,19 @@
                     {{ preset.name }} {{ preset.business_id ? '(Propio)' : '' }}
                   </option>
                 </select>
-                <small class="text-muted">Los presets adicionales se usan como contexto adicional en las conversaciones</small>
+                <div class="form-text">Los presets adicionales se usan como contexto adicional en las conversaciones</div>
               </div>
             </div>
 
             <div class="col-12 col-md-6">
-              <div class="mb-3">
-                <label class="form-label">Nombre del Chatbot</label>
-                <input
-                  type="text"
-                  v-model="form.chatbot_name"
-                  class="form-control"
-                  placeholder="Asistente Virtual"
-                  maxlength="100"
-                />
-                <small class="text-muted">Nombre que aparecerá en el chat</small>
-              </div>
+              <FieldText
+                id="chatbot-name"
+                label="Nombre del Chatbot"
+                v-model="form.chatbot_name"
+                placeholder="Asistente Virtual"
+                :maxlength="100"
+                help-text="Nombre que aparecerá en el chat"
+              />
             </div>
 
             <div class="col-12 col-md-6">
@@ -146,7 +135,7 @@
                   @change="onAvatarChange"
                   class="form-control"
                 />
-                <small class="text-muted">JPG o PNG, máximo 1MB</small>
+                <div class="form-text">JPG o PNG, máximo 1MB</div>
                 <div v-if="form.chatbot_avatar_preview || form.chatbot_avatar" class="mt-2">
                   <img
                     :src="form.chatbot_avatar_preview || form.chatbot_avatar"
@@ -159,222 +148,136 @@
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <label class="form-label">Color del Widget</label>
-                <div class="color-input-wrapper">
-                  <input
-                    type="color"
-                    v-model="form.widget_color"
-                    class="color-input"
-                  />
-                  <input
-                    type="text"
-                    v-model="form.widget_color"
-                    class="form-control color-text"
-                    pattern="^#[0-9A-Fa-f]{6}$"
-                  />
-                </div>
-              </div>
+              <FieldColorpicker
+                id="widget-color"
+                label="Color del Widget"
+                v-model="form.widget_color"
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <label class="form-label">Tema del Widget</label>
-                <div class="theme-selector">
-                  <div class="form-check form-check-inline">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      v-model="form.widget_theme"
-                      id="themeLight"
-                      value="light"
-                    />
-                    <label class="form-check-label" for="themeLight">
-                      <i class="bi bi-sun me-1"></i>Light
-                    </label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      v-model="form.widget_theme"
-                      id="themeDark"
-                      value="dark"
-                    />
-                    <label class="form-check-label" for="themeDark">
-                      <i class="bi bi-moon me-1"></i>Dark
-                    </label>
-                  </div>
-                </div>
-              </div>
+              <FieldSelect
+                id="widget-theme"
+                label="Tema del Widget"
+                v-model="form.widget_theme"
+                :options="[
+                  { value: 'light', label: 'Light' },
+                  { value: 'dark', label: 'Dark' }
+                ]"
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <div class="form-check form-switch mt-4">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    v-model="form.allow_reset_chat"
-                    id="allowResetChat"
-                  />
-                  <label class="form-check-label" for="allowResetChat">
-                    Permitir reiniciar chat
-                  </label>
-                </div>
-              </div>
+              <FieldSwitch
+                id="allow-reset-chat"
+                label="Permitir reiniciar chat"
+                v-model="form.allow_reset_chat"
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <label class="form-label">Conversaciones/mes</label>
-                <input
-                  type="number"
-                  v-model.number="form.max_conversations_month"
-                  class="form-control"
-                  min="1"
-                  max="10000"
-                />
-              </div>
+              <FieldNumber
+                id="max-conversations"
+                label="Conversaciones/mes"
+                v-model="form.max_conversations_month"
+                :min="1"
+                :max="10000"
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <label class="form-label">Mensajes/conversación</label>
-                <input
-                  type="number"
-                  v-model.number="form.max_messages_conversation"
-                  class="form-control"
-                  min="1"
-                  max="500"
-                />
-              </div>
+              <FieldNumber
+                id="max-messages"
+                label="Mensajes/conversación"
+                v-model="form.max_messages_conversation"
+                :min="1"
+                :max="500"
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <label class="form-label">Tokens máx. por respuesta</label>
-                <input
-                  type="number"
-                  v-model.number="form.max_tokens_response"
-                  class="form-control"
-                  min="100"
-                  max="4000"
-                />
-              </div>
+              <FieldNumber
+                id="max-tokens"
+                label="Tokens máx. por respuesta"
+                v-model="form.max_tokens_response"
+                :min="100"
+                :max="4000"
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <label class="form-label">
-                  Resultados RAG máx.
-                  <i class="bi bi-question-circle text-muted ms-1" style="cursor: help;" title="Cantidad de fragmentos de información que se usan como contexto. Más resultados = respuestas más informadas pero más costoso."></i>
-                </label>
-                <input
-                  type="number"
-                  v-model.number="form.rag_max_results"
-                  class="form-control"
-                  min="1"
-                  max="20"
-                />
-                <small class="text-muted">Fragmentos de contexto retrievalados</small>
-              </div>
+              <FieldNumber
+                id="rag-max-results"
+                label="Resultados RAG máx."
+                v-model="form.rag_max_results"
+                :min="1"
+                :max="20"
+                help-text="Fragmentos de contexto retrievalados"
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <label class="form-label">
-                  Similitud mínima RAG
-                  <i class="bi bi-question-circle text-muted ms-1" style="cursor: help;" title="Qué tan similar debe ser el contexto encontrado. 0 = cualquier cosa, 0.7+ = muy similar. Ajusta según la calidad de tus datos."></i>
-                </label>
-                <input
-                  type="number"
-                  v-model.number="form.rag_min_similarity"
-                  class="form-control"
-                  min="0"
-                  max="1"
-                  step="0.05"
-                />
-                <small class="text-muted">0 = cualquier cosa, 1 = idéntico</small>
-              </div>
+              <FieldNumber
+                id="rag-min-similarity"
+                label="Similitud mínima RAG"
+                v-model="form.rag_min_similarity"
+                :min="0"
+                :max="1"
+                :step="0.05"
+                help-text="0 = cualquier cosa, 1 = idéntico"
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <label class="form-label">
-                  Personalidad
-                  <i class="bi bi-question-circle text-muted ms-1" style="cursor: help;" title="Afecta el tono y estilo de las respuestas. Profesional: formal y directo. Amigable: cálido y cercano. Formal: respetuoso y elaborado. Casual: relajado y conversacional."></i>
-                </label>
-                <select v-model="form.personality" class="form-select">
-                  <option value="professional">Profesional</option>
-                  <option value="friendly">Amigable</option>
-                  <option value="formal">Formal</option>
-                  <option value="casual">Casual</option>
-                </select>
-              </div>
+              <FieldSelect
+                id="chatbot-personality"
+                label="Personalidad"
+                v-model="form.personality"
+                :options="[
+                  { value: 'professional', label: 'Profesional' },
+                  { value: 'friendly', label: 'Amigable' },
+                  { value: 'formal', label: 'Formal' },
+                  { value: 'casual', label: 'Casual' }
+                ]"
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <label class="form-label">
-                  Longitud de Respuesta
-                  <i class="bi bi-question-circle text-muted ms-1" style="cursor: help;" title="Controla qué tan detalladas son las respuestas. Corta: 1-3 oraciones. Media: 2-5 oraciones. Larga: respuestas detalladas con ejemplos."></i>
-                </label>
-                <select v-model="form.response_length" class="form-select">
-                  <option value="short">Corta</option>
-                  <option value="medium">Media</option>
-                  <option value="long">Larga</option>
-                </select>
-              </div>
+              <FieldSelect
+                id="response-length"
+                label="Longitud de Respuesta"
+                v-model="form.response_length"
+                :options="[
+                  { value: 'short', label: 'Corta' },
+                  { value: 'medium', label: 'Media' },
+                  { value: 'long', label: 'Larga' }
+                ]"
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <label class="form-label">&nbsp;</label>
-                <div class="form-check form-switch mt-2">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    v-model="form.expandable_responses"
-                    id="expandableResponses"
-                  />
-                  <label class="form-check-label" for="expandableResponses">
-                    Respuestas expandibles
-                  </label>
-                </div>
-              </div>
+              <FieldSwitch
+                id="expandable-responses"
+                label="Respuestas expandibles"
+                v-model="form.expandable_responses"
+              />
             </div>
 
             <div class="col-12 col-md-4">
-              <div class="mb-3">
-                <label class="form-label">&nbsp;</label>
-                <div class="form-check form-switch mt-2">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    v-model="form.show_citations"
-                    id="showCitations"
-                  />
-                  <label class="form-check-label" for="showCitations">
-                    Mostrar fuentes
-                  </label>
-                </div>
-              </div>
+              <FieldSwitch
+                id="show-citations"
+                label="Mostrar fuentes"
+                v-model="form.show_citations"
+              />
             </div>
 
             <div class="col-12">
-              <div class="form-check form-switch mb-3">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  v-model="form.is_enabled"
-                  id="is-enabled"
-                />
-                <label class="form-check-label" for="is-enabled">
-                  <strong>Chatbot habilitado</strong>
-                  <small class="d-block text-muted">Cuando está desactivado, el chatbot no aparece en el minisite</small>
-                </label>
-              </div>
+              <FieldSwitch
+                id="chatbot-enabled"
+                label="Chatbot habilitado"
+                v-model="form.is_enabled"
+                help-text="Cuando está desactivado, el chatbot no aparece en el minisite"
+              />
             </div>
           </div>
         </div>
@@ -388,13 +291,13 @@
               <i class="bi bi-info-circle me-1"></i>
               Configura botones CTA específicos según la intención de la pregunta del usuario.
             </div>
-            <div class="row g-4">
+            <div class="row g-3">
               <div class="col-md-6">
                 <div class="intent-cta-item p-3 border rounded">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="badge bg-primary">Reservas/Citas</span>
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" v-model="form.intent_appointment_enabled" id="intentAppointment" />
+                      <input class="form-check-input" type="checkbox" role="switch" v-model="form.intent_appointment_enabled" id="intentAppointment" />
                     </div>
                   </div>
                   <input type="text" v-model="form.intent_appointment_text" class="form-control form-control-sm mb-2" placeholder="Texto del botón" />
@@ -408,7 +311,7 @@
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="badge bg-success"> Compras/Precios</span>
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" v-model="form.intent_purchase_enabled" id="intentPurchase" />
+                      <input class="form-check-input" type="checkbox" role="switch" v-model="form.intent_purchase_enabled" id="intentPurchase" />
                     </div>
                   </div>
                   <input type="text" v-model="form.intent_purchase_text" class="form-control form-control-sm mb-2" placeholder="Texto del botón" />
@@ -422,7 +325,7 @@
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="badge bg-info">Contacto</span>
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" v-model="form.intent_contact_enabled" id="intentContact" />
+                      <input class="form-check-input" type="checkbox" role="switch" v-model="form.intent_contact_enabled" id="intentContact" />
                     </div>
                   </div>
                   <input type="text" v-model="form.intent_contact_text" class="form-control form-control-sm mb-2" placeholder="Texto del botón" />
@@ -436,7 +339,7 @@
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="badge bg-warning text-dark">Soporte/Ayuda</span>
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" v-model="form.intent_support_enabled" id="intentSupport" />
+                      <input class="form-check-input" type="checkbox" role="switch" v-model="form.intent_support_enabled" id="intentSupport" />
                     </div>
                   </div>
                   <input type="text" v-model="form.intent_support_text" class="form-control form-control-sm mb-2" placeholder="Texto del botón" />
@@ -457,18 +360,19 @@
               <i class="bi bi-info-circle me-1"></i>
               Ofrece al usuario continuar la conversación por WhatsApp. El botón aparecerá automáticamente cuando el chatbot lo mencione.
             </div>
-            <div class="row g-4">
+            <div class="row g-3">
               <div class="col-12">
                 <div class="form-check form-switch mb-3">
                   <input
                     class="form-check-input"
                     type="checkbox"
+                    role="switch"
                     v-model="form.whatsapp_enabled"
                     id="whatsappEnabled"
                   />
                   <label class="form-check-label" for="whatsappEnabled">
                     <strong>Habilitar oferta de WhatsApp</strong>
-                    <small class="d-block text-muted">El chatbot podrá ofrecer continuar por WhatsApp</small>
+                    <div class="form-text">El chatbot podrá ofrecer continuar por WhatsApp</div>
                   </label>
                 </div>
               </div>
@@ -525,23 +429,24 @@
           </div>
         </div>
 
-        <div class="card mb-4">
-          <div class="card-header">
-            <h5 class="mb-0"><i class="bi bi-person-plus me-2"></i>Captura de Leads</h5>
-          </div>
-          <div class="card-body">
-            <div class="row g-4">
-              <div class="col-12">
-                <div class="form-check form-switch mb-3">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 class="mb-0"><i class="bi bi-person-plus me-2"></i>Captura de Leads</h5>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-12">
+                  <div class="form-check form-switch mb-3">
                   <input
                     class="form-check-input"
                     type="checkbox"
+                    role="switch"
                     v-model="form.lead_capture_enabled"
                     id="leadCaptureEnabled"
                   />
                   <label class="form-check-label" for="leadCaptureEnabled">
                     <strong>Captura de leads</strong>
-                    <small class="d-block text-muted">Muestra un formulario sutil para collects correos electrónicos</small>
+                    <div class="form-text">Muestra un formulario sutil para collects correos electrónicos</div>
                   </label>
                 </div>
               </div>
@@ -594,18 +499,19 @@
               <i class="bi bi-info-circle me-1"></i>
               Programa horarios en los que el chatbot no estará disponible. Útil para evitar uso fuera de horario laboral o durante días específicos.
             </div>
-            <div class="row g-4">
+            <div class="row g-3">
               <div class="col-12">
                 <div class="form-check form-switch mb-3">
                   <input
                     class="form-check-input"
                     type="checkbox"
+                    role="switch"
                     v-model="form.scheduled_pause_enabled"
                     id="scheduledPauseEnabled"
                   />
                   <label class="form-check-label" for="scheduledPauseEnabled">
                     <strong>Activar pausa programada</strong>
-                    <small class="d-block text-muted">El chatbot se ocultará automáticamente según el horario configurado</small>
+                    <div class="form-text">El chatbot se ocultará automáticamente según el horario configurado</div>
                   </label>
                 </div>
               </div>
@@ -618,7 +524,7 @@
                     v-model="form.scheduled_pause_start"
                     class="form-control"
                   />
-                  <small class="text-muted">Cuando comienza la pausa</small>
+                  <div class="form-text">Cuando comienza la pausa</div>
                 </div>
               </div>
 
@@ -630,14 +536,14 @@
                     v-model="form.scheduled_pause_end"
                     class="form-control"
                   />
-                  <small class="text-muted">Cuando termina la pausa</small>
+                  <div class="form-text">Cuando termina la pausa</div>
                 </div>
               </div>
 
               <div v-if="form.scheduled_pause_enabled" class="col-12">
                 <div class="mb-3">
                   <label class="form-label d-block">Días de la semana</label>
-                  <small class="text-muted d-block mb-2">Selecciona los días en que apply la pausa</small>
+                  <div class="form-text mb-2">Selecciona los días en que apply la pausa</div>
                   <div class="d-flex flex-wrap gap-3">
                     <div class="form-check" v-for="day in weekDays" :key="day.value">
                       <input
@@ -679,6 +585,12 @@
 <script setup>
 import { computed, ref, reactive, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
+import FieldText from '@/Components/Fields/FieldText.vue'
+import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
+import FieldSelect from '@/Components/Fields/FieldSelect.vue'
+import FieldNumber from '@/Components/Fields/FieldNumber.vue'
+import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
+import FieldColorpicker from '@/Components/Fields/FieldColorpicker.vue'
 
 const props = defineProps({
   business: Object,
@@ -818,6 +730,14 @@ const form = reactive({ ...defaultForm })
 )
 
 const newAdditionalPreset = ref(null)
+
+const presetOptions = computed(() => [
+  { value: null, label: 'Ninguno (personalizado)' },
+  ...props.presets.map(p => ({
+    value: p.id,
+    label: `${p.name}${p.business_id ? ' (Propio)' : ''}`
+  }))
+])
 
 const availableAdditionalPresets = computed(() => {
   return props.presets.filter(p =>

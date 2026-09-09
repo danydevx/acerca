@@ -13,7 +13,7 @@
         :readonly="readonly"
         :disabled="readonly"
         :value="modelValue"
-        :class="{ 'is-invalid': formError }"
+        :class="{ 'is-invalid': hasError }"
         @input="onInput"
         @blur="onBlur"
         autocomplete="off"
@@ -21,9 +21,11 @@
       <label :for="id">
         {{ label }} <strong v-if="required">*</strong>
       </label>
-      <div v-if="formError" class="invalid-feedback">{{ formError }}</div>
+      <div v-if="hasError" class="invalid-feedback">
+        {{ formError || validationMessage }}
+      </div>
     </div>
-    <small v-if="helpText" class="form-text text-muted">{{ helpText }}</small>
+    <div v-if="helpText" class="form-text">{{ helpText }}</div>
   </div>
 </template>
 
@@ -36,12 +38,22 @@ const props = defineProps({
   modelValue: { type: [Number, String], default: '' },
   placeholder: { type: String, default: '' },
   required: { type: Boolean, default: false },
+  showValidation: { type: Boolean, default: false },
   formError: { type: String, default: '' },
+  validateFunction: { type: Function, default: null },
   helpText: { type: String, default: '' },
   readonly: { type: Boolean, default: false },
   min: { type: Number, default: 0 },
   max: { type: Number, default: 999999999.99 },
   currencyLabel: { type: String, default: '$' },
+})
+
+const validationMessage = computed(() => {
+  return props.validateFunction ? props.validateFunction() : ''
+})
+
+const hasError = computed(() => {
+  return (props.showValidation && !!props.validationMessage) || !!props.formError
 })
 
 const emit = defineEmits(['update:modelValue', 'blur'])

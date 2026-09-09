@@ -12,13 +12,12 @@
       @click="clickable && onStepClick(index)"
     >
       <div class="stepper__indicator">
-        <div class="stepper__circle-wrapper">
-          <div class="stepper__circle">
-            <i v-if="index < modelValue" class="bi bi-check"></i>
-            <span v-else>{{ index + 1 }}</span>
-          </div>
+        <div class="stepper__line" v-if="index > 0"></div>
+        <div class="stepper__circle">
+          <i v-if="index < modelValue" class="bi bi-check"></i>
+          <span v-else>{{ index + 1 }}</span>
         </div>
-        <div v-if="index < steps.length - 1" class="stepper__line"></div>
+        <div class="stepper__line" v-if="index < steps.length - 1"></div>
       </div>
       <div class="stepper__content">
         <span v-if="step.label" class="stepper__label">{{ step.label }}</span>
@@ -49,6 +48,7 @@ const onStepClick = (index) => {
 .stepper {
   display: flex;
   align-items: flex-start;
+  width: 100%;
 
   &--vertical {
     flex-direction: column;
@@ -58,6 +58,8 @@ const onStepClick = (index) => {
       align-items: flex-start;
       text-align: left;
       gap: 1rem;
+      flex: none;
+      width: 100%;
     }
 
     .stepper__indicator {
@@ -69,16 +71,13 @@ const onStepClick = (index) => {
     .stepper__line {
       width: 2px;
       height: 100%;
-      min-height: 3rem;
+      min-height: 2rem;
     }
 
     .stepper__content {
       margin-top: 0;
       padding-top: 0.25rem;
-    }
-
-    .stepper__circle {
-      flex-shrink: 0;
+      flex: 1;
     }
   }
 
@@ -88,6 +87,7 @@ const onStepClick = (index) => {
     align-items: center;
     flex: 1;
     text-align: center;
+    position: relative;
 
     &.is-clickable {
       cursor: pointer;
@@ -101,12 +101,12 @@ const onStepClick = (index) => {
     position: relative;
   }
 
-  &__circle-wrapper {
-    position: absolute;
-    top: 0.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
+  &__line {
+    flex: 1;
+    height: 2px;
+    background: var(--bulma-border);
+    transition: background 150ms;
+    min-width: 1rem;
   }
 
   &__circle {
@@ -122,17 +122,12 @@ const onStepClick = (index) => {
     font-weight: 600;
     flex-shrink: 0;
     transition: all 150ms;
+    position: relative;
+    z-index: 1;
 
     i {
       font-size: 0.875rem;
     }
-  }
-
-  &__line {
-    flex: 1;
-    height: 2px;
-    background: var(--bulma-border);
-    transition: background 150ms;
   }
 
   &__content {
@@ -147,16 +142,30 @@ const onStepClick = (index) => {
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--bulma-text);
+    line-height: 1.3;
   }
 
   &__description {
     display: block;
     font-size: 0.75rem;
     color: var(--bulma-text-weak);
-    margin-top: 0.125rem;
+    margin-top: 0.25rem;
+    line-height: 1.3;
   }
 
   // States
+  &.is-completed {
+    .stepper__circle {
+      background: var(--bulma-link);
+      color: var(--bulma-link-invert);
+    }
+
+    & + .stepper__item .stepper__line,
+    .stepper__item.is-completed .stepper__line {
+      background: var(--bulma-link);
+    }
+  }
+
   &__item.is-completed {
     .stepper__circle {
       background: var(--bulma-link);
@@ -191,6 +200,7 @@ const onStepClick = (index) => {
 
     .stepper__label { font-size: 0.75rem; }
     .stepper__description { font-size: 0.625rem; }
+    .stepper__content { margin-top: 0.5rem; }
   }
 
   &--medium {
@@ -202,6 +212,7 @@ const onStepClick = (index) => {
 
     .stepper__label { font-size: 1rem; }
     .stepper__description { font-size: 0.875rem; }
+    .stepper__content { margin-top: 1rem; }
   }
 
   &--large {
@@ -213,6 +224,7 @@ const onStepClick = (index) => {
 
     .stepper__label { font-size: 1.125rem; }
     .stepper__description { font-size: 1rem; }
+    .stepper__content { margin-top: 1rem; }
   }
 }
 </style>

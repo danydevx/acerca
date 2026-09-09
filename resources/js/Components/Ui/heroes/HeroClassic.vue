@@ -18,7 +18,15 @@
         <HeroBadges v-if="badges?.length" :badges="badges" />
         <HeroDescription v-if="description" :text="description" />
         <HeroActions v-if="actions?.length" :actions="actions" />
-        <UiSocialLinks v-if="socials?.length" :items="socials" />
+        <UiSocialLinks
+          v-if="socials?.length"
+          :items="socials"
+          :variant="socialsVariant"
+          :color-scheme="socialsColorScheme"
+          :layout="socialsLayout"
+          :icon-only="socialsIconOnly"
+          :text-only="socialsTextOnly"
+        />
       </div>
     </div>
   </section>
@@ -53,6 +61,29 @@ defineProps({
     type: String,
     default: 'lg',
   },
+  socialsVariant: {
+    type: String,
+    default: 'default',
+    validator: (v) => ['default', 'filled', 'outlined', 'rounded', 'pill', 'soft', 'gradient'].includes(v),
+  },
+  socialsColorScheme: {
+    type: String,
+    default: 'auto',
+    validator: (v) => ['auto', 'brand', 'whatsapp', 'facebook', 'instagram', 'linkedin', 'youtube', 'twitter'].includes(v),
+  },
+  socialsLayout: {
+    type: String,
+    default: 'start',
+    validator: (v) => ['start', 'end'].includes(v),
+  },
+  socialsIconOnly: {
+    type: Boolean,
+    default: true,
+  },
+  socialsTextOnly: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
 
@@ -61,7 +92,7 @@ defineProps({
   background: var(--bulma-scheme-main);
   border-radius: var(--bulma-radius-large);
   overflow: hidden;
-  box-shadow: 0 4px 12px oklch(0 0 0 / 0.08);
+  box-shadow: var(--dl-shadow-sm);
 
   &__body {
     display: flex;

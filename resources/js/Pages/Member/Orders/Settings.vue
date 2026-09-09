@@ -39,11 +39,16 @@
 
               <h6 class="mb-3">Tipos de entrega</h6>
               <div class="mb-4">
-                <select class="form-select" v-model="form.order_type">
-                  <option value="both">Delivery y Recolección</option>
-                  <option value="delivery">Solo Delivery</option>
-                  <option value="pickup">Solo Recolección</option>
-                </select>
+                <FieldSelect
+                  id="order-type"
+                  label="Tipos de entrega"
+                  v-model="form.order_type"
+                  :options="[
+                    { value: 'both', label: 'Delivery y Recolección' },
+                    { value: 'delivery', label: 'Solo Delivery' },
+                    { value: 'pickup', label: 'Solo Recolección' }
+                  ]"
+                />
               </div>
 
               <hr />
@@ -52,46 +57,42 @@
 
               <div class="row g-3 mb-3">
                 <div class="col-md-6">
-                  <label class="form-label">Radio máximo de entrega (km)</label>
-                  <input
-                    type="number"
-                    class="form-control"
+                  <FieldNumber
+                    id="delivery-radius"
+                    label="Radio máximo de entrega (km)"
                     v-model="form.delivery_radius_km"
-                    min="1"
-                    max="100"
+                    :min="1"
+                    :max="100"
                   />
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label">Tarifa base de entrega ($)</label>
-                  <input
-                    type="number"
-                    class="form-control"
+                  <FieldNumber
+                    id="delivery-fee-base"
+                    label="Tarifa base de entrega ($)"
                     v-model="form.delivery_fee_base"
-                    min="0"
-                    step="0.01"
+                    :min="0"
+                    :step="0.01"
                   />
                 </div>
               </div>
 
               <div class="row g-3 mb-3">
                 <div class="col-md-6">
-                  <label class="form-label">Costo por km adicional ($)</label>
-                  <input
-                    type="number"
-                    class="form-control"
+                  <FieldNumber
+                    id="delivery-fee-per-km"
+                    label="Costo por km adicional ($)"
                     v-model="form.delivery_fee_per_km"
-                    min="0"
-                    step="0.01"
+                    :min="0"
+                    :step="0.01"
                   />
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label">Pedido mínimo para delivery gratis ($)</label>
-                  <input
-                    type="number"
-                    class="form-control"
+                  <FieldNumber
+                    id="free-delivery-threshold"
+                    label="Pedido mínimo para delivery gratis ($)"
                     v-model="form.free_delivery_threshold"
-                    min="0"
-                    step="0.01"
+                    :min="0"
+                    :step="0.01"
                     placeholder="Dejar vacío si no aplica"
                   />
                 </div>
@@ -101,32 +102,28 @@
 
               <h6 class="mb-3">Pedido mínimo</h6>
               <div class="mb-4">
-                <label class="form-label">Monto mínimo de pedido ($)</label>
-                <input
-                  type="number"
-                  class="form-control"
+                <FieldNumber
+                  id="min-order-amount"
+                  label="Monto mínimo de pedido ($)"
                   v-model="form.min_order_amount"
-                  min="0"
-                  step="0.01"
+                  :min="0"
+                  :step="0.01"
                   placeholder="0 = sin mínimo"
+                  help-text="Los pedidos menores a este monto serán rechazados."
                 />
-                <small class="text-muted">Los pedidos menores a este monto serán rechazados.</small>
               </div>
 
               <hr />
 
               <h6 class="mb-3">WhatsApp</h6>
               <div class="mb-4">
-                <label class="form-label">Número de WhatsApp (con código de país)</label>
-                <input
-                  type="text"
-                  class="form-control"
+                <FieldText
+                  id="whatsapp-number"
+                  label="Número de WhatsApp (con código de país)"
                   v-model="form.whatsapp_number"
                   placeholder="5215512345678"
+                  help-text="Los pedidos se enviarán a este número. Include código de país (ej: 52 para México)."
                 />
-                <small class="text-muted">
-                  Los pedidos se enviarán a este número. Include código de país (ej: 52 para México).
-                </small>
               </div>
 
               <div class="d-flex gap-2">
@@ -150,6 +147,10 @@ import { ref, reactive, computed } from 'vue'
 import { Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
+import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
+import FieldSelect from '@/Components/Fields/FieldSelect.vue'
+import FieldNumber from '@/Components/Fields/FieldNumber.vue'
+import FieldText from '@/Components/Fields/FieldText.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)

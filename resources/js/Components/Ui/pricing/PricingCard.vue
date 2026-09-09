@@ -1,6 +1,6 @@
 <template>
   <div class="pricing-card" :class="[`pricing-card--${variant}`, { 'pricing-card--emphasized': emphasized, 'pricing-card--horizontal': horizontal }]">
-    <div v-if="badge" class="pricing-card__badge" :class="[`is-${badgeType || 'primary'}`]">{{ badge }}</div>
+    <div v-if="badge" class="pricing-card__badge" :class="[`pricing-card__badge--${badgeType || 'primary'}`]">{{ badge }}</div>
     <div class="pricing-card__header">
       <div v-if="eyebrow" class="pricing-card__eyebrow">{{ eyebrow }}</div>
       <h3 class="pricing-card__title">{{ title }}</h3>
@@ -15,7 +15,7 @@
     </div>
     <div v-if="$slots.actions || action" class="pricing-card__actions">
       <slot name="actions">
-        <button v-if="action" class="button" :class="emphasized ? 'is-primary is-medium' : 'is-outlined is-medium'">{{ action }}</button>
+        <button v-if="action" class="pricing-card__btn" :class="emphasized ? 'pricing-card__btn--primary' : 'pricing-card__btn--outline'">{{ action }}</button>
       </slot>
     </div>
   </div>
@@ -51,7 +51,7 @@ defineProps({
 
   &--elevated {
     border: none;
-    box-shadow: 0 4px 20px oklch(0 0 0 / 0.1);
+    box-shadow: var(--dl-shadow-sm);
   }
 
   &--borderless {
@@ -97,14 +97,14 @@ defineProps({
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--bulma-scheme-main);
     white-space: nowrap;
 
-    &.is-primary { background: var(--bulma-primary); }
-    &.is-info { background: var(--bulma-info); }
-    &.is-success { background: var(--bulma-success); }
-    &.is-warning { background: var(--bulma-warning); }
-    &.is-danger { background: var(--bulma-danger); }
+    &--primary { background: var(--bulma-primary); }
+    &--info { background: var(--bulma-info); }
+    &--success { background: var(--bulma-success); }
+    &--warning { background: var(--bulma-warning); }
+    &--danger { background: var(--bulma-danger); }
   }
 
   &__header {
@@ -160,6 +160,39 @@ defineProps({
 
   &__actions {
     margin-top: auto;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--bulma-radius);
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &--primary {
+      background: var(--bulma-primary);
+      color: var(--bulma-primary-invert);
+      border: 1px solid var(--bulma-primary);
+
+      &:hover {
+        background: color-mix(in oklch, var(--bulma-primary) 85%, black);
+      }
+    }
+
+    &--outline {
+      background: transparent;
+      color: var(--bulma-link);
+      border: 1px solid var(--bulma-link);
+
+      &:hover {
+        background: var(--bulma-link);
+        color: var(--bulma-link-invert);
+      }
+    }
   }
 }
 </style>

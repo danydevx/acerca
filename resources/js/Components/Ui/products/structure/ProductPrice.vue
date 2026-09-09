@@ -1,6 +1,6 @@
 <template>
   <div class="product-price">
-    <span class="product-price__current" :class="{ 'has-text-danger': discountPercent > 0 }">
+    <span class="product-price__current" :class="{ 'product-price__current--discount': discountPercent > 0 }">
       {{ formattedPrice }}
     </span>
     <span
@@ -62,6 +62,10 @@ const formattedCompareAtPrice = computed(() => formatCurrency(props.compareAtPri
   font-size: 1.125rem;
   font-weight: 700;
   color: var(--bulma-text);
+
+  &--discount {
+    color: var(--bulma-danger);
+  }
 }
 
 .product-price__original {

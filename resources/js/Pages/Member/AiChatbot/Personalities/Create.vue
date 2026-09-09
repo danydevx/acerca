@@ -23,34 +23,42 @@
     </div>
 
     <form @submit.prevent="submit">
-      <div class="row g-4">
+      <div class="row g-3">
         <div class="col-lg-8">
           <div class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-white py-3">
               <h5 class="mb-0">Información General</h5>
             </div>
             <div class="card-body">
-              <div class="mb-3">
-                <label class="form-label">Key *</label>
-                <input v-model="form.key" type="text" class="form-control" required />
-                <small class="text-muted">Valor único en inglés para esta personalidad (ej: veterinary, restaurant)</small>
-              </div>
+              <FieldText
+                id="personality-key"
+                label="Key"
+                v-model="form.key"
+                required
+                help-text="Valor único en inglés para esta personalidad (ej: veterinary, restaurant)"
+              />
 
-              <div class="mb-3">
-                <label class="form-label">Nombre para Mostrar *</label>
-                <input v-model="form.display_name" type="text" class="form-control" required />
-              </div>
+              <FieldText
+                id="personality-display-name"
+                label="Nombre para Mostrar"
+                v-model="form.display_name"
+                required
+              />
 
-              <div class="mb-3">
-                <label class="form-label">Descripción</label>
-                <textarea v-model="form.description" class="form-control" rows="2"></textarea>
-              </div>
+              <FieldTextarea
+                id="personality-description"
+                label="Descripción"
+                v-model="form.description"
+                :rows="2"
+              />
 
-              <div class="mb-3">
-                <label class="form-label">Hint para System Prompt</label>
-                <textarea v-model="form.system_prompt_hint" class="form-control" rows="3"></textarea>
-                <small class="text-muted">Instrucciones que se usan para generar el system prompt automáticamente</small>
-              </div>
+              <FieldTextarea
+                id="personality-system-prompt-hint"
+                label="Hint para System Prompt"
+                v-model="form.system_prompt_hint"
+                :rows="3"
+                help-text="Instrucciones que se usan para generar el system prompt automáticamente"
+              />
             </div>
           </div>
         </div>
@@ -61,37 +69,39 @@
               <h5 class="mb-0">Configuración</h5>
             </div>
             <div class="card-body">
-              <div class="mb-3">
-                <label class="form-label">Temperatura por Defecto</label>
-                <input
-                  v-model.number="form.default_temperature"
-                  type="number"
-                  step="0.05"
-                  min="0"
-                  max="1"
-                  class="form-control"
-                />
-                <small class="text-muted">0.0 = respuestas deterministas, 1.0 = muy creativas</small>
-              </div>
+              <FieldNumber
+                id="personality-temperature"
+                label="Temperatura por Defecto"
+                v-model="form.default_temperature"
+                :min="0"
+                :max="1"
+                :step="0.05"
+                help-text="0.0 = respuestas deterministas, 1.0 = muy creativas"
+              />
 
-              <div class="mb-3">
-                <label class="form-label">Longitud de Respuesta por Defecto</label>
-                <select v-model="form.default_response_length" class="form-select">
-                  <option value="short">Corta</option>
-                  <option value="medium">Media</option>
-                  <option value="long">Larga</option>
-                </select>
-              </div>
+              <FieldSelect
+                id="personality-response-length"
+                label="Longitud de Respuesta por Defecto"
+                v-model="form.default_response_length"
+                :options="[
+                  { value: 'short', label: 'Corta' },
+                  { value: 'medium', label: 'Media' },
+                  { value: 'long', label: 'Larga' }
+                ]"
+              />
 
-              <div class="mb-3">
-                <label class="form-label">Orden</label>
-                <input v-model.number="form.sort_order" type="number" class="form-control" min="0" />
-              </div>
+              <FieldNumber
+                id="personality-sort-order"
+                label="Orden"
+                v-model="form.sort_order"
+                :min="0"
+              />
 
-              <div class="form-check form-switch">
-                <input v-model="form.is_active" class="form-check-input" type="checkbox" />
-                <label class="form-check-label">Activa</label>
-              </div>
+              <FieldSwitch
+                id="personality-active"
+                label="Activa"
+                v-model="form.is_active"
+              />
             </div>
           </div>
 
@@ -110,6 +120,11 @@ import { reactive, ref } from 'vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
+import FieldText from '@/Components/Fields/FieldText.vue'
+import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
+import FieldSelect from '@/Components/Fields/FieldSelect.vue'
+import FieldNumber from '@/Components/Fields/FieldNumber.vue'
+import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 
 const page = usePage()
 const listing = page.props.listing

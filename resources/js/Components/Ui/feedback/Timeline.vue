@@ -103,7 +103,7 @@ const formatDate = (date) => {
 
     i {
       font-size: 0.5rem;
-      color: white;
+      color: var(--bulma-scheme-main);
     }
 
     &--primary {

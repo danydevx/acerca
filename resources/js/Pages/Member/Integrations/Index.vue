@@ -62,30 +62,23 @@
             <div v-else class="mt-3">
               <form class="row g-2" @submit.prevent="submitApiKey">
                 <div class="col-12 col-md-5">
-                  <label class="form-label">Nombre</label>
-                  <input
+                  <FieldText
+                    id="apikey-name"
+                    label="Nombre"
                     v-model="apiKeyForm.name"
-                    type="text"
-                    class="form-control"
-                    :class="{ 'is-invalid': apiKeyForm.errors.name }"
+                    :form-error="apiKeyForm.errors.name"
                     placeholder="Ej: Integracion CRM"
                     required
                   />
-                  <div v-if="apiKeyForm.errors.name" class="invalid-feedback">
-                    {{ apiKeyForm.errors.name }}
-                  </div>
                 </div>
                 <div class="col-12 col-md-3">
-                  <label class="form-label">Expira (opcional)</label>
-                  <input
+                  <FieldText
+                    id="apikey-expires"
+                    label="Expira (opcional)"
                     v-model="apiKeyForm.expires_at"
                     type="date"
-                    class="form-control"
-                    :class="{ 'is-invalid': apiKeyForm.errors.expires_at }"
+                    :form-error="apiKeyForm.errors.expires_at"
                   />
-                  <div v-if="apiKeyForm.errors.expires_at" class="invalid-feedback">
-                    {{ apiKeyForm.errors.expires_at }}
-                  </div>
                 </div>
                 <div class="col-12 col-md-4 d-flex align-items-end">
                   <button class="btn btn-gradient rounded-pill w-100" type="submit" :disabled="apiKeyForm.processing">
@@ -168,31 +161,41 @@
             <div v-else class="mt-3">
               <form class="row g-2" @submit.prevent="submitWebhook">
                 <div class="col-12 col-md-4">
-                  <label class="form-label">Nombre</label>
-                  <input v-model="webhookForm.name" type="text" class="form-control" :class="{ 'is-invalid': webhookForm.errors.name }" />
-                  <div v-if="webhookForm.errors.name" class="invalid-feedback">{{ webhookForm.errors.name }}</div>
+                  <FieldText
+                    id="webhook-name"
+                    label="Nombre"
+                    v-model="webhookForm.name"
+                    :form-error="webhookForm.errors.name"
+                  />
                 </div>
                 <div class="col-12 col-md-5">
-                  <label class="form-label">URL</label>
-                  <input v-model="webhookForm.url" type="url" class="form-control" :class="{ 'is-invalid': webhookForm.errors.url }" />
-                  <div v-if="webhookForm.errors.url" class="invalid-feedback">{{ webhookForm.errors.url }}</div>
+                  <FieldUrl
+                    id="webhook-url"
+                    label="URL"
+                    v-model="webhookForm.url"
+                    :form-error="webhookForm.errors.url"
+                    placeholder="https://..."
+                  />
                 </div>
                 <div class="col-12 col-md-3">
-                  <label class="form-label">Activo</label>
-                  <select v-model="webhookForm.is_active" class="form-select">
-                    <option :value="true">Si</option>
-                    <option :value="false">No</option>
-                  </select>
+                  <FieldSelect
+                    id="webhook-active"
+                    label="Activo"
+                    v-model="webhookForm.is_active"
+                    :options="[
+                      { value: true, label: 'Si' },
+                      { value: false, label: 'No' }
+                    ]"
+                  />
                 </div>
                 <div class="col-12">
-                  <label class="form-label">Eventos</label>
-                  <div class="d-flex flex-wrap gap-2">
-                    <label v-for="event in availableEvents" :key="event" class="form-check">
-                      <input class="form-check-input" type="checkbox" :value="event" v-model="webhookForm.events" />
-                      <span class="form-check-label">{{ event }}</span>
-                    </label>
-                  </div>
-                  <div v-if="webhookForm.errors.events" class="text-danger small mt-1">{{ webhookForm.errors.events }}</div>
+                  <FieldCheckboxes
+                    id="webhook-events"
+                    label="Eventos"
+                    v-model="webhookForm.events"
+                    :options="availableEvents.map(e => ({ value: e, label: e }))"
+                    :form-error="webhookForm.errors.events"
+                  />
                 </div>
                 <div class="col-12">
                   <button class="btn btn-gradient rounded-pill" type="submit" :disabled="webhookForm.processing">
@@ -284,6 +287,10 @@
 import { computed } from 'vue'
 import { Head, Link, router, useForm } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
+import FieldText from '@/Components/Fields/FieldText.vue'
+import FieldUrl from '@/Components/Fields/FieldUrl.vue'
+import FieldSelect from '@/Components/Fields/FieldSelect.vue'
+import FieldCheckboxes from '@/Components/Fields/FieldCheckboxes.vue'
 
 const props = defineProps({
   canUseApi: {
