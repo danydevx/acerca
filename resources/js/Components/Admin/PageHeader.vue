@@ -1,7 +1,7 @@
 <template>
   <div class="page-header">
-    <div class="page-header__top">
-      <div>
+    <div class="page-header__row1">
+      <div class="page-header__left">
         <h1 class="page-header__title">{{ title }}</h1>
         <nav v-if="breadcrumbs && breadcrumbs.length" aria-label="breadcrumb">
           <ol class="breadcrumb mb-0">
@@ -12,12 +12,20 @@
           </ol>
         </nav>
       </div>
-
-      <div v-if="backHref || $slots.actions" class="d-flex gap-2">
-        <Link v-if="backHref" :href="backHref" class="btn btn-secondary rounded-pill">
+      <div v-if="backHref" class="page-header__right">
+        <Link :href="backHref" class="btn btn-secondary rounded-pill">
           <i class="bi bi-arrow-left me-1"></i>
           {{ backLabel }}
         </Link>
+      </div>
+    </div>
+
+    <div v-if="$slots.actions || $slots.tabs" class="page-header__row2">
+      <div class="page-header__left">
+        <slot name="filters" />
+      </div>
+      <div class="page-header__right gap-2 d-flex">
+        <slot name="tabs" />
         <slot name="actions" />
       </div>
     </div>
@@ -53,21 +61,41 @@ defineProps({
 
 <style scoped>
 .page-header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
-.page-header__top {
+.page-header__row1 {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.page-header__row2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.page-header__left {
+  
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-header__right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .page-header__title {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
+  margin-right: 0.5rem;
 }
 
 .page-header__description {
@@ -79,16 +107,15 @@ defineProps({
   margin-bottom: 0;
 }
 
-@media (max-width: 576px) {
-  .page-header__top {
+@media (max-width: 768px) {
+  .page-header__row1,
+  .page-header__row2 {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .page-header__top > div:last-child {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+  .page-header__right {
+    justify-content: flex-end;
   }
 }
 </style>

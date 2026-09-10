@@ -135,6 +135,56 @@ class VCardFieldType
                     ],
                 ],
                 [
+                    'key' => 'pinterest',
+                    'name' => 'Pinterest',
+                    'category' => 'social',
+                    'icon' => 'bi-pinterest',
+                    'description' => 'Perfil de Pinterest',
+                    'schema' => [
+                        ['name' => 'url', 'type' => 'url', 'required' => true, 'label' => 'URL'],
+                    ],
+                ],
+                [
+                    'key' => 'snapchat',
+                    'name' => 'Snapchat',
+                    'category' => 'social',
+                    'icon' => 'bi-snapchat',
+                    'description' => 'Usuario de Snapchat',
+                    'schema' => [
+                        ['name' => 'username', 'type' => 'text', 'required' => true, 'label' => 'Usuario'],
+                    ],
+                ],
+                [
+                    'key' => 'threads',
+                    'name' => 'Threads',
+                    'category' => 'social',
+                    'icon' => 'bi-threads',
+                    'description' => 'Perfil de Threads',
+                    'schema' => [
+                        ['name' => 'username', 'type' => 'text', 'required' => true, 'label' => 'Usuario'],
+                    ],
+                ],
+                [
+                    'key' => 'reddit',
+                    'name' => 'Reddit',
+                    'category' => 'social',
+                    'icon' => 'bi-reddit',
+                    'description' => 'Perfil de Reddit',
+                    'schema' => [
+                        ['name' => 'url', 'type' => 'url', 'required' => true, 'label' => 'URL'],
+                    ],
+                ],
+                [
+                    'key' => 'twitch',
+                    'name' => 'Twitch',
+                    'category' => 'video',
+                    'icon' => 'bi-twitch',
+                    'description' => 'Canal de Twitch',
+                    'schema' => [
+                        ['name' => 'username', 'type' => 'text', 'required' => true, 'label' => 'Usuario'],
+                    ],
+                ],
+                [
                     'key' => 'github',
                     'name' => 'GitHub',
                     'category' => 'design',
@@ -182,6 +232,26 @@ class VCardFieldType
                     'description' => 'Usuario de Venmo',
                     'schema' => [
                         ['name' => 'username', 'type' => 'text', 'required' => true, 'label' => 'Usuario'],
+                    ],
+                ],
+                [
+                    'key' => 'stripe',
+                    'name' => 'Stripe',
+                    'category' => 'payment',
+                    'icon' => 'bi-stripe',
+                    'description' => 'Link de pago con Stripe',
+                    'schema' => [
+                        ['name' => 'url', 'type' => 'url', 'required' => true, 'label' => 'URL de pago'],
+                    ],
+                ],
+                [
+                    'key' => 'mercadopago',
+                    'name' => 'Mercado Pago',
+                    'category' => 'payment',
+                    'icon' => 'bi-credit-card-frontend',
+                    'description' => 'Link de pago con Mercado Pago',
+                    'schema' => [
+                        ['name' => 'url', 'type' => 'url', 'required' => true, 'label' => 'URL de pago'],
                     ],
                 ],
                 [

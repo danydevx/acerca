@@ -58,7 +58,7 @@
   }
 
   &__table-wrapper {
-    overflow-x: auto;
+   min-height: 60vh;
 
     @media (max-width: 768px) {
       overflow-x: auto;
@@ -293,6 +293,10 @@
   .actions-header {
     text-align: center;
     width: 120px;
+  }
+
+  td:last-child {
+    overflow: visible;
   }
 }
 

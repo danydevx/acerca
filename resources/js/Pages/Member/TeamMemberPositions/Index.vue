@@ -7,27 +7,31 @@
       :breadcrumbs="breadcrumbs"
       :backHref="`/member/listings/${listing?.id}/team-members`"
     >
+      <template #tabs>
+        <div class="dropdown">
+          <button class="btn btn-secondary rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-folder me-1"></i>Puestos
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <Link :href="`/member/listings/${listing?.id}/team-members`" class="dropdown-item">
+                <i class="bi bi-people me-2"></i>Miembros
+              </Link>
+            </li>
+            <li>
+              <Link :href="`/member/listings/${listing?.id}/team-member-positions`" class="dropdown-item active">
+                <i class="bi bi-folder me-2"></i>Puestos
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </template>
       <template #actions>
         <Link :href="`/member/listings/${listing?.id}/team-member-positions/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nuevo Puesto
         </Link>
       </template>
     </PageHeader>
-
-    <div class="mb-3 d-flex gap-2">
-      <Link
-        :href="`/member/listings/${listing?.id}/team-members`"
-        class="btn btn-secondary rounded-pill"
-      >
-        <i class="bi bi-people me-1"></i>Miembros
-      </Link>
-      <Link
-        :href="`/member/listings/${listing?.id}/team-member-positions`"
-        class="btn btn-secondary rounded-pill"
-      >
-        <i class="bi bi-folder me-1"></i>Puestos
-      </Link>
-    </div>
 
     <BaseDataTable
       ref="dataTableRef"
@@ -42,6 +46,23 @@
       empty-text="Crea tu primer puesto para organizar a tu equipo."
       @updated="onDataTableUpdated"
     >
+      <template #header-actions>
+        <BulkSelect
+          v-model:selectedIds="selectedIds"
+          :current-page-ids="currentPageIds"
+          :delete-endpoint="`/member/listings/${listing?.id}/team-member-positions/bulk-delete`"
+          item-name="puestos"
+          @deleted="onBulkDeleted"
+        />
+      </template>
+
+      <template #cell-checkbox="{ row }">
+        <BulkSelectRowCheckbox
+          :id="row.id"
+          v-model:selectedIds="selectedIds"
+        />
+      </template>
+
       <template #cell-name="{ row }">
         <strong>{{ row.name }}</strong>
         <span v-if="row.parent" class="badge bg-light text-dark ms-2">{{ row.parent.name }}</span>
@@ -72,18 +93,10 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/team-member-positions/${row.id}/edit`" class="btn btn-info rounded-pill">
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button
-            class="btn btn-danger rounded-pill"
-            @click="deletePosition(row)"
-            :disabled="(row.members_count || 0) > 0 || (row.children_count || 0) > 0"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="[
+          { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing?.id}/team-member-positions/${row.id}/edit`) },
+          { label: 'Eliminar', icon: 'bi bi-trash', danger: true, disabled: (row.members_count || 0) > 0 || (row.children_count || 0) > 0, disabledMessage: 'No se puede eliminar porque tiene miembros o sub-puestos asociados', onClick: () => deletePosition(row) }
+        ]" />
       </template>
     </BaseDataTable>
   </MemberLayout>
@@ -95,6 +108,8 @@ import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
+import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
@@ -111,6 +126,7 @@ const breadcrumbs = computed(() => [
 ])
 
 const columns = [
+  { key: 'checkbox', label: '', sortable: false, width: '40px' },
   { key: 'name', label: 'Nombre', sortable: true },
   { key: 'description', label: 'Descripción', sortable: false },
   { key: 'members_count', label: 'Miembros', sortable: false, class: 'text-center' },
@@ -119,8 +135,22 @@ const columns = [
   { key: 'actions', label: 'Acciones', sortable: false, class: 'text-end' },
 ]
 
+const selectedIds = ref([])
+
+const currentPageIds = computed(() => {
+  if (!dataTable.value?.data) return []
+  return dataTable.value.data.map(row => row.id)
+})
+
 const onDataTableUpdated = (data) => {
   perPage.value = data.per_page
+  selectedIds.value = []
+}
+
+const onBulkDeleted = () => {
+  if (dataTableRef.value) {
+    dataTableRef.value.reload()
+  }
 }
 
 const deletePosition = (position) => {
@@ -138,11 +168,3 @@ const deletePosition = (position) => {
   })
 }
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

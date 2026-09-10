@@ -12,8 +12,10 @@
 
     <form @submit.prevent="saveSettings">
       <div class="card mb-4">
-        <div class="card-header">
-          <h5 class="mb-0"><i class="bi bi-robot me-2"></i>Configuración del Chatbot</h5>
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-robot me-2"></i>Configuración del Chatbot
+          </h6>
         </div>
         <div class="card-body">
           <div class="row g-3">
@@ -282,10 +284,12 @@
           </div>
         </div>
 
-        <div class="card mb-4">
-          <div class="card-header">
-            <h5 class="mb-0"><i class="bi bi-link-45deg me-2"></i>CTA por Intencion</h5>
-          </div>
+      <div class="card mb-4">
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-link-45deg me-2"></i>CTA por Intencion
+          </h6>
+        </div>
           <div class="card-body">
             <div class="alert alert-info small mb-3">
               <i class="bi bi-info-circle me-1"></i>
@@ -351,10 +355,12 @@
           </div>
         </div>
 
-        <div class="card mb-4">
-          <div class="card-header">
-            <h5 class="mb-0"><i class="bi bi-whatsapp me-2"></i>WhatsApp</h5>
-          </div>
+      <div class="card mb-4">
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-whatsapp me-2"></i>WhatsApp
+          </h6>
+        </div>
           <div class="card-body">
             <div class="alert alert-info small mb-3">
               <i class="bi bi-info-circle me-1"></i>
@@ -429,10 +435,12 @@
           </div>
         </div>
 
-          <div class="card mb-4">
-            <div class="card-header">
-              <h5 class="mb-0"><i class="bi bi-person-plus me-2"></i>Captura de Leads</h5>
-            </div>
+            <div class="card mb-4">
+              <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+                <h6 class="text-uppercase text-muted mb-0 fw-normal">
+                  <i class="bi bi-person-plus me-2"></i>Captura de Leads
+                </h6>
+              </div>
             <div class="card-body">
               <div class="row g-3">
                 <div class="col-12">
@@ -490,10 +498,12 @@
           </div>
         </div>
 
-        <div class="card mb-4">
-          <div class="card-header">
-            <h5 class="mb-0"><i class="bi bi-clock me-2"></i>Pausa Programada</h5>
-          </div>
+      <div class="card mb-4">
+        <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-clock me-2"></i>Pausa Programada
+          </h6>
+        </div>
           <div class="card-body">
             <div class="alert alert-info small mb-3">
               <i class="bi bi-info-circle me-1"></i>

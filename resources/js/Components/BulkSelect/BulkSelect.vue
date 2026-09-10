@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex align-items-center gap-2">
-    <div class="form-check">
+  <div class="d-flex align-items-center gap-3">
+    <div class="form-check form-switch">
       <input
         type="checkbox"
         id="bulk-select-all"
@@ -13,8 +13,7 @@
     </div>
     <button
       v-if="selectedIds.length > 0"
-      class="btn btn-sm"
-      :class="buttonClass"
+      class="btn btn-sm btn-danger rounded-pill"
       @click="deleteSelected"
       :disabled="deleting"
     >
@@ -45,19 +44,11 @@ const props = defineProps({
     type: String,
     default: 'elementos',
   },
-  variant: {
-    type: String,
-    default: 'danger',
-  },
 })
 
 const emit = defineEmits(['update:selectedIds', 'deleted'])
 
 const deleting = ref(false)
-
-const buttonClass = computed(() => {
-  return props.variant === 'danger' ? 'btn-danger' : 'btn-warning'
-})
 
 const allSelected = computed(() => {
   return props.currentPageIds.length > 0 &&
@@ -114,6 +105,10 @@ const deleteSelected = () => {
 
 <style scoped>
 .form-check-input {
+  cursor: pointer;
+}
+
+.form-check-label {
   cursor: pointer;
 }
 </style>

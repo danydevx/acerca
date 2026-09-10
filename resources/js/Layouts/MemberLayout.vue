@@ -1,10 +1,19 @@
 <template>
   <div class="member-layout">
-    <aside class="sidebar bg-dark text-white">
+    <aside class="sidebar bg-dark text-white" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
       <div class="sidebar-header p-3 border-bottom border-secondary d-flex align-items-center justify-content-between">
         <Link href="/member" class="text-white text-decoration-none fw-semibold">
-          Acerca.site
+          <span :class="{ 'd-none': sidebarCollapsed }">Acerca.site</span>
+          <i v-if="sidebarCollapsed" class="bi bi-house"></i>
         </Link>
+        <button
+          class="btn btn-link text-white p-0 d-none d-lg-block"
+          type="button"
+          @click="toggleSidebar"
+          :title="sidebarCollapsed ? 'Expandir' : 'Colapsar'"
+        >
+          <i class="bi" :class="sidebarCollapsed ? 'bi-chevron-double-right' : 'bi-chevron-double-left'"></i>
+        </button>
         <button
           class="btn btn-link text-white p-0 d-lg-none"
           type="button"
@@ -17,9 +26,14 @@
 
       <nav class="sidebar-nav py-2">
         <div class="sidebar-section">
-          <Link href="/member/dashboard" class="sidebar-link" :class="{ active: isActive('/member/dashboard') }">
+          <Link
+            href="/member/dashboard"
+            class="sidebar-link"
+            :class="{ active: isActive('/member/dashboard') }"
+            :title="sidebarCollapsed ? 'Dashboard' : undefined"
+          >
             <i class="bi bi-speedometer2"></i>
-            <span>Dashboard</span>
+            <span class="sidebar-link-text">Dashboard</span>
           </Link>
         </div>
 
@@ -32,9 +46,10 @@
               :href="`/member/listings/${primaryBusiness.id}/edit`"
               class="sidebar-link"
               :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/edit`) }"
+              :title="sidebarCollapsed ? 'Editar negocio' : undefined"
             >
               <i class="bi bi-pencil"></i>
-              <span>Editar negocio</span>
+              <span class="sidebar-link-text">Editar negocio</span>
             </Link>
 
             <Link
@@ -42,9 +57,10 @@
               href="/member/listings/create"
               class="sidebar-link"
               :class="{ active: isActive('/member/listings/create') }"
+              :title="sidebarCollapsed ? 'Crear negocio' : undefined"
             >
               <i class="bi bi-plus-circle"></i>
-              <span>Crear negocio</span>
+              <span class="sidebar-link-text">Crear negocio</span>
             </Link>
 
             <a
@@ -52,28 +68,31 @@
               href="#"
               class="sidebar-link"
               :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/team-members`) || isActive(`/member/listings/${primaryBusiness.id}/team-member-positions`) }"
+              :title="sidebarCollapsed ? 'Mi Equipo' : undefined"
               @click.prevent="teamSubmenuOpen = !teamSubmenuOpen"
             >
               <i class="bi bi-people"></i>
-              <span>Mi Equipo</span>
-              <i class="bi bi-chevron-right ms-auto" :class="{ 'rotate-90': teamSubmenuOpen }"></i>
+              <span class="sidebar-link-text">Mi Equipo</span>
+              <i class="bi bi-chevron-right ms-auto sidebar-link-text" :class="{ 'rotate-90': teamSubmenuOpen }"></i>
             </a>
             <div v-show="teamSubmenuOpen" class="sidebar-submenu">
               <Link
                 :href="`/member/listings/${primaryBusiness.id}/team-members`"
                 class="sidebar-link sidebar-link-sub"
                 :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/team-members`) }"
+                :title="sidebarCollapsed ? 'Miembros' : undefined"
               >
                 <i class="bi bi-person-badge"></i>
-                <span>Miembros</span>
+                <span class="sidebar-link-text">Miembros</span>
               </Link>
               <Link
                 :href="`/member/listings/${primaryBusiness.id}/team-member-positions`"
                 class="sidebar-link sidebar-link-sub"
                 :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/team-member-positions`) }"
+                :title="sidebarCollapsed ? 'Puestos' : undefined"
               >
                 <i class="bi bi-folder"></i>
-                <span>Puestos</span>
+                <span class="sidebar-link-text">Puestos</span>
               </Link>
             </div>
 
@@ -82,37 +101,41 @@
                 :href="`/member/listings/${primaryBusiness.id}/packages`"
                 class="sidebar-link"
                 :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/packages`) }"
+                :title="sidebarCollapsed ? 'Paquetes' : undefined"
               >
                 <i class="bi bi-box-seam"></i>
-                <span>Paquetes</span>
+                <span class="sidebar-link-text">Paquetes</span>
               </Link>
 
               <a
                 href="#"
                 class="sidebar-link"
                 :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/products`) || isActive(`/member/listings/${primaryBusiness.id}/product-categories`) }"
+                :title="sidebarCollapsed ? 'Productos' : undefined"
                 @click.prevent="productsSubmenuOpen = !productsSubmenuOpen"
               >
                 <i class="bi bi-cart"></i>
-                <span>Productos</span>
-                <i class="bi bi-chevron-right ms-auto" :class="{ 'rotate-90': productsSubmenuOpen }"></i>
+                <span class="sidebar-link-text">Productos</span>
+                <i class="bi bi-chevron-right ms-auto sidebar-link-text" :class="{ 'rotate-90': productsSubmenuOpen }"></i>
               </a>
               <div v-show="productsSubmenuOpen" class="sidebar-submenu">
                 <Link
                   :href="`/member/listings/${primaryBusiness.id}/products`"
                   class="sidebar-link sidebar-link-sub"
                   :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/products`) }"
+                  :title="sidebarCollapsed ? 'Lista' : undefined"
                 >
                   <i class="bi bi-list"></i>
-                  <span>Lista</span>
+                  <span class="sidebar-link-text">Lista</span>
                 </Link>
                 <Link
                   :href="`/member/listings/${primaryBusiness.id}/product-categories`"
                   class="sidebar-link sidebar-link-sub"
                   :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/product-categories`) }"
+                  :title="sidebarCollapsed ? 'Categorías' : undefined"
                 >
                   <i class="bi bi-folder"></i>
-                  <span>Categorías</span>
+                  <span class="sidebar-link-text">Categorías</span>
                 </Link>
               </div>
 
@@ -120,28 +143,31 @@
                 href="#"
                 class="sidebar-link"
                 :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/services`) || isActive(`/member/listings/${primaryBusiness.id}/service-categories`) }"
+                :title="sidebarCollapsed ? 'Servicios' : undefined"
                 @click.prevent="servicesSubmenuOpen = !servicesSubmenuOpen"
               >
                 <i class="bi bi-briefcase"></i>
-                <span>Servicios</span>
-                <i class="bi bi-chevron-right ms-auto" :class="{ 'rotate-90': servicesSubmenuOpen }"></i>
+                <span class="sidebar-link-text">Servicios</span>
+                <i class="bi bi-chevron-right ms-auto sidebar-link-text" :class="{ 'rotate-90': servicesSubmenuOpen }"></i>
               </a>
               <div v-show="servicesSubmenuOpen" class="sidebar-submenu">
                 <Link
                   :href="`/member/listings/${primaryBusiness.id}/services`"
                   class="sidebar-link sidebar-link-sub"
                   :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/services`) }"
+                  :title="sidebarCollapsed ? 'Lista' : undefined"
                 >
                   <i class="bi bi-list"></i>
-                  <span>Lista</span>
+                  <span class="sidebar-link-text">Lista</span>
                 </Link>
                 <Link
                   :href="`/member/listings/${primaryBusiness.id}/service-categories`"
                   class="sidebar-link sidebar-link-sub"
                   :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/service-categories`) }"
+                  :title="sidebarCollapsed ? 'Categorías' : undefined"
                 >
                   <i class="bi bi-folder"></i>
-                  <span>Categorías</span>
+                  <span class="sidebar-link-text">Categorías</span>
                 </Link>
               </div>
 
@@ -149,28 +175,31 @@
                 href="#"
                 class="sidebar-link"
                 :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/menu-products`) || isActive(`/member/listings/${primaryBusiness.id}/menu-categories`) }"
+                :title="sidebarCollapsed ? 'Menú Restaurante' : undefined"
                 @click.prevent="menuSubmenuOpen = !menuSubmenuOpen"
               >
                 <i class="bi bi-cup-hot"></i>
-                <span>Menú Restaurante</span>
-                <i class="bi bi-chevron-right ms-auto" :class="{ 'rotate-90': menuSubmenuOpen }"></i>
+                <span class="sidebar-link-text">Menú Restaurante</span>
+                <i class="bi bi-chevron-right ms-auto sidebar-link-text" :class="{ 'rotate-90': menuSubmenuOpen }"></i>
               </a>
               <div v-show="menuSubmenuOpen" class="sidebar-submenu">
                 <Link
                   :href="`/member/listings/${primaryBusiness.id}/menu-products`"
                   class="sidebar-link sidebar-link-sub"
                   :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/menu-products`) }"
+                  :title="sidebarCollapsed ? 'Productos' : undefined"
                 >
                   <i class="bi bi-list"></i>
-                  <span>Productos</span>
+                  <span class="sidebar-link-text">Productos</span>
                 </Link>
                 <Link
                   :href="`/member/listings/${primaryBusiness.id}/menu-categories`"
                   class="sidebar-link sidebar-link-sub"
                   :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/menu-categories`) }"
+                  :title="sidebarCollapsed ? 'Categorías' : undefined"
                 >
                   <i class="bi bi-folder"></i>
-                  <span>Categorías</span>
+                  <span class="sidebar-link-text">Categorías</span>
                 </Link>
               </div>
             </template>
@@ -182,9 +211,10 @@
                 :href="mod.url"
                 class="sidebar-link"
                 :class="{ active: isActive(mod.url) }"
+                :title="sidebarCollapsed ? mod.title : undefined"
               >
                 <i :class="mod.icon || 'bi bi-grid'"></i>
-                <span>{{ mod.title }}</span>
+                <span class="sidebar-link-text">{{ mod.title }}</span>
               </Link>
             </template>
 
@@ -193,36 +223,40 @@
               href="#"
               class="sidebar-link"
               :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/fidelity-cards`) || isActive(`/member/listings/${primaryBusiness.id}/fidelity-rewards`) || isActive(`/member/listings/${primaryBusiness.id}/fidelity-cards/history`) }"
+              :title="sidebarCollapsed ? 'Fidelización' : undefined"
               @click.prevent="fidelitySubmenuOpen = !fidelitySubmenuOpen"
             >
               <i class="bi bi-heart"></i>
-              <span>Fidelización</span>
-              <i class="bi bi-chevron-right ms-auto" :class="{ 'rotate-90': fidelitySubmenuOpen }"></i>
+              <span class="sidebar-link-text">Fidelización</span>
+              <i class="bi bi-chevron-right ms-auto sidebar-link-text" :class="{ 'rotate-90': fidelitySubmenuOpen }"></i>
             </a>
             <div v-show="fidelitySubmenuOpen" class="sidebar-submenu">
               <Link
                 :href="`/member/listings/${primaryBusiness.id}/fidelity-cards`"
                 class="sidebar-link sidebar-link-sub"
                 :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/fidelity-cards`) && !isActive(`/member/listings/${primaryBusiness.id}/fidelity-cards/history`) && !isActive(`/member/listings/${primaryBusiness.id}/fidelity-cards/create`)}"
+                :title="sidebarCollapsed ? 'Tarjetas' : undefined"
               >
                 <i class="bi bi-card-text"></i>
-                <span>Tarjetas</span>
+                <span class="sidebar-link-text">Tarjetas</span>
               </Link>
               <Link
                 :href="`/member/listings/${primaryBusiness.id}/fidelity-rewards`"
                 class="sidebar-link sidebar-link-sub"
                 :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/fidelity-rewards`) }"
+                :title="sidebarCollapsed ? 'Recompensas' : undefined"
               >
                 <i class="bi bi-gift"></i>
-                <span>Recompensas</span>
+                <span class="sidebar-link-text">Recompensas</span>
               </Link>
               <Link
                 :href="`/member/listings/${primaryBusiness.id}/fidelity-cards/history`"
                 class="sidebar-link sidebar-link-sub"
                 :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/fidelity-cards/history`) }"
+                :title="sidebarCollapsed ? 'Historial' : undefined"
               >
                 <i class="bi bi-clock-history"></i>
-                <span>Historial</span>
+                <span class="sidebar-link-text">Historial</span>
               </Link>
             </div>
 
@@ -231,83 +265,85 @@
               href="#"
               class="sidebar-link"
               :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/vcards/${currentVcardId}/edit`) }"
+              :title="sidebarCollapsed ? 'vCard' : undefined"
               @click.prevent="vcardSubmenuOpen = !vcardSubmenuOpen"
             >
               <i class="bi bi-person-vcard"></i>
-              <span>vCard</span>
-              <i class="bi bi-chevron-right ms-auto" :class="{ 'rotate-90': vcardSubmenuOpen }"></i>
+              <span class="sidebar-link-text">vCard</span>
+              <i class="bi bi-chevron-right ms-auto sidebar-link-text" :class="{ 'rotate-90': vcardSubmenuOpen }"></i>
             </a>
             <div v-show="vcardSubmenuOpen && currentVcardId" class="sidebar-submenu">
               <Link
                 :href="`/member/listings/${primaryBusiness.id}/vcards/${currentVcardId}/edit`"
                 class="sidebar-link sidebar-link-sub"
                 :class="{ active: isActive(`/member/listings/${primaryBusiness.id}/vcards/${currentVcardId}/edit`) }"
+                :title="sidebarCollapsed ? 'Editar' : undefined"
               >
                 <i class="bi bi-pencil"></i>
-                <span>Editar</span>
+                <span class="sidebar-link-text">Editar</span>
               </Link>
             </div>
           </template>
 
           <div v-else class="sidebar-link text-muted">
-            <span class="small">Sin negocio configurado</span>
+            <span class="small sidebar-link-text">Sin negocio configurado</span>
           </div>
         </div>
 
         <div v-if="canBilling" class="sidebar-section">
-          <div class="sidebar-section-title">Facturación</div>
-          <Link href="/member/payments" class="sidebar-link" :class="{ active: isActive('/member/payments') }">
+          <div class="sidebar-section-title sidebar-section-title-text">Facturación</div>
+          <Link href="/member/payments" class="sidebar-link" :class="{ active: isActive('/member/payments') }" :title="sidebarCollapsed ? 'Pagos' : undefined">
             <i class="bi bi-credit-card"></i>
-            <span>Pagos</span>
+            <span class="sidebar-link-text">Pagos</span>
           </Link>
-          <Link href="/member/invoices" class="sidebar-link" :class="{ active: isActive('/member/invoices') }">
+          <Link href="/member/invoices" class="sidebar-link" :class="{ active: isActive('/member/invoices') }" :title="sidebarCollapsed ? 'Comprobantes' : undefined">
             <i class="bi bi-file-earmark-text"></i>
-            <span>Comprobantes</span>
+            <span class="sidebar-link-text">Comprobantes</span>
           </Link>
         </div>
 
         <div v-if="canSupport" class="sidebar-section">
-          <div class="sidebar-section-title">Soporte</div>
-          <Link href="/member/support" class="sidebar-link" :class="{ active: isActive('/member/support') }">
+          <div class="sidebar-section-title sidebar-section-title-text">Soporte</div>
+          <Link href="/member/support" class="sidebar-link" :class="{ active: isActive('/member/support') }" :title="sidebarCollapsed ? 'Tickets' : undefined">
             <i class="bi bi-headset"></i>
-            <span>Tickets</span>
+            <span class="sidebar-link-text">Tickets</span>
           </Link>
-          <Link href="/member/help" class="sidebar-link" :class="{ active: isActive('/member/help') }">
+          <Link href="/member/help" class="sidebar-link" :class="{ active: isActive('/member/help') }" :title="sidebarCollapsed ? 'Ayuda' : undefined">
             <i class="bi bi-question-circle"></i>
-            <span>Ayuda</span>
+            <span class="sidebar-link-text">Ayuda</span>
           </Link>
         </div>
 
         <div class="sidebar-section">
-          <div class="sidebar-section-title">Cuenta</div>
-          <Link href="/member/account" class="sidebar-link" :class="{ active: isActive('/member/account') }">
+          <div class="sidebar-section-title sidebar-section-title-text">Cuenta</div>
+          <Link href="/member/account" class="sidebar-link" :class="{ active: isActive('/member/account') }" :title="sidebarCollapsed ? 'Detalles' : undefined">
             <i class="bi bi-wallet2"></i>
-            <span>Detalles</span>
+            <span class="sidebar-link-text">Detalles</span>
           </Link>
-          <Link href="/member/profile" class="sidebar-link" :class="{ active: isActive('/member/profile') }">
+          <Link href="/member/profile" class="sidebar-link" :class="{ active: isActive('/member/profile') }" :title="sidebarCollapsed ? 'Perfil' : undefined">
             <i class="bi bi-person"></i>
-            <span>Perfil</span>
+            <span class="sidebar-link-text">Perfil</span>
           </Link>
-          <Link href="/member/password" class="sidebar-link" :class="{ active: isActive('/member/password') }">
+          <Link href="/member/password" class="sidebar-link" :class="{ active: isActive('/member/password') }" :title="sidebarCollapsed ? 'Password' : undefined">
             <i class="bi bi-lock"></i>
-            <span>Password</span>
+            <span class="sidebar-link-text">Password</span>
           </Link>
-          <Link href="/member/preferences" class="sidebar-link" :class="{ active: isActive('/member/preferences') }">
+          <Link href="/member/preferences" class="sidebar-link" :class="{ active: isActive('/member/preferences') }" :title="sidebarCollapsed ? 'Preferencias' : undefined">
             <i class="bi bi-gear"></i>
-            <span>Preferencias</span>
+            <span class="sidebar-link-text">Preferencias</span>
           </Link>
         </div>
 
         <div class="sidebar-section">
-          <div class="sidebar-section-title">Recursos</div>
-          <Link href="/member/notifications" class="sidebar-link" :class="{ active: isActive('/member/notifications') }">
+          <div class="sidebar-section-title sidebar-section-title-text">Recursos</div>
+          <Link href="/member/notifications" class="sidebar-link" :class="{ active: isActive('/member/notifications') }" :title="sidebarCollapsed ? 'Notificaciones' : undefined">
             <i class="bi bi-bell"></i>
-            <span>Notificaciones</span>
-            <span v-if="unreadCount > 0" class="badge bg-primary ms-auto">{{ unreadCount }}</span>
+            <span class="sidebar-link-text">Notificaciones</span>
+            <span v-if="unreadCount > 0" class="badge bg-primary ms-auto sidebar-link-text">{{ unreadCount }}</span>
           </Link>
-          <Link href="/member/files" class="sidebar-link" :class="{ active: isActive('/member/files') }">
+          <Link href="/member/files" class="sidebar-link" :class="{ active: isActive('/member/files') }" :title="sidebarCollapsed ? 'Archivos' : undefined">
             <i class="bi bi-folder"></i>
-            <span>Archivos</span>
+            <span class="sidebar-link-text">Archivos</span>
           </Link>
         </div>
       </nav>
@@ -566,6 +602,12 @@ const menuSubmenuOpen = ref(false)
 const servicesSubmenuOpen = ref(false)
 const fidelitySubmenuOpen = ref(false)
 const vcardSubmenuOpen = ref(false)
+const sidebarCollapsed = ref(localStorage.getItem('sidebarCollapsed') === 'true')
+
+const toggleSidebar = () => {
+  sidebarCollapsed.value = !sidebarCollapsed.value
+  localStorage.setItem('sidebarCollapsed', sidebarCollapsed.value)
+}
 
 const checkAndOpenSubmenu = (path) => {
   if (!primaryBusiness.value) return
@@ -761,6 +803,57 @@ const alertClass = (type, priority) => {
   top: 0;
   height: 100vh;
   background-color: #343a40;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  transition: width 0.2s ease;
+}
+
+.sidebar-collapsed {
+  width: 60px;
+}
+
+.sidebar-collapsed .sidebar-link-text,
+.sidebar-collapsed .sidebar-section-title-text {
+  display: none;
+}
+
+.sidebar-collapsed .sidebar-link {
+  justify-content: center;
+  padding: 0.625rem 0.5rem;
+}
+
+.sidebar-collapsed .sidebar-link i:first-child {
+  margin-right: 0;
+}
+
+.sidebar-collapsed .sidebar-header {
+  justify-content: center;
+  padding: 1rem 0.5rem;
+}
+
+.sidebar-collapsed .sidebar-section-title {
+  display: none;
+}
+
+.sidebar-collapsed .sidebar-link i:first-child {
+  font-size: 1.2rem;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 @media (max-width: 991.98px) {

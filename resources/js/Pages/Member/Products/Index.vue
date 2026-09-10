@@ -7,16 +7,16 @@
       :breadcrumbs="breadcrumbs"
       :backHref="'/member/listings'"
     >
-      <template #actions>
-        <button
-          v-if="selectedIds.length > 0"
-          class="btn btn-danger rounded-pill"
-          @click="deleteSelected"
-          :disabled="deleting"
-        >
-          <i class="bi bi-trash me-1"></i>
-          Eliminar ({{ selectedIds.length }})
+      <template #filters>
+        <select v-model="filterCategory" class="form-select form-select-sm" @change="filterProducts" style="max-width: 200px;">
+          <option :value="null">Todas las categorias</option>
+          <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+        </select>
+        <button v-if="filterCategory" type="button" class="btn btn-secondary rounded-pill" @click="clearFilter">
+          <i class="bi bi-x-lg"></i>
         </button>
+      </template>
+      <template #actions>
         <Link :href="`/member/listings/${listing?.id}/product-categories`" class="btn btn-secondary rounded-pill">
           <i class="bi bi-folder me-1"></i>Categorias
         </Link>
@@ -26,20 +26,6 @@
         </Link>
       </template>
     </PageHeader>
-
-    <div class="row mb-3 align-items-center">
-      <div class="col">
-        <div class="d-flex gap-2 align-items-center flex-wrap">
-          <select v-model="filterCategory" class="form-select form-select-sm" @change="filterProducts" style="max-width: 200px;">
-            <option :value="null">Todas las categorias</option>
-            <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
-          </select>
-          <button v-if="filterCategory" type="button" class="btn btn-secondary rounded-pill" @click="clearFilter">
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </div>
-      </div>
-    </div>
 
     <BaseDataTable
       ref="dataTableRef"
@@ -115,29 +101,11 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <button
-            class="btn btn-secondary rounded-pill"
-            @click="cloneProduct(row)"
-            :disabled="cloning === row.id"
-            title="Clonar producto"
-          >
-            <i class="bi bi-copy"></i>
-          </button>
-          <Link
-            :href="`/member/listings/${listing?.id}/products/${row.id}/edit`"
-            class="btn btn-info rounded-pill"
-          >
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button
-            class="btn btn-danger rounded-pill"
-            @click="deleteProduct(row)"
-            :disabled="deleting === row.id"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="[
+          { label: 'Clonar', icon: 'bi bi-copy', onClick: () => cloneProduct(row) },
+          { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing?.id}/products/${row.id}/edit`) },
+          { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteProduct(row) }
+        ]" />
       </template>
     </BaseDataTable>
   </MemberLayout>
@@ -150,6 +118,7 @@ import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 
 const props = defineProps({
   selectedCategory: [Number, String],
@@ -246,35 +215,4 @@ const cloneProduct = (product) => {
     })
   }
 }
-
-const deleteSelected = () => {
-  if (selectedIds.value.length === 0) return
-
-  const count = selectedIds.value.length
-  if (confirm(`Eliminar ${count} producto${count > 1 ? 's' : ''} seleccionado${count > 1 ? 's' : ''}?`)) {
-    deleting.value = true
-    router.post(`/member/listings/${listing.value.id}/products/bulk-delete`, {
-      ids: selectedIds.value,
-    }, {
-      preserveScroll: true,
-      onSuccess: () => {
-        selectedIds.value = []
-        if (dataTableRef.value) {
-          dataTableRef.value.reload()
-        }
-      },
-      onFinish: () => {
-        deleting.value = false
-      },
-    })
-  }
-}
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

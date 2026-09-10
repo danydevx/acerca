@@ -8,13 +8,13 @@
       :backHref="`/member/listings/${listing?.id || ''}/galleries`"
     >
       <template #description>
-        <p class="text-muted mb-0">Gestiona las imagenes de esta galería. Arrastra para reordenar.</p>
+        <p class="text-muted mb-0">Gestiona las imágenes de esta galería. Arrastra para reordenar.</p>
       </template>
-      <template #actions>
+      <template #tabs>
         <div class="dropdown">
           <button
             type="button"
-            class="btn btn-info rounded-pill dropdown-toggle"
+            class="btn btn-secondary rounded-pill dropdown-toggle"
             data-bs-toggle="dropdown"
           >
             <i class="bi bi-arrow-left-right me-1"></i>
@@ -32,18 +32,11 @@
             </li>
           </ul>
         </div>
-        <button
-          v-if="selectedIds.length > 0"
-          class="btn btn-danger rounded-pill"
-          @click="deleteSelected"
-          :disabled="deleting"
-        >
-          <i class="bi bi-trash me-1"></i>
-          Eliminar ({{ selectedIds.length }})
-        </button>
+      </template>
+      <template #actions>
         <button class="btn btn-primary rounded-pill" @click="openUploadModal">
           <i class="bi bi-plus-lg me-1"></i>
-          Subir imagenes
+          Subir imágenes
         </button>
       </template>
     </PageHeader>
@@ -51,11 +44,11 @@
     <div v-if="!images.data.length" class="card border-0 shadow-sm">
       <div class="card-body text-center py-5">
         <i class="bi bi-images display-1 text-muted"></i>
-        <h3 class="h5 mt-3">No hay imagenes en esta galería</h3>
+        <h3 class="h5 mt-3">No hay imágenes en esta galería</h3>
         <p class="text-muted">Sube tu primera imagen para empezar.</p>
         <button class="btn btn-primary rounded-pill" @click="openUploadModal">
           <i class="bi bi-plus-lg me-1"></i>
-          Subir imagenes
+          Subir imágenes
         </button>
       </div>
     </div>
@@ -68,11 +61,21 @@
       :initial-data="dataTable"
       :reorderable="true"
       :reorder-endpoint="`/member/listings/${listing?.id}/gallery/reorder`"
-      search-placeholder="Buscar imagenes..."
-      empty-title="No hay imagenes"
+      search-placeholder="Buscar imágenes..."
+      empty-title="No hay imágenes"
       empty-text="Sube tu primera imagen para empezar."
       @updated="onDataTableUpdated"
     >
+      <template #header-actions>
+        <BulkSelect
+          v-model:selectedIds="selectedIds"
+          :current-page-ids="currentPageIds"
+          :delete-endpoint="`/member/listings/${listing?.id}/gallery/bulk-delete`"
+          item-name="imágenes"
+          @deleted="onBulkDeleted"
+        />
+      </template>
+
       <template #cell-checkbox="{ row }">
         <BulkSelectRowCheckbox :id="row.id" v-model:selectedIds="selectedIds" />
       </template>
@@ -81,25 +84,16 @@
         <img :src="row.path" class="img-thumbnail" style="max-height: 60px; max-width: 80px; object-fit: cover;" :alt="row.title" />
       </template>
 
-      <template #cell-actions="{ row }">
-        <div class="actions">
-          <button class="btn btn-info rounded-pill" @click="openEditModal(row)">
-            <i class="bi bi-pencil"></i>
-          </button>
-          <button class="btn btn-danger rounded-pill" @click="deleteImage(row)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+      <template #cell-title="{ row }">
+        <strong>{{ row.title || 'Sin título' }}</strong>
+        <p v-if="row.description" class="text-muted small mb-0">{{ row.description.substring(0, 50) }}...</p>
       </template>
 
-      <template #header-actions>
-        <BulkSelect
-          v-model:selectedIds="selectedIds"
-          :current-page-ids="currentPageIds"
-          :delete-endpoint="`/member/listings/${listing?.id}/gallery/bulk-delete`"
-          item-name="imagenes"
-          @deleted="onBulkDeleted"
-        />
+      <template #cell-actions="{ row }">
+        <MemberTableActions :actions="[
+          { label: 'Editar', icon: 'bi bi-pencil', onClick: () => openEditModal(row) },
+          { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteImage(row) }
+        ]" />
       </template>
     </BaseDataTable>
 
@@ -170,6 +164,7 @@ import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
@@ -205,7 +200,6 @@ const editModalElement = ref(null)
 let editModal = null
 
 const saving = ref(false)
-const deleting = ref(false)
 const selectedIds = ref([])
 
 const editForm = reactive({
@@ -263,30 +257,13 @@ const saveEdit = () => {
 }
 
 const deleteImage = (img) => {
-  if (confirm('Estas seguro de eliminar esta imagen?')) {
+  if (confirm('¿Eliminar esta imagen?')) {
     router.delete(`/member/listings/${listing.value.id}/gallery/${img.id}`, {
       preserveScroll: true,
-    })
-  }
-}
-
-const deleteSelected = () => {
-  if (selectedIds.value.length === 0) return
-  const count = selectedIds.value.length
-  if (confirm(`Eliminar ${count} imagen${count > 1 ? 'es' : ''} seleccionada${count > 1 ? 's' : ''}?`)) {
-    deleting.value = true
-    router.post(`/member/listings/${listing.value.id}/gallery/bulk-delete`, {
-      ids: selectedIds.value,
-    }, {
-      preserveScroll: true,
       onSuccess: () => {
-        selectedIds.value = []
         if (dataTableRef.value) {
           dataTableRef.value.reload()
         }
-      },
-      onFinish: () => {
-        deleting.value = false
       },
     })
   }
@@ -311,11 +288,3 @@ onMounted(() => {
   editModal = editModalElement.value ? new Modal(editModalElement.value) : null
 })
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

@@ -1,20 +1,39 @@
 <template>
   <MemberLayout>
-    <Head title="Categorias del Menu" />
+    <Head title="Categorías del Menú" />
 
     <PageHeader
-      title="Categorias del Menu"
+      title="Categorías del Menú"
       :breadcrumbs="breadcrumbs"
       :backHref="'/member/listings'"
     >
+      <template #tabs>
+        <div class="dropdown">
+          <button class="btn btn-secondary rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-cup-hot me-1"></i>Menú
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <Link :href="`/member/listings/${listing?.id}/menu-products`" class="dropdown-item">
+                <i class="bi bi-cup-hot me-2"></i>Productos
+              </Link>
+            </li>
+            <li>
+              <Link :href="`/member/listings/${listing?.id}/menu-categories`" class="dropdown-item active">
+                <i class="bi bi-folder me-2"></i>Categorías
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </template>
       <template #actions>
         <button @click="openCreateModal" class="btn btn-primary rounded-pill">
-          <i class="bi bi-plus-lg me-1"></i>Nueva Categoria
+          <i class="bi bi-plus-lg me-1"></i>Nueva Categoría
         </button>
       </template>
     </PageHeader>
 
-    <div class="container-fluid py-4">
+    <div class="py-3">
       <div v-if="$page.props.flash?.success" class="alert alert-success alert-dismissible fade show" role="alert">
         {{ $page.props.flash.success }}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -25,65 +44,35 @@
       </div>
 
       <div v-if="categories.length === 0" class="alert alert-info">
-        No hay categorias creadas. Crea tu primera categoria para empezar.
-      </div>
-
-      <div class="mb-3">
-        <Link :href="`/member/listings/${listing.id}/menu-products?uncategorized=1`" class="btn btn-secondary rounded-pill">
-          <i class="bi bi-dash-circle me-1"></i>Productos sin categoria
-        </Link>
+        No hay categorías creadas. Crea tu primera categoría para empezar.
       </div>
 
       <div class="row g-3">
         <div v-for="category in categories" :key="category.id" class="col-12 col-md-6 col-lg-4">
           <div class="card h-100">
-            <div v-if="category.images && category.images.length > 0" class="card-img-top overflow-hidden" style="max-height: 150px;">
-              <img :src="category.images[0].path" class="w-100 h-100 object-fit-cover" :alt="category.title" style="min-height: 150px;" />
+            <div v-if="category.images && category.images.length > 0" class="card-img-top overflow-hidden" style="max-height: 120px;">
+              <img :src="category.images[0].path" class="w-100 h-100 object-fit-cover" :alt="category.title" style="min-height: 120px;" />
             </div>
             <div class="card-header d-flex justify-content-between align-items-center">
-              <div>
+              <div class="text-truncate">
                 <span :class="{ 'text-muted': !category.active }">
-                  <strong>{{ category.title }}</strong>
+                  <strong class="text-truncate">{{ category.title }}</strong>
                   <span v-if="!category.active" class="badge bg-secondary ms-2">Inactiva</span>
                 </span>
-                <small class="text-muted d-block">{{ category.children?.length || 0 }} subcategorias, {{ category.products?.length || 0 }} productos</small>
-                <Link :href="`/member/listings/${listing.id}/menu-products?category=${category.id}`" class="text-decoration-none small">
-                  <i class="bi bi-box-seam me-1"></i>Ver productos
-                </Link>
+                <small class="text-muted d-block">{{ category.children?.length || 0 }} subcategorías, {{ category.products?.length || 0 }} productos</small>
               </div>
-              <div class="actions">
-                <button @click="editCategory(category)" class="btn btn-info rounded-pill">
-                  <i class="bi bi-pencil"></i>
-                </button>
-                <button @click="deleteCategory(category)" class="btn btn-danger rounded-pill">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </div>
+              <MemberTableActions :actions="[
+                { label: 'Editar', icon: 'bi bi-pencil', onClick: () => editCategory(category) },
+                { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteCategory(category) }
+              ]" />
             </div>
-            <div class="card-body">
-              <p v-if="category.description" class="text-muted mb-2">{{ category.description }}</p>
-
-              <div v-if="category.children && category.children.length > 0" class="mt-3">
-                <div v-for="child in category.children" :key="child.id" class="border-start border-3 ps-3 mb-2">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span :class="{ 'text-muted': !child.active }">
-                      {{ child.title }}
-                      <span v-if="!child.active" class="badge bg-secondary ms-2">Inactiva</span>
-                      <Link :href="`/member/listings/${listing.id}/menu-products?category=${child.id}`" class="text-decoration-none small ms-2">
-                        <i class="bi bi-box-seam"></i> {{ child.products?.length || 0 }}
-                      </Link>
-                    </span>
-                    <div class="actions">
-                      <button @click="editCategory(child)" class="btn btn-info rounded-pill">
-                        <i class="bi bi-pencil"></i>
-                      </button>
-                      <button @click="deleteCategory(child)" class="btn btn-danger rounded-pill">
-                        <i class="bi bi-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="card-body py-2">
+              <p v-if="category.description" class="text-muted small mb-0 text-truncate">{{ category.description }}</p>
+            </div>
+            <div class="card-footer bg-transparent py-2">
+              <Link :href="`/member/listings/${listing?.id}/menu-products?category=${category.id}`" class="btn btn-sm btn-link text-decoration-none">
+                <i class="bi bi-box-seam me-1"></i>Ver productos
+              </Link>
             </div>
           </div>
         </div>
@@ -94,7 +83,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">{{ editingCategory ? 'Editar Categoria' : 'Nueva Categoria' }}</h5>
+            <h5 class="modal-title">{{ editingCategory ? 'Editar Categoría' : 'Nueva Categoría' }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <form @submit.prevent="submitForm">
@@ -102,7 +91,7 @@
               <div class="mb-3">
                 <FieldText
                   id="category-title"
-                  label="Nombre de la categoria"
+                  label="Nombre de la categoría"
                   v-model="form.title"
                   required
                 />
@@ -110,18 +99,18 @@
               <div class="mb-3">
                 <FieldTextarea
                   id="category-description"
-                  label="Descripcion"
+                  label="Descripción"
                   v-model="form.description"
-                  :rows="3"
+                  :rows="2"
                 />
               </div>
               <div class="mb-3">
                 <FieldSelect
                   id="category-parent"
-                  label="Categoria padre"
+                  label="Categoría padre"
                   v-model="form.parent_id"
                 >
-                  <option :value="null">Ninguna (categoria principal)</option>
+                  <option :value="null">Ninguna (categoría principal)</option>
                   <option v-for="cat in flatCategories" :key="cat.id" :value="cat.id">
                     {{ cat.nested_title }}
                   </option>
@@ -137,24 +126,17 @@
                   @change="handleImageChange"
                 />
                 <div v-if="imagePreview" class="mt-2">
-                  <img :src="imagePreview" class="img-thumbnail" style="max-height: 150px;" alt="Preview" />
+                  <img :src="imagePreview" class="img-thumbnail" style="max-height: 120px;" alt="Preview" />
                 </div>
-                <small class="text-muted d-block">JPG, PNG o WebP, max 5MB.</small>
+                <small class="text-muted d-block">JPG, PNG o WebP, máx 5MB</small>
                 <button
-                  v-if="editingCategory && editingCategory.images && editingCategory.images.length > 0"
+                  v-if="editingCategory?.images?.length > 0"
                   type="button"
-                  class="btn btn-danger rounded-pill mt-2"
+                  class="btn btn-sm btn-outline-danger rounded-pill mt-2"
                   @click="removeImage"
                 >
                   <i class="bi bi-trash me-1"></i>Eliminar imagen
                 </button>
-              </div>
-              <div class="mb-3">
-                <FieldNumber
-                  id="category-sort"
-                  label="Orden"
-                  v-model="form.sort_order"
-                />
               </div>
               <div class="mb-3">
                 <FieldSwitch
@@ -183,39 +165,22 @@ import { Head, usePage, Link, router } from '@inertiajs/vue3'
 import { Modal } from 'bootstrap'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
-import FieldNumber from '@/Components/Fields/FieldNumber.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
-
-const props = defineProps({
-  listing: Object,
-  categories: Array,
-})
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
+const categories = computed(() => page.props.categories || [])
 const businessMenu = computed(() => page.props.businessMenu || [])
 
-const breadcrumbs = computed(() => {
-  const path = window.location.pathname
-  const businessMatch = path.match(/^\/member\/listings\/(\d+)/)
-  if (businessMatch) {
-    const businessId = parseInt(businessMatch[1])
-    const biz = businessMenu.value.find(b => b.id === businessId)
-    if (biz) {
-      return [
-        { label: 'Inicio', href: `/member/listings/${biz.id}/modules` },
-        { label: 'Categorías', active: true },
-      ]
-    }
-  }
-  return [
-    { label: 'Inicio', href: '/member/dashboard' },
-    { label: 'Categorías', active: true },
-  ]
-})
+const breadcrumbs = computed(() => [
+  { label: 'Inicio', href: '/member/dashboard' },
+  { label: 'Menú', href: `/member/listings/${listing.value?.id}/menu-products` },
+  { label: 'Categorías' },
+])
 
 const modalElement = ref(null)
 let categoryModal = null
@@ -231,7 +196,6 @@ const form = ref({
   parent_id: null,
   image: null,
   remove_image: false,
-  sort_order: 0,
   active: true,
 })
 
@@ -249,23 +213,20 @@ const flatCategories = computed(() => {
       }
     })
   }
-  flatten(props.categories || [])
+  flatten(categories.value || [])
   return flat
 })
 
 const openCreateModal = () => {
   editingCategory.value = null
   imagePreview.value = null
-  if (imageInput.value) {
-    imageInput.value.value = ''
-  }
+  if (imageInput.value) imageInput.value.value = ''
   form.value = {
     title: '',
     description: '',
     parent_id: null,
     image: null,
     remove_image: false,
-    sort_order: 0,
     active: true,
   }
   nextTick(() => categoryModal.show())
@@ -274,19 +235,16 @@ const openCreateModal = () => {
 const editCategory = (category) => {
   editingCategory.value = category
   imagePreview.value = null
-  if (imageInput.value) {
-    imageInput.value.value = ''
-  }
+  if (imageInput.value) imageInput.value.value = ''
   form.value = {
     title: category.title,
     description: category.description || '',
     parent_id: category.parent_id,
     image: null,
     remove_image: false,
-    sort_order: category.sort_order || 0,
     active: category.active,
   }
-  if (category.images && category.images.length > 0) {
+  if (category.images?.length > 0) {
     imagePreview.value = category.images[0].path
   }
   nextTick(() => categoryModal.show())
@@ -295,26 +253,22 @@ const editCategory = (category) => {
 const handleImageChange = (e) => {
   const file = e.target.files[0]
   if (!file) return
-
   if (file.size > 5 * 1024 * 1024) {
-    alert('El archivo supera el tamano maximo de 5MB.')
+    alert('El archivo supera el tamaño máximo de 5MB.')
     return
   }
-
   const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
   if (!allowedTypes.includes(file.type)) {
-    alert('Solo se permiten imagenes (JPEG, PNG, WebP, GIF).')
+    alert('Solo se permiten imágenes (JPEG, PNG, WebP, GIF).')
     return
   }
-
   form.value.image = file
   imagePreview.value = URL.createObjectURL(file)
 }
 
 const deleteCategory = (category) => {
-  if (!confirm(`Eliminar la categoria "${category.title}"?`)) return
-
-  router.delete(`/member/listings/${props.listing.id}/menu-categories/${category.id}`, {
+  if (!confirm(`Eliminar la categoría "${category.title}"?`)) return
+  router.delete(`/member/listings/${listing.value.id}/menu-categories/${category.id}`, {
     preserveScroll: true,
   })
 }
@@ -322,9 +276,7 @@ const deleteCategory = (category) => {
 const removeImage = () => {
   form.value.remove_image = true
   imagePreview.value = null
-  if (imageInput.value) {
-    imageInput.value.value = ''
-  }
+  if (imageInput.value) imageInput.value.value = ''
 }
 
 const closeModal = () => {
@@ -333,13 +285,11 @@ const closeModal = () => {
 
 const submitForm = () => {
   sending.value = true
-
   const data = new FormData()
   data.append('title', form.value.title)
   data.append('description', form.value.description || '')
   data.append('parent_id', form.value.parent_id || '')
   data.append('active', form.value.active ? '1' : '0')
-  data.append('sort_order', form.value.sort_order || '0')
 
   if (form.value.image) {
     data.append('image', form.value.image)
@@ -350,7 +300,7 @@ const submitForm = () => {
 
   if (editingCategory.value) {
     data.append('_method', 'PUT')
-    router.post(`/member/listings/${props.listing.id}/menu-categories/${editingCategory.value.id}`, data, {
+    router.post(`/member/listings/${listing.value.id}/menu-categories/${editingCategory.value.id}`, data, {
       preserveScroll: true,
       onFinish: () => {
         sending.value = false
@@ -358,7 +308,7 @@ const submitForm = () => {
       },
     })
   } else {
-    router.post(`/member/listings/${props.listing.id}/menu-categories`, data, {
+    router.post(`/member/listings/${listing.value.id}/menu-categories`, data, {
       preserveScroll: true,
       onFinish: () => {
         sending.value = false
@@ -372,11 +322,3 @@ onMounted(() => {
   categoryModal = new Modal(modalElement.value)
 })
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

@@ -7,27 +7,31 @@
       :breadcrumbs="breadcrumbs"
       :backHref="'/member/listings'"
     >
+      <template #tabs>
+        <div class="dropdown">
+          <button class="btn btn-secondary rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-briefcase me-1"></i>Servicios
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <Link :href="`/member/listings/${listing?.id}/services`" class="dropdown-item active">
+                <i class="bi bi-briefcase me-2"></i>Servicios
+              </Link>
+            </li>
+            <li>
+              <Link :href="`/member/listings/${listing?.id}/service-categories`" class="dropdown-item">
+                <i class="bi bi-folder me-2"></i>Categorías
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </template>
       <template #actions>
         <Link :href="`/member/listings/${listing?.id}/services/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nuevo servicio
         </Link>
       </template>
     </PageHeader>
-
-    <div class="mb-3 d-flex gap-2">
-      <Link
-        :href="`/member/listings/${listing?.id}/services`"
-        class="btn btn-secondary rounded-pill"
-      >
-        Todas
-      </Link>
-      <Link
-        :href="`/member/listings/${listing?.id}/service-categories`"
-        class="btn btn-secondary rounded-pill"
-      >
-        <i class="bi bi-folder me-1"></i>Categorias
-      </Link>
-    </div>
 
     <BaseDataTable
       ref="dataTableRef"
@@ -97,22 +101,11 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <button
-            class="btn btn-secondary rounded-pill"
-            @click="cloneService(row)"
-            :disabled="cloning === row.id"
-            title="Clonar servicio"
-          >
-            <i class="bi bi-copy"></i>
-          </button>
-          <Link :href="`/member/listings/${listing?.id}/services/${row.id}/edit`" class="btn btn-info rounded-pill">
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button class="btn btn-danger rounded-pill" @click="deleteService(row)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="[
+          { label: 'Clonar', icon: 'bi bi-copy', onClick: () => cloneService(row) },
+          { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing?.id}/services/${row.id}/edit`) },
+          { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteService(row) }
+        ]" />
       </template>
     </BaseDataTable>
   </MemberLayout>
@@ -125,6 +118,7 @@ import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 
 const props = defineProps({
   listing: Object,
@@ -202,31 +196,4 @@ const cloneService = (service) => {
     },
   })
 }
-
-const deleteSelected = () => {
-  if (selectedIds.value.length === 0) return
-
-  const count = selectedIds.value.length
-  if (confirm(`Eliminar ${count} servicio${count > 1 ? 's' : ''} seleccionado${count > 1 ? 's' : ''}?`)) {
-    router.post(`/member/listings/${listing.value.id}/services/bulk-delete`, {
-      ids: selectedIds.value,
-    }, {
-      preserveScroll: true,
-      onSuccess: () => {
-        selectedIds.value = []
-        if (dataTableRef.value) {
-          dataTableRef.value.reload()
-        }
-      },
-    })
-  }
-}
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

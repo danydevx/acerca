@@ -18,20 +18,35 @@
       </template>
     </PageHeader>
 
-    <div class="container-fluid py-4">
-      <BaseDataTable
-        ref="dataTableRef"
-        :endpoint="`/member/listings/${listing?.id}/locations/${location?.id}/schedules`"
-        :columns="columns"
-        :initial-data="dataTable"
-        :initial-per-page="perPage"
-        search-placeholder="Buscar horarios..."
-        empty-title="No hay horarios"
-        empty-text="Comienza creando tu primer horario."
-        @updated="onDataTableUpdated"
-      >
+    <BaseDataTable
+      ref="dataTableRef"
+      :endpoint="`/member/listings/${listing?.id}/locations/${location?.id}/schedules`"
+      :columns="columns"
+      :initial-data="dataTable"
+      :initial-per-page="perPage"
+      search-placeholder="Buscar horarios..."
+      empty-title="No hay horarios"
+      empty-text="Comienza creando tu primer horario."
+      @updated="onDataTableUpdated"
+    >
+      <template #header-actions>
+        <BulkSelect
+          v-model:selectedIds="selectedIds"
+          :current-page-ids="currentPageIds"
+          :delete-endpoint="`/member/listings/${listing?.id}/locations/${location?.id}/schedules/bulk-delete`"
+          item-name="horarios"
+          @deleted="onBulkDeleted"
+        />
+      </template>
+
+      <template #cell-checkbox="{ row }">
+        <BulkSelectRowCheckbox
+          :id="row.id"
+          v-model:selectedIds="selectedIds"
+        />
+      </template>
       <template #cell-name="{ row }">
-        <span class="schedule-name">{{ row.name }}</span>
+        <strong>{{ row.name }}</strong>
       </template>
 
       <template #cell-days_display="{ row }">
@@ -50,32 +65,12 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <button
-            class="btn btn-secondary rounded-pill"
-            @click="cloneSchedule(row.id)"
-            :disabled="cloning === row.id"
-            title="Clonar"
-          >
-            <i class="bi bi-copy"></i>
-          </button>
-          <Link
-            :href="`/member/listings/${listing?.id}/locations/${location?.id}/schedules/${row.id}/edit`"
-            class="btn btn-info rounded-pill"
-          >
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button
-            class="btn btn-danger rounded-pill"
-            @click="deleteSchedule(row)"
-            :disabled="deleting === row.id"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="[
+          { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing?.id}/locations/${location?.id}/schedules/${row.id}/edit`) },
+          { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteSchedule(row) }
+        ]" />
       </template>
     </BaseDataTable>
-    </div>
   </MemberLayout>
 </template>
 
@@ -85,6 +80,8 @@ import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
+import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
@@ -99,44 +96,39 @@ const breadcrumbs = computed(() => [
 ])
 
 const columns = [
-  { key: 'name', label: 'Nombre', sortable: true, class: 'fw-semibold' },
+  { key: 'checkbox', label: '', sortable: false, width: '40px' },
+  { key: 'name', label: 'Nombre', sortable: true },
   { key: 'days_display', label: 'Días', sortable: false },
   { key: 'time_display', label: 'Horario', sortable: false },
   { key: 'is_active', label: 'Estado', sortable: true },
-  { key: 'actions', label: 'Acciones', sortable: false, class: 'text-end' },
+  { key: 'actions', label: 'Acciones', sortable: false },
 ]
 
 const dataTableRef = ref(null)
-const deleting = ref(null)
-const cloning = ref(null)
+const selectedIds = ref([])
 const perPage = ref(10)
+
+const currentPageIds = computed(() => {
+  if (!dataTable.value?.data) return []
+  return dataTable.value.data.map(row => row.id)
+})
 
 const onDataTableUpdated = (data) => {
   perPage.value = data.per_page
+  selectedIds.value = []
 }
 
-const cloneSchedule = (scheduleId) => {
-  if (confirm('¿Clonar este horario?')) {
-    cloning.value = scheduleId
-    router.post(`/member/listings/${listing.value.id}/locations/${location.value.id}/schedules/${scheduleId}/clone`, {}, {
-      preserveScroll: true,
-      onFinish: () => {
-        cloning.value = null
-        if (dataTableRef.value) {
-          dataTableRef.value.reload()
-        }
-      },
-    })
+const onBulkDeleted = () => {
+  if (dataTableRef.value) {
+    dataTableRef.value.reload()
   }
 }
 
 const deleteSchedule = (schedule) => {
   if (confirm('¿Eliminar este horario? Esta acción no se puede deshacer.')) {
-    deleting.value = schedule.id
     router.delete(`/member/listings/${listing.value.id}/locations/${location.value.id}/schedules/${schedule.id}`, {
       preserveScroll: true,
-      onFinish: () => {
-        deleting.value = null
+      onSuccess: () => {
         if (dataTableRef.value) {
           dataTableRef.value.reload()
         }
@@ -147,19 +139,11 @@ const deleteSchedule = (schedule) => {
 </script>
 
 <style scoped>
-.schedule-name {
-  color: var(--bs-dark);
-}
 .schedule-time {
   font-family: monospace;
   background: var(--bs-light);
   padding: 0.125rem 0.5rem;
   border-radius: 0.25rem;
   font-size: 0.85em;
-}
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
 }
 </style>

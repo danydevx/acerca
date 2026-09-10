@@ -10,38 +10,17 @@
       <template #description>
         <p class="text-muted mb-0">Gestiona los productos de tu menu. Arrastra para reordenar.</p>
       </template>
-      <template #actions>
-          <button
-            v-if="selectedIds.length > 0"
-            class="btn btn-danger rounded-pill"
-            @click="deleteSelected"
-            :disabled="deleting"
-          >
-            <i class="bi bi-trash me-1"></i>
-            Eliminar ({{ selectedIds.length }})
-          </button>
-        <Link :href="`/member/listings/${listing?.id}/menu-categories`" class="btn btn-secondary rounded-pill">
-          <i class="bi bi-folder me-1"></i>Categorias
-        </Link>
-        <Link :href="`/member/listings/${listing?.id}/menu-products/create`" class="btn btn-primary rounded-pill">
-          <i class="bi bi-plus-lg me-1"></i>Nuevo Producto
-        </Link>
-      </template>
-    </PageHeader>
-
-    <div class="row mb-4 align-items-center">
-      <div class="col">
-        <div class="d-flex gap-2 align-items-center flex-wrap">
-          <div style="max-width: 200px;">
-            <input
-              type="text"
-              class="form-control form-control-sm"
-              v-model="searchQuery"
-              placeholder="Buscar productos..."
-              @keyup.enter="filterProducts"
-            />
-          </div>
-          <select v-model="filterCategory" class="form-select form-select-sm" @change="filterProducts" style="max-width: 200px;">
+      <template #filters>
+        <div class="d-flex gap-2 align-items-center">
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            v-model="searchQuery"
+            placeholder="Buscar..."
+            @keyup.enter="filterProducts"
+            style="max-width: 160px;"
+          />
+          <select v-model="filterCategory" class="form-select form-select-sm" @change="filterProducts" style="max-width: 180px;">
             <option :value="null">Todas las categorias</option>
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.title }}</option>
           </select>
@@ -49,17 +28,32 @@
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
-      </div>
-      <div class="col-auto">
-        <BulkSelect
-          v-model:selectedIds="selectedIds"
-          :current-page-ids="currentPageIds"
-          :delete-endpoint="`/member/listings/${listing?.id}/menu-products/bulk-delete`"
-          item-name="productos"
-          @deleted="onBulkDeleted"
-        />
-      </div>
-    </div>
+      </template>
+      <template #tabs>
+        <div class="dropdown">
+          <button class="btn btn-secondary rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-cup-hot me-1"></i>Menú
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <Link :href="`/member/listings/${listing?.id}/menu-products`" class="dropdown-item active">
+                <i class="bi bi-cup-hot me-2"></i>Productos
+              </Link>
+            </li>
+            <li>
+              <Link :href="`/member/listings/${listing?.id}/menu-categories`" class="dropdown-item">
+                <i class="bi bi-folder me-2"></i>Categorías
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </template>
+      <template #actions>
+        <Link :href="`/member/listings/${listing?.id}/menu-products/create`" class="btn btn-primary rounded-pill">
+          <i class="bi bi-plus-lg me-1"></i>Nuevo Producto
+        </Link>
+      </template>
+    </PageHeader>
 
     <div v-if="$page.props.flash?.success" class="alert alert-success alert-dismissible fade show" role="alert">
       {{ $page.props.flash.success }}
@@ -162,7 +156,6 @@ const breadcrumbs = computed(() => [
 const sortableCardsRef = ref(null)
 
 const loading = ref(false)
-const deleting = ref(false)
 const filterCategory = ref(props.selectedCategory)
 const searchQuery = ref(props.searchQuery || '')
 const selectedIds = ref([])
@@ -234,26 +227,6 @@ const cloneProduct = (product) => {
   router.post(`/member/listings/${props.listing.id}/menu-products/${product.id}/clone`, {
     preserveScroll: true,
   })
-}
-
-const deleteSelected = () => {
-  if (selectedIds.value.length === 0) return
-
-  const count = selectedIds.value.length
-  if (confirm(`Eliminar ${count} producto${count > 1 ? 's' : ''} seleccionado${count > 1 ? 's' : ''}?`)) {
-    deleting.value = true
-    router.post(`/member/listings/${props.listing.id}/menu-products/bulk-delete`, {
-      ids: selectedIds.value,
-    }, {
-      preserveScroll: true,
-      onSuccess: () => {
-        selectedIds.value = []
-      },
-      onFinish: () => {
-        deleting.value = false
-      },
-    })
-  }
 }
 </script>
 

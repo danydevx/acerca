@@ -8,16 +8,7 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <button
-          v-if="selectedIds.length > 0"
-          class="btn btn-danger rounded-pill"
-          @click="deleteSelected"
-          :disabled="deleting"
-        >
-          <i class="bi bi-trash me-1"></i>
-          Eliminar ({{ selectedIds.length }})
-        </button>
-        <a :href="`/member/listings/${listing?.id}/leads/export`" class="btn btn-primary rounded-pill">
+        <a :href="`/member/listings/${listing?.id}/leads/export`" class="btn btn-secondary rounded-pill">
           <i class="bi bi-download me-1"></i>Exportar
         </a>
         <Link :href="`/member/listings/${listing?.id}/leads/create`" class="btn btn-primary rounded-pill">
@@ -71,17 +62,11 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/leads/${row.id}`" class="btn btn-info rounded-pill">
-            <i class="bi bi-eye"></i>
-          </Link>
-          <Link :href="`/member/listings/${listing?.id}/leads/${row.id}/edit`" class="btn btn-info rounded-pill">
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button class="btn btn-danger rounded-pill" @click="deleteLead(row)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="[
+          { label: 'Ver', icon: 'bi bi-eye', onClick: () => router.get(`/member/listings/${listing?.id}/leads/${row.id}`) },
+          { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing?.id}/leads/${row.id}/edit`) },
+          { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteLead(row) }
+        ]" />
       </template>
 
       <template #header-actions>
@@ -104,6 +89,7 @@ import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
@@ -127,7 +113,6 @@ const columns = [
 ]
 
 const dataTableRef = ref(null)
-const deleting = ref(null)
 const selectedIds = ref([])
 
 const currentPageIds = computed(() => {
@@ -165,48 +150,15 @@ const statusClass = (status) => {
 }
 
 const deleteLead = (lead) => {
-  if (confirm('¿Estás seguro de eliminar este contacto?')) {
-    deleting.value = lead.id
+  if (confirm('¿Eliminar este contacto?')) {
     router.delete(`/member/listings/${listing.value.id}/leads/${lead.id}`, {
       preserveScroll: true,
-      onFinish: () => {
-        deleting.value = null
-        if (dataTableRef.value) {
-          dataTableRef.value.reload()
-        }
-      },
-    })
-  }
-}
-
-const deleteSelected = () => {
-  if (selectedIds.value.length === 0) return
-
-  const count = selectedIds.value.length
-  if (confirm(`Eliminar ${count} contacto${count > 1 ? 's' : ''} seleccionado${count > 1 ? 's' : ''}?`)) {
-    deleting.value = true
-    router.post(`/member/listings/${listing.value.id}/leads/bulk-delete`, {
-      ids: selectedIds.value,
-    }, {
-      preserveScroll: true,
       onSuccess: () => {
-        selectedIds.value = []
         if (dataTableRef.value) {
           dataTableRef.value.reload()
         }
-      },
-      onFinish: () => {
-        deleting.value = false
       },
     })
   }
 }
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

@@ -7,45 +7,44 @@
       :breadcrumbs="breadcrumbs"
       backHref="/member/dashboard"
     >
+      <template #filters>
+        <select
+          v-model="selectedPosition"
+          class="form-select form-select-sm"
+          @change="filterByPosition"
+          style="max-width: 200px;"
+        >
+          <option :value="null">Todos los puestos</option>
+          <option v-for="pos in positions" :key="pos.id" :value="pos.id">
+            {{ pos.name }}
+          </option>
+        </select>
+      </template>
+      <template #tabs>
+        <div class="dropdown">
+          <button class="btn btn-secondary rounded-pill dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-people me-1"></i>Miembros
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <Link :href="`/member/listings/${listing?.id}/team-members`" class="dropdown-item active">
+                <i class="bi bi-people me-2"></i>Miembros
+              </Link>
+            </li>
+            <li>
+              <Link :href="`/member/listings/${listing?.id}/team-member-positions`" class="dropdown-item">
+                <i class="bi bi-folder me-2"></i>Puestos
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </template>
       <template #actions>
         <Link :href="`/member/listings/${listing?.id}/team-members/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nuevo Miembro
         </Link>
       </template>
     </PageHeader>
-
-    <div class="mb-3 d-flex gap-2">
-      <Link
-        :href="`/member/listings/${listing?.id}/team-members`"
-        class="btn btn-secondary rounded-pill"
-      >
-        <i class="bi bi-people me-1"></i>Miembros
-      </Link>
-      <Link
-        :href="`/member/listings/${listing?.id}/team-member-positions`"
-        class="btn btn-secondary rounded-pill"
-      >
-        <i class="bi bi-folder me-1"></i>Puestos
-      </Link>
-    </div>
-
-    <div class="row mb-3 align-items-center">
-      <div class="col">
-        <div class="d-flex gap-2">
-          <select
-            v-model="selectedPosition"
-            class="form-select form-select-sm"
-            @change="filterByPosition"
-            style="max-width: 200px;"
-          >
-            <option :value="null">Todos los puestos</option>
-            <option v-for="pos in positions" :key="pos.id" :value="pos.id">
-              {{ pos.name }}
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
 
     <BaseDataTable
       ref="dataTableRef"
@@ -112,14 +111,10 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/team-members/${row.id}/edit`" class="btn btn-info rounded-pill">
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button class="btn btn-danger rounded-pill" @click="deleteMember(row)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="[
+          { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing?.id}/team-members/${row.id}/edit`) },
+          { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteMember(row) }
+        ]" />
       </template>
     </BaseDataTable>
   </MemberLayout>
@@ -132,6 +127,7 @@ import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
@@ -210,11 +206,3 @@ const deleteMember = (member) => {
   })
 }
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>
