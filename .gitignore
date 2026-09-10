@@ -29,3 +29,4 @@ resources/views/playground-bulma.blade.php
 resources/views/bulma.blade.php
 resources/js/Composables/OrpUI
 resources/js/Components/Ui/
+resources/js/Components/Minisite
