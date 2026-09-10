@@ -5,6 +5,7 @@
 .env.production
 .phpactor.json
 .phpunit.result.cache
+
 /.fleet
 /.idea
 /.nova
@@ -23,3 +24,8 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+resources/views/playground
+resources/views/playground-bulma.blade.php
+resources/views/bulma.blade.php
+resources/js/Composables/OrpUI
+resources/js/Components/Ui/
