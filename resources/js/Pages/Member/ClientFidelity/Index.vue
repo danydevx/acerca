@@ -6,44 +6,40 @@
       title="Tarjetas de Fidelidad"
       :breadcrumbs="breadcrumbs"
     >
+      <template #filters>
+        <select
+          v-model="selectedFilter"
+          class="form-select form-select-sm"
+          @change="filterCards"
+          style="max-width: 200px;"
+        >
+          <option value="all">Todas</option>
+          <option value="active">Activas</option>
+          <option value="completed">Completadas</option>
+        </select>
+      </template>
+      <template #tabs>
+        <div class="d-flex gap-2">
+          <Link
+            :href="`/member/listings/${listing?.id}/fidelity-cards`"
+            class="btn btn-secondary rounded-pill"
+          >
+            <i class="bi bi-credit-card me-1"></i>Tarjetas
+          </Link>
+          <Link
+            :href="`/member/listings/${listing?.id}/fidelity-cards/scan-view`"
+            class="btn btn-secondary rounded-pill"
+          >
+            <i class="bi bi-qr-code-scan me-1"></i>Escanear
+          </Link>
+        </div>
+      </template>
       <template #actions>
         <Link :href="`/member/listings/${listing?.id}/fidelity-cards/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>Nueva
         </Link>
       </template>
     </PageHeader>
-
-    <div class="mb-3 d-flex gap-2">
-      <Link
-        :href="`/member/listings/${listing?.id}/fidelity-cards`"
-        class="btn btn-secondary rounded-pill"
-      >
-        <i class="bi bi-credit-card me-1"></i>Tarjetas
-      </Link>
-      <Link
-        :href="`/member/listings/${listing?.id}/fidelity-cards/scan-view`"
-        class="btn btn-secondary rounded-pill"
-      >
-        <i class="bi bi-qr-code-scan me-1"></i>Escanear
-      </Link>
-    </div>
-
-    <div class="row mb-3 align-items-center">
-      <div class="col">
-        <div class="d-flex gap-2">
-          <select
-            v-model="selectedFilter"
-            class="form-select form-select-sm"
-            @change="filterCards"
-            style="max-width: 200px;"
-          >
-            <option value="all">Todas</option>
-            <option value="active">Activas</option>
-            <option value="completed">Completadas</option>
-          </select>
-        </div>
-      </div>
-    </div>
 
     <BaseDataTable
       ref="dataTableRef"
@@ -107,17 +103,11 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/fidelity-cards/${row.id}`" class="btn btn-info rounded-pill">
-            <i class="bi bi-eye"></i>
-          </Link>
-          <Link :href="`/member/listings/${listing?.id}/fidelity-cards/${row.id}/edit`" class="btn btn-secondary rounded-pill">
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button class="btn btn-danger rounded-pill" @click="deleteCard(row)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="[
+          { label: 'Ver', icon: 'bi bi-eye', onClick: () => router.get(`/member/listings/${listing?.id}/fidelity-cards/${row.id}`) },
+          { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing?.id}/fidelity-cards/${row.id}/edit`) },
+          { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteCard(row) }
+        ]" />
       </template>
     </BaseDataTable>
   </MemberLayout>
@@ -130,6 +120,7 @@ import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
@@ -206,11 +197,3 @@ const deleteCard = (card) => {
   })
 }
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

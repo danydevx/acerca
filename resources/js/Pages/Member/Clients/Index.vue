@@ -8,15 +8,6 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <button
-          v-if="selectedIds.length > 0"
-          class="btn btn-danger btn-sm"
-          @click="deleteSelected"
-          :disabled="deleting"
-        >
-          <i class="bi bi-trash me-1"></i>
-          Eliminar ({{ selectedIds.length }})
-        </button>
         <Link :href="`/member/listings/${listing?.id}/clients/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
           Nuevo Cliente
@@ -34,6 +25,16 @@
       empty-text="Comienza registrando tu primer cliente."
       @updated="onDataTableUpdated"
     >
+      <template #header-actions>
+        <BulkSelect
+          v-model:selectedIds="selectedIds"
+          :current-page-ids="currentPageIds"
+          :delete-endpoint="`/member/listings/${listing?.id}/clients/bulk-delete`"
+          item-name="clientes"
+          @deleted="onBulkDeleted"
+        />
+      </template>
+
       <template #cell-checkbox="{ row }">
         <BulkSelectRowCheckbox
           :id="row.id"
@@ -56,30 +57,7 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <button class="btn btn-secondary rounded-pill" @click="cloneClient(row)" title="Clonar">
-            <i class="bi bi-copy"></i>
-          </button>
-          <Link :href="`/member/listings/${listing?.id}/clients/${row.id}/edit`" class="btn btn-info rounded-pill">
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button
-            class="btn btn-danger rounded-pill"
-            @click="deleteClient(row)"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
-      </template>
-
-      <template #header-actions>
-        <BulkSelect
-          v-model:selectedIds="selectedIds"
-          :current-page-ids="currentPageIds"
-           :delete-endpoint="`/member/listings/${listing?.id}/clients/bulk-delete`"
-          item-name="clientes"
-          @deleted="onBulkDeleted"
-        />
+        <MemberTableActions :actions="getRowActions(row)" />
       </template>
     </BaseDataTable>
   </MemberLayout>
@@ -91,6 +69,7 @@ import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
 
 const page = usePage()
@@ -115,7 +94,6 @@ const breadcrumbs = computed(() => [
 
 const dataTableRef = ref(null)
 const selectedIds = ref([])
-const deleting = ref(null)
 
 const currentPageIds = computed(() => {
   if (!dataTable.value?.data) return []
@@ -132,13 +110,19 @@ const onBulkDeleted = () => {
   }
 }
 
+const getRowActions = (row) => {
+  return [
+    { label: 'Clonar', icon: 'bi bi-copy', onClick: () => cloneClient(row) },
+    { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing.value.id}/clients/${row.id}/edit`) },
+    { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteClient(row) },
+  ]
+}
+
 const deleteClient = (row) => {
   if (confirm(`Estas seguro de eliminar a ${row.customer_name}? Esta accion no se puede deshacer.`)) {
-    deleting.value = row.id
     router.delete(`/member/listings/${listing.value.id}/clients/${row.id}`, {
       preserveScroll: true,
       onFinish: () => {
-        deleting.value = null
         if (dataTableRef.value) {
           dataTableRef.value.reload()
         }
@@ -160,34 +144,4 @@ const cloneClient = (row) => {
     },
   })
 }
-
-const deleteSelected = () => {
-  if (selectedIds.value.length === 0) return
-  const count = selectedIds.value.length
-  if (confirm(`Eliminar ${count} cliente${count > 1 ? 's' : ''} seleccionado${count > 1 ? 's' : ''}?`)) {
-    deleting.value = true
-    router.post(`/member/listings/${listing.value.id}/clients/bulk-delete`, {
-      ids: selectedIds.value,
-    }, {
-      preserveScroll: true,
-      onSuccess: () => {
-        selectedIds.value = []
-        if (dataTableRef.value) {
-          dataTableRef.value.reload()
-        }
-      },
-      onFinish: () => {
-        deleting.value = false
-      },
-    })
-  }
-}
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

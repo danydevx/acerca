@@ -37,7 +37,7 @@ class PropertyController extends Controller
         $status = $request->get('status');
         $minPrice = $request->get('min_price');
         $maxPrice = $request->get('max_price');
-        $city = $request->get('city');
+        $municipality = $request->get('municipality');
         $state = $request->get('state');
 
         $filters = array_filter([
@@ -47,7 +47,7 @@ class PropertyController extends Controller
             'status' => $status,
             'min_price' => $minPrice,
             'max_price' => $maxPrice,
-            'city' => $city,
+            'municipality' => $municipality,
             'state' => $state,
             'sort' => $sort,
             'direction' => $direction,
@@ -75,22 +75,22 @@ class PropertyController extends Controller
         $propertyTypes = PropertyType::active()->orderBy('name')->get(['id', 'name', 'key']);
 
         $availableStates = $listing->properties()
-            ->whereNotNull('state_code')
-            ->where('state_code', '!=', '')
+            ->whereNotNull('state')
+            ->where('state', '!=', '')
             ->distinct()
-            ->orderBy('state_code')
-            ->pluck('state_code')
+            ->orderBy('state')
+            ->pluck('state')
             ->toArray();
 
-        $availableCities = [];
+        $availableMunicipalities = [];
         if ($state) {
-            $availableCities = $listing->properties()
-                ->where('state_code', $state)
-                ->whereNotNull('city')
-                ->where('city', '!=', '')
+            $availableMunicipalities = $listing->properties()
+                ->where('state', $state)
+                ->whereNotNull('municipality')
+                ->where('municipality', '!=', '')
                 ->distinct()
-                ->orderBy('city')
-                ->pluck('city')
+                ->orderBy('municipality')
+                ->pluck('municipality')
                 ->toArray();
         }
 
@@ -119,7 +119,7 @@ class PropertyController extends Controller
             'statusOptions' => $statusOptions,
             'operationOptions' => $operationOptions,
             'availableStates' => $availableStates,
-            'availableCities' => $availableCities,
+            'availableMunicipalities' => $availableMunicipalities,
         ]);
     }
 

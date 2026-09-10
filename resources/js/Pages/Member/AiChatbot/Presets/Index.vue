@@ -20,76 +20,30 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body p-0">
-        <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead>
-              <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Personalidad</th>
-                <th scope="col">Idioma</th>
-                <th scope="col">Estado</th>
-                <th scope="col" class="text-end">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="allPresets.length === 0">
-                <td colspan="5" class="text-center text-muted py-4">
-                  No tienes presets creados.
-                  <Link :href="`/member/listings/${listing.id}/ai-chatbot/presets/create`" class="text-primary">
-                    Crear el primero
-                  </Link>
-                </td>
-              </tr>
-              <tr v-for="preset in allPresets" :key="preset.id">
-                <td>
-                  <div class="fw-semibold">{{ preset.name }}</div>
-                  <small class="text-muted">{{ preset.description?.substring(0, 60) || '' }}...</small>
-                </td>
-                <td>
-                  <span class="badge text-bg-info">{{ preset.personality }}</span>
-                </td>
-                <td>
-                  <span class="badge text-bg-secondary">{{ preset.language?.toUpperCase() }}</span>
-                </td>
-                <td>
-                  <span :class="preset.is_active ? 'badge bg-success' : 'badge bg-secondary'">
-                    {{ preset.is_active ? 'Activo' : 'Inactivo' }}
-                  </span>
-                </td>
-                <td class="text-end">
-                  <div class="actions d-inline-flex gap-1">
-                    <Link
-                      :href="`/member/listings/${listing.id}/ai-chatbot/presets/${preset.id}/edit`"
-                      class="btn btn-info rounded-pill"
-                    >
-                      <i class="bi bi-pencil"></i>
-                    </Link>
-                    <button
-                      type="button"
-                      class="btn btn-secondary rounded-pill"
-                      @click="duplicatePreset(preset)"
-                      title="Duplicar"
-                    >
-                      <i class="bi bi-copy"></i>
-                    </button>
-                    <button
-                      v-if="!preset.is_system"
-                      type="button"
-                      class="btn btn-danger rounded-pill"
-                      @click="deletePreset(preset)"
-                    >
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <MemberTable
+      :items="allPresets"
+      :columns="columns"
+      :get-row-actions="getRowActions"
+      empty-title="No tienes presets creados"
+      empty-text="Crea tu primer preset para el chatbot."
+      :show-pagination="false"
+    >
+      <template #cell-name="{ row }">
+        <div class="fw-semibold">{{ row.name }}</div>
+        <small class="text-muted">{{ row.description?.substring(0, 60) || '' }}...</small>
+      </template>
+      <template #cell-personality="{ row }">
+        <span class="badge text-bg-info">{{ row.personality }}</span>
+      </template>
+      <template #cell-language="{ row }">
+        <span class="badge text-bg-secondary">{{ row.language?.toUpperCase() }}</span>
+      </template>
+      <template #cell-is_active="{ row }">
+        <span :class="row.is_active ? 'badge bg-success' : 'badge bg-secondary'">
+          {{ row.is_active ? 'Activo' : 'Inactivo' }}
+        </span>
+      </template>
+    </MemberTable>
   </MemberLayout>
 </template>
 
@@ -98,6 +52,7 @@ import { computed } from 'vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
+import MemberTable from '@/Components/Member/MemberTable.vue'
 
 const page = usePage()
 const listing = page.props.listing
@@ -111,6 +66,38 @@ const breadcrumbs = computed(() => [
   { label: 'Chatbot', href: `/member/listings/${listing?.id}/ai-chatbot` },
   { label: 'Presets', active: true },
 ])
+
+const columns = [
+  { key: 'name', label: 'Nombre', sortable: false },
+  { key: 'personality', label: 'Personalidad', sortable: false },
+  { key: 'language', label: 'Idioma', sortable: false },
+  { key: 'is_active', label: 'Estado', sortable: false },
+  { key: 'actions', label: '', sortable: false, class: 'text-end' },
+]
+
+const getRowActions = (preset) => {
+  const actions = [
+    {
+      label: 'Editar',
+      icon: 'bi bi-pencil',
+      onClick: () => router.get(`/member/listings/${listing.id}/ai-chatbot/presets/${preset.id}/edit`),
+    },
+    {
+      label: 'Duplicar',
+      icon: 'bi bi-copy',
+      onClick: () => duplicatePreset(preset),
+    },
+  ]
+  if (!preset.is_system) {
+    actions.push({
+      label: 'Eliminar',
+      icon: 'bi bi-trash',
+      danger: true,
+      onClick: () => deletePreset(preset),
+    })
+  }
+  return actions
+}
 
 const duplicatePreset = (preset) => {
   if (confirm(`¿Duplicar el preset "${preset.name}"?`)) {

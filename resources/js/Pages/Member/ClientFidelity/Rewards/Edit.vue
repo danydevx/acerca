@@ -65,37 +65,16 @@
             </div>
 
             <div class="col-12">
-              <label class="form-label">Imagen</label>
-              <input
+              <FieldImage
                 id="reward-image"
-                type="file"
-                class="form-control"
-                :class="{ 'is-invalid': errors.image }"
+                label="Imagen"
+                v-model="mainImage"
+                :initialPreview="initialPreview"
+                :maxSizeMb="2"
                 accept="image/jpeg,image/png,image/webp"
-                @change="handleImageChange"
+                @update:keep="onImageKeepChange"
               />
-              <div v-if="errors.image" class="invalid-feedback">{{ errors.image }}</div>
-              <div class="form-text">Imagen representativa del premio (opcional)</div>
-
-              <div v-if="imagePreview || form.existing_image" class="mt-3">
-                <img
-                  :src="imagePreview || `/storage/${form.existing_image}`"
-                  alt="Preview"
-                  class="img-thumbnail"
-                  style="max-height: 200px;"
-                />
-                <div class="form-check mt-2">
-                  <input
-                    id="remove-image"
-                    v-model="form.remove_image"
-                    class="form-check-input"
-                    type="checkbox"
-                  />
-                  <label class="form-check-label" for="remove-image">
-                    Eliminar imagen actual
-                  </label>
-                </div>
-              </div>
+              <small class="text-muted">JPG, PNG o WebP, max 2MB</small>
             </div>
 
             <div class="col-12">
@@ -106,19 +85,18 @@
               </div>
             </div>
           </div>
+          <div class="card-footer bg-transparent border-top pt-3 pb-3 d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-danger rounded-pill py-2" @click="deleteReward">
+              <i class="bi bi-trash me-1"></i>Eliminar
+            </button>
+              <FormActions
+                :submitText="'Guardar'"
+                :submittingText="'Guardando...'"
+                :cancelHref="`/member/listings/${listing?.id}/fidelity-rewards`"
+                :sending="sending"
+              />
+          </div>
         </div>
-        <div class="card-footer bg-transparent border-top pt-3 pb-3 d-flex justify-content-between align-items-center">
-          <button type="button" class="btn btn-danger rounded-pill py-2" @click="deleteReward">
-            <i class="bi bi-trash me-1"></i>Eliminar
-          </button>
-            <FormActions
-              :submitText="'Guardar'"
-              :submittingText="'Guardando...'"
-              :cancelHref="`/member/listings/${listing?.id}/fidelity-rewards`"
-              :sending="sending"
-            />
-        </div>
-      </div>
     </form>
   </MemberLayout>
 </template>
@@ -132,6 +110,7 @@ import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldNumber from '@/Components/Fields/FieldNumber.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
+import FieldImage from '@/Components/Fields/FieldImage.vue'
 import FormActions from '@/Components/FormActions.vue'
 
 const page = usePage()
@@ -139,7 +118,9 @@ const listing = computed(() => page.props.listing)
 const reward = computed(() => page.props.reward)
 const sending = ref(false)
 const errors = ref({})
-const imagePreview = ref(null)
+const mainImage = ref(null)
+const keepImage = ref(true)
+const initialPreview = computed(() => reward.value?.image ? `/storage/${reward.value.image}` : '')
 
 const breadcrumbs = computed(() => [
   { label: 'Inicio', href: '/member/dashboard' },
@@ -153,9 +134,6 @@ const form = ref({
   description: '',
   max_visits: 5,
   is_active: true,
-  image: null,
-  existing_image: '',
-  remove_image: false,
 })
 
 watch(reward, (newReward) => {
@@ -164,16 +142,11 @@ watch(reward, (newReward) => {
     form.value.description = newReward.description || ''
     form.value.max_visits = newReward.max_visits || 5
     form.value.is_active = newReward.is_active ?? true
-    form.value.existing_image = newReward.image || ''
   }
 }, { immediate: true })
 
-const handleImageChange = (e) => {
-  const file = e.target.files[0]
-  if (file) {
-    form.value.image = file
-    imagePreview.value = URL.createObjectURL(file)
-  }
+const onImageKeepChange = (value) => {
+  keepImage.value = value
 }
 
 const submit = () => {
@@ -181,16 +154,19 @@ const submit = () => {
   errors.value = {}
 
   const formData = new FormData()
+  formData.append('_method', 'PUT')
   formData.append('title', form.value.title)
   formData.append('description', form.value.description || '')
   formData.append('max_visits', form.value.max_visits)
   formData.append('is_active', form.value.is_active ? '1' : '0')
-  formData.append('remove_image', form.value.remove_image ? '1' : '0')
-  if (form.value.image) {
-    formData.append('image', form.value.image)
+
+  if (mainImage.value instanceof File) {
+    formData.append('image', mainImage.value)
+  } else if (!keepImage.value && reward.value?.image) {
+    formData.append('_remove_image', '1')
   }
 
-  router.post(`/member/listings/${listing.value?.id}/fidelity-rewards/${reward.value?.id}?_method=PUT`, formData, {
+  router.post(`/member/listings/${listing.value?.id}/fidelity-rewards/${reward.value?.id}`, formData, {
     preserveScroll: true,
     onSuccess: () => {
       sending.value = false
@@ -211,11 +187,4 @@ const deleteReward = () => {
     },
   })
 }
-</script>
-
-<script>
-import { defineComponent, ref } from 'vue'
-export default defineComponent({
-  inheritAttrs: false,
-})
 </script>

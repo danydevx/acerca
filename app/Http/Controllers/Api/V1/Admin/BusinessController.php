@@ -23,6 +23,17 @@ use Modules\ListingReviews\Models\ListingReview;
 use Modules\ListingLeads\Models\ListingLead;
 use Modules\ListingAppointments\Models\ListingAppointment;
 use Modules\ListingAppointments\Models\ListingAppointmentSlot;
+use Modules\Properties\Models\Property;
+use Modules\ListingClients\Models\ListingClient;
+use Modules\ListingRestaurantMenu\Entities\MenuProduct;
+use Modules\ListingRestaurantMenu\Entities\MenuCategory;
+use Modules\ListingOfficeHours\Models\ListingSchedule;
+use Modules\ListingTeamMembers\Models\ListingTeamMember;
+use Modules\ListingTeamMembers\Models\TeamMemberPosition;
+use Modules\ListingPackages\Models\ListingPackage;
+use Modules\VCards\Models\VCard;
+use Modules\ClientFidelity\Models\ClientFidelityCard;
+use Modules\ClientFidelity\Models\FidelityReward;
 
 class BusinessController extends Controller
 {
@@ -421,6 +432,255 @@ class BusinessController extends Controller
                 'total' => $slots->count(),
                 'by_day_of_week' => $slots->groupBy('day_of_week')->map->count(),
             ],
+        ]);
+    }
+
+    public function properties(Listing $business): JsonResponse
+    {
+        $status = $this->getModuleStatus($business, 'properties');
+
+        if (!$status['enabled']) {
+            return response()->json(['data' => null, 'message' => 'Modulo no habilitado en el plan'], 200);
+        }
+
+        $properties = Property::where('listing_id', $business->id)
+            ->with(['propertyType:id,name,key', 'images'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if ($properties->isEmpty()) {
+            return response()->json(['data' => null, 'message' => 'No hay propiedades'], 200);
+        }
+
+        return response()->json([
+            'data' => $properties,
+            'meta' => ['total' => $properties->count()],
+        ]);
+    }
+
+    public function clients(Listing $business): JsonResponse
+    {
+        $status = $this->getModuleStatus($business, 'clients');
+
+        if (!$status['enabled']) {
+            return response()->json(['data' => null, 'message' => 'Modulo no habilitado en el plan'], 200);
+        }
+
+        $clients = ListingClient::where('listing_id', $business->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if ($clients->isEmpty()) {
+            return response()->json(['data' => null, 'message' => 'No hay clientes'], 200);
+        }
+
+        return response()->json([
+            'data' => $clients,
+            'meta' => ['total' => $clients->count()],
+        ]);
+    }
+
+    public function menuCategories(Listing $business): JsonResponse
+    {
+        $status = $this->getModuleStatus($business, 'restaurant_menu');
+
+        if (!$status['enabled']) {
+            return response()->json(['data' => null, 'message' => 'Modulo no habilitado en el plan'], 200);
+        }
+
+        $categories = MenuCategory::where('listing_id', $business->id)
+            ->with(['parent:id,title', 'children:id,parent_id,title'])
+            ->orderBy('sort_order')
+            ->get();
+
+        if ($categories->isEmpty()) {
+            return response()->json(['data' => null, 'message' => 'No hay categorias'], 200);
+        }
+
+        return response()->json([
+            'data' => $categories,
+            'meta' => ['total' => $categories->count()],
+        ]);
+    }
+
+    public function menuProducts(Listing $business): JsonResponse
+    {
+        $status = $this->getModuleStatus($business, 'restaurant_menu');
+
+        if (!$status['enabled']) {
+            return response()->json(['data' => null, 'message' => 'Modulo no habilitado en el plan'], 200);
+        }
+
+        $products = MenuProduct::where('listing_id', $business->id)
+            ->with(['category:id,title', 'variants', 'images'])
+            ->orderBy('sort_order')
+            ->get();
+
+        if ($products->isEmpty()) {
+            return response()->json(['data' => null, 'message' => 'No hay productos'], 200);
+        }
+
+        return response()->json([
+            'data' => $products,
+            'meta' => ['total' => $products->count()],
+        ]);
+    }
+
+    public function officeHours(Listing $business): JsonResponse
+    {
+        $status = $this->getModuleStatus($business, 'office_hours');
+
+        if (!$status['enabled']) {
+            return response()->json(['data' => null, 'message' => 'Modulo no habilitado en el plan'], 200);
+        }
+
+        $schedules = ListingSchedule::where('listing_id', $business->id)
+            ->with(['location:id,name'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if ($schedules->isEmpty()) {
+            return response()->json(['data' => null, 'message' => 'No hay horarios'], 200);
+        }
+
+        return response()->json([
+            'data' => $schedules,
+            'meta' => ['total' => $schedules->count()],
+        ]);
+    }
+
+    public function teamMembers(Listing $business): JsonResponse
+    {
+        $status = $this->getModuleStatus($business, 'team_members');
+
+        if (!$status['enabled']) {
+            return response()->json(['data' => null, 'message' => 'Modulo no habilitado en el plan'], 200);
+        }
+
+        $members = ListingTeamMember::where('listing_id', $business->id)
+            ->with(['position:id,name'])
+            ->orderBy('sort_order')
+            ->get();
+
+        if ($members->isEmpty()) {
+            return response()->json(['data' => null, 'message' => 'No hay miembros'], 200);
+        }
+
+        return response()->json([
+            'data' => $members,
+            'meta' => ['total' => $members->count()],
+        ]);
+    }
+
+    public function teamMemberPositions(Listing $business): JsonResponse
+    {
+        $status = $this->getModuleStatus($business, 'team_members');
+
+        if (!$status['enabled']) {
+            return response()->json(['data' => null, 'message' => 'Modulo no habilitado en el plan'], 200);
+        }
+
+        $positions = TeamMemberPosition::where('listing_id', $business->id)
+            ->orderBy('sort_order')
+            ->get();
+
+        if ($positions->isEmpty()) {
+            return response()->json(['data' => null, 'message' => 'No hay puestos'], 200);
+        }
+
+        return response()->json([
+            'data' => $positions,
+            'meta' => ['total' => $positions->count()],
+        ]);
+    }
+
+    public function packages(Listing $business): JsonResponse
+    {
+        $status = $this->getModuleStatus($business, 'packages');
+
+        if (!$status['enabled']) {
+            return response()->json(['data' => null, 'message' => 'Modulo no habilitado en el plan'], 200);
+        }
+
+        $packages = ListingPackage::where('listing_id', $business->id)
+            ->orderBy('sort_order')
+            ->get();
+
+        if ($packages->isEmpty()) {
+            return response()->json(['data' => null, 'message' => 'No hay paquetes'], 200);
+        }
+
+        return response()->json([
+            'data' => $packages,
+            'meta' => ['total' => $packages->count()],
+        ]);
+    }
+
+    public function vcards(Listing $business): JsonResponse
+    {
+        $status = $this->getModuleStatus($business, 'vcards');
+
+        if (!$status['enabled']) {
+            return response()->json(['data' => null, 'message' => 'Modulo no habilitado en el plan'], 200);
+        }
+
+        $vcards = VCard::where('listing_id', $business->id)
+            ->with(['team:id,name'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if ($vcards->isEmpty()) {
+            return response()->json(['data' => null, 'message' => 'No hay vCards'], 200);
+        }
+
+        return response()->json([
+            'data' => $vcards,
+            'meta' => ['total' => $vcards->count()],
+        ]);
+    }
+
+    public function fidelityCards(Listing $business): JsonResponse
+    {
+        $status = $this->getModuleStatus($business, 'client_fidelity');
+
+        if (!$status['enabled']) {
+            return response()->json(['data' => null, 'message' => 'Modulo no habilitado en el plan'], 200);
+        }
+
+        $cards = ClientFidelityCard::where('listing_id', $business->id)
+            ->with(['reward:id,name,description'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if ($cards->isEmpty()) {
+            return response()->json(['data' => null, 'message' => 'No hay tarjetas'], 200);
+        }
+
+        return response()->json([
+            'data' => $cards,
+            'meta' => ['total' => $cards->count()],
+        ]);
+    }
+
+    public function fidelityRewards(Listing $business): JsonResponse
+    {
+        $status = $this->getModuleStatus($business, 'client_fidelity');
+
+        if (!$status['enabled']) {
+            return response()->json(['data' => null, 'message' => 'Modulo no habilitado en el plan'], 200);
+        }
+
+        $rewards = FidelityReward::where('listing_id', $business->id)
+            ->orderBy('sort_order')
+            ->get();
+
+        if ($rewards->isEmpty()) {
+            return response()->json(['data' => null, 'message' => 'No hay recompensas'], 200);
+        }
+
+        return response()->json([
+            'data' => $rewards,
+            'meta' => ['total' => $rewards->count()],
         ]);
     }
 }

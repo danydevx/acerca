@@ -8,15 +8,6 @@
       :backHref="`/member/listings`"
     >
       <template #actions>
-          <button
-          v-if="selectedIds.length > 0"
-          class="btn btn-outline-danger rounded-pill btn-sm"
-          @click="deleteSelected"
-          :disabled="deleting"
-        >
-          <i class="bi bi-trash me-1"></i>
-          Eliminar ({{ selectedIds.length }})
-        </button>
         <Link :href="`/member/listings/${listing?.id}/vcards/teams`" class="btn btn-outline-dark rounded-pill btn-sm">
           <i class="bi bi-people me-1"></i>
           Equipos
@@ -119,52 +110,14 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <Link
-            :href="`/member/listings/${listing?.id}/vcards/${row.id}/edit`"
-            class="btn btn-outline-primary rounded-pill btn-sm"
-            title="Editar"
-          >
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <a
-            :href="`/v/${row.slug}`"
-            target="_blank"
-            class="btn btn-outline-dark rounded-pill btn-sm"
-            title="Ver tarjeta"
-          >
-            <i class="bi bi-eye"></i>
-          </a>
-          <button
-            class="btn btn-outline-dark rounded-pill btn-sm"
-            @click="copyLink(row)"
-            title="Copiar enlace"
-          >
-            <i class="bi bi-link"></i>
-          </button>
-          <button
-            class="btn btn-outline-dark rounded-pill btn-sm"
-            @click="downloadVCard(row)"
-            title="Descargar vCard"
-          >
-            <i class="bi bi-download"></i>
-          </button>
-          <button
-            class="btn btn-outline-dark rounded-pill btn-sm"
-            @click="duplicateVCard(row)"
-            :disabled="cloning === row.id"
-            title="Duplicar"
-          >
-            <i class="bi bi-copy"></i>
-          </button>
-          <button
-            class="btn btn-outline-danger rounded-pill btn-sm"
-            @click="deleteVCard(row)"
-            :disabled="deleting === row.id"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="[
+          { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing?.id}/vcards/${row.id}/edit`) },
+          { label: 'Ver', icon: 'bi bi-eye', onClick: () => window.open(`/v/${row.slug}`, '_blank') },
+          { label: 'Copiar enlace', icon: 'bi bi-link', onClick: () => copyLink(row) },
+          { label: 'Descargar', icon: 'bi bi-download', onClick: () => downloadVCard(row) },
+          { label: 'Duplicar', icon: 'bi bi-copy', onClick: () => duplicateVCard(row), disabled: cloning === row.id },
+          { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteVCard(row) }
+        ]" />
       </template>
     </BaseDataTable>
 
@@ -180,6 +133,7 @@ import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
 import BulkSelect from '@/Components/BulkSelect/BulkSelect.vue'
 import BulkSelectRowCheckbox from '@/Components/BulkSelect/BulkSelectRowCheckbox.vue'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 
 const props = defineProps({
   listing: Object,
@@ -190,7 +144,6 @@ const props = defineProps({
 
 const dataTableRef = ref(null)
 const selectedIds = ref([])
-const deleting = ref(null)
 const cloning = ref(null)
 const filterTeam = ref(props.filters?.team_id || null)
 const currentPageIds = computed(() => {
@@ -261,30 +214,11 @@ function duplicateVCard(vcard) {
 
 function deleteVCard(vcard) {
   if (!confirm('¿Estás seguro de eliminar esta tarjeta?')) return
-  deleting.value = vcard.id
   router.delete(
     `/member/listings/${props.listing.id}/vcards/${vcard.id}`,
     {
       onSuccess: () => {
         toast.success('Tarjeta eliminada correctamente')
-        dataTableRef.value?.reload()
-      },
-      onFinish: () => {
-        deleting.value = null
-      },
-    }
-  )
-}
-
-function deleteSelected() {
-  if (!confirm(`¿Eliminar ${selectedIds.value.length} tarjetas?`)) return
-  router.post(
-    `/member/listings/${props.listing.id}/vcards/bulk-delete`,
-    { ids: selectedIds.value },
-    {
-      onSuccess: () => {
-        toast.success('Tarjetas eliminadas correctamente')
-        selectedIds.value = []
         dataTableRef.value?.reload()
       },
     }

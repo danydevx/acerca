@@ -21,6 +21,7 @@ class FidelityRewardController extends Controller
         $search = $request->get('search', '');
 
         $query = FidelityReward::where('listing_id', $listing->id)
+            ->withCount('cards')
             ->when($search, function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%");
             })
@@ -28,12 +29,72 @@ class FidelityRewardController extends Controller
 
         $rewards = $query->paginate($perPage);
 
+        $dataTable = [
+            'data' => collect($rewards->items())->map(fn ($r) => [
+                'id' => $r->id,
+                'title' => $r->title,
+                'description' => $r->description,
+                'image' => $r->image,
+                'max_visits' => $r->max_visits,
+                'is_active' => $r->is_active,
+                'cards_count' => $r->cards_count,
+                'created_at' => $r->created_at->toDateTimeString(),
+            ])->toArray(),
+            'current_page' => $rewards->currentPage(),
+            'last_page' => $rewards->lastPage(),
+            'per_page' => $rewards->perPage(),
+            'total' => $rewards->total(),
+            'from' => $rewards->firstItem(),
+            'to' => $rewards->lastItem(),
+        ];
+
         return Inertia::render('Member/ClientFidelity/Rewards/Index', [
-            'listing' => $listing,
-            'rewards' => $rewards,
+            'listing' => [
+                'id' => $listing->id,
+                'name' => $listing->name,
+            ],
+            'dataTable' => $dataTable,
             'filters' => [
                 'search' => $search,
             ],
+        ]);
+    }
+
+    public function apiIndex(Request $request, Listing $listing)
+    {
+        abort_unless($listing->user_id === Auth::id(), 403);
+
+        $perPage = min((int) $request->get('per_page', 10), 100);
+        $search = $request->get('search', '');
+        $sort = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
+
+        $query = FidelityReward::where('listing_id', $listing->id)
+            ->withCount('cards')
+            ->when($search, function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%");
+            })
+            ->sorted();
+
+        $rewards = $query->paginate($perPage);
+
+        return response()->json([
+            'data' => collect($rewards->items())->map(fn ($r) => [
+                'id' => $r->id,
+                'title' => $r->title,
+                'description' => $r->description,
+                'image' => $r->image,
+                'max_visits' => $r->max_visits,
+                'is_active' => $r->is_active,
+                'cards_count' => $r->cards_count,
+                'created_at' => $r->created_at->toDateTimeString(),
+            ]),
+            'current_page' => $rewards->currentPage(),
+            'last_page' => $rewards->lastPage(),
+            'per_page' => $rewards->perPage(),
+            'total' => $rewards->total(),
+            'from' => $rewards->firstItem(),
+            'to' => $rewards->lastItem(),
         ]);
     }
 
@@ -121,6 +182,27 @@ class FidelityRewardController extends Controller
         $reward->update($data);
 
         return redirect()->back()->with('success', 'Recompensa actualizada correctamente.');
+    }
+
+    public function bulkDelete(Request $request, Listing $listing)
+    {
+        abort_unless($listing->user_id === Auth::id(), 403);
+
+        $ids = $request->input('ids', []);
+        $rewards = FidelityReward::where('listing_id', $listing->id)
+            ->whereIn('id', $ids)
+            ->get();
+
+        foreach ($rewards as $reward) {
+            if (!$reward->cards()->exists()) {
+                if ($reward->image) {
+                    Storage::disk('public')->delete($reward->image);
+                }
+                $reward->delete();
+            }
+        }
+
+        return redirect()->back()->with('success', 'Recompensas eliminadas.');
     }
 
     public function destroy(Listing $listing, FidelityReward $reward)

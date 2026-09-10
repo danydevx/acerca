@@ -84,14 +84,7 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <Link :href="`/member/listings/${listing?.id}/locations/${row.id}/schedules`" class="btn btn-secondary rounded-pill" title="Horarios">
-            <i class="bi bi-clock"></i>
-          </Link>
-          <Link :href="`/member/listings/${listing?.id}/locations/${row.id}/edit`" class="btn btn-info rounded-pill">
-            <i class="bi bi-pencil"></i>
-          </Link>
-        </div>
+        <MemberTableActions :actions="getRowActions(row)" />
       </template>
     </BaseDataTable>
   </MemberLayout>
@@ -103,6 +96,7 @@ import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
 
 const page = usePage()
@@ -144,30 +138,10 @@ const onBulkDeleted = () => {
   }
 }
 
-const deleteSelected = () => {
-  if (selectedIds.value.length === 0) return
-
-  const count = selectedIds.value.length
-  if (confirm(`Eliminar ${count} ubicacion${count > 1 ? 'es' : ''} seleccionada${count > 1 ? 's' : ''}?`)) {
-    router.post(`/member/listings/${listing.value.id}/locations/bulk-delete`, {
-      ids: selectedIds.value,
-    }, {
-      preserveScroll: true,
-      onSuccess: () => {
-        selectedIds.value = []
-        if (dataTableRef.value) {
-          dataTableRef.value.reload()
-        }
-      },
-    })
-  }
+const getRowActions = (row) => {
+  return [
+    { label: 'Horarios', icon: 'bi bi-clock', onClick: () => router.get(`/member/listings/${listing.value.id}/locations/${row.id}/schedules`) },
+    { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing.value.id}/locations/${row.id}/edit`) },
+  ]
 }
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

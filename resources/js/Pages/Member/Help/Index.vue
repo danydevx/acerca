@@ -10,32 +10,16 @@
       <Link href="/member/support/create" class="btn btn-secondary rounded-pill">Crear ticket</Link>
     </div>
 
-    <div class="card border-0 shadow-sm mb-3">
-      <div class="card-body">
-        <form class="row g-2 align-items-end" @submit.prevent="submitSearch">
-          <div class="col-12 col-md-6">
-            <FieldText
-              id="help-search"
-              label="Buscar"
-              v-model="search"
-              placeholder="Buscar en ayuda"
-            />
-          </div>
-          <div class="col-12 col-md-4">
-            <FieldSelect
-              id="help-category"
-              label="Categoria"
-              v-model="category"
-              :options="[{ value: '', label: 'Todas' }, ...categories.map(c => ({ value: c, label: c }))]"
-            />
-          </div>
-          <div class="col-12 col-md-2 d-flex gap-2">
-            <button class="btn btn-info rounded-pill" type="submit">Filtrar</button>
-            <button class="btn btn-secondary rounded-pill" type="button" @click="clearFilters">Limpiar</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <FilterBar
+      :filters="['search', 'category']"
+      :select-options="{
+        category: categories.map(c => ({ value: c, label: c })),
+      }"
+      :values="filterValues"
+      search-placeholder="Buscar en ayuda"
+      @update="handleFilterUpdate"
+      @clear="handleFilterClear"
+    />
 
     <div class="row g-3">
       <div v-if="articles.data.length === 0" class="col-12">
@@ -69,12 +53,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import Pagination from '@/Components/Member/Pagination.vue'
-import FieldText from '@/Components/Fields/FieldText.vue'
-import FieldSelect from '@/Components/Fields/FieldSelect.vue'
+import FilterBar from '@/Components/Member/FilterBar.vue'
 
 const props = defineProps({
   articles: {
@@ -91,20 +74,20 @@ const props = defineProps({
   },
 })
 
-const search = ref(props.filters.search ?? '')
-const category = ref(props.filters.category ?? '')
+const filterValues = computed(() => ({
+  search: props.filters.search || '',
+  category: props.filters.category || '',
+}))
 
-const submitSearch = () => {
+const handleFilterUpdate = (values) => {
   router.get(
     '/member/help',
-    { search: search.value, category: category.value },
+    { search: values.search || '', category: values.category || '' },
     { preserveState: true, replace: true, preserveScroll: true }
   )
 }
 
-const clearFilters = () => {
-  search.value = ''
-  category.value = ''
-  submitSearch()
+const handleFilterClear = () => {
+  handleFilterUpdate({ search: '', category: '' })
 }
 </script>

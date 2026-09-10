@@ -12,48 +12,35 @@
       </div>
     </div>
 
-    <div class="card border-0 shadow-sm">
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
-            <tr>
-              <th scope="col">Fecha</th>
-              <th scope="col">Tipo</th>
-              <th scope="col">Descripcion</th>
-              <th scope="col">Entidad</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="activities.data.length === 0">
-              <td colspan="4" class="text-center text-muted py-4">No hay actividad registrada.</td>
-            </tr>
-            <tr v-for="activity in activities.data" :key="activity.id">
-              <td class="text-muted">{{ activity.created_at }}</td>
-              <td class="fw-semibold">{{ activity.type }}</td>
-              <td class="text-muted">{{ activity.description || '-' }}</td>
-              <td class="text-muted">
-                <span v-if="activity.subject_type">{{ activity.subject_type }} #{{ activity.subject_id }}</span>
-                <span v-else>-</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="card-footer d-flex flex-wrap gap-2 align-items-center justify-content-between">
-        <div class="text-muted small">
-          Mostrando {{ activities.data.length }} de {{ activities.total }} registros
-        </div>
-        <Pagination :links="activities.links" />
-      </div>
-    </div>
+    <MemberTable
+      :items="activities"
+      :columns="columns"
+      empty-title="No hay actividad registrada"
+      empty-text=""
+    >
+      <template #cell-created_at="{ row }">
+        <span class="text-muted">{{ row.created_at }}</span>
+      </template>
+      <template #cell-type="{ row }">
+        <strong>{{ row.type }}</strong>
+      </template>
+      <template #cell-description="{ row }">
+        <span class="text-muted">{{ row.description || '-' }}</span>
+      </template>
+      <template #cell-entity="{ row }">
+        <span class="text-muted">
+          <span v-if="row.subject_type">{{ row.subject_type }} #{{ row.subject_id }}</span>
+          <span v-else>-</span>
+        </span>
+      </template>
+    </MemberTable>
   </MemberLayout>
 </template>
 
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
-import Pagination from '@/Components/Member/Pagination.vue'
+import MemberTable from '@/Components/Member/MemberTable.vue'
 
 const props = defineProps({
   activities: {
@@ -61,4 +48,11 @@ const props = defineProps({
     required: true,
   },
 })
+
+const columns = [
+  { key: 'created_at', label: 'Fecha', sortable: false },
+  { key: 'type', label: 'Tipo', sortable: false },
+  { key: 'description', label: 'Descripción', sortable: false },
+  { key: 'entity', label: 'Entidad', sortable: false },
+]
 </script>

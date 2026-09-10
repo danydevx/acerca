@@ -68,14 +68,7 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <button class="btn btn-info rounded-pill" @click="openEditModal(row)">
-            <i class="bi bi-pencil"></i>
-          </button>
-          <button class="btn btn-danger rounded-pill" @click="deleteNetwork(row)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="getRowActions(row)" />
       </template>
     </BaseDataTable>
 
@@ -173,6 +166,7 @@ import { Modal } from 'bootstrap'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldUrl from '@/Components/Fields/FieldUrl.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
@@ -255,6 +249,13 @@ const onDataTableUpdated = (data) => {
   // Optional: handle data update
 }
 
+const getRowActions = (row) => {
+  return [
+    { label: 'Editar', icon: 'bi bi-pencil', onClick: () => openEditModal(row) },
+    { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteNetwork(row) },
+  ]
+}
+
 const openCreateModal = () => {
   editingNetwork.value = null
   form.reset()
@@ -327,11 +328,3 @@ onMounted(() => {
   })
 })
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

@@ -41,20 +41,7 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <button
-            class="btn btn-info rounded-pill"
-            @click="openEditModal(row)"
-          >
-            <i class="bi bi-pencil"></i>
-          </button>
-          <button
-            class="btn btn-danger rounded-pill"
-            @click="deleteCategory(row)"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="getRowActions(row)" />
       </template>
     </BaseDataTable>
 
@@ -111,6 +98,7 @@ import { Modal } from 'bootstrap'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
 import FieldTextarea from '@/Components/Fields/FieldTextarea.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
@@ -150,6 +138,13 @@ const form = reactive({
 
 const onDataTableUpdated = (data) => {
   perPage.value = data.per_page
+}
+
+const getRowActions = (row) => {
+  return [
+    { label: 'Editar', icon: 'bi bi-pencil', onClick: () => openEditModal(row) },
+    { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteCategory(row) },
+  ]
 }
 
 const openCreateModal = () => {
@@ -215,11 +210,3 @@ onMounted(() => {
   categoryModal = new Modal(modalElement.value)
 })
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

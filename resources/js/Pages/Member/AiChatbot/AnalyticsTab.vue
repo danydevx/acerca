@@ -98,9 +98,12 @@
                 </div>
               </div>
             </div>
-            <div v-else class="text-center text-muted py-5">
-              <i class="bi bi-bar-chart display-4"></i>
-              <p class="mt-3">No hay datos para este periodo</p>
+            <div v-else class="app-datatable__empty">
+              <div class="empty-icon">
+                <i class="bi bi-bar-chart"></i>
+              </div>
+              <div class="empty-title">No hay datos para este periodo</div>
+              <div class="empty-text">Las estadísticas aparecerán cuando haya actividad.</div>
             </div>
           </div>
         </div>
@@ -125,9 +128,12 @@
                 <span class="badge bg-secondary">{{ q.times_asked }} veces</span>
               </div>
             </div>
-            <div v-else class="text-center text-muted py-5">
-              <i class="bi bi-question-circle display-4"></i>
-              <p class="mt-3">No hay preguntas registradas</p>
+            <div v-else class="app-datatable__empty">
+              <div class="empty-icon">
+                <i class="bi bi-question-circle"></i>
+              </div>
+              <div class="empty-title">No hay preguntas registradas</div>
+              <div class="empty-text">Las preguntas aparecerán cuando los usuarios interactúen con el chatbot.</div>
             </div>
           </div>
         </div>
@@ -152,8 +158,11 @@
                 <span class="badge bg-secondary">{{ geo.count }}</span>
               </div>
             </div>
-            <div v-else class="text-center text-muted py-4">
-              <p>Sin datos</p>
+            <div v-else class="app-datatable__empty py-4">
+              <div class="empty-icon">
+                <i class="bi bi-globe"></i>
+              </div>
+              <div class="empty-title">Sin datos</div>
             </div>
           </div>
         </div>
@@ -181,8 +190,11 @@
                 </div>
               </div>
             </div>
-            <div v-else class="text-center text-muted py-4">
-              <p>Sin datos</p>
+            <div v-else class="app-datatable__empty py-4">
+              <div class="empty-icon">
+                <i class="bi bi-display"></i>
+              </div>
+              <div class="empty-title">Sin datos</div>
             </div>
           </div>
         </div>

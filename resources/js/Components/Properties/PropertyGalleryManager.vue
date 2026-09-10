@@ -1,120 +1,123 @@
 <template>
   <div class="property-gallery-manager">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h6 class="mb-0">
-        <i class="bi bi-images me-2"></i>
-        Galería de imágenes
-      </h6>
-      <span class="text-muted small">{{ localImages.length }} / {{ maxImages }}</span>
-    </div>
-
-    <div v-if="localImages.length > 0" class="table-responsive mb-3">
-      <table class="table table-hover align-middle">
-        <thead class="table-light">
-          <tr>
-            <th style="width: 80px;">Imagen</th>
-            <th>Nombre</th>
-            <th style="width: 100px;">Principal</th>
-            <th style="width: 120px;">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="image in localImages" :key="image.id">
-            <td>
-              <img
-                :src="image.url"
-                :alt="image.filename"
-                class="img-thumbnail"
-                style="width: 60px; height: 60px; object-fit: cover; cursor: pointer;"
-                @click="openLightbox(image.id)"
-              />
-            </td>
-            <td>
-              <span class="text-break">{{ image.filename }}</span>
-            </td>
-            <td>
-              <span v-if="image.is_main" class="badge bg-primary">
-                <i class="bi bi-star-fill me-1"></i>Principal
-              </span>
-              <button
-                v-else
-                type="button"
-                class="btn btn-secondary btn-sm"
-                @click="setMain(image)"
-              >
-                <i class="bi bi-star"></i>
-              </button>
-            </td>
-            <td>
-              <div class="btn-group btn-group-sm">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  title="Eliminar"
-                  @click="removeImage(image)"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div v-else class="text-center py-4 border rounded bg-light mb-3">
-      <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
-      <p class="text-muted mt-2 mb-0">No hay imágenes en la galería</p>
-    </div>
-
-    <div v-if="localImages.length < maxImages" class="mt-3">
-      <div
-        class="border border-dashed rounded p-4 text-center"
-        :class="{ 'border-primary bg-light': isDragging }"
-        @dragover.prevent="isDragging = true"
-        @dragleave.prevent="isDragging = false"
-        @drop.prevent="handleDrop"
-      >
-        <i class="bi bi-cloud-arrow-up text-muted" style="font-size: 1.5rem;"></i>
-        <p class="text-muted mt-2 mb-2">Arrastra imágenes aquí o</p>
-        <button
-          type="button"
-          class="btn btn-info btn-sm"
-          @click="$refs.fileInput.click()"
-        >
-          <i class="bi bi-plus-lg me-1"></i>
-          Seleccionar archivos
-        </button>
-        <input
-          ref="fileInput"
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          :multiple="true"
-          class="d-none"
-          @change="handleFileSelect"
-        />
-        <p class="text-muted small mt-2 mb-0">JPG, PNG o WebP. Máximo {{ maxImages }} imágenes.</p>
+    <div class="card">
+      <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+        <h6 class="text-uppercase text-muted mb-0 fw-normal">
+          <i class="bi bi-images me-2"></i>Galería de imágenes
+        </h6>
+        <span class="badge bg-light text-dark">{{ localImages.length }} / {{ maxImages }}</span>
       </div>
-    </div>
+      <div class="card-body">
+        <div v-if="localImages.length > 0" class="table-responsive mb-3">
+          <table class="app-datatable__table table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th style="width: 80px;">Imagen</th>
+                <th>Nombre</th>
+                <th style="width: 100px;">Principal</th>
+                <th style="width: 120px;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="image in localImages" :key="image.id">
+                <td>
+                  <img
+                    :src="image.url"
+                    :alt="image.filename"
+                    class="img-thumbnail"
+                    style="width: 60px; height: 60px; object-fit: cover; cursor: pointer;"
+                    @click="openLightbox(image.id)"
+                  />
+                </td>
+                <td>
+                  <span class="text-break">{{ image.filename }}</span>
+                </td>
+                <td>
+                  <span v-if="image.is_main" class="badge bg-primary">
+                    <i class="bi bi-star-fill me-1"></i>Principal
+                  </span>
+                  <button
+                    v-else
+                    type="button"
+                    class="btn btn-secondary btn-sm rounded-pill"
+                    @click="setMain(image)"
+                  >
+                    <i class="bi bi-star"></i>
+                  </button>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm rounded-pill"
+                    title="Eliminar"
+                    @click="removeImage(image)"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-    <div v-if="uploading" class="mt-3">
-      <div class="progress">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%">
-          Subiendo imagenes...
+        <div v-else class="app-datatable__empty mb-3">
+          <div class="empty-icon">
+            <i class="bi bi-image"></i>
+          </div>
+          <div class="empty-title">No hay imágenes en la galería</div>
+          <div class="empty-text">Agrega imágenes para mostrar en la galería.</div>
+        </div>
+
+        <div v-if="localImages.length < maxImages" class="mt-3">
+          <div
+            class="border border-dashed rounded p-4 text-center"
+            :class="{ 'border-primary bg-light': isDragging }"
+            @dragover.prevent="isDragging = true"
+            @dragleave.prevent="isDragging = false"
+            @drop.prevent="handleDrop"
+          >
+            <i class="bi bi-cloud-arrow-up text-muted" style="font-size: 1.5rem;"></i>
+            <p class="text-muted mt-2 mb-2">Arrastra imágenes aquí o</p>
+            <button
+              type="button"
+              class="btn btn-info btn-sm rounded-pill"
+              @click="$refs.fileInput.click()"
+            >
+              <i class="bi bi-plus-lg me-1"></i>
+              Seleccionar archivos
+            </button>
+            <input
+              ref="fileInput"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              :multiple="true"
+              class="d-none"
+              @change="handleFileSelect"
+            />
+            <p class="text-muted small mt-2 mb-0">JPG, PNG o WebP. Máximo {{ maxImages }} imágenes.</p>
+          </div>
+        </div>
+
+        <div v-if="uploading" class="mt-3">
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%">
+              Subiendo imagenes...
+            </div>
+          </div>
+        </div>
+
+        <div v-if="uploadError" class="alert alert-danger mt-3 py-2">
+          {{ uploadError }}
+        </div>
+
+        <div v-if="uploadSuccess" class="alert alert-success mt-3 py-2">
+          {{ uploadSuccess }}
+        </div>
+
+        <div v-if="successMessage" class="alert alert-success mt-3 py-2">
+          {{ successMessage }}
         </div>
       </div>
-    </div>
-
-    <div v-if="uploadError" class="alert alert-danger mt-3 py-2">
-      {{ uploadError }}
-    </div>
-
-    <div v-if="uploadSuccess" class="alert alert-success mt-3 py-2">
-      {{ uploadSuccess }}
-    </div>
-
-    <div v-if="successMessage" class="alert alert-success mt-3 py-2">
-      {{ successMessage }}
     </div>
 
     <!-- Lightbox -->

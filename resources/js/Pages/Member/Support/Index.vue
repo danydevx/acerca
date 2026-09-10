@@ -12,104 +12,48 @@
       </Link>
     </div>
 
-    <div class="card border-0 shadow-sm mb-3">
-      <div class="card-body">
-        <form class="row g-2 align-items-end" @submit.prevent="submitSearch">
-          <div class="col-12 col-md-4">
-            <FieldText
-              id="support-search"
-              label="Buscar"
-              v-model="search"
-              placeholder="Asunto o categoria"
-            />
-          </div>
-          <div class="col-6 col-md-2">
-            <FieldSelect
-              id="support-status"
-              label="Estado"
-              v-model="status"
-              :options="[{ value: '', label: 'Todos' }, ...statuses.map(s => ({ value: s, label: s }))]"
-            />
-          </div>
-          <div class="col-6 col-md-2">
-            <FieldSelect
-              id="support-priority"
-              label="Prioridad"
-              v-model="priority"
-              :options="[{ value: '', label: 'Todas' }, ...priorities.map(p => ({ value: p, label: p }))]"
-            />
-          </div>
-          <div class="col-12 col-md-2 d-flex gap-2">
-            <button class="btn btn-info rounded-pill" type="submit">Filtrar</button>
-            <button class="btn btn-secondary rounded-pill" type="button" @click="clearFilters">Limpiar</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <FilterBar
+      :filters="['search', 'status', 'priority']"
+      :select-options="{
+        status: statuses.map(s => ({ value: s, label: s })),
+        priority: priorities.map(p => ({ value: p, label: p })),
+      }"
+      :values="filterValues"
+      search-placeholder="Asunto o categoría"
+      search-col-class="col-12 col-md-4"
+      @update="handleFilterUpdate"
+      @clear="handleFilterClear"
+    />
 
-    <div class="card border-0 shadow-sm">
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead>
-            <tr>
-              <th scope="col">Asunto</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Prioridad</th>
-              <th scope="col">Ultima respuesta</th>
-              <th scope="col" class="text-end">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="tickets.data.length === 0">
-              <td colspan="5" class="text-center text-muted py-4">No tienes tickets abiertos.</td>
-            </tr>
-            <tr v-for="ticket in tickets.data" :key="ticket.id">
-              <td class="fw-semibold">{{ ticket.subject }}</td>
-              <td>
-                <span class="badge" :class="statusClass(ticket.status)">{{ ticket.status }}</span>
-              </td>
-              <td class="text-muted">{{ ticket.priority || '-' }}</td>
-              <td class="text-muted">{{ ticket.last_reply_at || ticket.created_at }}</td>
-              <td class="text-end">
-                <div class="actions d-inline-flex gap-1">
-                  <Link :href="`/member/support/${ticket.id}`" class="btn btn-info rounded-pill">
-                    <i class="bi bi-eye"></i>
-                  </Link>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="card-footer d-flex flex-wrap gap-2 align-items-center justify-content-between" v-if="tickets.total > tickets.per_page">
-        <div class="text-muted small">
-          Mostrando {{ tickets.data.length }} de {{ tickets.total }} registros
-        </div>
-        <nav>
-          <ul class="pagination pagination-sm mb-0">
-            <li
-              v-for="(link, index) in translatedLinks"
-              :key="index"
-              class="page-item"
-              :class="{ active: link.active, disabled: !link.url }"
-            >
-              <Link v-if="link.url" class="page-link" :href="link.url" v-html="link.label" prefetch="hover" />
-              <span v-else class="page-link" v-html="link.label"></span>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+    <MemberTable
+      :items="tickets"
+      :columns="columns"
+      :get-row-actions="getRowActions"
+      empty-title="No tienes tickets abiertos"
+      empty-text=""
+    >
+      <template #cell-subject="{ row }">
+        <strong>{{ row.subject }}</strong>
+      </template>
+      <template #cell-status="{ row }">
+        <span class="badge" :class="statusClass(row.status)">{{ row.status }}</span>
+      </template>
+      <template #cell-priority="{ row }">
+        <span class="text-muted">{{ row.priority || '-' }}</span>
+      </template>
+      <template #cell-last_reply_at="{ row }">
+        <span class="text-muted">{{ row.last_reply_at || row.created_at }}</span>
+      </template>
+    </MemberTable>
   </MemberLayout>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
-import FieldText from '@/Components/Fields/FieldText.vue'
-import FieldSelect from '@/Components/Fields/FieldSelect.vue'
+import MemberTable from '@/Components/Member/MemberTable.vue'
+import FilterBar from '@/Components/Member/FilterBar.vue'
 
 const props = defineProps({
   tickets: {
@@ -125,44 +69,44 @@ const props = defineProps({
 const statuses = ['open', 'pending', 'answered', 'closed']
 const priorities = ['low', 'medium', 'high']
 
-const search = ref(props.filters.search ?? '')
-const status = ref(props.filters.status ?? '')
-const priority = ref(props.filters.priority ?? '')
+const filterValues = computed(() => ({
+  search: props.filters.search || '',
+  status: props.filters.status || '',
+  priority: props.filters.priority || '',
+}))
 
-const translatedLinks = computed(() => {
-  return props.tickets.links.map(link => ({
-    ...link,
-    label: translateLabel(link.label),
-  }))
-})
+const columns = [
+  { key: 'subject', label: 'Asunto', sortable: false },
+  { key: 'status', label: 'Estado', sortable: false },
+  { key: 'priority', label: 'Prioridad', sortable: false },
+  { key: 'last_reply_at', label: 'Última respuesta', sortable: false },
+  { key: 'actions', label: '', sortable: false, class: 'text-end' },
+]
 
-const translateLabel = (label) => {
-  const translations = {
-    'pagination.previous': '&laquo; Anterior',
-    'pagination.next': 'Siguiente &raquo;',
-    '&laquo; Previous': '&laquo; Anterior',
-    'Next &raquo;': 'Siguiente &raquo;',
-  }
-  return translations[label] || label
+const getRowActions = (ticket) => {
+  return [
+    {
+      label: 'Ver',
+      icon: 'bi bi-eye',
+      onClick: () => router.get(`/member/support/${ticket.id}`),
+    },
+  ]
 }
 
-const submitSearch = () => {
+const handleFilterUpdate = (values) => {
   router.get(
     '/member/support',
     {
-      search: search.value,
-      status: status.value,
-      priority: priority.value,
+      search: values.search || '',
+      status: values.status || '',
+      priority: values.priority || '',
     },
     { preserveState: true, replace: true, preserveScroll: true }
   )
 }
 
-const clearFilters = () => {
-  search.value = ''
-  status.value = ''
-  priority.value = ''
-  submitSearch()
+const handleFilterClear = () => {
+  handleFilterUpdate({ search: '', status: '', priority: '' })
 }
 
 const statusClass = (value) => {

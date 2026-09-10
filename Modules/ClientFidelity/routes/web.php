@@ -23,6 +23,8 @@ Route::prefix('member/listings/{listing}/fidelity-cards')->middleware(['auth', '
 
 Route::prefix('member/listings/{listing}/fidelity-rewards')->middleware(['auth', 'verified', 'active', 'role:superadmin|admin|member'])->group(function () {
     Route::get('/', [FidelityRewardController::class, 'index'])->name('member.listings.fidelity-rewards.index');
+    Route::get('/api', [FidelityRewardController::class, 'apiIndex'])->name('member.listings.fidelity-rewards.api');
+    Route::post('/bulk-delete', [FidelityRewardController::class, 'bulkDelete'])->name('member.listings.fidelity-rewards.bulk-delete');
     Route::get('/create', [FidelityRewardController::class, 'create'])->name('member.listings.fidelity-rewards.create');
     Route::post('/', [FidelityRewardController::class, 'store'])->name('member.listings.fidelity-rewards.store');
     Route::get('/{reward}/edit', [FidelityRewardController::class, 'edit'])->name('member.listings.fidelity-rewards.edit');

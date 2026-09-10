@@ -8,18 +8,9 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <button
-          v-if="selectedIds.length > 0"
-          class="btn btn-danger rounded-pill"
-          @click="deleteSelected"
-          :disabled="deleting"
-        >
-          <i class="bi bi-trash me-1"></i>
-          Eliminar ({{ selectedIds.length }})
-        </button>
         <Link :href="`/member/listings/${listing?.id}/reviews/create`" class="btn btn-primary rounded-pill">
           <i class="bi bi-plus-lg me-1"></i>
-          Nueva Resena
+          Nueva Reseña
         </Link>
       </template>
     </PageHeader>
@@ -71,25 +62,13 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <button
-            class="btn btn-secondary rounded-pill"
-            @click="cloneReview(row)"
-            :disabled="cloning === row.id"
-            title="Clonar resena"
-          >
-            <i class="bi bi-copy"></i>
-          </button>
-          <Link :href="`/member/listings/${listing?.id}/reviews/${row.id}/edit`" class="btn btn-info rounded-pill">
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button
-            class="btn btn-danger rounded-pill"
-            @click="deleteReview(row)"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions
+          :actions="[
+            { label: 'Clonar', icon: 'bi bi-copy', onClick: () => cloneReview(row), disabled: cloning === row.id },
+            { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing?.id}/reviews/${row.id}/edit`) },
+            { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteReview(row) }
+          ]"
+        />
       </template>
 
       <template #header-actions>
@@ -112,6 +91,7 @@ import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
@@ -135,7 +115,6 @@ const columns = [
 ]
 
 const dataTableRef = ref(null)
-const deleting = ref(null)
 const cloning = ref(null)
 const selectedIds = ref([])
 
@@ -155,12 +134,10 @@ const onBulkDeleted = () => {
 }
 
 const deleteReview = (review) => {
-  if (!confirm(`Eliminar la resena de "${review.client_name}"?`)) return
-  deleting.value = review.id
+  if (!confirm(`Eliminar la reseña de "${review.client_name}"?`)) return
   router.delete(`/member/listings/${listing.value.id}/reviews/${review.id}`, {
     preserveScroll: true,
-    onFinish: () => {
-      deleting.value = null
+    onSuccess: () => {
       if (dataTableRef.value) {
         dataTableRef.value.reload()
       }
@@ -169,7 +146,7 @@ const deleteReview = (review) => {
 }
 
 const cloneReview = (review) => {
-  if (!confirm(`Clonar la resena de "${review.client_name}"?`)) return
+  if (!confirm(`Clonar la reseña de "${review.client_name}"?`)) return
   cloning.value = review.id
   router.post(`/member/listings/${listing.value.id}/reviews/${review.id}/clone`, {}, {
     preserveScroll: true,
@@ -178,35 +155,4 @@ const cloneReview = (review) => {
     },
   })
 }
-
-const deleteSelected = () => {
-  if (selectedIds.value.length === 0) return
-
-  const count = selectedIds.value.length
-  if (confirm(`Eliminar ${count} resena${count > 1 ? 's' : ''} seleccionada${count > 1 ? 's' : ''}?`)) {
-    deleting.value = true
-    router.post(`/member/listings/${listing.value.id}/reviews/bulk-delete`, {
-      ids: selectedIds.value,
-    }, {
-      preserveScroll: true,
-      onSuccess: () => {
-        selectedIds.value = []
-        if (dataTableRef.value) {
-          dataTableRef.value.reload()
-        }
-      },
-      onFinish: () => {
-        deleting.value = false
-      },
-    })
-  }
-}
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

@@ -1,14 +1,21 @@
 <template>
   <div class="reindex-tab">
     <div class="card">
-      <div class="card-header">
-        <h5 class="mb-0"><i class="bi bi-search me-2"></i>Contenido Indexado</h5>
-        <small class="text-muted">El chatbot utiliza este contenido para responder preguntas de los clientes</small>
+      <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-search me-2"></i>Contenido Indexado
+          </h6>
+          <small class="text-muted">El chatbot utiliza este contenido para responder preguntas de los clientes</small>
+        </div>
       </div>
       <div class="card-body">
-        <div v-if="Object.keys(embeddingCounts).length === 0" class="alert alert-info">
-          <i class="bi bi-info-circle me-2"></i>
-          No hay contenido indexado. Activa el chatbot e ingresa tu API key para comenzar.
+        <div v-if="Object.keys(embeddingCounts).length === 0" class="app-datatable__empty">
+          <div class="empty-icon">
+            <i class="bi bi-search"></i>
+          </div>
+          <div class="empty-title">No hay contenido indexado</div>
+          <div class="empty-text">Activa el chatbot e ingresa tu API key para comenzar.</div>
         </div>
         <div v-else class="row g-3">
           <div class="col-6 col-md-3" v-for="item in contentTypes" :key="item.type">
@@ -51,8 +58,10 @@
     </div>
 
     <div class="card mt-4">
-      <div class="card-header">
-        <h5 class="mb-0"><i class="bi bi-lightbulb me-2"></i>¿Qué es la indexación?</h5>
+      <div class="card-header bg-transparent border-bottom pb-2 pt-2">
+        <h6 class="text-uppercase text-muted mb-0 fw-normal">
+          <i class="bi bi-lightbulb me-2"></i>¿Qué es la indexación?
+        </h6>
       </div>
       <div class="card-body">
         <p>La indexación permite que el chatbot conozca información sobre tu negocio para responder preguntas de tus clientes.</p>
@@ -79,8 +88,11 @@
             <div v-if="loadingModal" class="text-center py-4">
               <div class="spinner-border text-primary" role="status"></div>
             </div>
-            <div v-else-if="embeddings.length === 0" class="alert alert-info mb-0">
-              No hay contenido indexado de este tipo.
+            <div v-else-if="embeddings.length === 0" class="app-datatable__empty">
+              <div class="empty-icon">
+                <i class="bi bi-inbox"></i>
+              </div>
+              <div class="empty-title">No hay contenido indexado de este tipo</div>
             </div>
             <div v-else class="embedding-list">
               <div v-for="emb in embeddings" :key="emb.id" class="embedding-item card mb-2">

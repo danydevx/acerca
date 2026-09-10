@@ -43,41 +43,26 @@
           <p>Los invitados se registrarán cuando lleguen al evento.</p>
         </div>
 
-        <div v-else class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th>Invitado</th>
-                <th>Hora de registro</th>
-                <th>Notas</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="checkin in checkins.data" :key="checkin.id">
-                <td>
-                  <strong>{{ checkin.guest?.name || '-' }}</strong>
-                  <br />
-                  <small class="text-muted">{{ checkin.guest?.email || '' }}</small>
-                </td>
-                <td>{{ checkin.checkin_time ? formatDate(checkin.checkin_time) : '-' }}</td>
-                <td>{{ checkin.notes || '-' }}</td>
-                <td>
-                  <button
-                    class="btn btn-danger rounded-pill"
-                    @click="deleteCheckin(checkin)"
-                  >
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div v-if="checkins.data.length > 0" class="d-flex justify-content-center mt-4">
-          <Pagination :links="checkins.links" />
-        </div>
+        <MemberTable
+          v-else
+          :items="checkins"
+          :columns="columns"
+          :get-row-actions="getRowActions"
+          empty-title="No hay registros de check-in"
+          empty-text="Los invitados se registrarán cuando lleguen al evento."
+        >
+          <template #cell-guest="{ row }">
+            <strong>{{ row.guest?.name || '-' }}</strong>
+            <br />
+            <small class="text-muted">{{ row.guest?.email || '' }}</small>
+          </template>
+          <template #cell-checkin_time="{ row }">
+            {{ formatDate(row.checkin_time) }}
+          </template>
+          <template #cell-notes="{ row }">
+            {{ row.notes || '-' }}
+          </template>
+        </MemberTable>
       </div>
     </div>
   </MemberLayout>
@@ -88,7 +73,7 @@ import { computed } from 'vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
-import Pagination from '@/Components/Member/Pagination.vue'
+import MemberTable from '@/Components/Member/MemberTable.vue'
 
 const props = defineProps({
   listing: Object,
@@ -105,9 +90,22 @@ const breadcrumbs = computed(() => [
   { label: 'Check-in', active: true },
 ])
 
+const columns = [
+  { key: 'guest', label: 'Invitado', sortable: false },
+  { key: 'checkin_time', label: 'Hora de registro', sortable: false },
+  { key: 'notes', label: 'Notas', sortable: false },
+  { key: 'actions', label: '', sortable: false, class: 'text-end' },
+]
+
 const formatDate = (date) => {
   if (!date) return '-'
   return new Date(date).toLocaleString('es-MX')
+}
+
+const getRowActions = (checkin) => {
+  return [
+    { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteCheckin(checkin) },
+  ]
 }
 
 const deleteCheckin = (checkin) => {

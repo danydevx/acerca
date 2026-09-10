@@ -6,8 +6,10 @@
     </div>
 
     <div class="card">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0"><i class="bi bi-file-text me-2"></i>Contextos Personalizados</h5>
+      <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+        <h6 class="text-uppercase text-muted mb-0 fw-normal">
+          <i class="bi bi-file-text me-2"></i>Contextos Personalizados
+        </h6>
         <div class="d-flex gap-2">
           <button class="btn btn-secondary rounded-pill" @click="openImportUrlModal">
             <i class="bi bi-link-45deg me-1"></i>Importar desde URL
@@ -18,12 +20,12 @@
         </div>
       </div>
       <div class="card-body">
-        <div v-if="contexts.length === 0" class="text-center py-5">
-          <div class="text-muted">
-            <i class="bi bi-inbox" style="font-size: 3rem;"></i>
-            <p class="mt-3 mb-0">No hay contextos personalizados.</p>
-            <small>Crea contextos para que el chatbot tenga información adicional sobre tu negocio.</small>
+        <div v-if="contexts.length === 0" class="app-datatable__empty">
+          <div class="empty-icon">
+            <i class="bi bi-inbox"></i>
           </div>
+          <div class="empty-title">No hay contextos personalizados</div>
+          <div class="empty-text">Crea contextos para que el chatbot tenga información adicional sobre tu negocio.</div>
         </div>
 
         <div v-else class="contexts-list">

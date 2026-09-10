@@ -23,197 +23,212 @@
           <div class="row g-3">
             <template v-if="formSchema">
               <template v-for="section in filteredSections" :key="section.id">
-                <fieldset class="col-12">
-                  <legend class="border-bottom pb-2 mb-3">{{ section.name }}</legend>
-
-                  <LocationFields
-                    v-if="section.general_field_section_slug === 'ubicacion'"
-                    v-model="locationData"
-                    :errors="mergedErrors"
-                  />
-
-                  <div v-else class="row g-3">
-                    <template v-for="field in section.fields.filter(f => f.field_type !== 'gallery')" :key="field.id">
-                      <div class="col-12" :class="getFieldColClass(field.field_type)">
-                      <FieldText
-                        v-if="field.field_type === 'text'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :formError="mergedErrors[field.field_key]"
-                        :placeholder="field.placeholder"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
+                <div class="col-12">
+                  <div class="card mb-4">
+                    <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+                      <h6 class="text-uppercase text-muted mb-0 fw-normal">
+                        {{ section.name }}
+                      </h6>
+                    </div>
+                    <div class="card-body">
+                      <LocationFields
+                        v-if="section.general_field_section_slug === 'ubicacion'"
+                        v-model="locationData"
+                        :errors="mergedErrors"
                       />
 
-                      <FieldTextarea
-                        v-else-if="field.field_type === 'textarea'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :formError="mergedErrors[field.field_key]"
-                        :placeholder="field.placeholder"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
-                        :rows="5"
-                      />
+                      <div v-else class="row g-3">
+                        <template v-for="field in section.fields.filter(f => f.field_type !== 'gallery')" :key="field.id">
+                          <div class="col-12" :class="getFieldColClass(field.field_type)">
+                          <FieldText
+                            v-if="field.field_type === 'text'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :formError="mergedErrors[field.field_key]"
+                            :placeholder="field.placeholder"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                          />
 
-                      <FieldNumber
-                        v-else-if="field.field_type === 'number' || field.field_type === 'decimal' || field.field_type === 'integer'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :formError="mergedErrors[field.field_key]"
-                        :placeholder="field.placeholder"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
-                      />
+                          <FieldTextarea
+                            v-else-if="field.field_type === 'textarea'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :formError="mergedErrors[field.field_key]"
+                            :placeholder="field.placeholder"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                            :rows="5"
+                          />
 
-                      <FieldPrice
-                        v-else-if="field.field_type === 'price'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :formError="mergedErrors[field.field_key]"
-                        :placeholder="field.placeholder"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
-                        currencyLabel="Monto"
-                      />
+                          <FieldNumber
+                            v-else-if="field.field_type === 'number' || field.field_type === 'decimal' || field.field_type === 'integer'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :formError="mergedErrors[field.field_key]"
+                            :placeholder="field.placeholder"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                          />
 
-                      <FieldSelect
-                        v-else-if="field.field_type === 'select'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :formError="mergedErrors[field.field_key]"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
-                        :options="field.options"
-                        placeholder="Selecciona una opción"
-                      />
+                          <FieldPrice
+                            v-else-if="field.field_type === 'price'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :formError="mergedErrors[field.field_key]"
+                            :placeholder="field.placeholder"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                            currencyLabel="Monto"
+                          />
 
-                      <FieldRadio
-                        v-else-if="field.field_type === 'radio'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :formError="mergedErrors[field.field_key]"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
-                        :options="field.options"
-                      />
+                          <FieldSelect
+                            v-else-if="field.field_type === 'select'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :formError="mergedErrors[field.field_key]"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                            :options="field.options"
+                            placeholder="Selecciona una opción"
+                          />
 
-                      <FieldCheckbox
-                        v-else-if="field.field_type === 'checkbox'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :formError="mergedErrors[field.field_key]"
-                        :helpText="field.help_text"
-                      />
+                          <FieldRadio
+                            v-else-if="field.field_type === 'radio'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :formError="mergedErrors[field.field_key]"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                            :options="field.options"
+                          />
 
-                      <FieldDate
-                        v-else-if="field.field_type === 'date'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :formError="mergedErrors[field.field_key]"
-                        :placeholder="field.placeholder"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
-                      />
+                          <FieldCheckbox
+                            v-else-if="field.field_type === 'checkbox'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :formError="mergedErrors[field.field_key]"
+                            :helpText="field.help_text"
+                          />
 
-                      <FieldImage
-                        v-else-if="field.field_type === 'image'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="mainImageFile"
-                        :initialPreview="mainImagePreview"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
-                        :maxFiles="1"
-                        :maxSizeMb="5"
-                        accept="image/jpeg,image/png,image/webp"
-                      />
+                          <FieldDate
+                            v-else-if="field.field_type === 'date'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :formError="mergedErrors[field.field_key]"
+                            :placeholder="field.placeholder"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                          />
 
-                      <FieldSwitch
-                        v-else-if="field.field_type === 'boolean'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                      />
+                          <FieldImage
+                            v-else-if="field.field_type === 'image'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="mainImageFile"
+                            :initialPreview="mainImagePreview"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                            :maxFiles="1"
+                            :maxSizeMb="5"
+                            accept="image/jpeg,image/png,image/webp"
+                          />
 
-                      <FieldEmail
-                        v-else-if="field.field_type === 'email'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :formError="mergedErrors[field.field_key]"
-                        :placeholder="field.placeholder"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
-                      />
+                          <FieldSwitch
+                            v-else-if="field.field_type === 'boolean'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                          />
 
-                      <FieldPhone
-                        v-else-if="field.field_type === 'phone'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :formError="mergedErrors[field.field_key]"
-                        :placeholder="field.placeholder"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
-                      />
+                          <FieldEmail
+                            v-else-if="field.field_type === 'email'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :formError="mergedErrors[field.field_key]"
+                            :placeholder="field.placeholder"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                          />
 
-                      <FieldUrl
-                        v-else-if="field.field_type === 'url'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :formError="mergedErrors[field.field_key]"
-                        :placeholder="field.placeholder"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
-                      />
+                          <FieldPhone
+                            v-else-if="field.field_type === 'phone'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :formError="mergedErrors[field.field_key]"
+                            :placeholder="field.placeholder"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                          />
 
-                      <FieldFile
-                        v-else-if="field.field_type === 'file'"
-                        :id="`field-${field.field_key}`"
-                        :label="field.label"
-                        v-model="form[field.field_key]"
-                        :helpText="field.help_text"
-                        :required="field.is_required"
-                        accept=".pdf,.doc,.docx,.xls,.xlsx"
-                      />
+                          <FieldUrl
+                            v-else-if="field.field_type === 'url'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :formError="mergedErrors[field.field_key]"
+                            :placeholder="field.placeholder"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                          />
+
+                          <FieldFile
+                            v-else-if="field.field_type === 'file'"
+                            :id="`field-${field.field_key}`"
+                            :label="field.label"
+                            v-model="form[field.field_key]"
+                            :helpText="field.help_text"
+                            :required="field.is_required"
+                            accept=".pdf,.doc,.docx,.xls,.xlsx"
+                          />
+                          </div>
+                        </template>
                       </div>
-                    </template>
+                    </div>
                   </div>
-                </fieldset>
+                </div>
               </template>
             </template>
           </div>
 
-          <fieldset v-if="amenities.length > 0" class="col-12 mt-4">
-            <legend class="border-bottom pb-2 mb-3">Amenidades</legend>
-            <div class="row g-3">
-              <div v-for="amenity in amenities" :key="amenity.id" class="col-6 col-md-4 col-lg-3">
-                <div class="form-check">
-                  <input
-                    :id="`amenity-${amenity.id}`"
-                    v-model="form.amenity_ids"
-                    type="checkbox"
-                    :value="amenity.id"
-                    class="form-check-input"
-                  >
-                  <label :for="`amenity-${amenity.id}`" class="form-check-label d-flex align-items-center gap-2">
-                    <i :class="amenity.icon || 'bi bi-star'" style="font-size: 1rem;"></i>
-                    {{ amenity.name }}
-                  </label>
+          <div v-if="amenities.length > 0" class="col-12">
+            <div class="card mb-4">
+              <div class="card-header bg-transparent border-bottom pb-2 pt-2 d-flex justify-content-between align-items-center">
+                <h6 class="text-uppercase text-muted mb-0 fw-normal">
+                  Amenidades
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="row g-3">
+                  <div v-for="amenity in amenities" :key="amenity.id" class="col-6 col-md-4 col-lg-3">
+                    <div class="form-check">
+                      <input
+                        :id="`amenity-${amenity.id}`"
+                        v-model="form.amenity_ids"
+                        type="checkbox"
+                        :value="amenity.id"
+                        class="form-check-input"
+                      >
+                      <label :for="`amenity-${amenity.id}`" class="form-check-label d-flex align-items-center gap-2">
+                        <i :class="amenity.icon || 'bi bi-star'" style="font-size: 1rem;"></i>
+                        {{ amenity.name }}
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </fieldset>
+          </div>
 
           <PropertyGalleryManager
             v-if="hasGalleryFields"

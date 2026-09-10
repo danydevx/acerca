@@ -67,56 +67,31 @@
       </div>
     </div>
 
-    <div class="card border-0 shadow-sm">
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">URL</th>
-              <th scope="col">Eventos</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Ultimo uso</th>
-              <th scope="col" class="text-end">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="endpoints.length === 0">
-              <td colspan="6" class="text-center text-muted py-4">No hay webhooks registrados.</td>
-            </tr>
-            <tr v-for="endpoint in endpoints" :key="endpoint.id">
-              <td class="fw-semibold">{{ endpoint.name }}</td>
-              <td class="text-muted">{{ endpoint.url }}</td>
-              <td class="text-muted">{{ endpoint.events.join(', ') }}</td>
-              <td>
-                <span v-if="endpoint.is_active" class="badge text-bg-success">Activo</span>
-                <span v-else class="badge text-bg-secondary">Inactivo</span>
-              </td>
-              <td class="text-muted">{{ endpoint.last_used_at || '-' }}</td>
-              <td class="text-end">
-                <div class="d-inline-flex gap-2">
-                  <Link :href="`/member/webhooks/${endpoint.id}/deliveries`" class="btn btn-secondary rounded-pill">
-                    Entregas
-                  </Link>
-                  <button class="btn btn-info rounded-pill" type="button" @click="openEdit(endpoint)">
-                    Editar
-                  </button>
-                  <button class="btn btn-outline-info rounded-pill" type="button" @click="sendTest(endpoint)">
-                    Probar
-                  </button>
-                  <button class="btn btn-warning rounded-pill" type="button" @click="regenerate(endpoint)">
-                    Regenerar secreto
-                  </button>
-                  <button class="btn btn-danger rounded-pill" type="button" @click="remove(endpoint)">
-                    Eliminar
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <MemberTable
+      :items="endpoints"
+      :columns="columns"
+      :get-row-actions="getRowActions"
+      empty-title="No hay webhooks registrados"
+      empty-text=""
+      :show-pagination="false"
+    >
+      <template #cell-name="{ row }">
+        <strong>{{ row.name }}</strong>
+      </template>
+      <template #cell-url="{ row }">
+        <span class="text-muted">{{ row.url }}</span>
+      </template>
+      <template #cell-events="{ row }">
+        <span class="text-muted">{{ row.events.join(', ') }}</span>
+      </template>
+      <template #cell-is_active="{ row }">
+        <span v-if="row.is_active" class="badge text-bg-success">Activo</span>
+        <span v-else class="badge text-bg-secondary">Inactivo</span>
+      </template>
+      <template #cell-last_used_at="{ row }">
+        <span class="text-muted">{{ row.last_used_at || '-' }}</span>
+      </template>
+    </MemberTable>
 
     <div class="modal fade" id="editWebhook" tabindex="-1" aria-hidden="true" ref="editModal">
       <div class="modal-dialog modal-lg">
@@ -184,6 +159,7 @@ import FieldUrl from '@/Components/Fields/FieldUrl.vue'
 import FieldSelect from '@/Components/Fields/FieldSelect.vue'
 import FieldSwitch from '@/Components/Fields/FieldSwitch.vue'
 import FieldCheckboxes from '@/Components/Fields/FieldCheckboxes.vue'
+import MemberTable from '@/Components/Member/MemberTable.vue'
 
 const props = defineProps({
   endpoints: {
@@ -214,6 +190,25 @@ const editForm = useForm({
   events: [],
   is_active: true,
 })
+
+const columns = [
+  { key: 'name', label: 'Nombre', sortable: false },
+  { key: 'url', label: 'URL', sortable: false },
+  { key: 'events', label: 'Eventos', sortable: false },
+  { key: 'is_active', label: 'Estado', sortable: false },
+  { key: 'last_used_at', label: 'Último uso', sortable: false },
+  { key: 'actions', label: '', sortable: false, class: 'text-end' },
+]
+
+const getRowActions = (endpoint) => {
+  return [
+    { label: 'Entregas', icon: 'bi bi-truck', onClick: () => router.get(`/member/webhooks/${endpoint.id}/deliveries`) },
+    { label: 'Editar', icon: 'bi bi-pencil', onClick: () => openEdit(endpoint) },
+    { label: 'Probar', icon: 'bi bi-send', onClick: () => sendTest(endpoint) },
+    { label: 'Regenerar secreto', icon: 'bi bi-key', onClick: () => regenerate(endpoint) },
+    { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => remove(endpoint) },
+  ]
+}
 
 const submit = () => {
   form.post('/member/webhooks', {

@@ -51,12 +51,12 @@ class PropertyService
             $query->where('price', '<=', $filters['max_price']);
         }
 
-        if (! empty($filters['city'])) {
-            $query->where('city', $filters['city']);
+        if (! empty($filters['municipality'])) {
+            $query->where('municipality', $filters['municipality']);
         }
 
         if (! empty($filters['state'])) {
-            $query->where('state_code', $filters['state']);
+            $query->where('state', $filters['state']);
         }
 
         $sort = $filters['sort'] ?? 'created_at';

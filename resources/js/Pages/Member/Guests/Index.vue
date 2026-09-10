@@ -1,6 +1,6 @@
 <template>
   <MemberLayout>
-    <Head :title="`Invitados - ${listing?.name || ''}`" />
+    <Head title="Invitados" />
 
     <PageHeader
       title="Invitados"
@@ -54,48 +54,29 @@
       </div>
     </div>
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <div v-if="guests.data.length === 0" class="text-center text-muted py-5">
-          <i class="bi bi-people display-1"></i>
-          <h5 class="mt-3">No hay invitados registrados</h5>
-          <p>Agrega invitados para que puedan registrar su llegada.</p>
-        </div>
-
-        <div v-else class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
-                <th>Plus Ones</th>
-                <th>Notas</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="guest in guests.data" :key="guest.id">
-                <td><strong>{{ guest.name }}</strong></td>
-                <td>{{ guest.email || '-' }}</td>
-                <td>{{ guest.phone || '-' }}</td>
-                <td>{{ guest.plus_ones ?? 0 }}</td>
-                <td>{{ guest.notes || '-' }}</td>
-                <td>
-                  <button class="btn btn-danger rounded-pill" @click="deleteGuest(guest)">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div v-if="guests.data.length > 0" class="d-flex justify-content-center mt-4">
-          <Pagination :links="guests.links" />
-        </div>
-      </div>
-    </div>
+    <MemberTable
+      :items="guests"
+      :columns="columns"
+      :get-row-actions="getRowActions"
+      empty-title="No hay invitados registrados"
+      empty-text="Agrega invitados para que puedan registrar su llegada."
+    >
+      <template #cell-name="{ row }">
+        <strong>{{ row.name }}</strong>
+      </template>
+      <template #cell-email="{ row }">
+        {{ row.email || '-' }}
+      </template>
+      <template #cell-phone="{ row }">
+        {{ row.phone || '-' }}
+      </template>
+      <template #cell-plus_ones="{ row }">
+        {{ row.plus_ones ?? 0 }}
+      </template>
+      <template #cell-notes="{ row }">
+        {{ row.notes || '-' }}
+      </template>
+    </MemberTable>
   </MemberLayout>
 </template>
 
@@ -104,7 +85,7 @@ import { computed, reactive, ref } from 'vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
-import Pagination from '@/Components/Member/Pagination.vue'
+import MemberTable from '@/Components/Member/MemberTable.vue'
 
 const props = defineProps({
   listing: Object,
@@ -127,6 +108,21 @@ const breadcrumbs = computed(() => [
   { label: 'Inicio', href: '/member/dashboard' },
   { label: 'Invitados', active: true },
 ])
+
+const columns = [
+  { key: 'name', label: 'Nombre', sortable: false },
+  { key: 'email', label: 'Correo', sortable: false },
+  { key: 'phone', label: 'Teléfono', sortable: false },
+  { key: 'plus_ones', label: 'Plus Ones', sortable: false },
+  { key: 'notes', label: 'Notas', sortable: false },
+  { key: 'actions', label: '', sortable: false },
+]
+
+const getRowActions = (guest) => {
+  return [
+    { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteGuest(guest) },
+  ]
+}
 
 const submitGuest = () => {
   if (!guestForm.name) return

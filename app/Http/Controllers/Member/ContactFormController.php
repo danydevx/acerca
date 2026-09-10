@@ -16,11 +16,28 @@ class ContactFormController extends Controller
     {
         $this->authorize('viewAny', [ListingLead::class, $business]);
 
-        $forms = $business->contactForms()
+        $perPage = min((int) $request->get('per_page', 10), 100);
+        $search = $request->get('search', '');
+        $sort = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
+
+        $allowedSorts = ['name', 'created_at', 'is_active'];
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = 'created_at';
+        }
+        $direction = strtolower($direction) === 'asc' ? 'asc' : 'desc';
+
+        $query = $business->contactForms()
             ->withCount('fields')
-            ->orderByDesc('created_at')
-            ->get()
-            ->map(fn ($form) => [
+            ->when($search, function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%");
+            })
+            ->orderBy($sort, $direction);
+
+        $forms = $query->paginate($perPage);
+
+        $dataTable = [
+            'data' => collect($forms->items())->map(fn ($form) => [
                 'id' => $form->id,
                 'name' => $form->name,
                 'description' => $form->description,
@@ -28,7 +45,14 @@ class ContactFormController extends Controller
                 'is_active' => $form->is_active,
                 'fields_count' => $form->fields_count,
                 'created_at' => $form->created_at->toDateTimeString(),
-            ]);
+            ])->toArray(),
+            'current_page' => $forms->currentPage(),
+            'last_page' => $forms->lastPage(),
+            'per_page' => $forms->perPage(),
+            'total' => $forms->total(),
+            'from' => $forms->firstItem(),
+            'to' => $forms->lastItem(),
+        ];
 
         $maxForms = $this->getMaxFormsPerBusiness();
 
@@ -37,9 +61,52 @@ class ContactFormController extends Controller
                 'id' => $business->id,
                 'name' => $business->name,
             ],
-            'forms' => $forms,
+            'dataTable' => $dataTable,
             'maxForms' => $maxForms,
-            'canCreateMore' => $forms->count() < $maxForms,
+            'canCreateMore' => $forms->total() < $maxForms,
+        ]);
+    }
+
+    public function apiIndex(Request $request, Listing $business)
+    {
+        $this->authorize('viewAny', [ListingLead::class, $business]);
+
+        $perPage = min((int) $request->get('per_page', 10), 100);
+        $search = $request->get('search', '');
+        $sort = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
+
+        $allowedSorts = ['name', 'created_at', 'is_active'];
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = 'created_at';
+        }
+        $direction = strtolower($direction) === 'asc' ? 'asc' : 'desc';
+
+        $query = $business->contactForms()
+            ->withCount('fields')
+            ->when($search, function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%");
+            })
+            ->orderBy($sort, $direction);
+
+        $forms = $query->paginate($perPage);
+
+        return response()->json([
+            'data' => collect($forms->items())->map(fn ($form) => [
+                'id' => $form->id,
+                'name' => $form->name,
+                'description' => $form->description,
+                'shortcode' => $form->shortcode,
+                'is_active' => $form->is_active,
+                'fields_count' => $form->fields_count,
+                'created_at' => $form->created_at->toDateTimeString(),
+            ]),
+            'current_page' => $forms->currentPage(),
+            'last_page' => $forms->lastPage(),
+            'per_page' => $forms->perPage(),
+            'total' => $forms->total(),
+            'from' => $forms->firstItem(),
+            'to' => $forms->lastItem(),
         ]);
     }
 

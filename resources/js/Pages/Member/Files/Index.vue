@@ -29,53 +29,29 @@
       </div>
     </div>
 
-    <div class="card border-0 shadow-sm">
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Tipo</th>
-              <th scope="col">Mime</th>
-              <th scope="col">Tamaño</th>
-              <th scope="col">Fecha</th>
-              <th scope="col" class="text-end">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="files.data.length === 0">
-              <td colspan="6" class="text-center text-muted py-4">No hay archivos.</td>
-            </tr>
-            <tr v-for="file in files.data" :key="file.id">
-              <td class="fw-semibold">{{ file.original_name }}</td>
-              <td class="text-muted">{{ file.type || '-' }}</td>
-              <td class="text-muted">{{ file.mime_type || '-' }}</td>
-              <td class="text-muted">{{ formatSize(file.size) }}</td>
-              <td class="text-muted">{{ file.created_at }}</td>
-              <td class="text-end">
-                <div class="d-inline-flex gap-2">
-                  <Link :href="`/member/files/${file.id}`" class="btn btn-secondary rounded-pill btn-sm">Ver</Link>
-                  <Link
-                    :href="`/member/files/${file.id}/download`"
-                    class="btn btn-info rounded-pill btn-sm"
-                  >
-                    Descargar
-                  </Link>
-                  <button class="btn btn-danger rounded-pill btn-sm" type="button" @click="remove(file)">
-                    Eliminar
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="card-footer d-flex flex-wrap gap-2 align-items-center justify-content-between">
-        <div class="text-muted small">Mostrando {{ files.data.length }} de {{ files.total }} registros</div>
-        <Pagination :links="files.links" />
-      </div>
-    </div>
+    <MemberTable
+      :items="files"
+      :columns="columns"
+      :get-row-actions="getRowActions"
+      empty-title="No hay archivos"
+      empty-text=""
+    >
+      <template #cell-original_name="{ row }">
+        <strong>{{ row.original_name }}</strong>
+      </template>
+      <template #cell-type="{ row }">
+        <span class="text-muted">{{ row.type || '-' }}</span>
+      </template>
+      <template #cell-mime_type="{ row }">
+        <span class="text-muted">{{ row.mime_type || '-' }}</span>
+      </template>
+      <template #cell-size="{ row }">
+        <span class="text-muted">{{ formatSize(row.size) }}</span>
+      </template>
+      <template #cell-created_at="{ row }">
+        <span class="text-muted">{{ row.created_at }}</span>
+      </template>
+    </MemberTable>
   </MemberLayout>
 </template>
 
@@ -83,7 +59,7 @@
 import { ref } from 'vue'
 import { Head, Link, router, useForm } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
-import Pagination from '@/Components/Member/Pagination.vue'
+import MemberTable from '@/Components/Member/MemberTable.vue'
 
 const props = defineProps({
   files: {
@@ -105,6 +81,15 @@ const form = useForm({
   file: null,
 })
 
+const columns = [
+  { key: 'original_name', label: 'Nombre', sortable: false },
+  { key: 'type', label: 'Tipo', sortable: false },
+  { key: 'mime_type', label: 'Mime', sortable: false },
+  { key: 'size', label: 'Tamaño', sortable: false },
+  { key: 'created_at', label: 'Fecha', sortable: false },
+  { key: 'actions', label: '', sortable: false, class: 'text-end' },
+]
+
 const handleFile = (event) => {
   form.file = event.target.files[0]
 }
@@ -117,6 +102,14 @@ const submit = () => {
       if (fileInput.value) fileInput.value.value = ''
     },
   })
+}
+
+const getRowActions = (file) => {
+  return [
+    { label: 'Ver', icon: 'bi bi-eye', onClick: () => router.get(`/member/files/${file.id}`) },
+    { label: 'Descargar', icon: 'bi bi-download', onClick: () => router.get(`/member/files/${file.id}/download`) },
+    { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => remove(file) },
+  ]
 }
 
 const remove = (file) => {

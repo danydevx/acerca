@@ -15,18 +15,6 @@
       </template>
     </PageHeader>
 
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <BulkSelect
-          v-model:selectedIds="selectedIds"
-          :current-page-ids="currentPageIds"
-          :delete-endpoint="`/member/listings/${listing?.id}/promotions/bulk-delete`"
-          item-name="promociones"
-          @deleted="onBulkDeleted"
-        />
-      </div>
-    </div>
-
     <BaseDataTable
       ref="dataTableRef"
       :endpoint="`/member/listings/${listing?.id}/promotions`"
@@ -81,26 +69,24 @@
         </span>
       </template>
 
+      <template #header-actions>
+        <BulkSelect
+          v-model:selectedIds="selectedIds"
+          :current-page-ids="currentPageIds"
+          :delete-endpoint="`/member/listings/${listing?.id}/promotions/bulk-delete`"
+          item-name="promociones"
+          @deleted="onBulkDeleted"
+        />
+      </template>
+
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <button
-            class="btn btn-secondary rounded-pill"
-            @click="clonePromotion(row)"
-            :disabled="cloning === row.id"
-            title="Clonar promocion"
-          >
-            <i class="bi bi-copy"></i>
-          </button>
-          <Link :href="`/member/listings/${listing?.id}/promotions/${row.id}/edit`" class="btn btn-info rounded-pill">
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button
-            class="btn btn-danger rounded-pill"
-            @click="deletePromotion(row)"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions
+          :actions="[
+            { label: 'Clonar', icon: 'bi bi-copy', onClick: () => clonePromotion(row), disabled: cloning === row.id },
+            { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing?.id}/promotions/${row.id}/edit`) },
+            { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deletePromotion(row) }
+          ]"
+        />
       </template>
     </BaseDataTable>
   </MemberLayout>
@@ -113,6 +99,7 @@ import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
@@ -186,31 +173,4 @@ const clonePromotion = (row) => {
     },
   })
 }
-
-const deleteSelected = () => {
-  if (selectedIds.value.length === 0) return
-
-  const count = selectedIds.value.length
-  if (confirm(`Eliminar ${count} promocion${count > 1 ? 'es' : ''} seleccionada${count > 1 ? 's' : ''}?`)) {
-    router.post(`/member/listings/${listing.value.id}/promotions/bulk-delete`, {
-      ids: selectedIds.value,
-    }, {
-      preserveScroll: true,
-      onSuccess: () => {
-        selectedIds.value = []
-        if (dataTableRef.value) {
-          dataTableRef.value.reload()
-        }
-      },
-    })
-  }
-}
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

@@ -14,9 +14,12 @@
       <div class="spinner-border text-primary" role="status"></div>
     </div>
 
-    <div v-else-if="conversations.length === 0" class="alert alert-info">
-      <i class="bi bi-info-circle me-2"></i>
-      No hay conversaciones registradas aún.
+    <div v-else-if="conversations.length === 0" class="app-datatable__empty">
+      <div class="empty-icon">
+        <i class="bi bi-chat-left-text"></i>
+      </div>
+      <div class="empty-title">No hay conversaciones registradas</div>
+      <div class="empty-text">Las conversaciones aparecerán cuando los usuarios interactúen con el chatbot.</div>
     </div>
 
     <div v-else class="conversation-list">

@@ -80,17 +80,7 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <button class="btn btn-secondary rounded-pill" @click="clonePackage(row)" title="Clonar">
-            <i class="bi bi-copy"></i>
-          </button>
-          <Link :href="`/member/listings/${listing?.id}/packages/${row.id}/edit`" class="btn btn-info rounded-pill">
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button class="btn btn-danger rounded-pill" @click="deletePackage(row)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="getRowActions(row)" />
       </template>
     </BaseDataTable>
   </MemberLayout>
@@ -102,6 +92,7 @@ import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
 
 const page = usePage()
@@ -158,6 +149,14 @@ const onBulkDeleted = () => {
   }
 }
 
+const getRowActions = (row) => {
+  return [
+    { label: 'Clonar', icon: 'bi bi-copy', onClick: () => clonePackage(row) },
+    { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing.value.id}/packages/${row.id}/edit`) },
+    { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deletePackage(row) },
+  ]
+}
+
 const deletePackage = (pkg) => {
   if (!confirm(`¿Estás seguro de eliminar "${pkg.title}"?`)) {
     return
@@ -187,11 +186,3 @@ const clonePackage = (pkg) => {
   })
 }
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

@@ -49,60 +49,35 @@
       </div>
     </div>
 
-    <div class="card border-0 shadow-sm">
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Prefijo</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Ultimo uso</th>
-              <th scope="col">Expira</th>
-              <th scope="col">Creada</th>
-              <th scope="col" class="text-end">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="apiKeys.length === 0">
-              <td colspan="7" class="text-center text-muted py-4">No hay API keys creadas.</td>
-            </tr>
-            <tr v-for="key in apiKeys" :key="key.id">
-              <td class="fw-semibold">{{ key.name }}</td>
-              <td class="text-muted">{{ key.key_prefix || '-' }}</td>
-              <td>
-                <span v-if="key.revoked_at" class="badge text-bg-secondary">Revocada</span>
-                <span v-else-if="key.is_active" class="badge text-bg-success">Activa</span>
-                <span v-else class="badge text-bg-warning">Inactiva</span>
-              </td>
-              <td class="text-muted">{{ key.last_used_at || '-' }}</td>
-              <td class="text-muted">{{ key.expires_at || '-' }}</td>
-              <td class="text-muted">{{ key.created_at }}</td>
-              <td class="text-end">
-                <div class="d-inline-flex gap-2">
-                  <button
-                    v-if="!key.revoked_at"
-                    class="btn btn-info rounded-pill btn-sm"
-                    type="button"
-                    @click="toggleKey(key)"
-                  >
-                    {{ key.is_active ? 'Desactivar' : 'Activar' }}
-                  </button>
-                  <button
-                    class="btn btn-danger rounded-pill btn-sm"
-                    type="button"
-                    :disabled="!!key.revoked_at"
-                    @click="revokeKey(key)"
-                  >
-                    Revocar
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <MemberTable
+      :items="apiKeys"
+      :columns="columns"
+      :get-row-actions="getRowActions"
+      empty-title="No hay API keys creadas"
+      empty-text=""
+      :show-pagination="false"
+    >
+      <template #cell-name="{ row }">
+        <strong>{{ row.name }}</strong>
+      </template>
+      <template #cell-key_prefix="{ row }">
+        <span class="text-muted">{{ row.key_prefix || '-' }}</span>
+      </template>
+      <template #cell-status="{ row }">
+        <span v-if="row.revoked_at" class="badge text-bg-secondary">Revocada</span>
+        <span v-else-if="row.is_active" class="badge text-bg-success">Activa</span>
+        <span v-else class="badge text-bg-warning">Inactiva</span>
+      </template>
+      <template #cell-last_used_at="{ row }">
+        <span class="text-muted">{{ row.last_used_at || '-' }}</span>
+      </template>
+      <template #cell-expires_at="{ row }">
+        <span class="text-muted">{{ row.expires_at || '-' }}</span>
+      </template>
+      <template #cell-created_at="{ row }">
+        <span class="text-muted">{{ row.created_at }}</span>
+      </template>
+    </MemberTable>
   </MemberLayout>
 </template>
 
@@ -111,6 +86,7 @@ import { computed } from 'vue'
 import { Head, router, useForm, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import FieldText from '@/Components/Fields/FieldText.vue'
+import MemberTable from '@/Components/Member/MemberTable.vue'
 
 const props = defineProps({
   apiKeys: {
@@ -126,6 +102,25 @@ const form = useForm({
   name: '',
   expires_at: '',
 })
+
+const columns = [
+  { key: 'name', label: 'Nombre', sortable: false },
+  { key: 'key_prefix', label: 'Prefijo', sortable: false },
+  { key: 'status', label: 'Estado', sortable: false },
+  { key: 'last_used_at', label: 'Último uso', sortable: false },
+  { key: 'expires_at', label: 'Expira', sortable: false },
+  { key: 'created_at', label: 'Creada', sortable: false },
+  { key: 'actions', label: '', sortable: false, class: 'text-end' },
+]
+
+const getRowActions = (key) => {
+  const actions = []
+  if (!key.revoked_at) {
+    actions.push({ label: key.is_active ? 'Desactivar' : 'Activar', icon: 'bi bi-toggle-on', onClick: () => toggleKey(key) })
+  }
+  actions.push({ label: 'Revocar', icon: 'bi bi-x-circle', danger: true, disabled: !!key.revoked_at, onClick: () => revokeKey(key) })
+  return actions
+}
 
 const submit = () => {
   form.post('/member/api-keys', {

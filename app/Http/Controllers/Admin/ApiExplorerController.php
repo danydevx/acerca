@@ -7,11 +7,9 @@ use App\Http\Resources\Api\V1\BusinessListResource;
 use App\Http\Resources\Api\V1\BusinessResource;
 use App\Http\Resources\Api\V1\UserListResource;
 use App\Http\Resources\Api\V1\UserResource;
-use App\Http\Resources\Api\V1\IndustryResource;
 use Illuminate\Http\Request;
 use Modules\Listings\Models\Listing;
 use App\Models\User;
-use App\Models\Industry;
 use Modules\ListingGallery\Models\ListingGalleryImage;
 use Modules\ListingLocations\Models\ListingLocation;
 use Modules\ListingFaqs\Models\ListingFaq;
@@ -50,57 +48,48 @@ class ApiExplorerController extends Controller
                 'title' => 'Businesses',
                 'description' => 'Lista de negocios',
                 'endpoints' => [
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings', 'description' => 'Lista paginada de negocios'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}', 'description' => 'Detalle de negocio'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/stats', 'description' => 'Estadisticas del negocio'],
+                    ['method' => 'GET', 'path' => '/api/admin/businesses', 'description' => 'Lista paginada de negocios'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}', 'description' => 'Detalle de negocio'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/stats', 'description' => 'Estadisticas del negocio'],
                 ],
             ],
             'business_data' => [
                 'title' => 'Business Data',
                 'description' => 'Datos de modulos de negocio',
                 'endpoints' => [
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/locations', 'description' => 'Ubicaciones'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/gallery', 'description' => 'Galeria de imagenes'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/faqs', 'description' => 'Preguntas frecuentes'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/seo', 'description' => 'Configuracion SEO'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/branding', 'description' => 'Colores y marca'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/hero', 'description' => 'Seccion hero'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/about', 'description' => 'Seccion about'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/services', 'description' => 'Servicios'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/products', 'description' => 'Productos'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/reviews', 'description' => 'Reseñas'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/leads', 'description' => 'Leads'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/appointments', 'description' => 'Citas'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/appointment-slots', 'description' => 'Horarios de citas'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/properties', 'description' => 'Propiedades'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/clients', 'description' => 'Clientes'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/menu-categories', 'description' => 'Categorias menu'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/menu-products', 'description' => 'Productos menu'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/office-hours', 'description' => 'Horarios de oficina'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/team-members', 'description' => 'Miembros del equipo'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/team-member-positions', 'description' => 'Puestos del equipo'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/packages', 'description' => 'Paquetes'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/vcards', 'description' => 'vCards'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/fidelity-cards', 'description' => 'Tarjetas de fidelidad'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/listings/{id}/fidelity-rewards', 'description' => 'Recompensas de fidelidad'],
-                ],
-            ],
-            'industries' => [
-                'title' => 'Industries',
-                'description' => 'Industrias del sistema',
-                'endpoints' => [
-                    ['method' => 'GET', 'path' => '/api/v1/admin/industries', 'description' => 'Lista de industrias'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/industries/{id}', 'description' => 'Detalle de industria'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/industries/{id}/modules', 'description' => 'Modulos de la industria'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/locations', 'description' => 'Ubicaciones'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/gallery', 'description' => 'Galeria de imagenes'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/faqs', 'description' => 'Preguntas frecuentes'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/seo', 'description' => 'Configuracion SEO'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/branding', 'description' => 'Colores y marca'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/hero', 'description' => 'Seccion hero'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/about', 'description' => 'Seccion about'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/services', 'description' => 'Servicios'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/products', 'description' => 'Productos'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/reviews', 'description' => 'Reseñas'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/leads', 'description' => 'Leads'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/appointments', 'description' => 'Citas'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/appointment-slots', 'description' => 'Horarios de citas'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/properties', 'description' => 'Propiedades'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/clients', 'description' => 'Clientes'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/menu-categories', 'description' => 'Categorias menu'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/menu-products', 'description' => 'Productos menu'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/office-hours', 'description' => 'Horarios de oficina'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/team-members', 'description' => 'Miembros del equipo'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/team-member-positions', 'description' => 'Puestos del equipo'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/packages', 'description' => 'Paquetes'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/vcards', 'description' => 'vCards'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/fidelity-cards', 'description' => 'Tarjetas de fidelidad'],
+                    ['method' => 'GET', 'path' => '/api/admin/listings/{id}/fidelity-rewards', 'description' => 'Recompensas de fidelidad'],
                 ],
             ],
             'users' => [
                 'title' => 'Users',
                 'description' => 'Usuarios del sistema',
                 'endpoints' => [
-                    ['method' => 'GET', 'path' => '/api/v1/admin/users', 'description' => 'Lista paginada de usuarios'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/users/{id}', 'description' => 'Detalle de usuario'],
-                    ['method' => 'GET', 'path' => '/api/v1/admin/users/{id}/businesses', 'description' => 'Negocios del usuario'],
+                    ['method' => 'GET', 'path' => '/api/admin/users', 'description' => 'Lista paginada de usuarios'],
+                    ['method' => 'GET', 'path' => '/api/admin/users/{id}', 'description' => 'Detalle de usuario'],
+                    ['method' => 'GET', 'path' => '/api/admin/users/{id}/businesses', 'description' => 'Negocios del usuario'],
                 ],
             ],
         ];
@@ -147,7 +136,7 @@ class ApiExplorerController extends Controller
     {
         $perPage = min((int) request()->get('per_page', 20), 100);
 
-        if ($path === '/api/v1/admin/listings') {
+        if ($path === '/api/admin/businesses') {
             $businesses = Listing::with(['user:id,name,email', 'user.subscriptions.plan:id,name', 'modules.moduleDefinition'])
                 ->orderBy('created_at', 'desc')
                 ->paginate($perPage);
@@ -162,12 +151,12 @@ class ApiExplorerController extends Controller
             ];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId) {
+        if ($path === '/api/admin/listings/' . $businessId) {
             $business = Listing::with(['user:id,name,email', 'user.subscriptions.plan:id,name,limits', 'modules.moduleDefinition'])->findOrFail($businessId);
             return ['data' => new BusinessResource($business)];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/stats') {
+        if ($path === '/api/admin/listings/' . $businessId . '/stats') {
             $business = Listing::findOrFail($businessId);
             return ['data' => [
                 'locations' => $business->locations()->count(),
@@ -182,7 +171,7 @@ class ApiExplorerController extends Controller
             ]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/locations') {
+        if ($path === '/api/admin/listings/' . $businessId . '/locations') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'locations')->first();
             if (!$module || !$module->is_enabled) {
@@ -192,7 +181,7 @@ class ApiExplorerController extends Controller
             return $locations->isEmpty() ? ['data' => null, 'message' => 'No hay ubicaciones configuradas'] : ['data' => $locations, 'meta' => ['total' => $locations->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/gallery') {
+        if ($path === '/api/admin/listings/' . $businessId . '/gallery') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'gallery')->first();
             if (!$module || !$module->is_enabled) {
@@ -202,7 +191,7 @@ class ApiExplorerController extends Controller
             return $images->isEmpty() ? ['data' => null, 'message' => 'No hay imagenes en la galeria'] : ['data' => $images, 'meta' => ['total' => $images->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/faqs') {
+        if ($path === '/api/admin/listings/' . $businessId . '/faqs') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'faqs')->first();
             if (!$module || !$module->is_enabled) {
@@ -212,7 +201,7 @@ class ApiExplorerController extends Controller
             return $faqs->isEmpty() ? ['data' => null, 'message' => 'No hay preguntas frecuentes'] : ['data' => $faqs, 'meta' => ['total' => $faqs->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/services') {
+        if ($path === '/api/admin/listings/' . $businessId . '/services') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'services')->first();
             if (!$module || !$module->is_enabled) {
@@ -222,7 +211,7 @@ class ApiExplorerController extends Controller
             return $services->isEmpty() ? ['data' => null, 'message' => 'No hay servicios configurados'] : ['data' => $services, 'meta' => ['total' => $services->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/seo') {
+        if ($path === '/api/admin/listings/' . $businessId . '/seo') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'seo')->first();
             if (!$module || !$module->is_enabled) {
@@ -232,7 +221,7 @@ class ApiExplorerController extends Controller
             return !$seo ? ['data' => null, 'message' => 'No hay configuracion SEO'] : ['data' => $seo];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/branding') {
+        if ($path === '/api/admin/listings/' . $businessId . '/branding') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'branding')->first();
             if (!$module || !$module->is_enabled) {
@@ -242,7 +231,7 @@ class ApiExplorerController extends Controller
             return !$branding ? ['data' => null, 'message' => 'No hay configuracion de marca'] : ['data' => $branding];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/hero') {
+        if ($path === '/api/admin/listings/' . $businessId . '/hero') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'hero')->first();
             if (!$module || !$module->is_enabled) {
@@ -252,7 +241,7 @@ class ApiExplorerController extends Controller
             return !$hero ? ['data' => null, 'message' => 'No hay configuracion de hero'] : ['data' => $hero];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/about') {
+        if ($path === '/api/admin/listings/' . $businessId . '/about') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'about')->first();
             if (!$module || !$module->is_enabled) {
@@ -262,7 +251,7 @@ class ApiExplorerController extends Controller
             return !$about ? ['data' => null, 'message' => 'No hay seccion about'] : ['data' => $about];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/products') {
+        if ($path === '/api/admin/listings/' . $businessId . '/products') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'products')->first();
             if (!$module || !$module->is_enabled) {
@@ -272,7 +261,7 @@ class ApiExplorerController extends Controller
             return $products->isEmpty() ? ['data' => null, 'message' => 'No hay productos configurados'] : ['data' => $products, 'meta' => ['total' => $products->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/reviews') {
+        if ($path === '/api/admin/listings/' . $businessId . '/reviews') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'reviews')->first();
             if (!$module || !$module->is_enabled) {
@@ -282,7 +271,7 @@ class ApiExplorerController extends Controller
             return $reviews->isEmpty() ? ['data' => null, 'message' => 'No hay reviews'] : ['data' => $reviews, 'meta' => ['total' => $reviews->count(), 'average_rating' => $reviews->avg('rating')]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/leads') {
+        if ($path === '/api/admin/listings/' . $businessId . '/leads') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'leads')->first();
             if (!$module || !$module->is_enabled) {
@@ -292,7 +281,7 @@ class ApiExplorerController extends Controller
             return $leads->isEmpty() ? ['data' => null, 'message' => 'No hay leads'] : ['data' => $leads, 'meta' => ['total' => $leads->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/appointments') {
+        if ($path === '/api/admin/listings/' . $businessId . '/appointments') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'appointments')->first();
             if (!$module || !$module->is_enabled) {
@@ -305,7 +294,7 @@ class ApiExplorerController extends Controller
             return $appointments->isEmpty() ? ['data' => null, 'message' => 'No hay citas'] : ['data' => $appointments->items(), 'meta' => ['current_page' => $appointments->currentPage(), 'per_page' => $appointments->perPage(), 'total' => $appointments->total(), 'last_page' => $appointments->lastPage()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/appointment-slots') {
+        if ($path === '/api/admin/listings/' . $businessId . '/appointment-slots') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'appointments')->first();
             if (!$module || !$module->is_enabled) {
@@ -315,7 +304,7 @@ class ApiExplorerController extends Controller
             return $slots->isEmpty() ? ['data' => null, 'message' => 'No hay horarios configurados'] : ['data' => $slots, 'meta' => ['total' => $slots->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/properties') {
+        if ($path === '/api/admin/listings/' . $businessId . '/properties') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'properties')->first();
             if (!$module || !$module->is_enabled) {
@@ -328,7 +317,7 @@ class ApiExplorerController extends Controller
             return $properties->isEmpty() ? ['data' => null, 'message' => 'No hay propiedades'] : ['data' => $properties, 'meta' => ['total' => $properties->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/clients') {
+        if ($path === '/api/admin/listings/' . $businessId . '/clients') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'clients')->first();
             if (!$module || !$module->is_enabled) {
@@ -340,7 +329,7 @@ class ApiExplorerController extends Controller
             return $clients->isEmpty() ? ['data' => null, 'message' => 'No hay clientes'] : ['data' => $clients, 'meta' => ['total' => $clients->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/menu-categories') {
+        if ($path === '/api/admin/listings/' . $businessId . '/menu-categories') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'restaurant_menu')->first();
             if (!$module || !$module->is_enabled) {
@@ -353,7 +342,7 @@ class ApiExplorerController extends Controller
             return $categories->isEmpty() ? ['data' => null, 'message' => 'No hay categorias'] : ['data' => $categories, 'meta' => ['total' => $categories->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/menu-products') {
+        if ($path === '/api/admin/listings/' . $businessId . '/menu-products') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'restaurant_menu')->first();
             if (!$module || !$module->is_enabled) {
@@ -366,7 +355,7 @@ class ApiExplorerController extends Controller
             return $products->isEmpty() ? ['data' => null, 'message' => 'No hay productos'] : ['data' => $products, 'meta' => ['total' => $products->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/office-hours') {
+        if ($path === '/api/admin/listings/' . $businessId . '/office-hours') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'office_hours')->first();
             if (!$module || !$module->is_enabled) {
@@ -379,7 +368,7 @@ class ApiExplorerController extends Controller
             return $schedules->isEmpty() ? ['data' => null, 'message' => 'No hay horarios'] : ['data' => $schedules, 'meta' => ['total' => $schedules->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/team-members') {
+        if ($path === '/api/admin/listings/' . $businessId . '/team-members') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'team_members')->first();
             if (!$module || !$module->is_enabled) {
@@ -392,7 +381,7 @@ class ApiExplorerController extends Controller
             return $members->isEmpty() ? ['data' => null, 'message' => 'No hay miembros'] : ['data' => $members, 'meta' => ['total' => $members->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/team-positions') {
+        if ($path === '/api/admin/listings/' . $businessId . '/team-member-positions') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'team_members')->first();
             if (!$module || !$module->is_enabled) {
@@ -404,19 +393,7 @@ class ApiExplorerController extends Controller
             return $positions->isEmpty() ? ['data' => null, 'message' => 'No hay puestos'] : ['data' => $positions, 'meta' => ['total' => $positions->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/team-member-positions') {
-            $business = Listing::findOrFail($businessId);
-            $module = $business->modules()->where('module_key', 'team_members')->first();
-            if (!$module || !$module->is_enabled) {
-                return ['data' => null, 'message' => 'Modulo no habilitado en el plan'];
-            }
-            $positions = TeamMemberPosition::where('listing_id', $business->id)
-                ->orderBy('sort_order')
-                ->get();
-            return $positions->isEmpty() ? ['data' => null, 'message' => 'No hay puestos'] : ['data' => $positions, 'meta' => ['total' => $positions->count()]];
-        }
-
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/packages') {
+        if ($path === '/api/admin/listings/' . $businessId . '/packages') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'packages')->first();
             if (!$module || !$module->is_enabled) {
@@ -428,7 +405,7 @@ class ApiExplorerController extends Controller
             return $packages->isEmpty() ? ['data' => null, 'message' => 'No hay paquetes'] : ['data' => $packages, 'meta' => ['total' => $packages->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/vcards') {
+        if ($path === '/api/admin/listings/' . $businessId . '/vcards') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'vcards')->first();
             if (!$module || !$module->is_enabled) {
@@ -441,7 +418,7 @@ class ApiExplorerController extends Controller
             return $vcards->isEmpty() ? ['data' => null, 'message' => 'No hay vCards'] : ['data' => $vcards, 'meta' => ['total' => $vcards->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/fidelity-cards') {
+        if ($path === '/api/admin/listings/' . $businessId . '/fidelity-cards') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'client_fidelity')->first();
             if (!$module || !$module->is_enabled) {
@@ -454,7 +431,7 @@ class ApiExplorerController extends Controller
             return $cards->isEmpty() ? ['data' => null, 'message' => 'No hay tarjetas'] : ['data' => $cards, 'meta' => ['total' => $cards->count()]];
         }
 
-        if ($path === '/api/v1/admin/listings/' . $businessId . '/fidelity-rewards') {
+        if ($path === '/api/admin/listings/' . $businessId . '/fidelity-rewards') {
             $business = Listing::findOrFail($businessId);
             $module = $business->modules()->where('module_key', 'client_fidelity')->first();
             if (!$module || !$module->is_enabled) {
@@ -466,7 +443,7 @@ class ApiExplorerController extends Controller
             return $rewards->isEmpty() ? ['data' => null, 'message' => 'No hay recompensas'] : ['data' => $rewards, 'meta' => ['total' => $rewards->count()]];
         }
 
-        if ($path === '/api/v1/admin/users') {
+        if ($path === '/api/admin/users') {
             $users = User::with(['subscriptions.plan:id,name'])->orderBy('created_at', 'desc')->paginate($perPage);
             return [
                 'data' => UserListResource::collection($users->items()),
@@ -488,38 +465,6 @@ class ApiExplorerController extends Controller
             $user = User::findOrFail($userId);
             $businesses = Listing::where('user_id', $user->id)->with(['subscriptions.plan:id,name'])->orderBy('created_at', 'desc')->get(['id', 'name', 'slug', 'is_active', 'created_at']);
             return ['data' => $businesses, 'meta' => ['total' => $businesses->count()]];
-        }
-
-        if ($path === '/api/v1/admin/industries') {
-            $industries = Industry::with('moduleDefinitions')
-                ->orderBy('name')
-                ->get();
-            return [
-                'data' => IndustryResource::collection($industries),
-                'meta' => ['total' => $industries->count()],
-            ];
-        }
-
-        if ($path === '/api/v1/admin/industries/' . $businessId) {
-            $industry = Industry::with('moduleDefinitions')->findOrFail($businessId);
-            return ['data' => new IndustryResource($industry)];
-        }
-
-        if ($path === '/api/v1/admin/industries/' . $businessId . '/modules') {
-            $industry = Industry::findOrFail($businessId);
-            $modules = $industry->moduleDefinitions;
-            return [
-                'data' => $modules->map(function ($module) {
-                    return [
-                        'id' => $module->id,
-                        'module_key' => $module->key,
-                        'module_name' => $module->name,
-                        'icon' => $module->icon,
-                        'is_premium' => (bool) $module->is_premium,
-                    ];
-                }),
-                'meta' => ['total' => $modules->count()],
-            ];
         }
 
         throw new \Exception('Endpoint not found: ' . $path);

@@ -849,6 +849,9 @@ Route::post('/member/listings/{listing}/leads/bulk-delete', [LeadController::cla
 Route::get('/member/listings/{listing}/contact-forms', [ContactFormController::class, 'index'])
     ->middleware(['auth', 'verified', 'active', 'role:member'])
     ->name('member.business.contact-forms.index');
+Route::get('/member/listings/{listing}/contact-forms/api', [ContactFormController::class, 'apiIndex'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.business.contact-forms.api');
 Route::get('/member/listings/{listing}/contact-forms/create', [ContactFormController::class, 'create'])
     ->middleware(['auth', 'verified', 'active', 'role:member'])
     ->name('member.business.contact-forms.create');

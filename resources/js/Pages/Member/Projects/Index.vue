@@ -8,15 +8,6 @@
       :backHref="'/member/listings'"
     >
       <template #actions>
-        <button
-          v-if="selectedIds.length > 0"
-          class="btn btn-danger rounded-pill"
-          @click="deleteSelected"
-          :disabled="deleting"
-        >
-          <i class="bi bi-trash me-1"></i>
-          Eliminar ({{ selectedIds.length }})
-        </button>
         <Link :href="`/member/listings/${listing?.id}/project-categories`" class="btn btn-secondary rounded-pill">
           <i class="bi bi-folder me-1"></i>Categorias
         </Link>
@@ -108,29 +99,7 @@
       </template>
 
       <template #cell-actions="{ row }">
-        <div class="actions">
-          <button
-            class="btn btn-secondary rounded-pill"
-            @click="cloneProject(row)"
-            :disabled="cloning === row.id"
-            title="Clonar proyecto"
-          >
-            <i class="bi bi-copy"></i>
-          </button>
-          <Link
-            :href="`/member/listings/${listing?.id}/projects/${row.id}/edit`"
-            class="btn btn-info rounded-pill"
-          >
-            <i class="bi bi-pencil"></i>
-          </Link>
-          <button
-            class="btn btn-danger rounded-pill"
-            @click="deleteProject(row)"
-            :disabled="deleting === row.id"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <MemberTableActions :actions="getRowActions(row)" />
       </template>
     </BaseDataTable>
   </MemberLayout>
@@ -142,6 +111,7 @@ import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
 import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
 
 const props = defineProps({
@@ -170,7 +140,6 @@ const columns = [
 ]
 
 const dataTableRef = ref(null)
-const deleting = ref(null)
 const cloning = ref(null)
 const perPage = ref(10)
 const selectedIds = ref([])
@@ -211,13 +180,19 @@ const clearFilter = () => {
   window.location.href = `/member/listings/${listing.value.id}/projects`
 }
 
+const getRowActions = (row) => {
+  return [
+    { label: 'Clonar', icon: 'bi bi-copy', onClick: () => cloneProject(row) },
+    { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing.value.id}/projects/${row.id}/edit`) },
+    { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteProject(row) },
+  ]
+}
+
 const deleteProject = (project) => {
   if (confirm(`Eliminar el proyecto "${project.title}"?`)) {
-    deleting.value = project.id
     router.delete(`/member/listings/${listing.value.id}/projects/${project.id}`, {
       preserveScroll: true,
       onFinish: () => {
-        deleting.value = null
         if (dataTableRef.value) {
           dataTableRef.value.reload()
         }
@@ -237,35 +212,4 @@ const cloneProject = (project) => {
     })
   }
 }
-
-const deleteSelected = () => {
-  if (selectedIds.value.length === 0) return
-
-  const count = selectedIds.value.length
-  if (confirm(`Eliminar ${count} proyecto${count > 1 ? 's' : ''} seleccionado${count > 1 ? 's' : ''}?`)) {
-    deleting.value = true
-    router.post(`/member/listings/${listing.value.id}/projects/bulk-delete`, {
-      ids: selectedIds.value,
-    }, {
-      preserveScroll: true,
-      onSuccess: () => {
-        selectedIds.value = []
-        if (dataTableRef.value) {
-          dataTableRef.value.reload()
-        }
-      },
-      onFinish: () => {
-        deleting.value = false
-      },
-    })
-  }
-}
 </script>
-
-<style scoped>
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-</style>

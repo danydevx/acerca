@@ -14,106 +14,67 @@
       </template>
     </PageHeader>
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-header">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <input
-              v-model="search"
-              type="search"
-              class="form-control"
-              placeholder="Buscar por título..."
-              @search="searchRewards"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div v-if="rewards.data.length === 0" class="text-center py-5">
-          <i class="bi bi-gift text-muted" style="font-size: 3rem;"></i>
-          <h3 class="h5 mt-3">No hay recompensas</h3>
-          <p class="text-muted">Crea tu primera recompensa para empezar.</p>
-          <Link :href="`/member/listings/${listing?.id}/fidelity-rewards/create`" class="btn btn-primary rounded-pill">
-            <i class="bi bi-plus-lg me-1"></i>
-            Crear recompensa
-          </Link>
-        </div>
+    <BaseDataTable
+      ref="dataTableRef"
+      :endpoint="`/member/listings/${listing?.id}/fidelity-rewards/api`"
+      :columns="columns"
+      :initial-data="dataTable"
+      search-placeholder="Buscar recompensas..."
+      empty-title="No hay recompensas"
+      empty-text="Crea tu primera recompensa para empezar."
+      @updated="onDataTableUpdated"
+    >
+      <template #header-actions>
+        <BulkSelect
+          v-model:selectedIds="selectedIds"
+          :current-page-ids="currentPageIds"
+          :delete-endpoint="`/member/listings/${listing?.id}/fidelity-rewards/bulk-delete`"
+          item-name="recompensas"
+          @deleted="onBulkDeleted"
+        />
+      </template>
 
-        <div v-else class="table-responsive">
-          <table class="table table-hover align-middle">
-            <thead>
-              <tr>
-                <th>Imagen</th>
-                <th>Título</th>
-                <th>Visitas</th>
-                <th>Estado</th>
-                <th style="width: 120px;">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="reward in rewards.data" :key="reward.id">
-                <td>
-                  <img
-                    v-if="reward.image"
-                    :src="`/storage/${reward.image}`"
-                    :alt="reward.title"
-                    class="img-thumbnail"
-                    style="width: 60px; height: 60px; object-fit: cover;"
-                  />
-                  <span v-else class="text-muted">
-                    <i class="bi bi-image" style="font-size: 2rem;"></i>
-                  </span>
-                </td>
-                <td>
-                  <strong>{{ reward.title }}</strong>
-                  <p v-if="reward.description" class="text-muted small mb-0">{{ reward.description }}</p>
-                </td>
-                <td>
-                  <span class="badge bg-primary">{{ reward.max_visits }} visitas</span>
-                </td>
-                <td>
-                  <span :class="reward.is_active ? 'badge bg-success' : 'badge bg-secondary'">
-                    {{ reward.is_active ? 'Activa' : 'Inactiva' }}
-                  </span>
-                </td>
-                <td>
-                  <div class="btn-group btn-group-sm">
-                    <Link
-                      :href="`/member/listings/${listing?.id}/fidelity-rewards/${reward.id}/edit`"
-                      class="btn btn-secondary rounded-pill"
-                      title="Editar"
-                    >
-                      <i class="bi bi-pencil"></i>
-                    </Link>
-                    <button
-                      type="button"
-                      class="btn btn-danger rounded-pill"
-                      title="Eliminar"
-                      :disabled="reward.cards_count > 0"
-                      @click="confirmDelete(reward)"
-                    >
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <template #cell-checkbox="{ row }">
+        <BulkSelectRowCheckbox :id="row.id" v-model:selectedIds="selectedIds" />
+      </template>
 
-        <div v-if="rewards.links" class="d-flex justify-content-center mt-4">
-          <component
-            :is="Link"
-            v-for="link in rewards.links"
-            :key="link.label"
-            :href="link.url || '#'"
-            class="btn btn-sm mx-1 rounded-pill"
-            :class="[link.active ? 'btn-primary' : 'btn-secondary', !link.url ? 'disabled' : '']"
-            v-html="link.label"
-          />
-        </div>
-      </div>
-    </div>
+      <template #cell-image="{ row }">
+        <img
+          v-if="row.image"
+          :src="`/storage/${row.image}`"
+          :alt="row.title"
+          class="img-thumbnail"
+          style="width: 60px; height: 60px; object-fit: cover;"
+        />
+        <span v-else class="text-muted">
+          <i class="bi bi-image" style="font-size: 1.5rem;"></i>
+        </span>
+      </template>
+
+      <template #cell-title="{ row }">
+        <strong>{{ row.title }}</strong>
+        <p v-if="row.description" class="text-muted small mb-0">{{ row.description.substring(0, 50) }}...</p>
+      </template>
+
+      <template #cell-max_visits="{ row }">
+        <span class="badge bg-primary">{{ row.max_visits }} visitas</span>
+      </template>
+
+      <template #cell-is_active="{ row }">
+        <span :class="row.is_active ? 'badge bg-success' : 'badge bg-secondary'">
+          {{ row.is_active ? 'Activa' : 'Inactiva' }}
+        </span>
+      </template>
+
+      <template #cell-actions="{ row }">
+        <MemberTableActions
+          :actions="[
+            { label: 'Editar', icon: 'bi bi-pencil', onClick: () => router.get(`/member/listings/${listing?.id}/fidelity-rewards/${row.id}/edit`) },
+            { label: 'Eliminar', icon: 'bi bi-trash', danger: true, onClick: () => deleteReward(row), disabled: row.cards_count > 0 }
+          ]"
+        />
+      </template>
+    </BaseDataTable>
   </MemberLayout>
 </template>
 
@@ -122,11 +83,13 @@ import { ref, computed, watch } from 'vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import MemberLayout from '@/Layouts/MemberLayout.vue'
 import PageHeader from '@/Components/Admin/PageHeader.vue'
+import BaseDataTable from '@/Components/DataTable/BaseDataTable.vue'
+import { BulkSelect, BulkSelectRowCheckbox } from '@/Components/BulkSelect'
+import MemberTableActions from '@/Components/Member/MemberTableActions.vue'
 
 const page = usePage()
 const listing = computed(() => page.props.listing)
-const rewards = computed(() => page.props.rewards || { data: [], links: [] })
-const search = ref(page.props.filters?.search || '')
+const dataTable = computed(() => page.props.dataTable || { data: [], total: 0 })
 
 const breadcrumbs = computed(() => [
   { label: 'Inicio', href: '/member/dashboard' },
@@ -134,23 +97,47 @@ const breadcrumbs = computed(() => [
   { label: 'Recompensas' },
 ])
 
-const searchRewards = () => {
-  router.get(`/member/listings/${listing.value?.id}/fidelity-rewards`, {
-    search: search.value,
-  }, { preserveState: true })
-}
+const columns = [
+  { key: 'checkbox', label: '', sortable: false, width: '40px' },
+  { key: 'image', label: 'Imagen', sortable: false },
+  { key: 'title', label: 'Título', sortable: true },
+  { key: 'max_visits', label: 'Visitas', sortable: false },
+  { key: 'is_active', label: 'Estado', sortable: true },
+  { key: 'actions', label: 'Acciones', sortable: false },
+]
 
-watch(search, () => {
-  searchRewards()
+const dataTableRef = ref(null)
+const selectedIds = ref([])
+
+const currentPageIds = computed(() => {
+  if (!dataTable.value?.data) return []
+  return dataTable.value.data.map(row => row.id)
 })
 
-const confirmDelete = (reward) => {
-  if (reward.cards_count > 0) {
+const onDataTableUpdated = () => {
+  selectedIds.value = []
+}
+
+const onBulkDeleted = () => {
+  if (dataTableRef.value) {
+    dataTableRef.value.reload()
+  }
+}
+
+const deleteReward = (row) => {
+  if (row.cards_count > 0) {
     alert('No se puede eliminar una recompensa que tiene tarjetas asociadas.')
     return
   }
-  if (confirm(`¿Eliminar la recompensa "${reward.title}"?`)) {
-    router.delete(`/member/listings/${listing.value?.id}/fidelity-rewards/${reward.id}`)
+  if (confirm(`¿Eliminar la recompensa "${row.title}"?`)) {
+    router.delete(`/member/listings/${listing.value?.id}/fidelity-rewards/${row.id}`, {
+      preserveScroll: true,
+      onSuccess: () => {
+        if (dataTableRef.value) {
+          dataTableRef.value.reload()
+        }
+      },
+    })
   }
 }
 </script>

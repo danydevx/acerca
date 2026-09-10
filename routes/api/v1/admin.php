@@ -54,6 +54,39 @@ Route::prefix('admin')->middleware(['auth:api', 'role:superadmin|admin'])->group
     Route::get('/listings/{listing}/appointment-slots', [BusinessController::class, 'appointmentSlots'])
         ->name('api.v1.admin.listings.appointment-slots');
 
+    Route::get('/listings/{listing}/properties', [BusinessController::class, 'properties'])
+        ->name('api.v1.admin.listings.properties');
+
+    Route::get('/listings/{listing}/clients', [BusinessController::class, 'clients'])
+        ->name('api.v1.admin.listings.clients');
+
+    Route::get('/listings/{listing}/menu-categories', [BusinessController::class, 'menuCategories'])
+        ->name('api.v1.admin.listings.menu-categories');
+
+    Route::get('/listings/{listing}/menu-products', [BusinessController::class, 'menuProducts'])
+        ->name('api.v1.admin.listings.menu-products');
+
+    Route::get('/listings/{listing}/office-hours', [BusinessController::class, 'officeHours'])
+        ->name('api.v1.admin.listings.office-hours');
+
+    Route::get('/listings/{listing}/team-members', [BusinessController::class, 'teamMembers'])
+        ->name('api.v1.admin.listings.team-members');
+
+    Route::get('/listings/{listing}/team-member-positions', [BusinessController::class, 'teamMemberPositions'])
+        ->name('api.v1.admin.listings.team-member-positions');
+
+    Route::get('/listings/{listing}/packages', [BusinessController::class, 'packages'])
+        ->name('api.v1.admin.listings.packages');
+
+    Route::get('/listings/{listing}/vcards', [BusinessController::class, 'vcards'])
+        ->name('api.v1.admin.listings.vcards');
+
+    Route::get('/listings/{listing}/fidelity-cards', [BusinessController::class, 'fidelityCards'])
+        ->name('api.v1.admin.listings.fidelity-cards');
+
+    Route::get('/listings/{listing}/fidelity-rewards', [BusinessController::class, 'fidelityRewards'])
+        ->name('api.v1.admin.listings.fidelity-rewards');
+
     Route::get('/users', [UserController::class, 'index'])
         ->name('api.v1.admin.users.index');
 
