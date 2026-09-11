@@ -5,6 +5,7 @@ namespace Modules\Orders\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Modules\Listings\Models\Listing;
 use Modules\Orders\Enums\OrderType;
 use Modules\Orders\Enums\ProductType;
@@ -39,11 +40,20 @@ class OrderController extends Controller
             'delivery_address.latitude' => 'nullable|numeric',
             'delivery_address.longitude' => 'nullable|numeric',
             'delivery_address.distance_km' => 'nullable|numeric|min:0',
-            'pickup_location_id' => 'required_if:order_type,pickup|nullable|exists:listing_locations,id',
+            'pickup_location_id' => 'nullable|required_if:order_type,pickup|exists:listing_locations,id',
             'pickup_time' => 'nullable|string',
         ]);
 
         $business = Listing::find($validated['listing_id']);
+
+        if ($validated['order_type'] === 'pickup' && !empty($validated['pickup_location_id'])) {
+            $location = \Modules\ListingLocations\Models\ListingLocation::where('id', $validated['pickup_location_id'])
+                ->where('listing_id', $business->id)
+                ->first();
+            if (!$location) {
+                return response()->json(['error' => 'Ubicación de recolección inválida para este negocio.'], 422);
+            }
+        }
 
         $setting = OrderSetting::getForBusiness($business->id);
         if (!$setting || !$setting->is_active) {
@@ -122,7 +132,9 @@ class OrderController extends Controller
         }
 
         if ($validated['order_type'] === 'pickup' && isset($validated['pickup_location_id'])) {
-            $location = \Modules\ListingLocations\Models\ListingLocation::find($validated['pickup_location_id']);
+            $location = \Modules\ListingLocations\Models\ListingLocation::where('id', $validated['pickup_location_id'])
+                ->where('listing_id', $business->id)
+                ->first();
             OrderPickupLocation::create([
                 'order_id' => $order->id,
                 'location_id' => $validated['pickup_location_id'],

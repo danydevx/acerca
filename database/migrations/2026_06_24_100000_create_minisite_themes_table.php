@@ -20,14 +20,14 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::table('businesses', function (Blueprint $table) {
+        Schema::table('listings', function (Blueprint $table) {
             $table->foreignId('minisite_theme_id')->nullable()->after('settings')->constrained('minisite_themes')->nullOnDelete();
         });
     }
 
     public function down(): void
     {
-        Schema::table('businesses', function (Blueprint $table) {
+        Schema::table('listings', function (Blueprint $table) {
             $table->dropForeign(['minisite_theme_id']);
             $table->dropColumn('minisite_theme_id');
         });

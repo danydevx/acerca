@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('client_fidelity_cards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('listing_id')->constrained()->onDelete('cascade');
+            $table->foreignId('listing_id')->constrained('listings')->onDelete('cascade');
             $table->string('client_name');
             $table->string('client_email')->nullable();
             $table->string('client_phone', 50)->nullable();

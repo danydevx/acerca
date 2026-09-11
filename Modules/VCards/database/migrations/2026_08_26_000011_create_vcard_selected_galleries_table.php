@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('vcard_selected_galleries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vcard_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('gallery_id')->constrained('listing_galleries')->cascadeOnDelete();
+            $table->unsignedBigInteger('gallery_id');
             $table->timestamps();
 
             $table->unique(['vcard_id']);

@@ -25,7 +25,7 @@ class ReindexOnContentChange
                 return;
             }
 
-            $text = $this->getContentText($event->sourceType, $event->sourceId);
+            $text = $this->getContentText($event->sourceType, $event->sourceId, $event->businessId);
 
             if ($text) {
                 $vectorStore->storeEmbedding($event->sourceType, $event->sourceId, $text);
@@ -41,30 +41,32 @@ class ReindexOnContentChange
         }
     }
 
-    private function getContentText(string $sourceType, int $sourceId): ?string
+    private function getContentText(string $sourceType, int $sourceId, int $businessId): ?string
     {
         return match ($sourceType) {
-            'product' => $this->getProductText($sourceId),
-            'service' => $this->getServiceText($sourceId),
-            'promotion' => $this->getPromotionText($sourceId),
-            'faq' => $this->getFaqText($sourceId),
-            'location' => $this->getLocationText($sourceId),
-            'about' => $this->getAboutText($sourceId),
-            'social_network' => $this->getSocialNetworkText($sourceId),
-            'restaurant_category' => $this->getRestaurantCategoryText($sourceId),
-            'restaurant_product' => $this->getRestaurantProductText($sourceId),
+            'product' => $this->getProductText($sourceId, $businessId),
+            'service' => $this->getServiceText($sourceId, $businessId),
+            'promotion' => $this->getPromotionText($sourceId, $businessId),
+            'faq' => $this->getFaqText($sourceId, $businessId),
+            'location' => $this->getLocationText($sourceId, $businessId),
+            'about' => $this->getAboutText($sourceId, $businessId),
+            'social_network' => $this->getSocialNetworkText($sourceId, $businessId),
+            'restaurant_category' => $this->getRestaurantCategoryText($sourceId, $businessId),
+            'restaurant_product' => $this->getRestaurantProductText($sourceId, $businessId),
             'appointment' => null,
             'appointment_exception' => null,
             default => null,
         };
     }
 
-    private function getProductText(int $id): ?string
+    private function getProductText(int $id, int $businessId): ?string
     {
         if (!class_exists('\Modules\ListingProducts\Models\ListingProduct')) {
             return null;
         }
-        $product = \Modules\ListingProducts\Models\ListingProduct::find($id);
+        $product = \Modules\ListingProducts\Models\ListingProduct::where('id', $id)
+            ->where('listing_id', $businessId)
+            ->first();
         if (!$product) return null;
 
         return implode('. ', array_filter([
@@ -75,12 +77,14 @@ class ReindexOnContentChange
         ]));
     }
 
-    private function getServiceText(int $id): ?string
+    private function getServiceText(int $id, int $businessId): ?string
     {
         if (!class_exists('\Modules\ListingServices\Models\ListingService')) {
             return null;
         }
-        $service = \Modules\ListingServices\Models\ListingService::find($id);
+        $service = \Modules\ListingServices\Models\ListingService::where('id', $id)
+            ->where('listing_id', $businessId)
+            ->first();
         if (!$service) return null;
 
         return implode('. ', array_filter([
@@ -91,12 +95,14 @@ class ReindexOnContentChange
         ]));
     }
 
-    private function getPromotionText(int $id): ?string
+    private function getPromotionText(int $id, int $businessId): ?string
     {
         if (!class_exists('\Modules\ListingPromotions\Models\ListingPromotion')) {
             return null;
         }
-        $promo = \Modules\ListingPromotions\Models\ListingPromotion::find($id);
+        $promo = \Modules\ListingPromotions\Models\ListingPromotion::where('id', $id)
+            ->where('listing_id', $businessId)
+            ->first();
         if (!$promo) return null;
 
         return implode('. ', array_filter([
@@ -109,23 +115,27 @@ class ReindexOnContentChange
         ]));
     }
 
-    private function getFaqText(int $id): ?string
+    private function getFaqText(int $id, int $businessId): ?string
     {
         if (!class_exists('\Modules\ListingFaqs\Models\ListingFaq')) {
             return null;
         }
-        $faq = \Modules\ListingFaqs\Models\ListingFaq::find($id);
+        $faq = \Modules\ListingFaqs\Models\ListingFaq::where('id', $id)
+            ->where('listing_id', $businessId)
+            ->first();
         if (!$faq) return null;
 
         return "Pregunta: {$faq->question}. Respuesta: {$faq->answer}";
     }
 
-    private function getLocationText(int $id): ?string
+    private function getLocationText(int $id, int $businessId): ?string
     {
         if (!class_exists('\Modules\ListingLocations\Models\ListingLocation')) {
             return null;
         }
-        $location = \Modules\ListingLocations\Models\ListingLocation::find($id);
+        $location = \Modules\ListingLocations\Models\ListingLocation::where('id', $id)
+            ->where('listing_id', $businessId)
+            ->first();
         if (!$location) return null;
 
         $parts = array_filter([
@@ -150,23 +160,27 @@ class ReindexOnContentChange
         ]));
     }
 
-    private function getAboutText(int $id): ?string
+    private function getAboutText(int $id, int $businessId): ?string
     {
         if (!class_exists('\Modules\ListingAbout\Models\ListingAbout')) {
             return null;
         }
-        $about = \Modules\ListingAbout\Models\ListingAbout::find($id);
+        $about = \Modules\ListingAbout\Models\ListingAbout::where('id', $id)
+            ->where('listing_id', $businessId)
+            ->first();
         if (!$about) return null;
 
         return "Acerca de: {$about->content}";
     }
 
-    private function getSocialNetworkText(int $id): ?string
+    private function getSocialNetworkText(int $id, int $businessId): ?string
     {
         if (!class_exists('\Modules\ListingSocialMedia\Models\ListingSocialNetwork')) {
             return null;
         }
-        $sn = \Modules\ListingSocialMedia\Models\ListingSocialNetwork::find($id);
+        $sn = \Modules\ListingSocialMedia\Models\ListingSocialNetwork::where('id', $id)
+            ->where('listing_id', $businessId)
+            ->first();
         if (!$sn) return null;
 
         return implode('. ', array_filter([
@@ -176,12 +190,14 @@ class ReindexOnContentChange
         ]));
     }
 
-    private function getRestaurantCategoryText(int $id): ?string
+    private function getRestaurantCategoryText(int $id, int $businessId): ?string
     {
         if (!class_exists('\Modules\ListingRestaurantMenu\Entities\MenuCategory')) {
             return null;
         }
-        $category = \Modules\ListingRestaurantMenu\Entities\MenuCategory::find($id);
+        $category = \Modules\ListingRestaurantMenu\Entities\MenuCategory::where('id', $id)
+            ->where('listing_id', $businessId)
+            ->first();
         if (!$category) return null;
 
         $text = "Categoría del menú: {$category->title}";
@@ -191,12 +207,14 @@ class ReindexOnContentChange
         return $text;
     }
 
-    private function getRestaurantProductText(int $id): ?string
+    private function getRestaurantProductText(int $id, int $businessId): ?string
     {
         if (!class_exists('\Modules\ListingRestaurantMenu\Entities\MenuProduct')) {
             return null;
         }
-        $product = \Modules\ListingRestaurantMenu\Entities\MenuProduct::find($id);
+        $product = \Modules\ListingRestaurantMenu\Entities\MenuProduct::where('id', $id)
+            ->where('listing_id', $businessId)
+            ->first();
         if (!$product) return null;
 
         $text = "Producto del menú: {$product->title}";

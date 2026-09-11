@@ -36,13 +36,15 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Key</th>
                 <th scope="col">Settings</th>
+                <th scope="col">Menu</th>
+                <th scope="col">Titulo Menu</th>
                 <th scope="col">Activo</th>
                 <th scope="col" class="text-end">Accion</th>
               </tr>
             </thead>
             <tbody>
               <tr v-if="definitions.data.length === 0">
-                <td colspan="7" class="text-center text-muted py-4">
+                <td colspan="9" class="text-center text-muted py-4">
                   No hay modulos registrados.
                 </td>
               </tr>
@@ -55,6 +57,11 @@
                   <span v-if="def.has_settings" class="badge bg-warning">Si</span>
                   <span v-else class="badge bg-secondary">No</span>
                 </td>
+                <td>
+                  <span v-if="def.show_in_menu" class="badge bg-success">Si</span>
+                  <span v-else class="badge bg-secondary">No</span>
+                </td>
+                <td>{{ def.menu_title || '-' }}</td>
                 <td>
                   <span v-if="def.is_active" class="badge bg-success">Activo</span>
                   <span v-else class="badge bg-secondary">Inactivo</span>

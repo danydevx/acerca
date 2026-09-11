@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('listing_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('property_type_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('listing_id')->constrained('listings')->cascadeOnDelete();
+            $table->foreignId('property_type_id')->constrained('property_types')->cascadeOnDelete();
             $table->string('title');
             $table->string('slug');
             $table->text('description')->nullable();

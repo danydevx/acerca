@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\ActivityService;
 use App\Services\AvailabilityService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Modules\Listings\Models\Listing;
 use Modules\ListingAppointments\Models\ListingAppointment;
@@ -130,8 +131,14 @@ class AppointmentController extends Controller
             'customer_name' => ['required', 'string', 'max:150'],
             'customer_email' => ['required', 'email', 'max:150'],
             'customer_phone' => ['nullable', 'string', 'max:50'],
-            'business_service_id' => ['required', 'exists:listing_services,id'],
-            'business_location_id' => ['nullable', 'exists:listing_locations,id'],
+            'business_service_id' => [
+                'required',
+                Rule::exists('listing_services', 'id')->where('listing_id', $business->id),
+            ],
+            'business_location_id' => [
+                'nullable',
+                Rule::exists('listing_locations', 'id')->where('listing_id', $business->id),
+            ],
             'appointment_date' => ['required', 'date', 'after_or_equal:today'],
             'start_time' => ['required', 'string'],
             'notes' => ['nullable', 'string'],
@@ -143,7 +150,9 @@ class AppointmentController extends Controller
         }
         $data['start_time'] = $normalizedStartTime;
 
-        $service = ListingService::findOrFail($data['business_service_id']);
+        $service = ListingService::where('id', $data['business_service_id'])
+            ->where('listing_id', $business->id)
+            ->firstOrFail();
 
         $slotCheck = $availability->isSlotAvailable(
             $business,
@@ -264,8 +273,14 @@ class AppointmentController extends Controller
             'customer_name' => ['required', 'string', 'max:150'],
             'customer_email' => ['required', 'email', 'max:150'],
             'customer_phone' => ['nullable', 'string', 'max:50'],
-            'business_service_id' => ['required', 'exists:listing_services,id'],
-            'business_location_id' => ['nullable', 'exists:listing_locations,id'],
+            'business_service_id' => [
+                'required',
+                Rule::exists('listing_services', 'id')->where('listing_id', $business->id),
+            ],
+            'business_location_id' => [
+                'nullable',
+                Rule::exists('listing_locations', 'id')->where('listing_id', $business->id),
+            ],
             'appointment_date' => ['required', 'date'],
             'start_time' => ['required', 'string'],
             'status' => ['required', 'string', 'in:pending,confirmed,cancelled,completed,no_show'],
@@ -278,7 +293,9 @@ class AppointmentController extends Controller
         }
         $data['start_time'] = $normalizedStartTime;
 
-        $service = ListingService::findOrFail($data['business_service_id']);
+        $service = ListingService::where('id', $data['business_service_id'])
+            ->where('listing_id', $business->id)
+            ->firstOrFail();
 
         $slotCheck = $availability->isSlotAvailable(
             $business,

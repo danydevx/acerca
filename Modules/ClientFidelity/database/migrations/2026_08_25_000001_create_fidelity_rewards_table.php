@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('fidelity_rewards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('listing_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('listing_id')->constrained('listings')->cascadeOnDelete();
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('image')->nullable();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Modules\ListingAppointments\Models\ListingAppointment;
 use Modules\Listings\Enums\ListingType;
 use Modules\Listings\Models\Listing;
@@ -223,8 +224,14 @@ class DirectoryController extends Controller
             ->firstOrFail();
 
         $data = $request->validate([
-            'service_id' => ['required', 'exists:listing_services,id'],
-            'location_id' => ['required', 'exists:listing_locations,id'],
+            'service_id' => [
+                'required',
+                Rule::exists('listing_services', 'id')->where('listing_id', $business->id),
+            ],
+            'location_id' => [
+                'required',
+                Rule::exists('listing_locations', 'id')->where('listing_id', $business->id),
+            ],
             'appointment_date' => ['required', 'date', 'after_or_equal:today'],
             'start_time' => ['required'],
             'customer_name' => ['required', 'string', 'max:150'],
@@ -233,8 +240,12 @@ class DirectoryController extends Controller
             'notes' => ['nullable', 'string'],
         ]);
 
-        $service = ListingService::findOrFail($data['service_id']);
-        $location = ListingLocation::findOrFail($data['location_id']);
+        $service = ListingService::where('id', $data['service_id'])
+            ->where('listing_id', $business->id)
+            ->firstOrFail();
+        $location = ListingLocation::where('id', $data['location_id'])
+            ->where('listing_id', $business->id)
+            ->firstOrFail();
 
         $endTime = date('H:i', strtotime($data['start_time'].' + '.$service->duration_minutes.' minutes'));
 

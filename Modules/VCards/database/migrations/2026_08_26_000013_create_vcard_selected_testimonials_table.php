@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('vcard_selected_testimonials', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vcard_id')->constrained('vcards')->onDelete('cascade');
-            $table->foreignId('review_id')->constrained('listing_reviews')->onDelete('cascade');
+            $table->unsignedBigInteger('review_id');
             $table->integer('sort_order')->default(0);
             $table->timestamps();
 

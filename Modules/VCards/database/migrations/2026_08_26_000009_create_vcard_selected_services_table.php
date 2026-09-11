@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('vcard_selected_services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vcard_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('service_id')->constrained('listing_services')->cascadeOnDelete();
+            $table->unsignedBigInteger('service_id');
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();
 

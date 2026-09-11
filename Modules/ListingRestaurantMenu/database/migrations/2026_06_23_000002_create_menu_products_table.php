@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('menu_products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('listing_id')->constrained()->onDelete('cascade');
+            $table->foreignId('listing_id')->constrained('listings')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('menu_categories')->onDelete('cascade');
             $table->string('image')->nullable();
             $table->string('title');

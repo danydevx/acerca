@@ -1181,14 +1181,22 @@ class ListingContentController extends Controller
             'customer_name' => ['required', 'string', 'max:150'],
             'customer_email' => ['required', 'email', 'max:150'],
             'customer_phone' => ['nullable', 'string', 'max:50'],
-            'business_service_id' => ['required', 'exists:listing_services,id'],
-            'business_location_id' => ['required', 'exists:listing_locations,id'],
+            'business_service_id' => [
+                'required',
+                Rule::exists('listing_services', 'id')->where('listing_id', $business->id),
+            ],
+            'business_location_id' => [
+                'required',
+                Rule::exists('listing_locations', 'id')->where('listing_id', $business->id),
+            ],
             'appointment_date' => ['required', 'date', 'after_or_equal:today'],
             'start_time' => ['required', 'date_format:H:i'],
             'notes' => ['nullable', 'string'],
         ]);
 
-        $service = ListingService::findOrFail($data['business_service_id']);
+        $service = ListingService::where('id', $data['business_service_id'])
+            ->where('listing_id', $business->id)
+            ->firstOrFail();
         $endTime = date('H:i', strtotime($data['start_time'].' + '.$service->duration_minutes.' minutes'));
 
         $appointment = $business->appointments()->create([
@@ -1293,15 +1301,23 @@ class ListingContentController extends Controller
             'customer_name' => ['required', 'string', 'max:150'],
             'customer_email' => ['required', 'email', 'max:150'],
             'customer_phone' => ['nullable', 'string', 'max:50'],
-            'business_service_id' => ['required', 'exists:listing_services,id'],
-            'business_location_id' => ['required', 'exists:listing_locations,id'],
+            'business_service_id' => [
+                'required',
+                Rule::exists('listing_services', 'id')->where('listing_id', $business->id),
+            ],
+            'business_location_id' => [
+                'required',
+                Rule::exists('listing_locations', 'id')->where('listing_id', $business->id),
+            ],
             'appointment_date' => ['required', 'date'],
             'start_time' => ['required', 'date_format:H:i'],
             'status' => ['required', 'string', 'in:pending,confirmed,cancelled,completed,no_show'],
             'notes' => ['nullable', 'string'],
         ]);
 
-        $service = ListingService::findOrFail($data['business_service_id']);
+        $service = ListingService::where('id', $data['business_service_id'])
+            ->where('listing_id', $business->id)
+            ->firstOrFail();
         $endTime = date('H:i', strtotime($data['start_time'].' + '.$service->duration_minutes.' minutes'));
 
         $appointment->update([

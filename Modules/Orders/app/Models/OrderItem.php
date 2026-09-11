@@ -32,10 +32,19 @@ class OrderItem extends Model
 
     public function getProduct()
     {
-        if ($this->product_type === ProductType::MENU_PRODUCT) {
-            return \Modules\ListingRestaurantMenu\Entities\MenuProduct::find($this->product_id);
+        $listingId = $this->order?->listing_id;
+        if (!$listingId) {
+            return null;
         }
-        return \Modules\ListingProducts\Models\ListingProduct::find($this->product_id);
+
+        if ($this->product_type === ProductType::MENU_PRODUCT) {
+            return \Modules\ListingRestaurantMenu\Entities\MenuProduct::where('id', $this->product_id)
+                ->where('listing_id', $listingId)
+                ->first();
+        }
+        return \Modules\ListingProducts\Models\ListingProduct::where('id', $this->product_id)
+            ->where('listing_id', $listingId)
+            ->first();
     }
 
     public function getVariant()
@@ -44,8 +53,15 @@ class OrderItem extends Model
             return null;
         }
 
+        $listingId = $this->order?->listing_id;
+        if (!$listingId) {
+            return null;
+        }
+
         if ($this->product_type === ProductType::MENU_PRODUCT) {
-            return \Modules\ListingRestaurantMenu\Entities\MenuProductVariant::find($this->variant_id);
+            return \Modules\ListingRestaurantMenu\Entities\MenuProductVariant::where('id', $this->variant_id)
+                ->where('listing_id', $listingId)
+                ->first();
         }
         return null;
     }

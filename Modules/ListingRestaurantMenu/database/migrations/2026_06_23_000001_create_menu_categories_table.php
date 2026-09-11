@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('menu_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('listing_id')->constrained()->onDelete('cascade');
+            $table->foreignId('listing_id')->constrained('listings')->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('menu_categories')->onDelete('set null');
             $table->string('title');
             $table->text('description')->nullable();

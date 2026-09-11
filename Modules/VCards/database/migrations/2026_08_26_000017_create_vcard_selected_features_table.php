@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('vcard_selected_features', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vcard_id')->constrained('vcards')->onDelete('cascade');
-            $table->foreignId('feature_id')->constrained('features')->onDelete('cascade');
+            $table->unsignedBigInteger('feature_id');
             $table->integer('sort_order')->default(0);
             $table->timestamps();
 

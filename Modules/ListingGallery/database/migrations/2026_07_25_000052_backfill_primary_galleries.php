@@ -7,19 +7,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $businesses = DB::table('businesses')->select('id', 'name')->orderBy('id')->get();
+        $listings = DB::table('listings')->select('id', 'name')->orderBy('id')->get();
 
-        foreach ($businesses as $business) {
-            $primaryId = DB::table('business_galleries')
-                ->where('listing_id', $business->id)
+        foreach ($listings as $listing) {
+            $primaryId = DB::table('listing_galleries')
+                ->where('listing_id', $listing->id)
                 ->where('is_primary', true)
                 ->value('id');
 
             if (! $primaryId) {
-                $primaryId = DB::table('business_galleries')->insertGetId([
-                    'listing_id' => $business->id,
+                $primaryId = DB::table('listing_galleries')->insertGetId([
+                    'listing_id' => $listing->id,
                     'name' => 'Galería principal',
-                    'description' => 'Galería principal de '.$business->name,
+                    'description' => 'Galería principal de '.$listing->name,
                     'is_primary' => true,
                     'is_active' => true,
                     'sort_order' => 0,
@@ -28,8 +28,8 @@ return new class extends Migration
                 ]);
             }
 
-            DB::table('business_gallery_images')
-                ->where('listing_id', $business->id)
+            DB::table('listing_gallery_images')
+                ->where('listing_id', $listing->id)
                 ->whereNull('business_gallery_id')
                 ->update(['business_gallery_id' => $primaryId]);
         }
@@ -37,7 +37,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        DB::table('business_gallery_images')
+        DB::table('listing_gallery_images')
             ->whereNull('business_gallery_id')
             ->update(['business_gallery_id' => null]);
     }

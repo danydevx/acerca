@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('vcard_selected_menu_categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vcard_id')->constrained('vcards')->onDelete('cascade');
-            $table->foreignId('category_id')->constrained('menu_categories')->onDelete('cascade');
+            $table->unsignedBigInteger('category_id');
             $table->json('product_ids')->nullable()->comment('Array of selected product IDs (max 5)');
             $table->integer('sort_order')->default(0);
             $table->timestamps();

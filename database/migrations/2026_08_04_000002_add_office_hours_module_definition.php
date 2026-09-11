@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        DB::table('business_module_definitions')->updateOrInsert(
+        DB::table('listing_module_definitions')->updateOrInsert(
             ['key' => 'office_hours'],
             [
                 'name' => 'Horarios de Atención',
@@ -29,6 +29,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        DB::table('business_module_definitions')->where('key', 'office_hours')->delete();
+        DB::table('listing_module_definitions')->where('key', 'office_hours')->delete();
     }
 };

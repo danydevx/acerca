@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('vcard_teams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('listing_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('listing_id')->constrained('listings')->cascadeOnDelete();
             $table->string('name');
             $table->string('slug');
             $table->text('description')->nullable();

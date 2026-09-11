@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('vcard_selected_location', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vcard_id')->constrained('vcards')->onDelete('cascade');
-            $table->foreignId('location_id')->constrained('listing_locations')->onDelete('cascade');
+            $table->unsignedBigInteger('location_id');
             $table->timestamps();
 
             $table->unique(['vcard_id']);
