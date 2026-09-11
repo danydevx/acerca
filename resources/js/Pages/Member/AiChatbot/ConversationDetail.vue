@@ -118,7 +118,7 @@ const getFlagEmoji = (countryCode) => {
 <style lang="less" scoped>
 .conversation-detail {
   .info-card {
-    background: #f8f9fa;
+    background: var(--bs-tertiary-bg);
   }
 
   .messages-container {
@@ -128,13 +128,13 @@ const getFlagEmoji = (countryCode) => {
   .message-item {
     &.user {
       .message-content {
-        background: #e7f1ff;
+        background: var(--bs-info-bg-subtle);
       }
     }
 
     &.assistant {
       .message-content {
-        background: #f0f9f0;
+        background: var(--bs-success-bg-subtle);
       }
     }
 

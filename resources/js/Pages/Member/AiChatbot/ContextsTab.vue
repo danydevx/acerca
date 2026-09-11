@@ -158,7 +158,7 @@
                 </small>
               </div>
 
-              <div v-if="urlForm.extracted" class="border rounded p-3 bg-light">
+              <div v-if="urlForm.extracted" class="border rounded p-3 bg-secondary-subtle">
                 <div class="mb-3">
                   <label class="form-label">Título extraído</label>
                   <input
@@ -513,14 +513,14 @@ onMounted(() => {
 <style lang="less" scoped>
 .contexts-tab {
   .card {
-    border: 1px solid #e9ecef;
+    border: 1px solid var(--bs-border-color);
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
 
   .card-header {
-    background: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;
+    background: var(--bs-tertiary-bg);
+    border-bottom: 1px solid var(--bs-border-color);
     padding: 16px 20px;
   }
 
@@ -535,13 +535,13 @@ onMounted(() => {
     justify-content: space-between;
     align-items: flex-start;
     padding: 16px;
-    background: #f8f9fa;
+    background: var(--bs-tertiary-bg);
     border-radius: 8px;
-    border: 1px solid #e9ecef;
+    border: 1px solid var(--bs-border-color);
 
     &.inactive {
       opacity: 0.6;
-      background: #fff;
+      background: var(--bs-body-bg);
     }
 
     .context-content {
@@ -556,7 +556,7 @@ onMounted(() => {
 
         h6 {
           margin: 0;
-          color: #212529;
+          color: var(--bs-body-color);
         }
       }
     }
@@ -570,13 +570,13 @@ onMounted(() => {
 
   .form-label {
     font-weight: 500;
-    color: #495057;
+    color: var(--bs-body-color);
     margin-bottom: 8px;
   }
 
   .trix-editor-fix {
     min-height: 200px;
-    background: #fff;
+    background: var(--bs-body-bg);
 
     :deep(trix-toolbar) {
       .trix-button-group {

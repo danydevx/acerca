@@ -1,6 +1,6 @@
 <template>
   <div class="form-group" :class="classObject">
-    <label class="form-label">{{ label }} <strong v-if="required">*</strong></label>
+    <label class="form-label">{{ label }} <span v-if="required" class="text-danger fw-bold">*</span></label>
 
     <div class="d-flex flex-column gap-2">
       <div

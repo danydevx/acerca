@@ -20,7 +20,7 @@
         autocomplete="off"
       />
       <label :for="id">
-        {{ label }} <strong v-if="required">*</strong>
+        {{ label }} <span v-if="required" class="text-danger fw-bold">*</span>
       </label>
 
       <div v-if="(showValidation && validationMessage) || formError" class="invalid-feedback">

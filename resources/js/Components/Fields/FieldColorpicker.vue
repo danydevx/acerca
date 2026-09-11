@@ -1,7 +1,7 @@
 <template>
   <div class="form-group">
     <label v-if="label" :for="id" class="form-label">
-      {{ label }} <strong v-if="required">*</strong>
+      {{ label }} <span v-if="required" class="text-danger fw-bold">*</span>
     </label>
     <div class="d-flex align-items-center gap-2">
       <input

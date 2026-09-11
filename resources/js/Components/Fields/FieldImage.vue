@@ -163,7 +163,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="form-group" :class="classObject">
     <label :for="id">
-      {{ label }} <strong v-if="required">*</strong>
+      {{ label }} <span v-if="required" class="text-danger fw-bold">*</span>
     </label>
 
     <input
@@ -225,7 +225,7 @@ onBeforeUnmount(() => {
             <button
               ref="closeBtnRef"
               type="button"
-              class="btn btn-light btn-close-lightbox"
+              class="btn btn-secondary btn-close-lightbox"
               @click="closeLightbox"
               aria-label="Cerrar"
             >
@@ -235,7 +235,7 @@ onBeforeUnmount(() => {
             <button
               v-if="hasMultiple"
               type="button"
-              class="btn btn-light btn-nav btn-prev"
+              class="btn btn-secondary btn-nav btn-prev"
               @click.stop="prevImage"
               aria-label="Anterior"
               title="Anterior"
@@ -256,7 +256,7 @@ onBeforeUnmount(() => {
             <button
               v-if="hasMultiple"
               type="button"
-              class="btn btn-light btn-nav btn-next"
+              class="btn btn-secondary btn-nav btn-next"
               @click.stop="nextImage"
               aria-label="Siguiente"
               title="Siguiente"
@@ -349,7 +349,7 @@ onBeforeUnmount(() => {
   bottom: .75rem;
   left: 50%;
   transform: translateX(-50%);
-  color: #fff;
+  color: var(--bs-light);
   background: rgba(0,0,0,.35);
   padding: .25rem .5rem;
   border-radius: .5rem;

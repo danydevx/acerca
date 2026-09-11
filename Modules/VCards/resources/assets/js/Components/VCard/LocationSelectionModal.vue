@@ -39,7 +39,7 @@
               </button>
             </div>
 
-            <div v-if="selectedLocationId" class="mt-3 p-3 bg-light rounded">
+            <div v-if="selectedLocationId" class="mt-3 p-3 bg-secondary-subtle rounded">
               <small class="text-muted">Ubicaci&oacute;n seleccionada</small>
             </div>
           </div>

@@ -190,7 +190,7 @@ const buildCell = (date, currentMonth, todayStr) => {
 
 <style scoped>
 .availability-calendar-preview {
-  background: white;
+  background: var(--bs-body-bg);
   padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -206,7 +206,7 @@ const buildCell = (date, currentMonth, todayStr) => {
   text-align: center;
   font-weight: 600;
   padding: 0.5rem;
-  color: #6c757d;
+  color: var(--bs-secondary-color);
   text-transform: uppercase;
   font-size: 0.75rem;
 }
@@ -215,7 +215,8 @@ const buildCell = (date, currentMonth, todayStr) => {
   min-height: 70px;
   padding: 0.5rem;
   border-radius: 4px;
-  background-color: #f8f9fa;
+  background-color: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
   font-size: 0.85rem;
   position: relative;
 }
@@ -225,43 +226,43 @@ const buildCell = (date, currentMonth, todayStr) => {
 }
 
 .calendar-cell.today {
-  border: 2px solid #0d6efd;
+  border: 2px solid var(--bs-primary);
 }
 
 .calendar-cell.available {
-  background-color: #d1e7dd;
+  background-color: var(--bs-success-bg-subtle);
 }
 
 .calendar-cell.closed {
-  background-color: #f8d7da;
+  background-color: var(--bs-danger-bg-subtle);
 }
 
 .calendar-cell.exception-available {
-  background-color: #fff3cd;
+  background-color: var(--bs-warning-bg-subtle);
 }
 
 .calendar-cell.exception-closed {
-  background-color: #f8d7da;
+  background-color: var(--bs-danger-bg-subtle);
   background-image: repeating-linear-gradient(
     45deg,
     transparent,
     transparent 5px,
-    rgba(255, 255, 255, 0.3) 5px,
-    rgba(255, 255, 255, 0.3) 10px
+    rgba(255, 255, 255, 0.15) 5px,
+    rgba(255, 255, 255, 0.15) 10px
   );
 }
 
 .calendar-cell.has-appointments.available {
-  background-image: linear-gradient(135deg, #d1e7dd 0%, #cfe2ff 100%);
+  background-image: linear-gradient(135deg, var(--bs-success-bg-subtle) 0%, var(--bs-info-bg-subtle) 100%);
 }
 
 .calendar-cell.has-appointments.exception-available {
-  background-image: linear-gradient(135deg, #fff3cd 0%, #cfe2ff 100%);
+  background-image: linear-gradient(135deg, var(--bs-warning-bg-subtle) 0%, var(--bs-info-bg-subtle) 100%);
 }
 
 .cell-count {
   font-size: 0.7rem;
-  color: #0a58ca;
+  color: var(--bs-info);
   margin-top: 0.25rem;
   font-weight: 600;
 }
@@ -272,13 +273,13 @@ const buildCell = (date, currentMonth, todayStr) => {
 
 .cell-time {
   font-size: 0.7rem;
-  color: #495057;
+  color: var(--bs-secondary-color);
   margin-top: 0.25rem;
 }
 
 .cell-reason {
   font-size: 0.7rem;
-  color: #664d03;
+  color: var(--bs-warning-text-emphasis);
   margin-top: 0.25rem;
   font-style: italic;
   overflow: hidden;
@@ -296,5 +297,11 @@ const buildCell = (date, currentMonth, todayStr) => {
 
 .legend-item {
   font-size: 0.85rem;
+}
+
+.btn-secondary {
+  background-color: var(--bs-secondary-bg);
+  border-color: var(--bs-border-color);
+  color: var(--bs-body-color);
 }
 </style>

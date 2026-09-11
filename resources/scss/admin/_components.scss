@@ -1,0 +1,159 @@
+// =============================================
+// COMPONENTS — Admin & Member Panels
+// =============================================
+
+// --- Dark Mode Override Bootstrap Variables ---
+// These MUST come after Bootstrap import to override defaults
+[data-bs-theme="dark"] {
+    --bs-body-bg: #{$body-bg-dark};
+    --bs-body-color: #{$body-color-dark};
+    --bs-primary: #{$primary-dark};
+    --bs-secondary: #{$secondary-dark};
+    --bs-success: #{$success-dark};
+    --bs-danger: #{$danger-dark};
+    --bs-warning: #{$warning-dark};
+    --bs-info: #{$info-dark};
+    --bs-light: #{$light-dark};
+    --bs-dark: #{$dark-dark};
+    --brand-primary: #{$primary-dark};
+    --brand-secondary: #{$secondary-dark};
+    --brand-background: #{$body-bg-dark};
+    --brand-text: #{$body-color-dark};
+    --brand-accent: #{$primary-dark};
+}
+
+// --- Gradient Button ---
+.btn-gradient {
+    background: linear-gradient(90deg, #2B6EEB 0%, #3AA7F4 100%) !important;
+    border: none !important;
+    color: var(--bs-body-bg) !important;
+
+    &:hover {
+        filter: brightness(1.05);
+        color: var(--bs-body-bg) !important;
+    }
+}
+
+// --- Rounded Pill ---
+.rounded-pill {
+    border-radius: $border-radius-pill !important;
+}
+
+// --- Stat Card ---
+.stat-card {
+    background: var(--bs-body-bg);
+    border-radius: $border-radius;
+    padding: 1.5rem;
+    box-shadow: $box-shadow;
+
+    .stat-label {
+        font-size: 0.875rem;
+        color: var(--bs-secondary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--brand-primary);
+    }
+}
+
+// --- Dark Mode Outline Buttons ---
+[data-bs-theme="dark"] {
+    .btn-outline-primary {
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+        color: var(--bs-body-bg);
+
+        &:hover {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+            color: var(--bs-body-bg);
+        }
+    }
+
+    .btn-outline-secondary {
+        background-color: var(--bs-secondary);
+        border-color: var(--bs-secondary);
+        color: var(--bs-body-bg);
+
+        &:hover {
+            background-color: var(--bs-secondary);
+            border-color: var(--bs-secondary);
+            color: var(--bs-body-bg);
+        }
+    }
+
+    .btn-outline-success {
+        background-color: var(--bs-success);
+        border-color: var(--bs-success);
+        color: var(--bs-body-bg);
+
+        &:hover {
+            background-color: var(--bs-success);
+            border-color: var(--bs-success);
+            color: var(--bs-body-bg);
+        }
+    }
+
+    .btn-outline-danger {
+        background-color: var(--bs-danger);
+        border-color: var(--bs-danger);
+        color: var(--bs-body-bg);
+
+        &:hover {
+            background-color: var(--bs-danger);
+            border-color: var(--bs-danger);
+            color: var(--bs-body-bg);
+        }
+    }
+
+    .btn-outline-warning {
+        background-color: var(--bs-warning);
+        border-color: var(--bs-warning);
+        color: var(--bs-body-bg);
+
+        &:hover {
+            background-color: var(--bs-warning);
+            border-color: var(--bs-warning);
+            color: var(--bs-body-bg);
+        }
+    }
+
+    .btn-outline-info {
+        background-color: var(--bs-info);
+        border-color: var(--bs-info);
+        color: var(--bs-body-bg);
+
+        &:hover {
+            background-color: var(--bs-info);
+            border-color: var(--bs-info);
+            color: var(--bs-body-bg);
+        }
+    }
+
+    .btn-outline-light {
+        background-color: var(--bs-light);
+        border-color: var(--bs-light);
+        color: var(--bs-body-color);
+
+        &:hover {
+            background-color: var(--bs-light);
+            border-color: var(--bs-light);
+            color: var(--bs-body-color);
+        }
+    }
+
+    .btn-outline-dark {
+        background-color: var(--bs-dark);
+        border-color: var(--bs-dark);
+        color: var(--bs-body-bg);
+
+        &:hover {
+            background-color: var(--bs-dark);
+            border-color: var(--bs-dark);
+            color: var(--bs-body-bg);
+        }
+    }
+}

@@ -84,6 +84,7 @@
                 </span>
               </div>
             </div>
+            </div>
           </div>
           <div class="card-footer bg-transparent border-top pt-3 pb-3 d-flex justify-content-between align-items-center">
             <button type="button" class="btn btn-danger rounded-pill py-2" @click="deleteReward">

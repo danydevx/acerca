@@ -17,13 +17,13 @@
         </a>
         <a
           :href="`/member/listings/${listing?.id}/vcards/${vcard?.id}/seo`"
-          class="btn btn-outline-dark rounded-pill btn-sm"
+          class="btn btn-outline-secondary rounded-pill btn-sm"
         >
           <i class="bi bi-graph-up me-1"></i>
           SEO
         </a>
         <button
-          class="btn btn-outline-dark rounded-pill btn-sm"
+          class="btn btn-outline-secondary rounded-pill btn-sm"
           @click="copyLink"
         >
           <i class="bi bi-link me-1"></i>
@@ -214,7 +214,7 @@
               </div>
             </div>
 
-            <div class="mt-4 p-3 bg-light rounded">
+            <div class="mt-4 p-3 rounded">
               <h6 class="mb-3">Vista previa del QR</h6>
               <QRCode :value="vcardPublicUrl" :size="150" />
               <p class="small text-muted mt-2 mb-0">{{ vcardPublicUrl }}</p>
@@ -225,7 +225,7 @@
             <div class="row g-4">
               <div class="col-12">
                 <div class="card border">
-                  <div class="card-header bg-light">
+                  <div class="card-header bg-secondary-subtle">
                     <h6 class="mb-0">Estilo</h6>
                   </div>
                   <div class="card-body">
@@ -236,7 +236,7 @@
                           <div v-for="design in designs" :key="design.value" class="col-4 col-md-2">
                             <div
                               class="design-option border rounded p-2 text-center cursor-pointer"
-                              :class="{ 'border-primary': form.design === design.value, 'bg-light': form.design !== design.value, 'border-2': form.design === design.value }"
+                              :class="{ 'border-primary': form.design === design.value, 'bg-secondary-subtle': form.design !== design.value, 'border-2': form.design === design.value }"
                               @click="form.design = design.value"
                             >
                               <div class="design-preview mb-2" :style="{ backgroundColor: form.primary_color + '20' }">
@@ -255,7 +255,7 @@
                         <div class="d-flex gap-3">
                           <div
                             class="shape-option cursor-pointer p-3 border rounded text-center flex-fill"
-                            :class="{ 'border-primary bg-light': form.shape === 'square', 'bg-white': form.shape !== 'square', 'border-2': form.shape === 'square' }"
+                            :class="{ 'border-primary bg-secondary-subtle': form.shape === 'square', 'bg-body-bg': form.shape !== 'square', 'border-2': form.shape === 'square' }"
                             @click="form.shape = 'square'"
                           >
                             <div class="shape-preview shape-square mx-auto mb-2"></div>
@@ -263,7 +263,7 @@
                           </div>
                           <div
                             class="shape-option cursor-pointer p-3 border rounded text-center flex-fill"
-                            :class="{ 'border-primary bg-light': form.shape === 'rounded', 'bg-white': form.shape !== 'rounded', 'border-2': form.shape === 'rounded' }"
+                            :class="{ 'border-primary bg-secondary-subtle': form.shape === 'rounded', 'bg-body-bg': form.shape !== 'rounded', 'border-2': form.shape === 'rounded' }"
                             @click="form.shape = 'rounded'"
                           >
                             <div class="shape-preview shape-rounded mx-auto mb-2"></div>
@@ -303,7 +303,7 @@
 
               <div class="col-12 col-lg-6">
                 <div class="card border h-100">
-                  <div class="card-header bg-light">
+                  <div class="card-header bg-secondary-subtle">
                     <h6 class="mb-0">Imágenes</h6>
                   </div>
                   <div class="card-body">
@@ -333,7 +333,7 @@
 
               <div class="col-12 col-lg-6">
                 <div class="card border h-100">
-                  <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                  <div class="card-header bg-secondary-subtle d-flex justify-content-between align-items-center">
                     <h6 class="mb-0">Fondo del Hero</h6>
                   </div>
                   <div class="card-body">
@@ -345,7 +345,7 @@
                             v-for="bt in [{v:'solid',i:'bi-square',l:'Sólido'},{v:'gradient',i:'bi-gradient',l:'Degradado'},{v:'pattern',i:'bi-grid-3x3',l:'Patrón'}]"
                             :key="bt.v"
                             class="bg-type-option border rounded p-2 text-center cursor-pointer flex-fill"
-                            :class="{ 'border-primary bg-light': form.background_type === bt.v, 'bg-white': form.background_type !== bt.v, 'border-2': form.background_type === bt.v }"
+                            :class="{ 'border-primary bg-secondary-subtle': form.background_type === bt.v, 'bg-body-bg': form.background_type !== bt.v, 'border-2': form.background_type === bt.v }"
                             @click="form.background_type = bt.v"
                           >
                             <i :class="bt.i + ' d-block mb-1'"></i>
@@ -361,7 +361,7 @@
                             v-for="dir in gradientDirections"
                             :key="dir.value"
                             class="gradient-dir-option border rounded p-2 text-center cursor-pointer flex-fill"
-                            :class="{ 'border-primary bg-light': form.gradient_direction === dir.value, 'bg-white': form.gradient_direction !== dir.value, 'border-2': form.gradient_direction === dir.value }"
+                            :class="{ 'border-primary bg-secondary-subtle': form.gradient_direction === dir.value, 'bg-body-bg': form.gradient_direction !== dir.value, 'border-2': form.gradient_direction === dir.value }"
                             @click="form.gradient_direction = dir.value"
                           >
                             <div class="gradient-preview mx-auto mb-1" :style="{ background: `linear-gradient(${dir.value}, ${form.primary_color}, #ccc)` }"></div>
@@ -377,7 +377,7 @@
                             v-for="p in patterns"
                             :key="p.value"
                             class="pattern-option border rounded p-2 text-center cursor-pointer"
-                            :class="{ 'border-primary bg-light': form.pattern_key === p.value, 'bg-white': form.pattern_key !== p.value, 'border-2': form.pattern_key === p.value }"
+                            :class="{ 'border-primary bg-secondary-subtle': form.pattern_key === p.value, 'bg-body-bg': form.pattern_key !== p.value, 'border-2': form.pattern_key === p.value }"
                             @click="form.pattern_key = p.value"
                           >
                             <div class="pattern-preview mx-auto mb-1" :style="{ backgroundImage: p.preview }"></div>
@@ -413,7 +413,7 @@
 
               <div class="col-12 col-lg-6">
                 <div class="card border h-100">
-                  <div class="card-header bg-light">
+                  <div class="card-header bg-secondary-subtle">
                     <h6 class="mb-0">Fondo de página</h6>
                   </div>
                   <div class="card-body">
@@ -425,7 +425,7 @@
                             v-for="bt in [{v:'solid',i:'bi-square',l:'Sólido'},{v:'gradient',i:'bi-gradient',l:'Degradado'},{v:'pattern',i:'bi-grid-3x3',l:'Patrón'}]"
                             :key="bt.v"
                             class="bg-type-option border rounded p-2 text-center cursor-pointer flex-fill"
-                            :class="{ 'border-primary bg-light': form.body_background_type === bt.v, 'bg-white': form.body_background_type !== bt.v, 'border-2': form.body_background_type === bt.v }"
+                            :class="{ 'border-primary bg-secondary-subtle': form.body_background_type === bt.v, 'bg-body-bg': form.body_background_type !== bt.v, 'border-2': form.body_background_type === bt.v }"
                             @click="form.body_background_type = bt.v"
                           >
                             <i :class="bt.i + ' d-block mb-1'"></i>
@@ -460,7 +460,7 @@
                             v-for="dir in gradientDirections"
                             :key="dir.value"
                             class="gradient-dir-option border rounded p-2 text-center cursor-pointer flex-fill"
-                            :class="{ 'border-primary bg-light': form.body_gradient_direction === dir.value, 'bg-white': form.body_gradient_direction !== dir.value, 'border-2': form.body_gradient_direction === dir.value }"
+                            :class="{ 'border-primary bg-secondary-subtle': form.body_gradient_direction === dir.value, 'bg-body-bg': form.body_gradient_direction !== dir.value, 'border-2': form.body_gradient_direction === dir.value }"
                             @click="form.body_gradient_direction = dir.value"
                           >
                             <div class="gradient-preview mx-auto mb-1" :style="{ background: `linear-gradient(${dir.value}, ${form.body_primary_color}, #ccc)` }"></div>
@@ -476,7 +476,7 @@
                             v-for="p in patterns"
                             :key="p.value"
                             class="pattern-option border rounded p-2 text-center cursor-pointer"
-                            :class="{ 'border-primary bg-light': form.body_pattern_key === p.value, 'bg-white': form.body_pattern_key !== p.value, 'border-2': form.body_pattern_key === p.value }"
+                            :class="{ 'border-primary bg-secondary-subtle': form.body_pattern_key === p.value, 'bg-body-bg': form.body_pattern_key !== p.value, 'border-2': form.body_pattern_key === p.value }"
                             @click="form.body_pattern_key = p.value"
                           >
                             <div class="pattern-preview mx-auto mb-1" :style="{ backgroundImage: p.preview }"></div>
@@ -642,7 +642,7 @@
                   </div>
                   <div>
                     <button
-                      class="btn btn-outline-dark rounded-pill btn-sm me-1"
+                      class="btn btn-outline-secondary rounded-pill btn-sm me-1"
                       @click="editContact(contact)"
                     >
                       <i class="bi bi-pencil"></i>
@@ -742,7 +742,7 @@
                     </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark rounded-pill" @click="showContactModal = false">Cancelar</button>
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" @click="showContactModal = false">Cancelar</button>
                     <button type="button" class="btn btn-gradient rounded-pill" @click="saveContact">{{ editingContact ? 'Actualizar' : 'Guardar' }}</button>
                   </div>
                 </div>
@@ -787,7 +787,7 @@
                   </div>
                   <div>
                     <button
-                      class="btn btn-outline-dark rounded-pill btn-sm me-1"
+                      class="btn btn-outline-secondary rounded-pill btn-sm me-1"
                       @click="editField(field)"
                     >
                       <i class="bi bi-pencil"></i>
@@ -832,7 +832,7 @@
                               v-for="field in mostPopularFields"
                               :key="field.key"
                               class="btn btn-sm"
-                              :class="fieldForm.field_type_key === field.key ? 'btn-gradient rounded-pill' : 'btn btn-outline-dark rounded-pill'"
+                              :class="fieldForm.field_type_key === field.key ? 'btn-gradient rounded-pill' : 'btn btn-outline-secondary rounded-pill'"
                               @click="selectFieldType(field.key)"
                             >
                               <i :class="field.icon" class="me-1"></i>
@@ -848,7 +848,7 @@
                               v-for="field in catFields"
                               :key="field.key"
                               class="btn btn-sm"
-                              :class="fieldForm.field_type_key === field.key ? 'btn-gradient rounded-pill' : 'btn btn-outline-dark rounded-pill'"
+                              :class="fieldForm.field_type_key === field.key ? 'btn-gradient rounded-pill' : 'btn btn-outline-secondary rounded-pill'"
                               @click="selectFieldType(field.key)"
                             >
                                 <i :class="field.icon" class="me-1"></i>
@@ -931,7 +931,7 @@
                             <button type="button" class="btn btn-gradient rounded-pill" @click="saveField">
                               {{ editingField ? 'Actualizar' : 'Agregar campo' }}
                             </button>
-                            <button type="button" class="btn btn-outline-dark rounded-pill" @click="closeFieldModal">
+                            <button type="button" class="btn btn-outline-secondary rounded-pill" @click="closeFieldModal">
                               Cancelar
                             </button>
                           </div>
@@ -1041,7 +1041,7 @@
                 <div class="section-item__action" v-if="section.key === 'services' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-dark rounded-pill btn-sm"
+                    class="btn btn-outline-secondary rounded-pill btn-sm"
                     @click="showServicesModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1050,7 +1050,7 @@
                 <div class="section-item__action" v-if="section.key === 'packages' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-dark rounded-pill btn-sm"
+                    class="btn btn-outline-secondary rounded-pill btn-sm"
                     @click="showPackagesModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1059,7 +1059,7 @@
                 <div class="section-item__action" v-if="section.key === 'gallery' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-dark rounded-pill btn-sm"
+                    class="btn btn-outline-secondary rounded-pill btn-sm"
                     @click="showGalleryModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1068,7 +1068,7 @@
                 <div class="section-item__action" v-if="section.key === 'products' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-dark rounded-pill btn-sm"
+                    class="btn btn-outline-secondary rounded-pill btn-sm"
                     @click="showProductsModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1077,7 +1077,7 @@
                 <div class="section-item__action" v-if="section.key === 'testimonials' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-dark rounded-pill btn-sm"
+                    class="btn btn-outline-secondary rounded-pill btn-sm"
                     @click="showTestimonialsModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1086,7 +1086,7 @@
                 <div class="section-item__action" v-if="section.key === 'business_hours' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-dark rounded-pill btn-sm"
+                    class="btn btn-outline-secondary rounded-pill btn-sm"
                     @click="showBusinessHoursModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1095,7 +1095,7 @@
                 <div class="section-item__action" v-if="section.key === 'menu' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-dark rounded-pill btn-sm"
+                    class="btn btn-outline-secondary rounded-pill btn-sm"
                     @click="showMenuModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1104,7 +1104,7 @@
                 <div class="section-item__action" v-if="section.key === 'location' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-dark rounded-pill btn-sm"
+                    class="btn btn-outline-secondary rounded-pill btn-sm"
                     @click="showLocationModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -1113,7 +1113,7 @@
                 <div class="section-item__action" v-if="section.key === 'features' && form.sections[section.key]">
                   <button
                     type="button"
-                    class="btn btn-outline-dark rounded-pill btn-sm"
+                    class="btn btn-outline-secondary rounded-pill btn-sm"
                     @click="showFeaturesModal = true"
                   >
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -2252,20 +2252,20 @@ function deleteCard() {
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--bs-border-color);
   border-radius: 0.5rem;
-  background: #fff;
+  background: var(--bs-body-bg);
   transition: all 0.2s;
 }
 
 .section-item:hover {
-  border-color: #d1d5db;
+  border-color: var(--bs-primary);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .section-item--active {
-  border-color: #3b82f6;
-  background: #f8fafc;
+  border-color: var(--bs-primary);
+  background: var(--bs-tertiary-bg);
 }
 
 .section-item__content {

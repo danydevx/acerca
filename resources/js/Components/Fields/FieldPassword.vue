@@ -13,7 +13,7 @@
           :style="{ paddingRight: '9.5rem' }"
           @blur="() => $emit('blur', 'password')"
         />
-        <label :for="id">{{ label }} <strong v-if="required">*</strong></label>
+        <label :for="id">{{ label }} <span v-if="required" class="text-danger fw-bold">*</span></label>
 
         <!-- Botonera -->
         <div class="password-toolbar btn-group position-absolute end-0 top-50 translate-middle-y me-2">

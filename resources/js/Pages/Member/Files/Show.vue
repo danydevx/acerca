@@ -10,9 +10,23 @@
       <Link href="/member/files" class="btn btn-secondary rounded-pill">Volver</Link>
     </div>
 
-    <div class="card border-0 shadow-sm">
-      <div class="card-body">
-        <dl class="row mb-0">
+    <div class="app-datatable">
+      <div class="app-datatable__header">
+        <div>
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-file-earmark me-1"></i>Detalle del archivo
+          </h6>
+        </div>
+        <div class="app-datatable__controls">
+          <Link href="/member/files" class="btn btn-outline-secondary rounded-pill">
+            <i class="bi bi-arrow-left me-1"></i>Volver
+          </Link>
+        </div>
+      </div>
+      <div class="app-datatable__table-wrapper">
+        <dl class="row p-3 mb-0">
+          <dt class="col-4 text-muted">Nombre</dt>
+          <dd class="col-8">{{ file.original_name }}</dd>
           <dt class="col-4 text-muted">Tipo</dt>
           <dd class="col-8">{{ file.type || '-' }}</dd>
           <dt class="col-4 text-muted">Mime</dt>
@@ -24,10 +38,15 @@
           <dt class="col-4 text-muted">Creado</dt>
           <dd class="col-8">{{ file.created_at }}</dd>
         </dl>
-
-        <div class="mt-3 d-flex gap-2">
-          <Link :href="`/member/files/${file.id}/download`" class="btn btn-primary rounded-pill">Descargar</Link>
-          <button class="btn btn-danger rounded-pill" type="button" @click="remove">Eliminar</button>
+      </div>
+      <div class="app-datatable__footer">
+        <div class="d-flex gap-2">
+          <Link :href="`/member/files/${file.id}/download`" class="btn btn-primary rounded-pill">
+            <i class="bi bi-download me-1"></i>Descargar
+          </Link>
+          <button class="btn btn-outline-danger rounded-pill" type="button" @click="remove">
+            <i class="bi bi-trash me-1"></i>Eliminar
+          </button>
         </div>
       </div>
     </div>

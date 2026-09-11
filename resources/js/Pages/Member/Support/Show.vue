@@ -4,7 +4,7 @@
 
     <PageHeader :title="ticket.subject" :breadcrumbs="breadcrumbs">
       <template #actions>
-        <Link href="/member/support" class="btn btn-secondary rounded-pill">
+        <Link href="/member/support" class="btn btn-outline-secondary rounded-pill">
           <i class="bi bi-arrow-left me-1"></i>Volver
         </Link>
       </template>
@@ -12,53 +12,43 @@
 
     <div class="row g-3">
       <div class="col-12 col-lg-4">
-        <div class="card border-0 shadow-sm">
-          <div class="card-header bg-white py-3">
-            <h2 class="h6 mb-0 text-muted">Informacion del ticket</h2>
+        <div class="app-datatable">
+          <div class="app-datatable__header">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-info-circle me-1"></i>Informacion del ticket
+            </h6>
           </div>
-          <div class="card-body">
-            <div class="mb-3">
-              <label class="form-label small text-muted text-uppercase">Estado</label>
-              <div>
+          <div class="app-datatable__table-wrapper">
+            <dl class="row p-3 mb-0">
+              <dt class="col-4 text-muted small text-uppercase">Estado</dt>
+              <dd class="col-8">
                 <span class="badge" :class="statusClass(ticket.status)">{{ ticket.status }}</span>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label small text-muted text-uppercase">Prioridad</label>
-              <div class="fw-semibold">{{ ticket.priority || '-' }}</div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label small text-muted text-uppercase">Categoria</label>
-              <div class="fw-semibold">{{ ticket.department || '-' }}</div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label small text-muted text-uppercase">Creado</label>
-              <div class="fw-semibold">{{ ticket.created_at }}</div>
-            </div>
-
-            <div class="mb-0">
-              <label class="form-label small text-muted text-uppercase">Ultima respuesta</label>
-              <div class="fw-semibold">{{ ticket.last_reply_at || '-' }}</div>
-            </div>
+              </dd>
+              <dt class="col-4 text-muted small text-uppercase">Prioridad</dt>
+              <dd class="col-8 fw-semibold">{{ ticket.priority || '-' }}</dd>
+              <dt class="col-4 text-muted small text-uppercase">Categoria</dt>
+              <dd class="col-8 fw-semibold">{{ ticket.department || '-' }}</dd>
+              <dt class="col-4 text-muted small text-uppercase">Creado</dt>
+              <dd class="col-8">{{ ticket.created_at }}</dd>
+              <dt class="col-4 text-muted small text-uppercase">Ultima respuesta</dt>
+              <dd class="col-8">{{ ticket.last_reply_at || '-' }}</dd>
+            </dl>
           </div>
         </div>
       </div>
 
       <div class="col-12 col-lg-8 d-flex flex-column">
-        <div class="card border-0 shadow-sm flex-grow-1 d-flex flex-column">
-          <div class="card-header bg-white py-3">
-            <h2 class="h6 mb-0 text-muted">
-              <i class="bi bi-chat-left-text me-2"></i>Conversacion
-            </h2>
+        <div class="app-datatable flex-grow-1 d-flex flex-column">
+          <div class="app-datatable__header">
+            <h6 class="text-uppercase text-muted mb-0 fw-normal">
+              <i class="bi bi-chat-left-text me-1"></i>Conversacion
+            </h6>
           </div>
-
-          <div class="card-body flex-grow-1 p-0" style="min-height: 400px;">
-            <div v-if="ticket.messages.length === 0" class="text-center text-muted py-5">
-              <i class="bi bi-chat-dots display-4"></i>
-              <p class="mt-3">Sin mensajes aun. Inicia la conversacion.</p>
+          <div class="app-datatable__table-wrapper flex-grow-1" style="min-height: 400px;">
+            <div v-if="ticket.messages.length === 0" class="app-datatable__empty">
+              <i class="bi bi-chat-dots"></i>
+              <div class="app-datatable__empty-title">Sin mensajes aun</div>
+              <div class="app-datatable__empty-text">Inicia la conversacion.</div>
             </div>
 
             <div v-else class="chat-messages p-3">
@@ -84,8 +74,8 @@
             </div>
           </div>
 
-          <div class="card-footer bg-white" v-if="ticket.status !== 'closed'">
-            <form @submit.prevent="submit">
+          <div class="app-datatable__footer" v-if="ticket.status !== 'closed'">
+            <form @submit.prevent="submit" class="p-3">
               <div class="mb-3">
                 <FieldTextarea
                   id="ticket-reply"
@@ -106,7 +96,7 @@
             </form>
           </div>
 
-          <div class="card-footer bg-light text-center" v-else>
+          <div class="app-datatable__footer text-center" v-else>
             <span class="text-muted">
               <i class="bi bi-lock me-1"></i>Este ticket esta cerrado
             </span>
@@ -167,13 +157,13 @@ const statusClass = (value) => {
 }
 
 .chat-bubble-user {
-  background: #f8f9fa;
+  background: var(--bs-info-bg-subtle);
   border-bottom-left-radius: 4px;
   margin-right: auto;
 }
 
 .chat-bubble-admin {
-  background: #e7f1ff;
+  background: var(--bs-primary-bg-subtle);
   border-bottom-right-radius: 4px;
   margin-left: auto;
 }
@@ -196,12 +186,12 @@ const statusClass = (value) => {
 }
 
 .chat-bubble-user .chat-avatar {
-  background: #dee2e6;
-  color: #6c757d;
+  background: var(--bs-secondary-bg);
+  color: var(--bs-secondary-color);
 }
 
 .chat-bubble-admin .chat-avatar {
-  background: #0d6efd;
+  background: var(--bs-primary);
   color: white;
 }
 
@@ -216,22 +206,22 @@ const statusClass = (value) => {
 }
 
 .chat-bubble-user .chat-author {
-  color: #495057;
+  color: var(--bs-body-color);
 }
 
 .chat-bubble-admin .chat-author {
-  color: #0d6efd;
+  color: var(--bs-primary);
 }
 
 .chat-time {
   font-size: 11px;
-  color: #6c757d;
+  color: var(--bs-secondary-color);
 }
 
 .chat-content {
   font-size: 14px;
   line-height: 1.5;
-  color: #212529;
+  color: var(--bs-body-color);
   white-space: pre-wrap;
 }
 </style>

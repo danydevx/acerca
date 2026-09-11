@@ -20,7 +20,7 @@
               <div v-for="feature in availableFeatures" :key="feature.id" class="col-md-6">
                 <div
                   class="card"
-                  :class="{ 'border-primary': isSelected(feature.id), 'bg-light': isSelected(feature.id) }"
+                  :class="{ 'border-primary': isSelected(feature.id), 'bg-secondary-subtle': isSelected(feature.id) }"
                   style="cursor: pointer;"
                   @click="toggleFeature(feature)"
                 >

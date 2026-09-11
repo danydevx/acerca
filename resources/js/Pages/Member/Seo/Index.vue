@@ -78,7 +78,7 @@
                 <div class="alert alert-info">
                   <i class="bi bi-info-circle me-2"></i>
                   <strong>Vista previa en Google:</strong>
-                  <div class="mt-2 p-2 bg-white rounded border">
+                  <div class="mt-2 p-2 bg-body-bg rounded border">
                     <div style="color: #1a0dab; font-size: 18px; line-height: 1.3;">
                       {{ form.seo_title || listing.name }}
                     </div>
@@ -149,7 +149,7 @@
                 <div class="alert alert-info">
                   <i class="bi bi-info-circle me-2"></i>
                   <strong>Vista previa de tarjeta:</strong>
-                  <div class="mt-2 p-3 bg-light rounded">
+                  <div class="mt-2 p-3 bg-secondary-subtle rounded">
                     <div class="d-flex gap-3">
                       <img v-if="imagePreview || form.og_image" :src="imagePreview || form.og_image" class="rounded" style="max-width: 150px; max-height: 150px; object-fit: cover;" />
                       <div>

@@ -88,7 +88,7 @@
             </div>
           </div>
 
-          <div class="card bg-light border-0 mb-3">
+          <div class="card bg-secondary-subtle border-0 mb-3">
             <div class="card-header bg-transparent border-bottom pb-2 pt-2">
               <h6 class="mb-0"><i class="bi bi-whatsapp me-1"></i>WhatsApp</h6>
             </div>
@@ -122,7 +122,7 @@
             </div>
           </div>
 
-          <div class="card bg-light border-0">
+          <div class="card bg-secondary-subtle border-0">
             <div class="card-header bg-transparent border-bottom pb-2 pt-2">
               <h6 class="mb-0"><i class="bi bi-list-check me-1"></i>Caracteristicas</h6>
             </div>
@@ -132,7 +132,7 @@
                 v-model="form.features"
                 item-key="index"
                 handle=".drag-handle"
-                ghost-class="bg-light"
+                ghost-class="bg-secondary-subtle"
               >
                 <template #item="{ element, index }">
                   <div class="d-flex align-items-center gap-2 mb-2">

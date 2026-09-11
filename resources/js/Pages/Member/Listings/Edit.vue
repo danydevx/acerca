@@ -16,7 +16,7 @@
               <div class="text-center mb-4">
                 <div class="position-relative d-inline-block">
                   <div
-                    class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+                    class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center"
                     style="width: 120px; height: 120px; overflow: hidden;"
                   >
                     <img
@@ -89,7 +89,7 @@
 
         <div class="row align-items-center">
           <div class="col-auto">
-            <div class="bg-white p-3 rounded border" style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+            <div class="bg-body-bg p-3 rounded border" style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
               <img v-if="qrCodeUrl" :src="qrCodeUrl" alt="QR Code" style="max-width: 100%; max-height: 100%;" />
               <div v-else class="text-muted">
                 <i class="bi bi-hourglass-split"></i>
@@ -120,7 +120,7 @@
             </div>
             <div class="mb-2">
               <label class="form-label fw-semibold">URL del minisite:</label>
-              <code class="d-block mb-2 p-2 bg-light rounded">{{ qrLink }}</code>
+              <code class="d-block mb-2 p-2 bg-secondary-subtle rounded">{{ qrLink }}</code>
             </div>
             <a :href="qrLink" target="_blank" class="btn btn-info rounded-pill">
               <i class="bi bi-box-arrow-up-right me-1"></i>Abrir minisite

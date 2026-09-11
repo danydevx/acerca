@@ -137,12 +137,12 @@ const save = () => {
 
 <style scoped>
 .day-row {
-  background-color: #fafbfc;
+  background-color: var(--bs-body-bg);
   transition: background-color 0.2s;
 }
 
 .day-row:hover {
-  background-color: #f0f4f8;
+  background-color: var(--bs-tertiary-bg);
 }
 
 :deep(.form-floating) {

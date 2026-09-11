@@ -249,10 +249,10 @@ const onPeriodChange = (newPeriod) => {
 }
 
 .nav-tabs {
-  border-bottom: 2px solid #dee2e6;
+  border-bottom: 2px solid var(--bs-border-color);
 
   .nav-link {
-    color: #6c757d;
+    color: var(--bs-secondary-color);
     border: none;
     border-bottom: 2px solid transparent;
     margin-bottom: -2px;
@@ -260,13 +260,13 @@ const onPeriodChange = (newPeriod) => {
     font-weight: 500;
 
     &:hover {
-      color: #0d6efd;
+      color: var(--bs-primary);
       border-color: transparent;
     }
 
     &.active {
-      color: #0d6efd;
-      border-bottom-color: #0d6efd;
+      color: var(--bs-primary);
+      border-bottom-color: var(--bs-primary);
       background: transparent;
     }
   }

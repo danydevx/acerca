@@ -20,26 +20,45 @@
       </div>
     </div>
 
-    <div class="card border-0 shadow-sm">
-      <div v-if="notifications.data.length === 0" class="card-body text-center text-muted py-5">
-        Aun no tienes notificaciones.
+    <div class="app-datatable">
+      <div class="app-datatable__header">
+        <div>
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-bell me-1"></i>Notificaciones
+          </h6>
+          <small class="text-muted">{{ unreadCount }} sin leer</small>
+        </div>
+        <div class="app-datatable__controls">
+          <button
+            type="button"
+            class="btn btn-outline-primary rounded-pill"
+            :disabled="!hasUnread"
+            @click="markAllAsRead"
+          >
+            <i class="bi bi-check-all me-1"></i>Marcar todas como leidas
+          </button>
+        </div>
       </div>
+      <div class="app-datatable__table-wrapper">
+        <div v-if="notifications.data.length === 0" class="app-datatable__empty">
+          <i class="bi bi-bell-slash"></i>
+          <div class="app-datatable__empty-title">Aun no tienes notificaciones.</div>
+        </div>
 
-      <div v-else class="list-group list-group-flush">
-        <div
-          v-for="notification in notifications.data"
-          :key="notification.id"
-          class="list-group-item"
-          :class="{ 'bg-light': !notification.is_read }"
-        >
-          <div class="d-flex flex-wrap align-items-start justify-content-between gap-3">
-            <div class="flex-grow-1">
+        <div v-else class="notifications-list">
+          <div
+            v-for="notification in notifications.data"
+            :key="notification.id"
+            class="notification-item"
+            :class="{ 'notification-item--unread': !notification.is_read }"
+          >
+            <div class="notification-content">
               <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
                 <span class="fw-semibold">{{ notification.title }}</span>
-                <span class="badge text-bg-light border">{{ formatType(notification.type) }}</span>
+                <span class="badge bg-secondary-subtle text-body">{{ formatType(notification.type) }}</span>
                 <span
                   v-if="!notification.is_read"
-                  class="badge text-bg-warning"
+                  class="badge bg-warning text-dark"
                 >
                   No leida
                 </span>
@@ -49,28 +68,27 @@
               </div>
               <div class="text-muted small">{{ formatDate(notification.created_at) }}</div>
             </div>
-            <div class="d-flex align-items-center gap-2">
+            <div class="notification-actions d-flex align-items-center gap-2">
               <Link
                 v-if="notification.url"
                 :href="notification.url"
-                class="btn btn-info rounded-pill"
+                class="btn btn-primary btn-sm rounded-pill"
               >
-                Ver
+                <i class="bi bi-eye me-1"></i>Ver
               </Link>
               <button
                 v-if="!notification.is_read"
                 type="button"
-                class="btn btn-secondary rounded-pill"
+                class="btn btn-outline-secondary btn-sm rounded-pill"
                 @click="markAsRead(notification)"
               >
-                Marcar leida
+                <i class="bi bi-check2 me-1"></i>Marcar leida
               </button>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="card-footer d-flex flex-wrap gap-2 align-items-center justify-content-between">
+      <div class="app-datatable__footer">
         <div class="text-muted small">
           Mostrando {{ notifications.data.length }} de {{ notifications.total }} notificaciones
         </div>
@@ -125,3 +143,45 @@ const formatDate = (value) => {
   return parsed.toLocaleString()
 }
 </script>
+
+<style scoped>
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--bs-border-color);
+  transition: background-color 0.15s;
+}
+
+.notification-item:hover {
+  background-color: var(--bs-tertiary-bg);
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item--unread {
+  background-color: var(--bs-info-bg-subtle);
+}
+
+.notification-item--unread:hover {
+  background-color: var(--bs-warning-bg-subtle);
+}
+
+.notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-actions {
+  flex-shrink: 0;
+}
+</style>

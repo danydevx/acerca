@@ -49,7 +49,7 @@
           class="rounded"
           style="width: 40px; height: 40px; object-fit: cover;"
         />
-        <div v-else class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+        <div v-else class="bg-secondary-subtle rounded d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
           <i class="bi bi-geo-alt text-muted"></i>
         </div>
       </template>

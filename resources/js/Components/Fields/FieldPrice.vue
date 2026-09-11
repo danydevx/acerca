@@ -1,6 +1,6 @@
 <template>
   <div class="form-group" :class="classObject">
-    <label :for="id" class="form-label">{{ label }} <strong v-if="required">*</strong></label>
+    <label :for="id" class="form-label">{{ label }} <span v-if="required" class="text-danger fw-bold">*</span></label>
     <input
       type="hidden"
       :name="id"

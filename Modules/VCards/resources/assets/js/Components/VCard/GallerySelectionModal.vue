@@ -161,13 +161,13 @@ async function save() {
 }
 
 .gallery-item:hover {
-  border-color: #d1d5db;
-  background: #f9fafb;
+  border-color: var(--bs-primary);
+  background: var(--bs-tertiary-bg);
 }
 
 .gallery-item--selected {
-  border-color: #3b82f6;
-  background: #eff6ff;
+  border-color: var(--bs-primary);
+  background: var(--bs-info-bg-subtle);
 }
 
 .gallery-item__images {
@@ -189,9 +189,9 @@ async function save() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f3f4f6;
+  background: var(--bs-secondary-bg);
   border-radius: 0.25rem;
-  color: #9ca3af;
+  color: var(--bs-secondary-color);
   font-size: 1.25rem;
 }
 

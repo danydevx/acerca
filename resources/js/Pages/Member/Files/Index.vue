@@ -9,21 +9,30 @@
       </div>
     </div>
 
-    <div class="card border-0 shadow-sm mb-3">
-      <div class="card-body">
-        <form class="row g-3" @submit.prevent="submit">
-          <div class="col-12 col-md-8">
-            <label class="form-label">Archivo</label>
-            <input ref="fileInput" type="file" class="form-control" @change="handleFile" />
-            <div v-if="form.errors.file" class="text-danger small mt-1">{{ form.errors.file }}</div>
-            <div class="text-muted small mt-1">
-              Max {{ maxSizeKb / 1024 }} MB · Tipos: {{ allowedTypes.join(', ') }}
+    <div class="app-datatable mb-4">
+      <div class="app-datatable__header">
+        <div>
+          <h6 class="text-uppercase text-muted mb-0 fw-normal">
+            <i class="bi bi-cloud-upload me-1"></i>Subir archivo
+          </h6>
+        </div>
+      </div>
+      <div class="app-datatable__table-wrapper">
+        <form class="p-3" @submit.prevent="submit">
+          <div class="row g-3 align-items-end">
+            <div class="col-12 col-md-8">
+              <label class="form-label">Archivo</label>
+              <input ref="fileInput" type="file" class="form-control" @change="handleFile" />
+              <div v-if="form.errors.file" class="text-danger small mt-1">{{ form.errors.file }}</div>
+              <div class="text-muted small mt-1">
+                Max {{ maxSizeKb / 1024 }} MB · Tipos: {{ allowedTypes.join(', ') }}
+              </div>
             </div>
-          </div>
-          <div class="col-12 col-md-4 d-flex align-items-end">
-            <button class="btn btn-primary rounded-pill w-100" type="submit" :disabled="form.processing">
-              {{ form.processing ? 'Subiendo...' : 'Subir archivo' }}
-            </button>
+            <div class="col-12 col-md-4">
+              <button class="btn btn-primary rounded-pill w-100" type="submit" :disabled="form.processing">
+                <i class="bi bi-cloud-upload me-1"></i>{{ form.processing ? 'Subiendo...' : 'Subir archivo' }}
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -34,10 +43,13 @@
       :columns="columns"
       :get-row-actions="getRowActions"
       empty-title="No hay archivos"
-      empty-text=""
+      empty-text="Sube tu primer archivo usando el formulario de arriba."
     >
       <template #cell-original_name="{ row }">
-        <strong>{{ row.original_name }}</strong>
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-file-earmark text-muted"></i>
+          <strong>{{ row.original_name }}</strong>
+        </div>
       </template>
       <template #cell-type="{ row }">
         <span class="text-muted">{{ row.type || '-' }}</span>

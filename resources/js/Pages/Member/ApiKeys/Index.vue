@@ -12,7 +12,7 @@
     <div v-if="plainKey" class="alert alert-warning">
       <div class="fw-semibold mb-1">Copia esta API key ahora. No volvera a mostrarse.</div>
       <div class="d-flex flex-wrap align-items-center gap-2">
-        <code class="bg-light border rounded px-2 py-1">{{ plainKey }}</code>
+        <code class="bg-secondary-subtle border rounded px-2 py-1">{{ plainKey }}</code>
         <button class="btn btn-secondary rounded-pill btn-sm" type="button" @click="copyKey">Copiar</button>
       </div>
     </div>

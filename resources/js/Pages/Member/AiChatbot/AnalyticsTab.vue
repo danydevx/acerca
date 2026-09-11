@@ -19,66 +19,60 @@
     </div>
 
     <div class="row g-4 mb-4">
-      <div class="col-6 col-md-3">
-        <div class="stat-card">
-          <div class="stat-icon bg-primary bg-opacity-10 text-primary">
-            <i class="bi bi-chat-dots"></i>
-          </div>
-          <div class="stat-value">{{ formatNumber(totals.total_conversations) }}</div>
-          <div class="stat-label">Conversaciones</div>
-        </div>
+      <div class="col-6 col-lg-4 col-xl-2">
+        <StatCard
+          icon="bi bi-chat-dots"
+          :value="formatNumber(totals.total_conversations)"
+          label="Conversaciones"
+          variant="primary"
+        />
       </div>
-      <div class="col-6 col-md-3">
-        <div class="stat-card">
-          <div class="stat-icon bg-success bg-opacity-10 text-success">
-            <i class="bi bi-chat-left-text"></i>
-          </div>
-          <div class="stat-value">{{ formatNumber(totals.total_messages) }}</div>
-          <div class="stat-label">Mensajes</div>
-        </div>
+      <div class="col-6 col-lg-4 col-xl-2">
+        <StatCard
+          icon="bi bi-chat-left-text"
+          :value="formatNumber(totals.total_messages)"
+          label="Mensajes"
+          variant="success"
+        />
       </div>
-      <div class="col-6 col-md-3">
-        <div class="stat-card">
-          <div class="stat-icon bg-warning bg-opacity-10 text-warning">
-            <i class="bi bi-lightning-charge"></i>
-          </div>
-          <div class="stat-value">{{ formatNumber(totals.total_tokens) }}</div>
-          <div class="stat-label">Tokens</div>
-        </div>
+      <div class="col-6 col-lg-4 col-xl-2">
+        <StatCard
+          icon="bi bi-lightning-charge"
+          :value="formatNumber(totals.total_tokens)"
+          label="Tokens"
+          variant="warning"
+        />
       </div>
-      <div class="col-6 col-md-3">
-        <div class="stat-card">
-          <div class="stat-icon bg-info bg-opacity-10 text-info">
-            <i class="bi bi-clock"></i>
-          </div>
-          <div class="stat-value">{{ formatLatency(totals.total_latency_ms) }}</div>
-          <div class="stat-label">Latencia prom.</div>
-        </div>
+      <div class="col-6 col-lg-4 col-xl-2">
+        <StatCard
+          icon="bi bi-clock"
+          :value="formatLatency(totals.total_latency_ms)"
+          label="Latencia prom."
+          variant="info"
+        />
       </div>
-      <div class="col-6 col-md-3">
-        <div class="stat-card">
-          <div class="stat-icon bg-secondary bg-opacity-10 text-secondary">
-            <i class="bi bi-currency-dollar"></i>
-          </div>
-          <div class="stat-value">${{ formatCost(totals.total_cost) }}</div>
-          <div class="stat-label">Costo est.</div>
-        </div>
+      <div class="col-6 col-lg-4 col-xl-2">
+        <StatCard
+          icon="bi bi-currency-dollar"
+          :value="'$' + formatCost(totals.total_cost)"
+          label="Costo est."
+          variant="secondary"
+        />
       </div>
-      <div class="col-6 col-md-3">
-        <div class="stat-card">
-          <div class="stat-icon bg-danger bg-opacity-10 text-danger">
-            <i class="bi bi-exclamation-triangle"></i>
-          </div>
-          <div class="stat-value">{{ formatNumber(totals.total_errors) }}</div>
-          <div class="stat-label">Errores</div>
-        </div>
+      <div class="col-6 col-lg-4 col-xl-2">
+        <StatCard
+          icon="bi bi-exclamation-triangle"
+          :value="formatNumber(totals.total_errors)"
+          label="Errores"
+          variant="danger"
+        />
       </div>
     </div>
 
     <div class="row g-4">
       <div class="col-lg-8">
         <div class="card border-0 shadow-sm mb-4">
-          <div class="card-header bg-white">
+          <div class="card-header bg-body-bg">
             <h6 class="mb-0">Conversaciones por dia</h6>
           </div>
           <div class="card-body">
@@ -109,7 +103,7 @@
         </div>
 
         <div class="card border-0 shadow-sm">
-          <div class="card-header bg-white">
+          <div class="card-header bg-body-bg">
             <h6 class="mb-0">Preguntas mas frecuentes</h6>
           </div>
           <div class="card-body p-0">
@@ -141,7 +135,7 @@
 
       <div class="col-lg-4">
         <div class="card border-0 shadow-sm mb-4">
-          <div class="card-header bg-white">
+          <div class="card-header bg-body-bg">
             <h6 class="mb-0">Por pais</h6>
           </div>
           <div class="card-body p-0">
@@ -168,7 +162,7 @@
         </div>
 
         <div class="card border-0 shadow-sm">
-          <div class="card-header bg-white">
+          <div class="card-header bg-body-bg">
             <h6 class="mb-0">Por dispositivo</h6>
           </div>
           <div class="card-body">
@@ -205,6 +199,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import StatCard from '@/Components/Chatbot/StatCard.vue'
 
 const props = defineProps({
   business: Object,
@@ -310,13 +305,13 @@ const getDevicePercent = (count) => {
     .stat-value {
       font-size: 1.75rem;
       font-weight: 700;
-      color: #212529;
+      color: var(--bs-body-color);
       line-height: 1;
     }
 
     .stat-label {
       font-size: 0.875rem;
-      color: #6c757d;
+      color: var(--bs-secondary-color);
       margin-top: 4px;
     }
   }
@@ -348,7 +343,7 @@ const getDevicePercent = (count) => {
   .chart-bar {
     width: 100%;
     max-width: 30px;
-    background: #3B82F6;
+    background: var(--bs-primary);
     border-radius: 4px 4px 0 0;
     min-height: 4px;
     transition: height 0.3s ease;
@@ -356,7 +351,7 @@ const getDevicePercent = (count) => {
 
   .chart-label {
     font-size: 0.65rem;
-    color: #6c757d;
+    color: var(--bs-secondary-color);
     margin-top: 4px;
     white-space: nowrap;
   }
@@ -375,11 +370,11 @@ const getDevicePercent = (count) => {
   .device-stats {
     .device-item {
       .progress {
-        background: #e9ecef;
+        background: var(--bs-secondary-bg);
       }
 
       .progress-bar {
-        background: #3B82F6;
+        background: var(--bs-primary);
       }
     }
   }

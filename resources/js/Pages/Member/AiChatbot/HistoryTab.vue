@@ -240,13 +240,13 @@ defineExpose({
   .message-item {
     &.user {
       .message-content {
-        background: #e7f1ff;
+        background: var(--bs-info-bg-subtle);
       }
     }
 
     &.assistant {
       .message-content {
-        background: #f0f9f0;
+        background: var(--bs-success-bg-subtle);
       }
     }
 

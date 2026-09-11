@@ -123,7 +123,7 @@
                   <span v-if="variant.price" class="text-muted">${{ variant.price }}</span>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                  <button type="button" class="btn btn-danger rounded-pill" @click.stop="removeVariant(index)">
+                  <button type="button" class="btn btn-outline-danger rounded-pill" @click.stop="removeVariant(index)">
                     <i class="bi bi-trash"></i>
                   </button>
                   <i :class="isVariantExpanded(index) ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
@@ -156,7 +156,7 @@
       </fieldset>
 
       <div class="card-footer bg-transparent border-top pt-3 pb-3 d-flex justify-content-between align-items-center">
-        <button type="button" class="btn btn-danger rounded-pill py-2" @click="deleteProduct">
+        <button type="button" class="btn btn-outline-danger rounded-pill py-2" @click="deleteProduct">
           <i class="bi bi-trash me-1"></i>Eliminar
         </button>
             <FormActions
@@ -402,7 +402,7 @@ onMounted(() => {
 }
 
 .variant-header:hover {
-  background-color: #f8f9fa;
+  background-color: var(--bs-tertiary-bg);
 }
 
 .variant-drag-handle:active {
@@ -411,12 +411,12 @@ onMounted(() => {
 
 .sortable-ghost {
   opacity: 0.4;
-  background: #e9ecef;
+  background: var(--bs-secondary-bg);
 }
 
 .sortable-drag {
   opacity: 0.8;
-  background: white;
+  background: var(--bs-body-bg);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 </style>

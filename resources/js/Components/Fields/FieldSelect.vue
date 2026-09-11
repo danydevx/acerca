@@ -19,7 +19,7 @@
           <slot></slot>
         </template>
       </select>
-      <label :for="id">{{ label }} <strong v-if="required">*</strong></label>
+      <label :for="id">{{ label }} <span v-if="required" class="text-danger fw-bold">*</span></label>
       <div v-if="(showValidation && validationMessage) || formError" class="invalid-feedback">
         {{ formError || validationMessage }}
       </div>

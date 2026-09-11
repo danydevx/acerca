@@ -1,5 +1,5 @@
 <template>
-  <div class="calendar-wrapper is-light-mode" style="min-height: 600px;">
+  <div class="calendar-wrapper" :class="isDarkMode ? 'is-dark-mode' : 'is-light-mode'" style="min-height: 600px;">
     <div class="calendar-toolbar mb-3">
       <div class="d-flex gap-2">
         <select v-model="currentLocation" class="form-select form-select-sm" style="width: auto;">
@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { Qalendar } from 'qalendar'
 
 const props = defineProps({
@@ -62,6 +62,23 @@ const emit = defineEmits(['reschedule', 'create', 'edit'])
 const currentLocation = ref(null)
 const currentService = ref(null)
 const currentStatus = ref(null)
+
+const isDarkMode = ref(document.documentElement.getAttribute('data-bs-theme') === 'dark')
+
+let themeObserver = null
+
+onMounted(() => {
+  themeObserver = new MutationObserver(() => {
+    isDarkMode.value = document.documentElement.getAttribute('data-bs-theme') === 'dark'
+  })
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-bs-theme'] })
+})
+
+onUnmounted(() => {
+  if (themeObserver) {
+    themeObserver.disconnect()
+  }
+})
 
 const statusColors = {
   pending: 'yellow',
@@ -263,5 +280,18 @@ const calendarConfig = {
 :deep(.qalendar__day--selected .qalendar__day__content--has-events),
 :deep(.qalendar__day--focused .qalendar__day__content--has-events) {
   background-color: rgba(13, 110, 253, 0.15) !important;
+}
+</style>
+
+<style>
+[data-bs-theme="dark"] .calendar-wrapper {
+  background: var(--bs-body-bg);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+}
+
+[data-bs-theme="dark"] .calendar-toolbar .form-select {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border-color: var(--bs-border-color);
 }
 </style>

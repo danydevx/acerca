@@ -19,7 +19,7 @@
     <div class="analytics-settings-page">
       <form @submit.prevent="submitForm">
         <div class="card border-0 shadow-sm mb-4">
-          <div class="card-header bg-white py-3">
+          <div class="card-header bg-body-bg py-3">
             <h6 class="mb-0 text-uppercase small">General</h6>
           </div>
           <div class="card-body">
@@ -44,7 +44,7 @@
         </div>
 
         <div class="card border-0 shadow-sm mb-4">
-          <div class="card-header bg-white py-3">
+          <div class="card-header bg-body-bg py-3">
             <h6 class="mb-0 text-uppercase small">Qué Registrar</h6>
           </div>
           <div class="card-body">
@@ -136,7 +136,7 @@
         </div>
 
         <div class="card border-0 shadow-sm mb-4">
-          <div class="card-header bg-white py-3">
+          <div class="card-header bg-body-bg py-3">
             <h6 class="mb-0 text-uppercase small">Privacidad</h6>
           </div>
           <div class="card-body">
@@ -174,7 +174,7 @@
         </div>
 
         <div class="card border-0 shadow-sm mb-4">
-          <div class="card-header bg-white py-3">
+          <div class="card-header bg-body-bg py-3">
             <h6 class="mb-0 text-uppercase small">Sesión y Retención</h6>
           </div>
           <div class="card-body">

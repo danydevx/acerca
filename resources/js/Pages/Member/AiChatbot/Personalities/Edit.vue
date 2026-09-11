@@ -25,80 +25,98 @@
     <form v-if="personality" @submit.prevent="submit">
       <div class="row g-3">
         <div class="col-lg-8">
-          <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-white py-3">
-              <h5 class="mb-0">Información General</h5>
+          <div class="card border-0 shadow-sm mb-4 bg-body-bg">
+            <div class="card-header bg-transparent border-bottom pb-2 pt-2">
+              <h6 class="text-uppercase text-muted mb-0 fw-normal">
+                <i class="bi bi-person-gear me-1"></i>Información General
+              </h6>
             </div>
             <div class="card-body">
-              <FieldText
-                id="personality-key"
-                label="Key"
-                v-model="form.key"
-                required
-              />
-
-              <FieldText
-                id="personality-display-name"
-                label="Nombre para Mostrar"
-                v-model="form.display_name"
-                required
-              />
-
-              <FieldTextarea
-                id="personality-description"
-                label="Descripción"
-                v-model="form.description"
-                :rows="2"
-              />
-
-              <FieldTextarea
-                id="personality-system-prompt-hint"
-                label="Hint para System Prompt"
-                v-model="form.system_prompt_hint"
-                :rows="3"
-              />
+              <div class="row g-3 mb-3">
+                <div class="col-12">
+                  <FieldText
+                    id="personality-key"
+                    label="Key"
+                    v-model="form.key"
+                    required
+                  />
+                </div>
+                <div class="col-12">
+                  <FieldText
+                    id="personality-display-name"
+                    label="Nombre para Mostrar"
+                    v-model="form.display_name"
+                    required
+                  />
+                </div>
+                <div class="col-12">
+                  <FieldTextarea
+                    id="personality-description"
+                    label="Descripción"
+                    v-model="form.description"
+                    :rows="2"
+                  />
+                </div>
+                <div class="col-12">
+                  <FieldTextarea
+                    id="personality-system-prompt-hint"
+                    label="Hint para System Prompt"
+                    v-model="form.system_prompt_hint"
+                    :rows="3"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="col-lg-4">
-          <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-white py-3">
-              <h5 class="mb-0">Configuración</h5>
+          <div class="card border-0 shadow-sm mb-4 bg-body-bg">
+            <div class="card-header bg-transparent border-bottom pb-2 pt-2">
+              <h6 class="text-uppercase text-muted mb-0 fw-normal">
+                <i class="bi bi-gear me-1"></i>Configuración
+              </h6>
             </div>
             <div class="card-body">
-              <FieldNumber
-                id="personality-temperature"
-                label="Temperatura por Defecto"
-                v-model="form.default_temperature"
-                :min="0"
-                :max="1"
-                :step="0.05"
-              />
-
-              <FieldSelect
-                id="personality-response-length"
-                label="Longitud de Respuesta por Defecto"
-                v-model="form.default_response_length"
-                :options="[
-                  { value: 'short', label: 'Corta' },
-                  { value: 'medium', label: 'Media' },
-                  { value: 'long', label: 'Larga' }
-                ]"
-              />
-
-              <FieldNumber
-                id="personality-sort-order"
-                label="Orden"
-                v-model="form.sort_order"
-                :min="0"
-              />
-
-              <FieldSwitch
-                id="personality-active"
-                label="Activa"
-                v-model="form.is_active"
-              />
+              <div class="row g-3 mb-3">
+                <div class="col-12">
+                  <FieldNumber
+                    id="personality-temperature"
+                    label="Temperatura por Defecto"
+                    v-model="form.default_temperature"
+                    :min="0"
+                    :max="1"
+                    :step="0.05"
+                  />
+                </div>
+                <div class="col-12">
+                  <FieldSelect
+                    id="personality-response-length"
+                    label="Longitud de Respuesta por Defecto"
+                    v-model="form.default_response_length"
+                    :options="[
+                      { value: 'short', label: 'Corta' },
+                      { value: 'medium', label: 'Media' },
+                      { value: 'long', label: 'Larga' }
+                    ]"
+                  />
+                </div>
+                <div class="col-12">
+                  <FieldNumber
+                    id="personality-sort-order"
+                    label="Orden"
+                    v-model="form.sort_order"
+                    :min="0"
+                  />
+                </div>
+                <div class="col-12">
+                  <FieldSwitch
+                    id="personality-active"
+                    label="Activa"
+                    v-model="form.is_active"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 

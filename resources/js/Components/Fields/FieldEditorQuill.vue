@@ -3,7 +3,7 @@
 
     <!-- Label -->
     <label :for="id" class="form-label">
-      {{ label }} <strong v-if="required">*</strong>
+      {{ label }} <span v-if="required" class="text-danger fw-bold">*</span>
     </label>
 
     <!-- Editor contenedor -->

@@ -169,11 +169,11 @@ onBeforeUnmount(() => {
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  background: #f5f5f5;
+  background: var(--bs-tertiary-bg);
   border-radius: 8px;
 }
 
 .image-position-circle {
-  background: #e5e7eb;
+  background: var(--bs-secondary-bg);
 }
 </style>

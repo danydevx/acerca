@@ -32,7 +32,7 @@
         <div class="card border-0 shadow-sm h-100">
           <div class="card-body">
             <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="badge text-bg-light border">{{ article.category || 'General' }}</span>
+              <span class="badge text-bg-secondary-subtle border">{{ article.category || 'General' }}</span>
               <span class="text-muted small">{{ article.published_at || '-' }}</span>
             </div>
             <h2 class="h5 mb-2">{{ article.title }}</h2>

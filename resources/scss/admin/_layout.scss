@@ -1,0 +1,318 @@
+// =============================================
+// LAYOUT — Admin & Member Panels
+// =============================================
+
+// --- Admin Layout ---
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+
+    .sidebar {
+        width: $sidebar-width;
+        background: $sidebar-bg;
+        color: var(--bs-body-color);
+        position: fixed;
+        height: 100vh;
+        overflow-y: auto;
+
+        @include media-mobile {
+            display: none;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+            h3 {
+                margin: 0;
+                font-size: 1.25rem;
+                font-weight: 600;
+            }
+
+            .business-name {
+                font-size: 0.875rem;
+                opacity: 0.7;
+                margin-top: 0.25rem;
+            }
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+
+            .nav-item {
+                a {
+                    display: flex;
+                    align-items: center;
+                    padding: 0.75rem 1.5rem;
+                    color: rgba(255, 255, 255, 0.8);
+                    text-decoration: none;
+                    transition: all 0.2s;
+
+                    i {
+                        margin-right: 0.75rem;
+                        width: 20px;
+                    }
+
+                    &:hover,
+                    &.active {
+                        background: rgba(255, 255, 255, 0.1);
+                        color: var(--bs-body-color);
+                    }
+
+                    &.active {
+                        border-left: 3px solid $color-accent;
+                    }
+                }
+            }
+        }
+    }
+
+    .main-content {
+        flex: 1;
+        margin-left: $sidebar-width;
+        background: var(--bs-tertiary-bg);
+
+        @include media-mobile {
+            margin-left: 0;
+        }
+
+        .topbar {
+            background: var(--bs-body-bg);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--bs-border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: $topbar-height;
+
+            .page-title {
+                font-size: 1.5rem;
+                font-weight: 600;
+                margin: 0;
+            }
+
+            .topbar-actions {
+                display: flex;
+                gap: 0.5rem;
+            }
+        }
+
+        .page-content {
+            padding: 1.5rem;
+        }
+    }
+}
+
+// --- Public Site Layout (minisites) ---
+.public-site {
+    min-height: 100vh;
+    background: var(--brand-background);
+    color: var(--brand-text);
+
+    .site-header {
+        background: var(--brand-primary);
+        color: var(--bs-body-color);
+        padding: 1rem;
+
+        .business-logo {
+            max-height: 60px;
+            border-radius: $border-radius;
+        }
+
+        .business-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+    }
+
+    .site-hero {
+        background: var(--brand-primary);
+        color: var(--bs-body-color);
+        padding: 3rem 1rem;
+        text-align: center;
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+    }
+
+    .site-btn-primary {
+        background: var(--brand-primary);
+        border-color: var(--brand-primary);
+        color: var(--bs-body-color);
+        padding: 0.75rem 1.5rem;
+        border-radius: $border-radius;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s;
+
+        &:hover {
+            opacity: 0.9;
+            color: var(--bs-body-color);
+        }
+    }
+
+    .site-btn-secondary {
+        background: transparent;
+        border: 2px solid var(--brand-primary);
+        color: var(--brand-primary);
+        padding: 0.75rem 1.5rem;
+        border-radius: $border-radius;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s;
+
+        &:hover {
+            background: var(--brand-primary);
+            color: var(--bs-body-color);
+        }
+    }
+
+    .site-section {
+        padding: 2rem 1rem;
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--brand-primary);
+            text-align: center;
+        }
+    }
+
+    .service-card,
+    .product-card {
+        background: var(--bs-body-bg);
+        border: 1px solid var(--bs-border-color);
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        transition: all 0.2s;
+
+        &:hover {
+            box-shadow: $box-shadow-lg;
+        }
+
+        h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--brand-primary);
+        }
+
+        .duration {
+            font-size: 0.875rem;
+            color: var(--bs-secondary-color);
+        }
+    }
+
+    .review-card {
+        background: var(--bs-body-bg);
+        border: 1px solid var(--bs-border-color);
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+
+            .customer-name {
+                font-weight: 600;
+            }
+
+            .rating {
+                color: var(--bs-warning);
+            }
+        }
+
+        .comment {
+            color: var(--bs-secondary-color);
+        }
+    }
+
+    .site-footer {
+        background: var(--brand-primary);
+        color: var(--bs-body-color);
+        padding: 2rem 1rem;
+        text-align: center;
+
+        .powered-by {
+            font-size: 0.875rem;
+            opacity: 0.7;
+        }
+    }
+}
+
+// --- Booking Flow ---
+.booking-flow {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+
+    .step-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+
+        .step {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--bs-border-color);
+            margin: 0 0.25rem;
+
+            &.active {
+                background: var(--brand-primary);
+            }
+
+            &.completed {
+                background: $success;
+            }
+        }
+    }
+
+    .service-option,
+    .time-slot {
+        background: var(--bs-body-bg);
+        border: 2px solid var(--bs-border-color);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            border-color: var(--brand-primary);
+        }
+
+        &.selected {
+            border-color: var(--brand-primary);
+            background: var(--bs-primary-bg-subtle);
+        }
+    }
+
+    .time-slot {
+        display: inline-block;
+        margin: 0.25rem;
+        min-width: 70px;
+        text-align: center;
+    }
+}

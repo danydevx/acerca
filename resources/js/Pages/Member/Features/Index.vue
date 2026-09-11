@@ -63,7 +63,7 @@
                     <div class="drag-handle text-muted cursor-move">
                       <i class="bi bi-grip-vertical"></i>
                     </div>
-                    <div class="bg-light rounded d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
+                    <div class="bg-secondary-subtle rounded d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px;">
                       <i :class="bf.feature_icon || 'bi bi-check'" style="font-size: 14px;"></i>
                     </div>
                     <div class="min-width-0">
@@ -248,7 +248,7 @@
                 </option>
               </select>
             </div>
-            <div v-if="selectedCategoryFeatures.length > 0" class="border rounded p-3 bg-light">
+            <div v-if="selectedCategoryFeatures.length > 0" class="border rounded p-3 bg-secondary-subtle">
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <span class="fw-semibold">Features disponibles</span>
                 <div class="form-check">

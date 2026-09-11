@@ -1,0 +1,368 @@
+// =============================================
+// DATATABLE — Admin & Member Panels
+// =============================================
+
+.app-datatable {
+    background: var(--bs-body-bg);
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+
+    &__header {
+        padding: 1rem;
+        border-bottom: 1px solid $gray-200;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    &__search-wrapper {
+        flex: 1;
+        min-width: 200px;
+        max-width: 400px;
+    }
+
+    &__search {
+        position: relative;
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $gray-400;
+            pointer-events: none;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+            border: 1px solid $gray-300;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            transition: border-color 0.15s, box-shadow 0.15s;
+
+            &:focus {
+                outline: none;
+                border-color: $color-accent;
+                box-shadow: 0 0 0 3px rgba($color-accent, 0.1);
+            }
+
+            &::placeholder {
+                color: $gray-400;
+            }
+        }
+    }
+
+    &__controls {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    &__table-wrapper {
+        min-height: 60vh;
+
+        @include media-mobile {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+
+        thead {
+            background: var(--bs-table-bg);
+
+            th {
+                padding: 0.75rem 1rem;
+                text-align: left;
+                font-weight: 600;
+                color: var(--bs-emphasis-color);
+                border-bottom: 1px solid var(--bs-border-color);
+                white-space: nowrap;
+                text-transform: uppercase;
+                font-size: 0.75rem;
+                letter-spacing: 0.05em;
+
+                &.sortable {
+                    cursor: pointer;
+                    user-select: none;
+                    transition: background-color 0.15s;
+
+                    &:hover {
+                        background: var(--bs-table-hover-bg);
+                    }
+                }
+
+                &.sorted {
+                    color: $color-accent;
+                }
+
+                .sort-icon {
+                    margin-left: 0.25rem;
+                    opacity: 0.5;
+
+                    &.active {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                transition: background-color 0.15s;
+
+                &:hover {
+                    background: var(--bs-table-hover-bg);
+                }
+
+                &:last-child td {
+                    border-bottom: none;
+                }
+            }
+
+            td {
+                padding: 0.75rem 1rem;
+                border-bottom: 1px solid var(--bs-border-color);
+                color: var(--bs-body-color);
+                vertical-align: middle;
+            }
+        }
+    }
+
+    &__empty {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--bs-secondary-color);
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--bs-emphasis-color);
+        }
+
+        .empty-text {
+            font-size: 0.875rem;
+        }
+    }
+
+    &__loading {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--bs-secondary-color);
+
+        .spinner {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            border: 2px solid var(--bs-border-color);
+            border-top-color: $color-accent;
+            border-radius: 50%;
+            animation: app-datatable-spin 0.8s linear infinite;
+            margin-bottom: 1rem;
+        }
+    }
+
+    &__footer {
+        padding: 1rem;
+        border-top: 1px solid var(--bs-border-color);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+
+        @include media-mobile {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+
+    &__info {
+        font-size: 0.875rem;
+        color: var(--bs-secondary-color);
+
+        @include media-mobile {
+            text-align: center;
+        }
+    }
+
+    &__pagination {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        @include media-mobile {
+            justify-content: center;
+        }
+    }
+
+    &__per-page {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--bs-secondary-color);
+
+        select {
+            padding: 0.25rem 0.5rem;
+            border: 1px solid var(--bs-border-color);
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            background: var(--bs-body-bg);
+            cursor: pointer;
+
+            &:focus {
+                outline: none;
+                border-color: $color-accent;
+            }
+        }
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.35em 0.65em;
+        font-size: 0.7rem;
+        font-weight: 600;
+        border-radius: 9999px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+
+        &.bg-success,
+        &.bg-active {
+            background-color: $success;
+            color: $color-white;
+        }
+
+        &.bg-secondary,
+        &.bg-inactive {
+            background-color: $secondary;
+            color: $color-white;
+        }
+
+        &.bg-warning,
+        &.bg-pending {
+            background-color: $warning;
+            color: $color-white;
+        }
+
+        &.bg-danger,
+        &.bg-error {
+            background-color: $danger;
+            color: $color-white;
+        }
+
+        &.bg-info {
+            background-color: $info;
+            color: $color-white;
+        }
+
+        &.bg-light {
+            background-color: $gray-200;
+            color: $gray-700;
+        }
+
+        &.bg-dark {
+            background-color: $gray-800;
+            color: $color-white;
+        }
+
+        &.bg-primary {
+            background-color: $color-accent;
+            color: $color-white;
+        }
+    }
+
+    .actions {
+        display: flex;
+        gap: 0.25rem;
+        white-space: nowrap;
+        justify-content: flex-end;
+    }
+
+    .actions-header {
+        text-align: center;
+        width: 120px;
+    }
+
+    td:last-child {
+        overflow: visible;
+    }
+
+    &__table {
+        &--reorderable {
+            tbody tr {
+                cursor: default;
+            }
+        }
+    }
+
+    &__drag-column {
+        width: 40px;
+        background: var(--bs-table-bg);
+    }
+
+    &__drag-cell {
+        background: var(--bs-table-bg);
+        width: 40px;
+        text-align: center;
+        cursor: grab;
+        user-select: none;
+    }
+
+    &__drag-handle {
+        cursor: grab;
+        color: var(--bs-secondary-color);
+        font-size: 1.1rem;
+
+        &:hover {
+            color: var(--bs-emphasis-color);
+        }
+
+        &:active {
+            cursor: grabbing;
+        }
+    }
+
+    &__row-ghost {
+        opacity: 0.4;
+        background: var(--bs-table-hover-bg);
+    }
+
+    &__row-chosen {
+        background: var(--bs-table-hover-bg);
+    }
+
+    &__row-drag {
+        background: var(--bs-body-bg);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+}
+
+// Dark mode table glow
+[data-bs-theme="dark"] {
+    .app-datatable {
+        box-shadow: 0 0 8px rgba(143, 98, 247, 0.1);
+        border: 1px solid rgba(143, 98, 247, 0.2);
+    }
+}
+
+@keyframes app-datatable-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

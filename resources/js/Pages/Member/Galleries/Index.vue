@@ -23,7 +23,7 @@
       <div class="row g-3">
         <div v-for="gallery in galleries" :key="gallery.id" class="col-12 col-md-6 col-lg-4">
           <div class="card h-100">
-            <div v-if="gallery.thumbnails && gallery.thumbnails.length > 0" class="card-img-top d-flex gap-1 p-2" style="background: #f8f9fa; max-height: 120px;">
+            <div v-if="gallery.thumbnails && gallery.thumbnails.length > 0" class="card-img-top d-flex gap-1 p-2" style="background: var(--bs-tertiary-bg); max-height: 120px;">
               <img
                 v-for="(thumb, idx) in gallery.thumbnails.slice(0, 4)"
                 :key="thumb.id"
@@ -32,7 +32,7 @@
                 style="width: 80px; height: 80px;"
                 :alt="gallery.name"
               />
-              <span v-if="gallery.images_count > 4" class="d-flex align-items-center justify-content-center text-muted small bg-light rounded" style="width: 80px; height: 80px;">
+              <span v-if="gallery.images_count > 4" class="d-flex align-items-center justify-content-center text-muted small bg-secondary-subtle rounded" style="width: 80px; height: 80px;">
                 +{{ gallery.images_count - 4 }}
               </span>
             </div>

@@ -276,7 +276,7 @@ const formatLabel = (key) => {
 
 <style scoped>
 .stat-card {
-  background: #f8f9fa;
+  background: var(--bs-tertiary-bg);
   border-radius: 8px;
   padding: 16px;
   text-align: center;
@@ -290,18 +290,18 @@ const formatLabel = (key) => {
 .stat-card.clickable:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background: #e9ecef;
+  background: var(--bs-secondary-bg);
 }
 
 .stat-value {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #212529;
+  color: var(--bs-body-color);
 }
 
 .stat-label {
   font-size: 0.875rem;
-  color: #6c757d;
+  color: var(--bs-secondary-color);
   margin-top: 4px;
 }
 

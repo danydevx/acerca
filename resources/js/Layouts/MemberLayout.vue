@@ -4,7 +4,6 @@
       <div class="sidebar-header p-3 border-bottom border-secondary d-flex align-items-center justify-content-between">
         <Link href="/member" class="text-white text-decoration-none fw-semibold">
           <span :class="{ 'd-none': sidebarCollapsed }">Acerca.site</span>
-          <i v-if="sidebarCollapsed" class="bi bi-house"></i>
         </Link>
         <button
           class="btn btn-link text-white p-0 d-none d-lg-block"
@@ -363,16 +362,26 @@
           <slot name="topbar" />
         </div>
         <div class="d-flex align-items-center gap-2">
+          <button
+            class="btn btn-secondary btn-sm"
+            type="button"
+            @click="toggleTheme"
+            :title="isDarkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+          >
+            <i class="bi" :class="isDarkMode ? 'bi-sun' : 'bi-moon'"></i>
+          </button>
           <div class="dropdown">
             <button
-              class="btn btn-secondary btn-sm dropdown-toggle"
+              class="btn btn-secondary btn-sm dropdown-toggle d-flex align-items-center"
               type="button"
               data-bs-toggle="dropdown"
             >
-              <i class="bi bi-person-circle me-1"></i>
-              <span class="d-none d-sm-inline">{{ userName }}</span>
+              <i class="bi bi-person"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <Link href="/member/preferences" class="dropdown-item" prefetch="hover">Preferencias</Link>
+              </li>
               <li>
                 <Link href="/member/profile" class="dropdown-item" prefetch="hover">Perfil</Link>
               </li>
@@ -604,6 +613,14 @@ const fidelitySubmenuOpen = ref(false)
 const vcardSubmenuOpen = ref(false)
 const sidebarCollapsed = ref(localStorage.getItem('sidebarCollapsed') === 'true')
 
+const isDarkMode = ref(document.documentElement.getAttribute('data-bs-theme') === 'dark')
+
+const toggleTheme = () => {
+  isDarkMode.value = !isDarkMode.value
+  document.documentElement.setAttribute('data-bs-theme', isDarkMode.value ? 'dark' : 'light')
+  localStorage.setItem('theme', isDarkMode.value ? 'dark' : 'light')
+}
+
 const toggleSidebar = () => {
   sidebarCollapsed.value = !sidebarCollapsed.value
   localStorage.setItem('sidebarCollapsed', sidebarCollapsed.value)
@@ -642,6 +659,11 @@ const checkAndOpenSubmenu = (path) => {
 
 onMounted(() => {
   checkAndOpenSubmenu(window.location.pathname)
+  const savedTheme = localStorage.getItem('theme')
+  if (savedTheme) {
+    isDarkMode.value = savedTheme === 'dark'
+    document.documentElement.setAttribute('data-bs-theme', savedTheme)
+  }
 })
 
 const toggleBusinessesMenu = () => {
@@ -790,7 +812,7 @@ const alertClass = (type, priority) => {
   display: flex;
   min-height: 100vh;
   font-family: 'DM Sans', sans-serif;
-  background-color: #f8f9fa;
+  background-color: var(--bs-body-bg);
 }
 
 .sidebar {
@@ -932,7 +954,7 @@ const alertClass = (type, priority) => {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: #ffffff;
+  background-color: var(--bs-body-bg);
 }
 
 .offcanvas {

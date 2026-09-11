@@ -133,7 +133,7 @@
               v-model="form.features"
               item-key="index"
               handle=".drag-handle"
-              ghost-class="bg-light"
+              ghost-class="bg-secondary-subtle"
             >
               <template #item="{ element, index }">
                 <div class="d-flex align-items-center gap-2 mb-2">

@@ -15,7 +15,7 @@
     </PageHeader>
 
     <div class="card border-0 shadow-sm mb-4">
-      <div class="card-header bg-white">
+      <div class="card-header bg-body-bg">
         <h5 class="mb-0">Agregar invitado</h5>
       </div>
       <div class="card-body">

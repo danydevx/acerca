@@ -69,7 +69,7 @@
           class="rounded"
           style="width: 48px; height: 48px; object-fit: cover;"
         />
-        <div v-else class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+        <div v-else class="bg-secondary-subtle rounded d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
           <i class="bi bi-image text-muted"></i>
         </div>
       </template>
@@ -78,7 +78,7 @@
         <strong>{{ row.title }}</strong>
         <p v-if="row.description" class="text-muted small mb-0">{{ row.description.substring(0, 60) }}...</p>
         <div v-if="row.tags && row.tags.length" class="mt-1">
-          <span v-for="tag in row.tags.slice(0, 3)" :key="tag" class="badge bg-light text-dark me-1" style="font-size: 0.65rem;">{{ tag }}</span>
+          <span v-for="tag in row.tags.slice(0, 3)" :key="tag" class="badge bg-secondary-subtle text-dark me-1" style="font-size: 0.65rem;">{{ tag }}</span>
           <span v-if="row.tags.length > 3" class="badge bg-secondary" style="font-size: 0.65rem;">+{{ row.tags.length - 3 }}</span>
         </div>
       </template>

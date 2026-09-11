@@ -13,7 +13,7 @@
             autocomplete="new-password"
             :required="required"
           />
-          <label :for="id">{{ label }} <strong v-if="required">*</strong></label>
+          <label :for="id">{{ label }} <span v-if="required" class="text-danger fw-bold">*</span></label>
           <button
             type="button"
             class="btn btn-link password-visibility position-absolute"

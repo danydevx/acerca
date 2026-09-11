@@ -256,18 +256,18 @@
           <div class="card-body">
             <h2 class="h6">Documentacion basica</h2>
             <p class="text-muted">Autenticacion API mediante header Bearer.</p>
-            <pre class="bg-light border rounded p-3"><code>curl {{ apiBase }}/api/me \
+            <pre class="bg-secondary-subtle border rounded p-3"><code>curl {{ apiBase }}/api/me \
   -H "Authorization: Bearer YOUR_API_KEY"</code></pre>
 
             <p class="text-muted">Ejemplo de respuesta:</p>
-            <pre class="bg-light border rounded p-3"><code>{
+            <pre class="bg-secondary-subtle border rounded p-3"><code>{
   "id": 10,
   "name": "Juan Perez",
   "email": "juan@email.com"
 }</code></pre>
 
             <p class="text-muted">Eventos webhook:</p>
-            <pre class="bg-light border rounded p-3"><code>{
+            <pre class="bg-secondary-subtle border rounded p-3"><code>{
   "event": "payment.succeeded",
   "data": {
     "...": "..."
@@ -275,7 +275,7 @@
 }</code></pre>
 
             <p class="text-muted">Firma webhook:</p>
-            <pre class="bg-light border rounded p-3"><code>X-Signature: hmac_sha256(secret, payload)</code></pre>
+            <pre class="bg-secondary-subtle border rounded p-3"><code>X-Signature: hmac_sha256(secret, payload)</code></pre>
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue'
-import less from 'less'
 
 export default defineConfig({
     resolve: {
@@ -11,13 +10,13 @@ export default defineConfig({
     },
     plugins: [
         laravel({
-            input: ['resources/less/admin.less', 
-            'resources/less/minisite.less', 
-            'resources/less/directory.less', 
-            'resources/js/app.js', 
-             'resources/less/app.less',
-            'resources/js/minisite.js', 
-            'resources/js/minisite-orp.js', 
+            input: ['resources/scss/admin/admin.scss',
+            'resources/less/minisite.less',
+            'resources/less/directory.less',
+            'resources/js/app.js',
+            'resources/scss/admin/app.scss',
+            'resources/js/minisite.js',
+            'resources/js/minisite-orp.js',
             'resources/js/booking-widget.js',
             'resources/less/orp-ui/orp-ui.less',
             'resources/js/frontend.js',
@@ -32,13 +31,6 @@ export default defineConfig({
             }
         }),
     ],
-    css: {
-        preprocessorOptions: {
-            less: {
-                javascriptEnabled: true,
-            }
-        }
-    },
     server: {
          host: 'acerca.local',
             port: 5173,

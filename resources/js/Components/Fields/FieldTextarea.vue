@@ -18,7 +18,7 @@
 
       <label :for="id">
         {{ label }}
-        <strong v-if="required">*</strong>
+        <span v-if="required" class="text-danger fw-bold">*</span>
       </label>
 
       <!-- Texto ayuda + contador (solo si maxLength) -->

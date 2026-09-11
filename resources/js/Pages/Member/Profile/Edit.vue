@@ -222,11 +222,11 @@ const submit = () => {
 .avatar-placeholder {
   width: 120px;
   height: 120px;
-  background-color: #e9ecef;
+  background-color: var(--bs-secondary-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #adb5bd;
+  color: var(--bs-secondary-color);
   margin: 0 auto;
 }
 </style>

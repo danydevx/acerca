@@ -142,7 +142,7 @@ const getDayName = (dateStr) => {
 
 <style scoped>
 .exception-dates-list {
-  background: white;
+  background: var(--bs-body-bg);
   padding: 1rem;
   border-radius: 0.5rem;
 }

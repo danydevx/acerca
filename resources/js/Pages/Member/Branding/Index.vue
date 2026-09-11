@@ -262,10 +262,10 @@
                 </div>
 
                 <div class="col-12">
-                  <div class="card bg-light">
+                  <div class="card bg-secondary-subtle">
                     <div class="card-body">
                       <h6 class="card-title">Vista Previa de Fuentes</h6>
-                      <div class="p-3 border rounded bg-white">
+                      <div class="p-3 border rounded bg-body-bg">
                         <h4 :style="{ fontFamily: getFontFamily(form.fonts.heading) }">Encabezado H4</h4>
                         <p class="mb-2" :style="{ fontFamily: getFontFamily(form.fonts.body) }">
                           Este es un parrafo de ejemplo. El cuerpo de texto se muestra asi.
