@@ -1,5 +1,5 @@
 {
-    "name": "Listing Packages",
+    "name": "ListingPackages",
     "alias": "listingpackages",
     "description": "Module for managing business packages with features",
     "version": "1.0.0",

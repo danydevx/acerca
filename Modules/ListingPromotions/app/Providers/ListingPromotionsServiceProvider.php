@@ -3,15 +3,22 @@
 namespace Modules\ListingPromotions\Providers;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
+use Nwidart\Modules\Support\ModuleServiceProvider;
 use Modules\ListingPromotions\Models\ListingPromotion;
 use Modules\ListingPromotions\Policies\ListingPromotionPolicy;
 
-class ListingPromotionsServiceProvider extends ServiceProvider
+class ListingPromotionsServiceProvider extends ModuleServiceProvider
 {
+    protected string $name = 'ListingPromotions';
+    protected string $nameLower = 'listingpromotions';
+
+    protected array $providers = [
+        RouteServiceProvider::class,
+    ];
+
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+        parent::boot();
         $this->registerPolicies();
     }
 

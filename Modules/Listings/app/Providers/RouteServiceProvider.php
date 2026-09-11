@@ -26,6 +26,12 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
         $this->mapWebRoutes();
+        $this->mapMemberRoutes();
+    }
+
+    protected function mapMemberRoutes(): void
+    {
+        Route::middleware(['web', 'auth'])->group(module_path($this->name, '/routes/member.php'));
     }
 
     /**

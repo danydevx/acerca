@@ -2,6 +2,7 @@
 
 namespace Modules\ListingGallery\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -31,6 +32,11 @@ class ListingGalleryImage extends Model
         'sort_order' => 'integer',
         'is_active' => 'boolean',
     ];
+
+    public function scopeForListing(Builder $query, int $listingId): Builder
+    {
+        return $query->where('listing_id', $listingId);
+    }
 
     public function listing(): BelongsTo
     {

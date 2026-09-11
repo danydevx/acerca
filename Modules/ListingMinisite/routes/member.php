@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\ListingMinisite\Http\Controllers\Member\ListingMinisiteController;
 use Modules\ListingMinisite\Http\Controllers\Member\ListingMinisiteSectionController;
+use Modules\ListingMinisite\Http\Controllers\Member\MinisiteThemeController;
 
 Route::middleware(['auth', 'verified', 'active', 'role:member'])
     ->prefix('member/listings/{listing}/minisite')
@@ -19,4 +20,12 @@ Route::middleware(['auth', 'verified', 'active', 'role:member'])
         Route::put('/sections/{section}', [ListingMinisiteSectionController::class, 'update'])->name('sections.update');
         Route::delete('/sections/{section}', [ListingMinisiteSectionController::class, 'destroy'])->name('sections.destroy');
         Route::post('/sections/reorder', [ListingMinisiteSectionController::class, 'reorder'])->name('sections.reorder');
+    });
+
+Route::middleware(['auth', 'verified', 'active', 'role:member'])
+    ->prefix('member/listings/{listing}/minisite-theme')
+    ->name('member.business.minisite-theme.')
+    ->group(function () {
+        Route::get('/', [MinisiteThemeController::class, 'index'])->name('index');
+        Route::put('/{theme}', [MinisiteThemeController::class, 'update'])->name('update');
     });

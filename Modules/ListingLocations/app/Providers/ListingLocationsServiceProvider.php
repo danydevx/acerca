@@ -12,6 +12,11 @@ class ListingLocationsServiceProvider extends ModuleServiceProvider
     protected string $name = 'ListingLocations';
     protected string $nameLower = 'listinglocations';
 
+    protected array $providers = [
+        EventServiceProvider::class,
+        ListingLocationsRouteServiceProvider::class,
+    ];
+
     public function boot(): void
     {
         parent::boot();

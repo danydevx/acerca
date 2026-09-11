@@ -11,6 +11,7 @@ class RouteServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->map();
         parent::boot();
     }
 
@@ -19,6 +20,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapMemberRoutes();
         $this->mapPublicRoutes();
         $this->mapWidgetRoutes();
+        $this->mapAdminRoutes();
     }
 
     protected function mapMemberRoutes(): void
@@ -34,5 +36,12 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWidgetRoutes(): void
     {
         Route::middleware('api')->group(module_path($this->name, '/routes/widget.php'));
+    }
+
+    protected function mapAdminRoutes(): void
+    {
+        Route::middleware(['web'])
+            ->prefix('admin')
+            ->group(module_path($this->name, '/routes/admin.php'));
     }
 }

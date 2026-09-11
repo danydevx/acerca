@@ -3,15 +3,22 @@
 namespace Modules\ListingReviews\Providers;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
+use Nwidart\Modules\Support\ModuleServiceProvider;
 use Modules\ListingReviews\Models\ListingReview;
 use Modules\ListingReviews\Policies\ListingReviewPolicy;
 
-class ListingReviewsServiceProvider extends ServiceProvider
+class ListingReviewsServiceProvider extends ModuleServiceProvider
 {
+    protected string $name = 'ListingReviews';
+    protected string $nameLower = 'listingreviews';
+
+    protected array $providers = [
+        RouteServiceProvider::class,
+    ];
+
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+        parent::boot();
         $this->registerPolicies();
     }
 

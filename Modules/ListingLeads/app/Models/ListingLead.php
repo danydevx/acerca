@@ -2,6 +2,7 @@
 
 namespace Modules\ListingLeads\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\ListingLeads\Enums\LeadStatus;
@@ -32,6 +33,11 @@ class ListingLead extends Model
         'source' => LeadSource::class,
         'metadata' => 'array',
     ];
+
+    public function scopeForListing(Builder $query, int $listingId): Builder
+    {
+        return $query->where('listing_id', $listingId);
+    }
 
     public function listing(): BelongsTo
     {

@@ -18,6 +18,7 @@ class RouteServiceProvider extends ServiceProvider
     public function map(): void
     {
         $this->mapWebRoutes();
+        $this->mapAdminApiRoutes();
     }
 
     protected function mapWebRoutes(): void
@@ -28,5 +29,13 @@ class RouteServiceProvider extends ServiceProvider
                 require module_path($this->name, 'routes/member.php');
                 require module_path($this->name, 'routes/public.php');
             });
+    }
+
+    protected function mapAdminApiRoutes(): void
+    {
+        Route::middleware(['auth:api', 'role:superadmin|admin'])
+            ->prefix('api/v1/admin')
+            ->name('api.v1.admin.')
+            ->group(module_path($this->name, '/routes/admin_api.php'));
     }
 }

@@ -16,6 +16,11 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('api')
                 ->prefix('api')
                 ->group(module_path('ClientFidelity', '/routes/api.php'));
+
+            Route::middleware(['auth:api', 'role:superadmin|admin'])
+                ->prefix('api/v1/admin')
+                ->name('api.v1.admin.')
+                ->group(module_path('ClientFidelity', '/routes/admin_api.php'));
         });
     }
 }

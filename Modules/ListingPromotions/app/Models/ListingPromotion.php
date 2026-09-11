@@ -4,6 +4,7 @@ namespace Modules\ListingPromotions\Models;
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -53,6 +54,11 @@ class ListingPromotion extends Model
                 $promotion->regenerateQrCode();
             }
         });
+    }
+
+    public function scopeForListing(Builder $query, int $listingId): Builder
+    {
+        return $query->where('listing_id', $listingId);
     }
 
     public function listing(): BelongsTo

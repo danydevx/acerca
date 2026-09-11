@@ -36,5 +36,6 @@
     "Analytics": true,
     "Listing Team Members": true,
     "Listing Packages": true,
-    "Listing Restaurant Menu": true
+    "Listing Restaurant Menu": true,
+    "ListingProjects": true
 }

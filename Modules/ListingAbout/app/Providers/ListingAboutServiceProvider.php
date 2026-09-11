@@ -3,19 +3,23 @@
 namespace Modules\ListingAbout\Providers;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
+use Nwidart\Modules\Support\ModuleServiceProvider;
 use Modules\ListingAbout\Models\ListingAbout;
 use Modules\ListingAbout\Policies\ListingAboutPolicy;
 
-class ListingAboutServiceProvider extends ServiceProvider
+class ListingAboutServiceProvider extends ModuleServiceProvider
 {
+    protected string $name = 'ListingAbout';
+    protected string $nameLower = 'listingabout';
+
+    protected array $providers = [
+        RouteServiceProvider::class,
+    ];
+
     public function boot(): void
     {
+        parent::boot();
         $this->registerPolicies();
-    }
-
-    public function register(): void
-    {
     }
 
     protected function registerPolicies(): void

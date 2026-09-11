@@ -2,6 +2,7 @@
 
 namespace Modules\ListingProducts\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -43,6 +44,11 @@ class ListingProductCategory extends Model
                 $category->slug = static::generateUniqueSlug($category->listing_id, $category->name, $category->id);
             }
         });
+    }
+
+    public function scopeForListing(Builder $query, int $listingId): Builder
+    {
+        return $query->where('listing_id', $listingId);
     }
 
     public static function generateUniqueSlug(int $businessId, string $name, ?int $excludeId = null): string

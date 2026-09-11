@@ -2,6 +2,7 @@
 
 namespace Modules\ListingServices\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -38,6 +39,11 @@ class ListingService extends Model
         'is_active' => 'boolean',
         'sort_order' => 'integer',
     ];
+
+    public function scopeForListing(Builder $query, int $listingId): Builder
+    {
+        return $query->where('listing_id', $listingId);
+    }
 
     public function listing(): BelongsTo
     {

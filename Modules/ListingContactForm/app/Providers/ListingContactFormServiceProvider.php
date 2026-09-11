@@ -12,7 +12,11 @@ class ListingContactFormServiceProvider extends ModuleServiceProvider
     protected string $nameLower = 'listingcontactform';
 
     protected array $providers = [
-        EventServiceProvider::class,
         RouteServiceProvider::class,
     ];
+
+    public function boot(): void
+    {
+        parent::boot();
+    }
 }

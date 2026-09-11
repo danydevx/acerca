@@ -9,24 +9,32 @@ class RouteServiceProvider extends ServiceProvider
 {
     protected string $name = 'ListingContactForm';
 
+    public function register(): void
+    {
+        parent::register();
+    }
+
     public function boot(): void
     {
+        $this->map();
         parent::boot();
     }
 
     public function map(): void
     {
-        $this->mapApiRoutes();
-        $this->mapWebRoutes();
+        $this->mapMemberRoutes();
+        $this->mapAdminRoutes();
     }
 
-    protected function mapWebRoutes(): void
+    protected function mapMemberRoutes(): void
     {
-        Route::middleware('web')->group(module_path($this->name, '/routes/web.php'));
+        Route::middleware(['web'])
+            ->group(module_path($this->name, '/routes/member.php'));
     }
 
-    protected function mapApiRoutes(): void
+    protected function mapAdminRoutes(): void
     {
-        Route::middleware('api')->prefix('api')->name('api.')->group(module_path($this->name, '/routes/api.php'));
+        Route::middleware(['web'])
+            ->group(module_path($this->name, '/routes/admin.php'));
     }
 }

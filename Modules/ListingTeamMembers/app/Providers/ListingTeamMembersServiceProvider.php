@@ -3,15 +3,23 @@
 namespace Modules\ListingTeamMembers\Providers;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
+use Nwidart\Modules\Support\ModuleServiceProvider;
 use Modules\ListingTeamMembers\Models\ListingTeamMember;
 use Modules\ListingTeamMembers\Models\TeamMemberPosition;
 use Modules\ListingTeamMembers\Policies\ListingTeamMemberPolicy;
 
-class ListingTeamMembersServiceProvider extends ServiceProvider
+class ListingTeamMembersServiceProvider extends ModuleServiceProvider
 {
+    protected string $name = 'ListingTeamMembers';
+    protected string $nameLower = 'listingteammembers';
+
+    protected array $providers = [
+        RouteServiceProvider::class,
+    ];
+
     public function boot(): void
     {
+        parent::boot();
         $this->registerPolicies();
     }
 

@@ -2,6 +2,7 @@
 
 namespace Modules\ListingSocialMedia\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -29,6 +30,11 @@ class ListingSocialNetwork extends Model
         'show_on_contact' => 'boolean',
         'sort_order' => 'integer',
     ];
+
+    public function scopeForListing(Builder $query, int $listingId): Builder
+    {
+        return $query->where('listing_id', $listingId);
+    }
 
     public static $platforms = [
         'facebook' => [

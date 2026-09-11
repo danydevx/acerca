@@ -17,10 +17,19 @@ class RouteServiceProvider extends ServiceProvider
     public function map(): void
     {
         $this->mapWebRoutes();
+        $this->mapAdminApiRoutes();
     }
 
     protected function mapWebRoutes(): void
     {
         Route::middleware('web')->group(module_path($this->name, '/routes/web.php'));
+    }
+
+    protected function mapAdminApiRoutes(): void
+    {
+        Route::middleware(['auth:api', 'role:superadmin|admin'])
+            ->prefix('api/v1/admin')
+            ->name('api.v1.admin.')
+            ->group(module_path($this->name, '/routes/admin_api.php'));
     }
 }

@@ -18,6 +18,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapMemberRoutes();
         $this->mapAdminRoutes();
+        $this->mapAdminApiRoutes();
         $this->mapApiRoutes();
     }
 
@@ -31,6 +32,14 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware(['web', 'auth', 'verified', 'active', 'role:superadmin|admin'])
             ->group(module_path($this->name, '/routes/admin.php'));
+    }
+
+    protected function mapAdminApiRoutes(): void
+    {
+        Route::middleware(['auth:api', 'role:superadmin|admin'])
+            ->prefix('api/v1/admin')
+            ->name('api.v1.admin.')
+            ->group(module_path($this->name, '/routes/admin_api.php'));
     }
 
     protected function mapApiRoutes(): void

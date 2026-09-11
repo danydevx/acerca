@@ -2,6 +2,7 @@
 
 namespace Modules\ListingProducts\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -39,6 +40,11 @@ class ListingProduct extends Model
         'show_price' => 'boolean',
         'sort_order' => 'integer',
     ];
+
+    public function scopeForListing(Builder $query, int $listingId): Builder
+    {
+        return $query->where('listing_id', $listingId);
+    }
 
     public function listing(): BelongsTo
     {

@@ -3,14 +3,22 @@
 namespace Modules\ListingBranding\Providers;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
+use Nwidart\Modules\Support\ModuleServiceProvider;
 use Modules\ListingBranding\Models\ListingBrandingSetting;
 use Modules\ListingBranding\Policies\ListingBrandingSettingPolicy;
 
-class ListingBrandingServiceProvider extends ServiceProvider
+class ListingBrandingServiceProvider extends ModuleServiceProvider
 {
+    protected string $name = 'ListingBranding';
+    protected string $nameLower = 'listingbranding';
+
+    protected array $providers = [
+        RouteServiceProvider::class,
+    ];
+
     public function boot(): void
     {
+        parent::boot();
         $this->registerPolicies();
     }
 
