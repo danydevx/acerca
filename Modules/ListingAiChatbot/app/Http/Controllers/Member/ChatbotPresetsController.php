@@ -43,9 +43,9 @@ class ChatbotPresetsController extends Controller
         $personalities = ChatbotPersonality::getActiveForSelect();
         $contexts = AiContext::where('listing_id', $business->id)
             ->where('is_active', true)
-            ->orderBy('title')
-            ->get(['id', 'title'])
-            ->map(fn($c) => ['id' => (string) $c->id, 'title' => $c->title]);
+            ->orderBy('name')
+            ->get(['id', 'name'])
+            ->map(fn($c) => ['id' => (string) $c->id, 'title' => $c->name]);
 
         return Inertia::render('Member/AiChatbot/Presets/Create', [
             'listing' => $business,
@@ -114,9 +114,9 @@ class ChatbotPresetsController extends Controller
         $personalities = ChatbotPersonality::getActiveForSelect();
         $contexts = AiContext::where('listing_id', $business->id)
             ->where('is_active', true)
-            ->orderBy('title')
-            ->get(['id', 'title'])
-            ->map(fn($c) => ['id' => (string) $c->id, 'title' => $c->title]);
+            ->orderBy('name')
+            ->get(['id', 'name'])
+            ->map(fn($c) => ['id' => (string) $c->id, 'title' => $c->name]);
 
         return Inertia::render('Member/AiChatbot/Presets/Edit', [
             'listing' => $business,

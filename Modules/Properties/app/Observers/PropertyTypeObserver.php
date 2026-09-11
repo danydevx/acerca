@@ -2,7 +2,7 @@
 
 namespace Modules\Properties\Observers;
 
-use App\Services\Properties\GeneralFieldService;
+use Modules\Properties\Services\GeneralFieldService;
 use Modules\Properties\Models\GeneralFieldSection;
 use Modules\Properties\Models\PropertyType;
 

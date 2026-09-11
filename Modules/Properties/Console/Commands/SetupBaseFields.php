@@ -410,7 +410,7 @@ class SetupBaseFields extends Command
 
     protected function assignSectionsToType(PropertyType $type, GeneralFieldSection $mainSection, GeneralFieldSection $priceSection, GeneralFieldSection $locationSection): void
     {
-        $generalFieldService = app(\App\Services\Properties\GeneralFieldService::class);
+        $generalFieldService = app(\Modules\Properties\Services\GeneralFieldService::class);
 
         if (!$type->generalFieldSections()->where('general_field_section_id', $mainSection->id)->exists()) {
             $generalFieldService->assignSectionToPropertyType($type, $mainSection);

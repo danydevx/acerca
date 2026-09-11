@@ -248,19 +248,9 @@ class Listing extends Model
         return $this->hasMany(\Modules\ListingTeamMembers\Models\TeamMemberPosition::class, 'listing_id');
     }
 
-    public function properties(): HasMany
-    {
-        return $this->hasMany(\Modules\Properties\Models\Property::class, 'listing_id');
-    }
-
     public function packages(): HasMany
     {
         return $this->hasMany(\Modules\ListingPackages\Models\ListingPackage::class, 'listing_id');
-    }
-
-    public function analyticsSetting(): HasOne
-    {
-        return $this->hasOne(\Modules\Analytics\Models\AnalyticsSetting::class, 'listing_id');
     }
 
     public function getEnabledModules(): array

@@ -3,7 +3,7 @@
 namespace Modules\Properties\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\Properties\GeneralFieldService;
+use Modules\Properties\Services\GeneralFieldService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Modules\Properties\Models\GeneralFieldSection;

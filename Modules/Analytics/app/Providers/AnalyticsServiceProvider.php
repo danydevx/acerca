@@ -2,8 +2,11 @@
 
 namespace Modules\Analytics\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Modules\Analytics\Models\AnalyticsSetting;
+use Modules\Analytics\Policies\AnalyticsSettingPolicy;
 use Modules\Analytics\Services\AnalyticsCookieService;
 use Modules\Analytics\Services\AnalyticsDeviceService;
 use Modules\Analytics\Services\AnalyticsQueryService;
@@ -35,6 +38,8 @@ class AnalyticsServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->registerPolicies();
+
         Route::middleware('web')
             ->group(__DIR__ . '/../../routes/public.php');
 
@@ -42,5 +47,10 @@ class AnalyticsServiceProvider extends ServiceProvider
             ->prefix('member/listings/{listing}/analytics')
             ->name('member.listings.analytics.')
             ->group(__DIR__ . '/../../routes/member.php');
+    }
+
+    protected function registerPolicies(): void
+    {
+        Gate::policy(AnalyticsSetting::class, AnalyticsSettingPolicy::class);
     }
 }

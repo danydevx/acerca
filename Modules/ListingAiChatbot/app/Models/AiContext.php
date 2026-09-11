@@ -11,7 +11,7 @@ class AiContext extends Model
 
     protected $fillable = [
         'listing_id',
-        'title',
+        'name',
         'content',
         'content_for_editing',
         'is_active',

@@ -11,7 +11,6 @@ use App\Models\Subscription;
 use App\Models\SupportTicket;
 use App\Models\User;
 use App\Models\WebhookEndpoint;
-use App\Policies\AnalyticsSettingPolicy;
 use App\Policies\ApiKeyPolicy;
 use App\Policies\ListingAboutPolicy;
 use App\Policies\ListingAppointmentPolicy;
@@ -41,8 +40,6 @@ use App\Policies\ListingSocialNetworkPolicy;
 use App\Policies\ListingTeamMemberPolicy;
 use App\Policies\ListingPackagePolicy;
 use App\Policies\MediaFilePolicy;
-use App\Policies\VCardPolicy;
-use App\Policies\VCardTeamPolicy;
 use App\Policies\PaymentPolicy;
 use App\Policies\SubscriptionPolicy;
 use App\Policies\SupportTicketPolicy;
@@ -61,9 +58,6 @@ use Modules\ListingMinisite\Models\ListingMinisiteSetting;
 use Modules\ListingMinisite\Policies\ListingMinisitePolicy;
 use Modules\ListingOfficeHours\Models\ListingSchedule;
 use Modules\ListingOfficeHours\Policies\ListingSchedulePolicy;
-use Modules\Properties\Models\PropertyType;
-use Modules\Properties\Observers\PropertyTypeObserver;
-
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -99,7 +93,6 @@ class AppServiceProvider extends ServiceProvider
             $this->commands([
                 CreateSuperAdmin::class,
                 InstallSaas::class,
-                \Modules\Properties\Console\Commands\AssignLockedSections::class,
             ]);
         }
 
@@ -121,7 +114,6 @@ class AppServiceProvider extends ServiceProvider
             return '/';
         });
 
-        Gate::policy(\Modules\Analytics\Models\AnalyticsSetting::class, AnalyticsSettingPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(ApiKey::class, ApiKeyPolicy::class);
         Gate::policy(WebhookEndpoint::class, WebhookEndpointPolicy::class);
@@ -158,19 +150,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(ListingMinisiteSetting::class, ListingMinisitePolicy::class);
         Gate::policy(ListingMinisiteSection::class, ListingMinisitePolicy::class);
         Gate::policy(Listing::class, ListingMinisitePolicy::class);
-        Gate::policy(\Modules\Properties\Models\Property::class, \App\Policies\PropertyPolicy::class);
-        Gate::policy(\Modules\Properties\Models\PropertyType::class, \App\Policies\PropertyTypePolicy::class);
         Gate::policy(ListingSchedule::class, ListingSchedulePolicy::class);
         Gate::policy(\Modules\ListingTeamMembers\Models\ListingTeamMember::class, ListingTeamMemberPolicy::class);
         Gate::policy(\Modules\ListingTeamMembers\Models\TeamMemberPosition::class, ListingTeamMemberPolicy::class);
         Gate::policy(\Modules\ListingPackages\Models\ListingPackage::class, ListingPackagePolicy::class);
-        Gate::policy(\Modules\VCards\Models\VCard::class, VCardPolicy::class);
-        Gate::policy(\Modules\VCards\Models\VCardTeam::class, VCardTeamPolicy::class);
-        Gate::policy(\Modules\VCards\Models\VCardSeoSetting::class, VCardSeoSettingPolicy::class);
-        Gate::policy(\Modules\VCards\Models\VCardPackage::class, VCardPackagePolicy::class);
-
-        PropertyType::observe(PropertyTypeObserver::class);
-
         RateLimiter::for('login', function (Request $request) {
             $email = mb_strtolower((string) $request->input('email', ''));
             $key = $email !== '' ? $email.'|'.$request->ip() : $request->ip();

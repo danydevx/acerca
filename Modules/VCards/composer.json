@@ -7,7 +7,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\VCards\\": "app/"
+            "Modules\\VCards\\": "app/",
+            "Modules\\VCards\\Policies\\": "Policies/"
         }
     }
 }

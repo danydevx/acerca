@@ -26,7 +26,7 @@ class AiChatbotController extends Controller
 
         $contexts = AiContext::where('listing_id', $business->id)
             ->orderBy('created_at', 'desc')
-            ->get(['id', 'title', 'content', 'is_active', 'created_at']);
+            ->get(['id', 'name', 'content', 'is_active', 'created_at']);
 
         $embeddingCounts = [];
         $counts = [
@@ -217,7 +217,7 @@ class AiChatbotController extends Controller
 
         $context = AiContext::create([
             'listing_id' => $business->id,
-            'title' => $data['title'],
+            'name' => $data['title'],
             'content' => $data['content'],
             'content_for_editing' => $data['content_for_editing'] ?? null,
             'is_active' => $data['is_active'] ?? true,
@@ -240,7 +240,7 @@ class AiChatbotController extends Controller
         ]);
 
         $context->update([
-            'title' => $data['title'],
+            'name' => $data['title'],
             'content' => $data['content'],
             'content_for_editing' => $data['content_for_editing'] ?? null,
             'is_active' => $data['is_active'] ?? true,

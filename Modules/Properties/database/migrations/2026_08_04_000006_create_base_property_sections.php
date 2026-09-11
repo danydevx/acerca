@@ -7,7 +7,7 @@ use Modules\Properties\Models\GeneralFieldSection;
 use Modules\Properties\Models\GeneralField;
 use Modules\Properties\Models\GeneralFieldOption;
 use Modules\Properties\Models\PropertyType;
-use App\Services\Properties\GeneralFieldService;
+use Modules\Properties\Services\GeneralFieldService;
 
 return new class extends Migration
 {

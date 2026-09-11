@@ -3,13 +3,13 @@
 namespace Modules\Properties\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Property\StorePropertyRequest;
-use App\Http\Requests\Property\UpdatePropertyRequest;
+use Modules\Properties\Http\Requests\StorePropertyRequest;
+use Modules\Properties\Http\Requests\UpdatePropertyRequest;
 use App\Services\ActivityService;
-use App\Services\Properties\PropertyFormSchemaService;
-use App\Services\Properties\PropertyImageService;
-use App\Services\Properties\PropertyLimitService;
-use App\Services\Properties\PropertyService;
+use Modules\Properties\Services\PropertyFormSchemaService;
+use Modules\Properties\Services\PropertyImageService;
+use Modules\Properties\Services\PropertyLimitService;
+use Modules\Properties\Services\PropertyService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Modules\Listings\Models\Listing;
@@ -74,7 +74,7 @@ class PropertyController extends Controller
 
         $propertyTypes = PropertyType::active()->orderBy('name')->get(['id', 'name', 'key']);
 
-        $availableStates = $listing->properties()
+        $availableStates = Property::where('listing_id', $listing->id)
             ->whereNotNull('state')
             ->where('state', '!=', '')
             ->distinct()
@@ -84,7 +84,7 @@ class PropertyController extends Controller
 
         $availableMunicipalities = [];
         if ($state) {
-            $availableMunicipalities = $listing->properties()
+            $availableMunicipalities = Property::where('listing_id', $listing->id)
                 ->where('state', $state)
                 ->whereNotNull('municipality')
                 ->where('municipality', '!=', '')

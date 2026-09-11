@@ -2,8 +2,14 @@
 
 namespace Modules\Properties\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Modules\Properties\Console\Commands\SetupBaseFields;
+use Modules\Properties\Models\Property;
+use Modules\Properties\Models\PropertyType;
+use Modules\Properties\Observers\PropertyTypeObserver;
+use Modules\Properties\Policies\PropertyPolicy;
+use Modules\Properties\Policies\PropertyTypePolicy;
 
 class PropertiesServiceProvider extends ServiceProvider
 {
@@ -11,6 +17,7 @@ class PropertiesServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->registerPolicies();
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
@@ -21,6 +28,14 @@ class PropertiesServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->commands([SetupBaseFields::class]);
+    }
+
+    protected function registerPolicies(): void
+    {
+        Gate::policy(Property::class, PropertyPolicy::class);
+        Gate::policy(PropertyType::class, PropertyTypePolicy::class);
+
+        PropertyType::observe(PropertyTypeObserver::class);
     }
 
     protected function registerTranslations(): void

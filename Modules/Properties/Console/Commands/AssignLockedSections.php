@@ -2,7 +2,7 @@
 
 namespace Modules\Properties\Console\Commands;
 
-use App\Services\Properties\GeneralFieldService;
+use Modules\Properties\Services\GeneralFieldService;
 use Illuminate\Console\Command;
 use Modules\Properties\Models\GeneralFieldSection;
 use Modules\Properties\Models\PropertyType;
