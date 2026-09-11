@@ -68,24 +68,7 @@ class Listing extends Model
 
         static::created(function ($listing) {
             $listing->syncAllModules();
-            $listing->assignMinisiteTheme();
         });
-
-        static::updated(function ($listing) {
-            if ($listing->wasChanged('listing_type')) {
-                $listing->assignMinisiteTheme();
-            }
-        });
-    }
-
-    public function assignMinisiteTheme(): void
-    {
-        if (! $this->minisite_theme_id) {
-            $theme = MinisiteTheme::getByListingType($this->listing_type->value ?? 'generic');
-            if ($theme) {
-                $this->update(['minisite_theme_id' => $theme->id]);
-            }
-        }
     }
 
     public function user(): BelongsTo

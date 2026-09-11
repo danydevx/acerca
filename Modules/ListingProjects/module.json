@@ -1,0 +1,13 @@
+{
+    "name": "listing projects",
+    "alias": "listingprojects",
+    "description": "Projects module for real estate",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ListingProjects\\Providers\\ListingProjectsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

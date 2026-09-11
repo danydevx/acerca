@@ -4,6 +4,8 @@
     "description": "Hero customization module for business minisites",
     "keywords": [],
     "priority": 0,
-    "providers": [],
+    "providers": [
+        "Modules\\ListingHero\\Providers\\ListingHeroServiceProvider"
+    ],
     "files": []
 }

@@ -2,45 +2,32 @@
 
 namespace Modules\ListingGallery\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Nwidart\Modules\Support\ModuleServiceProvider;
-use Illuminate\Console\Scheduling\Schedule;
+use Modules\ListingGallery\Models\ListingGallery;
+use Modules\ListingGallery\Models\ListingGalleryImage;
+use Modules\ListingGallery\Policies\ListingGalleryImagePolicy;
+use Modules\ListingGallery\Policies\ListingGalleryPolicy;
 
 class ListingGalleryServiceProvider extends ModuleServiceProvider
 {
-    /**
-     * The name of the module.
-     */
     protected string $name = 'ListingGallery';
-
-    /**
-     * The lowercase version of the module name.
-     */
     protected string $nameLower = 'listinggallery';
 
-    /**
-     * Command classes to register.
-     *
-     * @var string[]
-     */
-    // protected array $commands = [];
-
-    /**
-     * Provider classes to register.
-     *
-     * @var string[]
-     */
     protected array $providers = [
         EventServiceProvider::class,
         RouteServiceProvider::class,
     ];
 
-    /**
-     * Define module schedules.
-     * 
-     * @param $schedule
-     */
-    // protected function configureSchedules(Schedule $schedule): void
-    // {
-    //     $schedule->command('inspire')->hourly();
-    // }
+    public function boot(): void
+    {
+        parent::boot();
+        $this->registerPolicies();
+    }
+
+    protected function registerPolicies(): void
+    {
+        Gate::policy(ListingGalleryImage::class, ListingGalleryImagePolicy::class);
+        Gate::policy(ListingGallery::class, ListingGalleryPolicy::class);
+    }
 }

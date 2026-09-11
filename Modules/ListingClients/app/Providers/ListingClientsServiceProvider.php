@@ -2,11 +2,20 @@
 
 namespace Modules\ListingClients\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Modules\ListingClients\Models\ListingClient;
+use Modules\ListingClients\Policies\ListingClientPolicy;
 
 class ListingClientsServiceProvider extends ServiceProvider
 {
-    public function boot(): void {}
+    public function boot(): void
+    {
+        $this->registerPolicies();
+    }
 
-    public function register(): void {}
+    protected function registerPolicies(): void
+    {
+        Gate::policy(ListingClient::class, ListingClientPolicy::class);
+    }
 }

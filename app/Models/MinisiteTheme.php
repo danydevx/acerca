@@ -30,31 +30,4 @@ class MinisiteTheme extends Model
     {
         return $this->hasMany(Listing::class);
     }
-
-    public static function getByListingType(string $listingType): ?self
-    {
-        $mapping = [
-            'barber_shop' => 'modern',
-            'beauty_salon' => 'elegant',
-            'spa' => 'elegant',
-            'tattoo_studio' => 'bold',
-            'dentist' => 'professional',
-            'medical_clinic' => 'professional',
-            'doctor' => 'professional',
-            'physiotherapist' => 'professional',
-            'psychologist' => 'professional',
-            'nutritionist' => 'professional',
-            'veterinarian' => 'friendly',
-            'wedding' => 'elegant',
-            'birthday' => 'festive',
-            'baby_shower' => 'playful',
-            'corporate' => 'professional',
-            'graduation' => 'celebratory',
-            'generic' => 'modern',
-        ];
-
-        $slug = $mapping[$listingType] ?? 'modern';
-
-        return static::where('slug', $slug)->where('is_active', true)->first();
-    }
 }

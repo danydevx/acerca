@@ -12,33 +12,8 @@ use App\Models\SupportTicket;
 use App\Models\User;
 use App\Models\WebhookEndpoint;
 use App\Policies\ApiKeyPolicy;
-use App\Policies\ListingAboutPolicy;
-use App\Policies\ListingAppointmentPolicy;
-use App\Policies\ListingAppointmentSlotPolicy;
-use App\Policies\ListingAvailabilityPolicy;
-use App\Policies\ListingBrandingSettingPolicy;
-use App\Policies\ListingClientPolicy;
-use App\Policies\ListingFaqCategoryPolicy;
-use App\Policies\ListingFaqPolicy;
-use App\Policies\ListingFeaturePolicy;
-use App\Policies\ListingGalleryImagePolicy;
-use App\Policies\ListingGalleryPolicy;
-use App\Policies\ListingHeroPolicy;
-use App\Policies\ListingLeadPolicy;
-use App\Policies\ListingLocationPolicy;
-use App\Policies\ListingModulePolicy;
 use App\Policies\BusinessPolicy;
-use App\Policies\ListingProductCategoryPolicy;
-use App\Policies\ListingProductPolicy;
-use App\Policies\ListingProjectPolicy;
-use App\Policies\ListingProjectCategoryPolicy;
-use App\Policies\ListingPromotionPolicy;
-use App\Policies\ListingReviewPolicy;
-use App\Policies\ListingSeoSettingPolicy;
-use App\Policies\ListingServicePolicy;
-use App\Policies\ListingSocialNetworkPolicy;
-use App\Policies\ListingTeamMemberPolicy;
-use App\Policies\ListingPackagePolicy;
+use App\Policies\ListingModulePolicy;
 use App\Policies\MediaFilePolicy;
 use App\Policies\PaymentPolicy;
 use App\Policies\SubscriptionPolicy;
@@ -53,24 +28,15 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Modules\Listings\Models\Listing;
-use Modules\ListingMinisite\Models\ListingMinisiteSection;
-use Modules\ListingMinisite\Models\ListingMinisiteSetting;
-use Modules\ListingMinisite\Policies\ListingMinisitePolicy;
-use Modules\ListingOfficeHours\Models\ListingSchedule;
-use Modules\ListingOfficeHours\Policies\ListingSchedulePolicy;
+use Modules\ListingModules\Models\ListingModule;
+
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         $this->app->router->bind('listing', function ($value) {
@@ -79,14 +45,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->router->bind('listingSlug', function ($value) {
             return Listing::where('slug', $value)->firstOrFail();
-        });
-
-        $this->app->router->bind('location', function ($value) {
-            return \Modules\ListingLocations\Models\ListingLocation::findOrFail($value);
-        });
-
-        $this->app->router->bind('schedule', function ($value) {
-            return \Modules\ListingOfficeHours\Models\ListingSchedule::findOrFail($value);
         });
 
         if ($this->app->runningInConsole()) {
@@ -122,38 +80,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Payment::class, PaymentPolicy::class);
         Gate::policy(Subscription::class, SubscriptionPolicy::class);
         Gate::policy(Listing::class, BusinessPolicy::class);
-        Gate::policy(\Modules\ListingModules\Models\ListingModule::class, ListingModulePolicy::class);
-        Gate::policy(\Modules\ListingLocations\Models\ListingLocation::class, ListingLocationPolicy::class);
-        Gate::policy(\Modules\ListingGallery\Models\ListingGalleryImage::class, ListingGalleryImagePolicy::class);
-        Gate::policy(\Modules\ListingHero\Models\ListingHero::class, ListingHeroPolicy::class);
-        Gate::policy(\Modules\ListingAbout\Models\ListingAbout::class, ListingAboutPolicy::class);
-        Gate::policy(\Modules\ListingProducts\Models\ListingProduct::class, ListingProductPolicy::class);
-        Gate::policy(\Modules\ListingProducts\Models\ListingProductCategory::class, ListingProductCategoryPolicy::class);
-        Gate::policy(\Modules\ListingProjects\Models\ListingProject::class, ListingProjectPolicy::class);
-        Gate::policy(\Modules\ListingProjects\Models\ListingProjectCategory::class, ListingProjectCategoryPolicy::class);
-        Gate::policy(\Modules\ListingServices\Models\ListingService::class, ListingServicePolicy::class);
-        Gate::policy(\Modules\ListingPromotions\Models\ListingPromotion::class, ListingPromotionPolicy::class);
-        Gate::policy(\Modules\ListingLeads\Models\ListingLead::class, ListingLeadPolicy::class);
-        Gate::policy(\Modules\ListingAppointments\Models\ListingAppointment::class, ListingAppointmentPolicy::class);
-        Gate::policy(\Modules\ListingClients\Models\ListingClient::class, ListingClientPolicy::class);
-        Gate::policy(\Modules\ListingGallery\Models\ListingGallery::class, ListingGalleryPolicy::class);
-        Gate::policy(\Modules\ListingAppointments\Models\ListingAppointmentSlot::class, ListingAppointmentSlotPolicy::class);
-        Gate::policy(\Modules\ListingAppointments\Models\ListingAvailability::class, ListingAvailabilityPolicy::class);
-        Gate::policy(\Modules\ListingSocialMedia\Models\ListingSocialNetwork::class, ListingSocialNetworkPolicy::class);
-        Gate::policy(\Modules\ListingReviews\Models\ListingReview::class, ListingReviewPolicy::class);
-        Gate::policy(\Modules\ListingFaqs\Models\ListingFaq::class, ListingFaqPolicy::class);
-        Gate::policy(\Modules\ListingFaqs\Models\ListingFaqCategory::class, ListingFaqCategoryPolicy::class);
-        Gate::policy(\Modules\ListingFeatures\Models\ListingFeature::class, ListingFeaturePolicy::class);
-        Gate::policy(\Modules\ListingSeo\Models\ListingSeoSetting::class, ListingSeoSettingPolicy::class);
-        Gate::policy(\Modules\ListingBranding\Models\ListingBrandingSetting::class, ListingBrandingSettingPolicy::class);
-        Gate::policy(\Modules\ListingTasks\Models\ListingTask::class, \App\Policies\ListingTaskPolicy::class);
-        Gate::policy(ListingMinisiteSetting::class, ListingMinisitePolicy::class);
-        Gate::policy(ListingMinisiteSection::class, ListingMinisitePolicy::class);
-        Gate::policy(Listing::class, ListingMinisitePolicy::class);
-        Gate::policy(ListingSchedule::class, ListingSchedulePolicy::class);
-        Gate::policy(\Modules\ListingTeamMembers\Models\ListingTeamMember::class, ListingTeamMemberPolicy::class);
-        Gate::policy(\Modules\ListingTeamMembers\Models\TeamMemberPosition::class, ListingTeamMemberPolicy::class);
-        Gate::policy(\Modules\ListingPackages\Models\ListingPackage::class, ListingPackagePolicy::class);
+        Gate::policy(ListingModule::class, ListingModulePolicy::class);
+
         RateLimiter::for('login', function (Request $request) {
             $email = mb_strtolower((string) $request->input('email', ''));
             $key = $email !== '' ? $email.'|'.$request->ip() : $request->ip();
