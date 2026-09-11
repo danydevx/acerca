@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class TeamMemberPosition extends Model
 {
-    protected $table = 'team_member_positions';
+    protected $table = 'listing_team_member_positions';
 
     protected $fillable = [
         'listing_id',

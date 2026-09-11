@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('listing_checkins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('listing_id')->constrained('listings')->cascadeOnDelete();
-            $table->foreignId('guest_id')->nullable()->constrained('listing_guests')->nullOnDelete();
+            $table->unsignedBigInteger('guest_id')->nullable();
             $table->timestamp('checkin_time')->nullable();
             $table->integer('plus_ones_checked_in')->default(0);
             $table->text('notes')->nullable();

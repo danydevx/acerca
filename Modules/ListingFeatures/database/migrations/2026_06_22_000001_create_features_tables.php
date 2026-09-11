@@ -40,7 +40,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('listing_id')->constrained('listings')->cascadeOnDelete();
             $table->foreignId('feature_id')->constrained('features')->cascadeOnDelete();
-            $table->foreignId('location_id')->nullable()->constrained('listing_locations')->nullOnDelete();
+            $table->unsignedBigInteger('location_id')->nullable();
             $table->boolean('is_active')->default(true);
             $table->integer('sort_order')->default(0);
             $table->timestamps();

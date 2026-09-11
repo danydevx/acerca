@@ -33,5 +33,8 @@
     "ListingCheckin": true,
     "Locations": true,
     "VCards": true,
-    "Analytics": true
+    "Analytics": true,
+    "Listing Team Members": true,
+    "Listing Packages": true,
+    "Listing Restaurant Menu": true
 }
