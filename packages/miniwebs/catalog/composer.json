@@ -1,0 +1,22 @@
+{
+    "name": "miniwebs/catalog",
+    "description": "Catalog module for MiniWebs - Products and Services",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {"php": "^8.2"},
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingProducts\\": "Modules/ListingProducts/app/",
+            "Modules\\ListingServices\\": "Modules/ListingServices/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingProducts\\Providers\\ListingProductsServiceProvider",
+                "Modules\\ListingServices\\Providers\\ListingServicesServiceProvider"
+            ]
+        }
+    }
+}

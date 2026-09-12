@@ -1,0 +1,23 @@
+{
+    "name": "miniwebs/locations",
+    "description": "Locations module for MiniWebs - Geography catalog and listing locations",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {"php": "^8.2"},
+    "autoload": {
+        "psr-4": {
+            "Modules\\Locations\\": "Modules/Locations/app/",
+            "Modules\\ListingLocations\\": "Modules/ListingLocations/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Locations\\Providers\\LocationsServiceProvider",
+                "Modules\\ListingLocations\\Providers\\ListingLocationsServiceProvider",
+                "Modules\\ListingLocations\\Providers\\ListingLocationsRouteServiceProvider"
+            ]
+        }
+    }
+}

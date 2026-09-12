@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "287a2131301861c9c57d76ff174510ad",
+    "content-hash": "fb5305c7c418ab53470597c492e87ad4",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2835,6 +2835,489 @@
                 }
             ],
             "time": "2026-01-15T06:54:53+00:00"
+        },
+        {
+            "name": "miniwebs/catalog",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/catalog",
+                "reference": "deb267e0f7a6e850c06b7bf228e9920fd26d137e"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingProducts\\Providers\\ListingProductsServiceProvider",
+                        "Modules\\ListingServices\\Providers\\ListingServicesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingProducts\\": "Modules/ListingProducts/app/",
+                    "Modules\\ListingServices\\": "Modules/ListingServices/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Catalog module for MiniWebs - Products and Services",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/crm",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/crm",
+                "reference": "9f7c4e4adcb27abe6e5f619bbc4cbed04c715db7"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingLeads\\Providers\\ListingLeadsServiceProvider",
+                        "Modules\\ListingClients\\Providers\\ListingClientsServiceProvider",
+                        "Modules\\ListingContactForm\\Providers\\ListingContactFormServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingLeads\\": "Modules/ListingLeads/app/",
+                    "Modules\\ListingClients\\": "Modules/ListingClients/app/",
+                    "Modules\\ListingContactForm\\": "Modules/ListingContactForm/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "CRM module for MiniWebs - Leads and Clients",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/guests",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/guests",
+                "reference": "4f6cd107451daae816cf41e7147ba420bd1a6daa"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingGuests\\Providers\\ListingGuestsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingGuests\\": "Modules/ListingGuests/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Guests module for MiniWebs",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/locations",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/locations",
+                "reference": "4e787f561ce410f39766748bd84dee96c7c6aec4"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Locations\\Providers\\LocationsServiceProvider",
+                        "Modules\\ListingLocations\\Providers\\ListingLocationsServiceProvider",
+                        "Modules\\ListingLocations\\Providers\\ListingLocationsRouteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Locations\\": "Modules/Locations/app/",
+                    "Modules\\ListingLocations\\": "Modules/ListingLocations/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Locations module for MiniWebs - Geography catalog and listing locations",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/marketing",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/marketing",
+                "reference": "0647ded4deabdd12f44a8047fd920d09196cb2cb"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingPromotions\\Providers\\ListingPromotionsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingPromotions\\": "Modules/ListingPromotions/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Promotions module for MiniWebs",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/media",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/media",
+                "reference": "118ab8ea743d09646358ee84c5170af492d49dfb"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingGallery\\Providers\\ListingGalleryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingGallery\\": "Modules/ListingGallery/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Media module for MiniWebs - Gallery and image management",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/minisite",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/minisite",
+                "reference": "00bdf8dee0507a18040bd6594e224fe83c57a9bf"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingAbout\\Providers\\ListingAboutServiceProvider",
+                        "Modules\\ListingBranding\\Providers\\ListingBrandingServiceProvider",
+                        "Modules\\ListingFaqs\\Providers\\ListingFaqsServiceProvider",
+                        "Modules\\ListingHero\\Providers\\ListingHeroServiceProvider",
+                        "Modules\\ListingSeo\\Providers\\ListingSeoServiceProvider",
+                        "Modules\\ListingSocialMedia\\Providers\\ListingSocialMediaServiceProvider",
+                        "Modules\\ListingFeatures\\Providers\\FeaturesServiceProvider",
+                        "Modules\\ListingMinisite\\Providers\\ListingMinisiteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingAbout\\": "Modules/ListingAbout/app/",
+                    "Modules\\ListingBranding\\": "Modules/ListingBranding/app/",
+                    "Modules\\ListingFaqs\\": "Modules/ListingFaqs/app/",
+                    "Modules\\ListingHero\\": "Modules/ListingHero/app/",
+                    "Modules\\ListingSeo\\": "Modules/ListingSeo/app/",
+                    "Modules\\ListingSocialMedia\\": "Modules/ListingSocialMedia/app/",
+                    "Modules\\ListingFeatures\\": "Modules/ListingFeatures/app/",
+                    "Modules\\ListingMinisite\\": "Modules/ListingMinisite/app/"
+                },
+                "files": [
+                    "Modules/ListingMinisite/Helpers/MinisiteExtensionHelper.php"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Minisite foundation module for MiniWebs - About, Branding, FAQs, Hero, SEO, Social Media, Features",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/packages",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/packages",
+                "reference": "01bb700b3dcb4bec08639f233834ef3814ffa186"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingPackages\\Providers\\ListingPackagesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingPackages\\": "Modules/ListingPackages/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Packages module for MiniWebs",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/properties",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/properties",
+                "reference": "002f9ded166043de69195ab4fc03fd2e39bc502b"
+            },
+            "require": {
+                "miniwebs/minisite": "*",
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Properties\\Providers\\PropertiesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Properties\\": "Modules/Properties/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Properties module for MiniWebs - Real estate/v property management",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/reviews",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/reviews",
+                "reference": "2ce4560c842aa63c3d4187f2c6f632651fb25737"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingReviews\\Providers\\ListingReviewsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingReviews\\": "Modules/ListingReviews/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Reviews module for MiniWebs",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/shared",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/shared",
+                "reference": "04021c9161088e0a3572cd1a71481ee725fd06f7"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingOfficeHours\\Providers\\ListingOfficeHoursServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingOfficeHours\\": "Modules/ListingOfficeHours/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Shared utilities for MiniWebs - Office Hours module",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/team",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/team",
+                "reference": "6da7cc169d3293c269eadc9a8a585a7cfff96230"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingTeamMembers\\Providers\\ListingTeamMembersServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingTeamMembers\\": "Modules/ListingTeamMembers/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Team Members module for MiniWebs",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -9923,7 +10406,20 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "miniwebs/catalog": 20,
+        "miniwebs/crm": 20,
+        "miniwebs/guests": 20,
+        "miniwebs/locations": 20,
+        "miniwebs/marketing": 20,
+        "miniwebs/media": 20,
+        "miniwebs/minisite": 20,
+        "miniwebs/packages": 20,
+        "miniwebs/properties": 20,
+        "miniwebs/reviews": 20,
+        "miniwebs/shared": 20,
+        "miniwebs/team": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

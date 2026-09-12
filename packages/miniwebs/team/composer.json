@@ -1,0 +1,20 @@
+{
+    "name": "miniwebs/team",
+    "description": "Team Members module for MiniWebs",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {"php": "^8.2"},
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingTeamMembers\\": "Modules/ListingTeamMembers/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingTeamMembers\\Providers\\ListingTeamMembersServiceProvider"
+            ]
+        }
+    }
+}

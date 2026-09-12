@@ -1,0 +1,20 @@
+{
+    "name": "miniwebs/guests",
+    "description": "Guests module for MiniWebs",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {"php": "^8.2"},
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingGuests\\": "Modules/ListingGuests/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingGuests\\Providers\\ListingGuestsServiceProvider"
+            ]
+        }
+    }
+}

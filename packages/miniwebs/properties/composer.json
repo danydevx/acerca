@@ -1,0 +1,23 @@
+{
+    "name": "miniwebs/properties",
+    "description": "Properties module for MiniWebs - Real estate/v property management",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {
+        "php": "^8.2",
+        "miniwebs/minisite": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Properties\\": "Modules/Properties/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Properties\\Providers\\PropertiesServiceProvider"
+            ]
+        }
+    }
+}

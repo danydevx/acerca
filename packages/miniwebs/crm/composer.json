@@ -1,0 +1,24 @@
+{
+    "name": "miniwebs/crm",
+    "description": "CRM module for MiniWebs - Leads and Clients",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {"php": "^8.2"},
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingLeads\\": "Modules/ListingLeads/app/",
+            "Modules\\ListingClients\\": "Modules/ListingClients/app/",
+            "Modules\\ListingContactForm\\": "Modules/ListingContactForm/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingLeads\\Providers\\ListingLeadsServiceProvider",
+                "Modules\\ListingClients\\Providers\\ListingClientsServiceProvider",
+                "Modules\\ListingContactForm\\Providers\\ListingContactFormServiceProvider"
+            ]
+        }
+    }
+}

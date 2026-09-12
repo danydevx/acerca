@@ -1,0 +1,20 @@
+{
+    "name": "miniwebs/packages",
+    "description": "Packages module for MiniWebs",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {"php": "^8.2"},
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingPackages\\": "Modules/ListingPackages/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingPackages\\Providers\\ListingPackagesServiceProvider"
+            ]
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "name": "miniwebs/minisite",
+    "description": "Minisite foundation module for MiniWebs - About, Branding, FAQs, Hero, SEO, Social Media, Features",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {"php": "^8.2"},
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingAbout\\": "Modules/ListingAbout/app/",
+            "Modules\\ListingBranding\\": "Modules/ListingBranding/app/",
+            "Modules\\ListingFaqs\\": "Modules/ListingFaqs/app/",
+            "Modules\\ListingHero\\": "Modules/ListingHero/app/",
+            "Modules\\ListingSeo\\": "Modules/ListingSeo/app/",
+            "Modules\\ListingSocialMedia\\": "Modules/ListingSocialMedia/app/",
+            "Modules\\ListingFeatures\\": "Modules/ListingFeatures/app/",
+            "Modules\\ListingMinisite\\": "Modules/ListingMinisite/app/"
+        },
+        "files": [
+            "Modules/ListingMinisite/Helpers/MinisiteExtensionHelper.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingAbout\\Providers\\ListingAboutServiceProvider",
+                "Modules\\ListingBranding\\Providers\\ListingBrandingServiceProvider",
+                "Modules\\ListingFaqs\\Providers\\ListingFaqsServiceProvider",
+                "Modules\\ListingHero\\Providers\\ListingHeroServiceProvider",
+                "Modules\\ListingSeo\\Providers\\ListingSeoServiceProvider",
+                "Modules\\ListingSocialMedia\\Providers\\ListingSocialMediaServiceProvider",
+                "Modules\\ListingFeatures\\Providers\\FeaturesServiceProvider",
+                "Modules\\ListingMinisite\\Providers\\ListingMinisiteServiceProvider"
+            ]
+        }
+    }
+}

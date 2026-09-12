@@ -1,0 +1,20 @@
+{
+    "name": "miniwebs/media",
+    "description": "Media module for MiniWebs - Gallery and image management",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {"php": "^8.2"},
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingGallery\\": "Modules/ListingGallery/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingGallery\\Providers\\ListingGalleryServiceProvider"
+            ]
+        }
+    }
+}

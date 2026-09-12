@@ -1,0 +1,20 @@
+{
+    "name": "miniwebs/marketing",
+    "description": "Promotions module for MiniWebs",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {"php": "^8.2"},
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingPromotions\\": "Modules/ListingPromotions/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingPromotions\\Providers\\ListingPromotionsServiceProvider"
+            ]
+        }
+    }
+}

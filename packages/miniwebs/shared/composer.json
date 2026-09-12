@@ -1,0 +1,26 @@
+{
+    "name": "miniwebs/shared",
+    "description": "Shared utilities for MiniWebs - Office Hours module",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "MiniWebs Team"
+        }
+    ],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingOfficeHours\\": "Modules/ListingOfficeHours/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingOfficeHours\\Providers\\ListingOfficeHoursServiceProvider"
+            ]
+        }
+    }
+}

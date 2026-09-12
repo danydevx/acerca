@@ -1,0 +1,26 @@
+{
+    "name": "miniwebs/reviews",
+    "description": "Reviews module for MiniWebs",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "MiniWebs Team"
+        }
+    ],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingReviews\\": "Modules/ListingReviews/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingReviews\\Providers\\ListingReviewsServiceProvider"
+            ]
+        }
+    }
+}

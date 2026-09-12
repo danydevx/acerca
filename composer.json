@@ -8,6 +8,99 @@
         "framework"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/miniwebs/shared",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/reviews",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/team",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/packages",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/marketing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/guests",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/crm",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/catalog",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/locations",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/media",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/minisite",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/properties",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/restaurant",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "require": {
         "php": "^8.2",
         "endroid/qr-code": "^6.0",
@@ -18,6 +111,18 @@
         "laravel/socialite": "^5.29",
         "laravel/tinker": "^2.10.1",
         "nwidart/laravel-modules": "^13.0",
+        "miniwebs/shared": "@dev",
+        "miniwebs/reviews": "@dev",
+        "miniwebs/team": "@dev",
+        "miniwebs/packages": "@dev",
+        "miniwebs/marketing": "@dev",
+        "miniwebs/guests": "@dev",
+        "miniwebs/crm": "@dev",
+        "miniwebs/catalog": "@dev",
+        "miniwebs/locations": "@dev",
+        "miniwebs/media": "@dev",
+        "miniwebs/minisite": "@dev",
+        "miniwebs/properties": "@dev",
         "spatie/laravel-permission": "^7.2"
     },
     "require-dev": {
