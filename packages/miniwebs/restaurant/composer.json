@@ -16,7 +16,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\ListingRestaurantMenu\\Providers\\ListingRestaurantMenuServiceProvider"
+                "Modules\\ListingRestaurantMenu\\Providers\\RestaurantMenuServiceProvider"
             ]
         }
     }

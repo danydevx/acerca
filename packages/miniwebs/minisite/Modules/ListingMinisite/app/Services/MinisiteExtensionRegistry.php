@@ -3,31 +3,60 @@
 namespace Modules\ListingMinisite\Services;
 
 use Illuminate\Support\Collection;
+use Modules\ListingMinisite\Contracts\MinisitePageDataProvider;
 use Modules\ListingMinisite\Contracts\MinisiteSectionProvider;
+use Modules\Listings\Models\Listing;
 
 class MinisiteExtensionRegistry
 {
-    protected array $providers = [];
+    protected array $sectionProviders = [];
+    protected array $pageDataProviders = [];
 
-    public function register(MinisiteSectionProvider $provider): void
+    public function registerSectionProvider(MinisiteSectionProvider $provider): void
     {
-        $this->providers[$provider->getSectionKey()] = $provider;
+        $this->sectionProviders[$provider->getSectionKey()] = $provider;
     }
 
-    public function getProvider(string $key): ?MinisiteSectionProvider
+    public function registerPageDataProvider(MinisitePageDataProvider $provider): void
     {
-        return $this->providers[$key] ?? null;
+        $this->pageDataProviders[$provider->getDataKey()] = $provider;
     }
 
-    public function getAllProviders(): array
+    public function getSectionProvider(string $key): ?MinisiteSectionProvider
     {
-        return $this->providers;
+        return $this->sectionProviders[$key] ?? null;
+    }
+
+    public function getPageDataProvider(string $key): ?MinisitePageDataProvider
+    {
+        return $this->pageDataProviders[$key] ?? null;
+    }
+
+    public function getAllSectionProviders(): array
+    {
+        return $this->sectionProviders;
+    }
+
+    public function getAllPageDataProviders(): array
+    {
+        return $this->pageDataProviders;
     }
 
     public function getSupportedSections(Listing $listing): Collection
     {
-        return collect($this->providers)->filter(
+        return collect($this->sectionProviders)->filter(
             fn ($provider) => $provider->supports($listing)
         );
+    }
+
+    public function getPageData(Listing $listing): array
+    {
+        $data = [];
+        foreach ($this->pageDataProviders as $key => $provider) {
+            if ($provider->supports($listing)) {
+                $data[$key] = $provider->getPageData($listing);
+            }
+        }
+        return $data;
     }
 }

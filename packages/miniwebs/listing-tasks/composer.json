@@ -1,0 +1,22 @@
+{
+    "name": "miniwebs/listing-tasks",
+    "description": "Listing Tasks module for MiniWebs - Task management for member businesses",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingTasks\\": "Modules/ListingTasks/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingTasks\\Providers\\ListingTasksServiceProvider"
+            ]
+        }
+    }
+}

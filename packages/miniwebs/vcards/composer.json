@@ -1,0 +1,23 @@
+{
+    "name": "miniwebs/vcards",
+    "description": "Digital business cards module for MiniWebs",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\VCards\\": "Modules/VCards/app/",
+            "Modules\\VCards\\Policies\\": "Modules/VCards/app/Policies/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\VCards\\Providers\\VCardsServiceProvider"
+            ]
+        }
+    }
+}

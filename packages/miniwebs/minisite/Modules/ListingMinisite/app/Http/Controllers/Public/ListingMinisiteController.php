@@ -122,9 +122,8 @@ class ListingMinisiteController extends Controller
         $aiChatbot = $this->getAiChatbotSettings($listing);
 
         $orderSettings = null;
-        if (class_exists('\Modules\Orders\Models\OrderSetting')) {
-            $orderSettings = \Modules\Orders\Models\OrderSetting::where('listing_id', $listing->id)->first();
-        }
+        $pageData = $this->extensionRegistry->getPageData($listing);
+        $orderSettings = $pageData['orderSettings'] ?? null;
 
         return Inertia::render($this->resolveThemeView('Show', $setting->theme_key), [
             'business' => [
@@ -194,9 +193,8 @@ class ListingMinisiteController extends Controller
 
         $orderSettings = null;
         $businessLocations = [];
-        if (class_exists('\Modules\Orders\Models\OrderSetting')) {
-            $orderSettings = \Modules\Orders\Models\OrderSetting::where('listing_id', $listing->id)->first();
-        }
+        $pageData = $this->extensionRegistry->getPageData($listing);
+        $orderSettings = $pageData['orderSettings'] ?? null;
         if (class_exists('\Modules\ListingLocations\Models\ListingLocation')) {
             $businessLocations = $listing->locations()
                 ->where('is_active', true)
@@ -275,9 +273,8 @@ class ListingMinisiteController extends Controller
 
         $orderSettings = null;
         $businessLocations = [];
-        if (class_exists('\Modules\Orders\Models\OrderSetting')) {
-            $orderSettings = \Modules\Orders\Models\OrderSetting::where('listing_id', $listing->id)->first();
-        }
+        $pageData = $this->extensionRegistry->getPageData($listing);
+        $orderSettings = $pageData['orderSettings'] ?? null;
         if (class_exists('\Modules\ListingLocations\Models\ListingLocation')) {
             $businessLocations = $listing->locations()
                 ->where('is_active', true)
@@ -404,9 +401,8 @@ class ListingMinisiteController extends Controller
         $aiChatbot = $this->getAiChatbotSettings($listing);
 
         $orderSettings = null;
-        if (class_exists('\Modules\Orders\Models\OrderSetting')) {
-            $orderSettings = \Modules\Orders\Models\OrderSetting::where('listing_id', $listing->id)->first();
-        }
+        $pageData = $this->extensionRegistry->getPageData($listing);
+        $orderSettings = $pageData['orderSettings'] ?? null;
 
         return Inertia::render($this->resolveThemeView('ProductDetail', $setting->theme_key), [
             'business' => [

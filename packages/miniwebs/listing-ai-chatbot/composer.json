@@ -1,0 +1,22 @@
+{
+    "name": "miniwebs/listing-ai-chatbot",
+    "description": "Listing AI Chatbot module for MiniWebs - AI-powered chatbot with RAG content indexing",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingAiChatbot\\": "Modules/ListingAiChatbot/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingAiChatbot\\Providers\\ListingAiChatbotServiceProvider"
+            ]
+        }
+    }
+}

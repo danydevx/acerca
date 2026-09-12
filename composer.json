@@ -99,6 +99,69 @@
             "options": {
                 "symlink": true
             }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/vcards",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/orders",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/listing-appointments",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/listing-projects",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/client-fidelity",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/listing-checkin",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/listing-tasks",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/analytics",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/miniwebs/listing-ai-chatbot",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "require": {
@@ -110,19 +173,29 @@
         "laravel/framework": "^12.0",
         "laravel/socialite": "^5.29",
         "laravel/tinker": "^2.10.1",
-        "nwidart/laravel-modules": "^13.0",
-        "miniwebs/shared": "@dev",
-        "miniwebs/reviews": "@dev",
-        "miniwebs/team": "@dev",
-        "miniwebs/packages": "@dev",
-        "miniwebs/marketing": "@dev",
-        "miniwebs/guests": "@dev",
-        "miniwebs/crm": "@dev",
         "miniwebs/catalog": "@dev",
+        "miniwebs/client-fidelity": "@dev",
+        "miniwebs/crm": "@dev",
+        "miniwebs/guests": "@dev",
         "miniwebs/locations": "@dev",
+        "miniwebs/listing-ai-chatbot": "@dev",
+        "miniwebs/listing-appointments": "@dev",
+        "miniwebs/listing-checkin": "@dev",
+        "miniwebs/listing-projects": "@dev",
+        "miniwebs/listing-tasks": "@dev",
+        "miniwebs/analytics": "@dev",
+        "miniwebs/marketing": "@dev",
         "miniwebs/media": "@dev",
         "miniwebs/minisite": "@dev",
+        "miniwebs/orders": "@dev",
+        "miniwebs/packages": "@dev",
         "miniwebs/properties": "@dev",
+        "miniwebs/restaurant": "@dev",
+        "miniwebs/reviews": "@dev",
+        "miniwebs/shared": "@dev",
+        "miniwebs/team": "@dev",
+        "miniwebs/vcards": "@dev",
+        "nwidart/laravel-modules": "^13.0",
         "spatie/laravel-permission": "^7.2"
     },
     "require-dev": {

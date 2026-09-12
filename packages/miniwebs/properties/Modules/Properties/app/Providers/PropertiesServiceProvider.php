@@ -15,6 +15,16 @@ class PropertiesServiceProvider extends ServiceProvider
 {
     protected string $name = 'Properties';
 
+    public function register(): void
+    {
+        $this->app->register(RouteServiceProvider::class);
+
+        if ($this->app->bound(\Modules\ListingMinisite\Services\MinisiteExtensionRegistry::class)) {
+            $registry = $this->app->make(\Modules\ListingMinisite\Services\MinisiteExtensionRegistry::class);
+            $registry->registerSectionProvider(new PropertyMinisiteProvider());
+        }
+    }
+
     public function boot(): void
     {
         $this->registerPolicies();
@@ -22,18 +32,6 @@ class PropertiesServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
-
-        $this->app->booting(function () {
-            if ($this->app->bound(\Modules\ListingMinisite\Services\MinisiteExtensionRegistry::class)) {
-                $registry = $this->app->make(\Modules\ListingMinisite\Services\MinisiteExtensionRegistry::class);
-                $registry->register(new PropertyMinisiteProvider());
-            }
-        });
-    }
-
-    public function register(): void
-    {
-        $this->app->register(RouteServiceProvider::class);
     }
 
     protected function registerPolicies(): void

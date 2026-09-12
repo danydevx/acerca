@@ -1,0 +1,23 @@
+{
+    "name": "miniwebs/analytics",
+    "description": "Analytics module for MiniWebs - Pageviews, events, and visitor tracking",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Analytics\\": "Modules/Analytics/app/",
+            "Modules\\Analytics\\Policies\\": "Modules/Analytics/Policies/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Analytics\\Providers\\AnalyticsServiceProvider"
+            ]
+        }
+    }
+}

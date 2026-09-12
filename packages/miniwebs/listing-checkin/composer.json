@@ -1,0 +1,22 @@
+{
+    "name": "miniwebs/listing-checkin",
+    "description": "Listing Checkin module for MiniWebs - Guest attendance tracking for events",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingCheckin\\": "Modules/ListingCheckin/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingCheckin\\Providers\\ListingCheckinServiceProvider"
+            ]
+        }
+    }
+}

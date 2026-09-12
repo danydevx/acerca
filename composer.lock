@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb5305c7c418ab53470597c492e87ad4",
+    "content-hash": "1063943a392486bf815e54f50015c8be",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2837,6 +2837,45 @@
             "time": "2026-01-15T06:54:53+00:00"
         },
         {
+            "name": "miniwebs/analytics",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/analytics",
+                "reference": "f160289076909c2e8874fc0fc2344076c6913b37"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Analytics\\Providers\\AnalyticsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Analytics\\": "Modules/Analytics/app/",
+                    "Modules\\Analytics\\Policies\\": "Modules/Analytics/Policies/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Analytics module for MiniWebs - Pageviews, events, and visitor tracking",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "miniwebs/catalog",
             "version": "dev-develop2",
             "dist": {
@@ -2871,6 +2910,44 @@
                 }
             ],
             "description": "Catalog module for MiniWebs - Products and Services",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/client-fidelity",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/client-fidelity",
+                "reference": "593e9ed71f228f005da2e83731d3c16f45892366"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ClientFidelity\\Providers\\ClientFidelityServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ClientFidelity\\": "Modules/ClientFidelity/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Client Fidelity module for MiniWebs - Loyalty cards and rewards management",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -2951,6 +3028,196 @@
                 }
             ],
             "description": "Guests module for MiniWebs",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/listing-ai-chatbot",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/listing-ai-chatbot",
+                "reference": "fdcc35b6144e2642135a48deb826bbbb57a1c2f3"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingAiChatbot\\Providers\\ListingAiChatbotServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingAiChatbot\\": "Modules/ListingAiChatbot/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Listing AI Chatbot module for MiniWebs - AI-powered chatbot with RAG content indexing",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/listing-appointments",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/listing-appointments",
+                "reference": "bdbb8d4a27ae03149e8209c0d50fb0e9c87e2c7f"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingAppointments\\Providers\\ListingAppointmentsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingAppointments\\": "Modules/ListingAppointments/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Listing Appointments module for MiniWebs - Appointment booking and scheduling",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/listing-checkin",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/listing-checkin",
+                "reference": "a6c0fa3f6ff0e37b2d71dd12825ba7a804dead0c"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingCheckin\\Providers\\ListingCheckinServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingCheckin\\": "Modules/ListingCheckin/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Listing Checkin module for MiniWebs - Guest attendance tracking for events",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/listing-projects",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/listing-projects",
+                "reference": "87bd8f78ce2d3c837fa249a3e585661af6d26248"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingProjects\\Providers\\ListingProjectsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingProjects\\": "Modules/ListingProjects/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Listing Projects module for MiniWebs - Project/portfolio management for businesses",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/listing-tasks",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/listing-tasks",
+                "reference": "6b8e8aa52731975aa81cc726961e9995f08ad5b9"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingTasks\\Providers\\ListingTasksServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingTasks\\": "Modules/ListingTasks/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Listing Tasks module for MiniWebs - Task management for member businesses",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -3129,6 +3396,44 @@
             }
         },
         {
+            "name": "miniwebs/orders",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/orders",
+                "reference": "3309418cb009b662896ed4b126063bdee67ca267"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Orders\\Providers\\OrdersServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Orders\\": "Modules/Orders/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Orders module for MiniWebs - Generic order management",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "miniwebs/packages",
             "version": "dev-develop2",
             "dist": {
@@ -3200,6 +3505,45 @@
                 }
             ],
             "description": "Properties module for MiniWebs - Real estate/v property management",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/restaurant",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/restaurant",
+                "reference": "009414ef7e2ec35c703e95153dc670799204faee"
+            },
+            "require": {
+                "miniwebs/minisite": "*",
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ListingRestaurantMenu\\Providers\\RestaurantMenuServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ListingRestaurantMenu\\": "Modules/ListingRestaurantMenu/app/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Restaurant menu module for MiniWebs",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -3314,6 +3658,45 @@
                 }
             ],
             "description": "Team Members module for MiniWebs",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "miniwebs/vcards",
+            "version": "dev-develop2",
+            "dist": {
+                "type": "path",
+                "url": "packages/miniwebs/vcards",
+                "reference": "b1869ddf310a4cfa25301132c55d2320c9428b31"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\VCards\\Providers\\VCardsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\VCards\\": "Modules/VCards/app/",
+                    "Modules\\VCards\\Policies\\": "Modules/VCards/app/Policies/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "MiniWebs Team"
+                }
+            ],
+            "description": "Digital business cards module for MiniWebs",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -10407,18 +10790,28 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "miniwebs/analytics": 20,
         "miniwebs/catalog": 20,
+        "miniwebs/client-fidelity": 20,
         "miniwebs/crm": 20,
         "miniwebs/guests": 20,
+        "miniwebs/listing-ai-chatbot": 20,
+        "miniwebs/listing-appointments": 20,
+        "miniwebs/listing-checkin": 20,
+        "miniwebs/listing-projects": 20,
+        "miniwebs/listing-tasks": 20,
         "miniwebs/locations": 20,
         "miniwebs/marketing": 20,
         "miniwebs/media": 20,
         "miniwebs/minisite": 20,
+        "miniwebs/orders": 20,
         "miniwebs/packages": 20,
         "miniwebs/properties": 20,
+        "miniwebs/restaurant": 20,
         "miniwebs/reviews": 20,
         "miniwebs/shared": 20,
-        "miniwebs/team": 20
+        "miniwebs/team": 20,
+        "miniwebs/vcards": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

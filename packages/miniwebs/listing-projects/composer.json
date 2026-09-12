@@ -1,0 +1,22 @@
+{
+    "name": "miniwebs/listing-projects",
+    "description": "Listing Projects module for MiniWebs - Project/portfolio management for businesses",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingProjects\\": "Modules/ListingProjects/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingProjects\\Providers\\ListingProjectsServiceProvider"
+            ]
+        }
+    }
+}

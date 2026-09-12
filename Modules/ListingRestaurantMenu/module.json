@@ -1,9 +1,0 @@
-{
-    "name": "Listing Restaurant Menu",
-    "alias": "listingrestaurantmenu",
-    "description": "Restaurant menu module for managing categories and products",
-    "keywords": [],
-    "priority": 0,
-    "providers": [],
-    "files": []
-}

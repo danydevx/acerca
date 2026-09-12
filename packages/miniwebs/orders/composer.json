@@ -1,0 +1,22 @@
+{
+    "name": "miniwebs/orders",
+    "description": "Orders module for MiniWebs - Generic order management",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Orders\\": "Modules/Orders/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Orders\\Providers\\OrdersServiceProvider"
+            ]
+        }
+    }
+}

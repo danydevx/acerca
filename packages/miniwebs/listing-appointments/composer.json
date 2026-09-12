@@ -1,0 +1,22 @@
+{
+    "name": "miniwebs/listing-appointments",
+    "description": "Listing Appointments module for MiniWebs - Appointment booking and scheduling",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingAppointments\\": "Modules/ListingAppointments/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingAppointments\\Providers\\ListingAppointmentsServiceProvider"
+            ]
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "name": "miniwebs/client-fidelity",
+    "description": "Client Fidelity module for MiniWebs - Loyalty cards and rewards management",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ClientFidelity\\": "Modules/ClientFidelity/app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ClientFidelity\\Providers\\ClientFidelityServiceProvider"
+            ]
+        }
+    }
+}

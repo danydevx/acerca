@@ -1,0 +1,11 @@
+{
+    "name": "ListingAppointments",
+    "alias": "listingappointments",
+    "description": "Appointment booking and scheduling for listings",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ListingAppointments\\Providers\\ListingAppointmentsServiceProvider"
+    ],
+    "files": []
+}
