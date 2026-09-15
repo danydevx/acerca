@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->string('directions_url', 500)->nullable();
+            $table->string('image', 500)->nullable();
             $table->boolean('is_primary')->default(false);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

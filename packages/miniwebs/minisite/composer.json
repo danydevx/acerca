@@ -4,7 +4,12 @@
     "type": "library",
     "license": "proprietary",
     "authors": [{"name": "MiniWebs Team"}],
-    "require": {"php": "^8.2"},
+    "require": {
+        "php": "^8.2",
+        "miniwebs/crm": "*",
+        "miniwebs/locations": "*",
+        "miniwebs/media": "*"
+    },
     "autoload": {
         "psr-4": {
             "Modules\\ListingAbout\\": "Modules/ListingAbout/app/",

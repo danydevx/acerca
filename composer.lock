@@ -2842,9 +2842,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/miniwebs/analytics",
-                "reference": "f160289076909c2e8874fc0fc2344076c6913b37"
+                "reference": "6ea9e5e54377d59fc3cf1b53b7dee3ab7db9c493"
             },
             "require": {
+                "miniwebs/shared": "*",
                 "php": "^8.2"
             },
             "type": "library",
@@ -2881,9 +2882,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/miniwebs/catalog",
-                "reference": "deb267e0f7a6e850c06b7bf228e9920fd26d137e"
+                "reference": "9c530d1f8617e62880131860590179b6f3f92700"
             },
             "require": {
+                "miniwebs/locations": "*",
                 "php": "^8.2"
             },
             "type": "library",
@@ -2959,9 +2961,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/miniwebs/crm",
-                "reference": "9f7c4e4adcb27abe6e5f619bbc4cbed04c715db7"
+                "reference": "358eb7685c4567fe9f168fcedcc787305eef55a6"
             },
             "require": {
+                "miniwebs/locations": "*",
                 "php": "^8.2"
             },
             "type": "library",
@@ -3077,9 +3080,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/miniwebs/listing-appointments",
-                "reference": "bdbb8d4a27ae03149e8209c0d50fb0e9c87e2c7f"
+                "reference": "4e9cc6269d179205db6795767d60088d3e5eddd9"
             },
             "require": {
+                "miniwebs/catalog": "*",
+                "miniwebs/locations": "*",
+                "miniwebs/packages": "*",
                 "php": "^8.2"
             },
             "type": "library",
@@ -3115,9 +3121,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/miniwebs/listing-checkin",
-                "reference": "a6c0fa3f6ff0e37b2d71dd12825ba7a804dead0c"
+                "reference": "b7a1b80b306a172fca352517ed237e83ea227a7c"
             },
             "require": {
+                "miniwebs/guests": "*",
                 "php": "^8.2"
             },
             "type": "library",
@@ -3270,9 +3277,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/miniwebs/marketing",
-                "reference": "0647ded4deabdd12f44a8047fd920d09196cb2cb"
+                "reference": "233ad41dd1d513a84697eddfc2a4a5066d7e5e1d"
             },
             "require": {
+                "miniwebs/locations": "*",
                 "php": "^8.2"
             },
             "type": "library",
@@ -3308,9 +3316,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/miniwebs/media",
-                "reference": "118ab8ea743d09646358ee84c5170af492d49dfb"
+                "reference": "f323b259087ab13108ba872c9c694d58e9760813"
             },
             "require": {
+                "miniwebs/locations": "*",
                 "php": "^8.2"
             },
             "type": "library",
@@ -3346,9 +3355,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/miniwebs/minisite",
-                "reference": "00bdf8dee0507a18040bd6594e224fe83c57a9bf"
+                "reference": "dbac0a894f908c1e75fc2b9a7726a445ff55a5f5"
             },
             "require": {
+                "miniwebs/crm": "*",
+                "miniwebs/locations": "*",
+                "miniwebs/media": "*",
                 "php": "^8.2"
             },
             "type": "library",
@@ -3401,9 +3413,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/miniwebs/orders",
-                "reference": "3309418cb009b662896ed4b126063bdee67ca267"
+                "reference": "a8cdc1314fe85b767d26118eea869cda0a62f762"
             },
             "require": {
+                "miniwebs/minisite": "*",
                 "php": "^8.2"
             },
             "type": "library",
@@ -3593,22 +3606,25 @@
             "dist": {
                 "type": "path",
                 "url": "packages/miniwebs/shared",
-                "reference": "04021c9161088e0a3572cd1a71481ee725fd06f7"
+                "reference": "6b64a062b64f195395498c0dcd7e247a4db22f64"
             },
             "require": {
+                "miniwebs/locations": "*",
                 "php": "^8.2"
             },
             "type": "library",
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Modules\\ListingOfficeHours\\Providers\\ListingOfficeHoursServiceProvider"
+                        "Modules\\ListingOfficeHours\\Providers\\ListingOfficeHoursServiceProvider",
+                        "Modules\\ListingGeoLocation\\Providers\\ListingGeoLocationServiceProvider"
                     ]
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Modules\\ListingOfficeHours\\": "Modules/ListingOfficeHours/app/"
+                    "Modules\\ListingOfficeHours\\": "Modules/ListingOfficeHours/app/",
+                    "Modules\\ListingGeoLocation\\": "Modules/ListingGeoLocation/app/"
                 }
             },
             "license": [
@@ -3619,7 +3635,7 @@
                     "name": "MiniWebs Team"
                 }
             ],
-            "description": "Shared utilities for MiniWebs - Office Hours module",
+            "description": "Shared utilities for MiniWebs - Office Hours, GeoLocation",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -3669,9 +3685,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/miniwebs/vcards",
-                "reference": "b1869ddf310a4cfa25301132c55d2320c9428b31"
+                "reference": "2c391e741b864d7422ec618111597c81e3f43be4"
             },
             "require": {
+                "miniwebs/shared": "*",
                 "php": "^8.2"
             },
             "type": "library",

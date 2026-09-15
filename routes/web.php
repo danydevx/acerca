@@ -248,9 +248,17 @@ Route::get('/member/listings', [App\Http\Controllers\Member\ListingModuleControl
 Route::get('/member/listings/{listing}/modules', [App\Http\Controllers\Member\ListingModulesController::class, 'show'])
     ->middleware(['auth', 'verified', 'active', 'role:member'])
     ->name('member.listings.modules');
-Route::get('/member/listings/{listing}/modules', [App\Http\Controllers\Member\ListingModuleController::class, 'edit'])
+Route::get('/member/listings/{listing}/edit', [App\Http\Controllers\Member\ListingModuleController::class, 'edit'])
     ->middleware(['auth', 'verified', 'active', 'role:member'])
-    ->name('member.business-modules.edit');
+    ->name('member.listings.edit');
+
+Route::get('/member/listings/{listing}/modules', [App\Http\Controllers\Member\ListingModulesController::class, 'show'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.listings.modules');
+
+Route::put('/member/listings/{listing}/modules', [App\Http\Controllers\Member\ListingModuleController::class, 'update'])
+    ->middleware(['auth', 'verified', 'active', 'role:member'])
+    ->name('member.business-modules.update');
 
 
 Route::post('/member/listings/{listing}/properties/{property}/images', [PropertyImageController::class, 'store'])

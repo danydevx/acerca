@@ -18,6 +18,7 @@ Route::middleware(['auth', 'verified', 'active', 'role:member'])
         Route::post('/team-members/bulk-delete', [TeamMemberController::class, 'bulkDelete'])->name('team-members.bulk-delete');
 
         Route::get('/team-member-positions', [TeamMemberPositionController::class, 'index'])->name('team-member-positions.index');
+        Route::get('/team-member-positions/create', [TeamMemberPositionController::class, 'create'])->name('team-member-positions.create');
         Route::post('/team-member-positions', [TeamMemberPositionController::class, 'store'])->name('team-member-positions.store');
         Route::put('/team-member-positions/{position}', [TeamMemberPositionController::class, 'update'])->name('team-member-positions.update');
         Route::delete('/team-member-positions/{position}', [TeamMemberPositionController::class, 'destroy'])->name('team-member-positions.destroy');

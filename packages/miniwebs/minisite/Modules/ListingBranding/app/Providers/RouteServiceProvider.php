@@ -34,6 +34,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         Log::info('ListingBranding mapMemberRoutes() called');
         Route::middleware(['web'])
-            ->group(module_path($this->name, '/routes/member.php'));
+            ->group(dirname(__DIR__, 2) . '/routes/member.php');
     }
 }

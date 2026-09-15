@@ -28,6 +28,8 @@ class ListingTask extends Model
 
     public function listing(): BelongsTo
     {
-        return $this->belongsTo(\Modules\Listings\Models\Listing::class);
-    }
+
+    return $this->belongsTo(\App\Models\Listing::class);
+
+        }
 }

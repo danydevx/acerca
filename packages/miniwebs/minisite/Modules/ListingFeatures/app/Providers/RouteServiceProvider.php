@@ -22,11 +22,11 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapWebRoutes(): void
     {
-        Route::middleware('web')->group(module_path($this->name, '/routes/web.php'));
+        Route::middleware('web')->group(dirname(__DIR__, 2) . '/routes/web.php');
     }
 
     protected function mapApiRoutes(): void
     {
-        Route::middleware('api')->prefix('api')->name('api.')->group(module_path($this->name, '/routes/api.php'));
+        Route::middleware('api')->prefix('api')->name('api.')->group(dirname(__DIR__, 2) . '/routes/api.php');
     }
 }

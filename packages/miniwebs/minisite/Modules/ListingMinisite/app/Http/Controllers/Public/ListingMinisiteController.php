@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Modules\Listings\Models\Listing;
 use Modules\ListingMinisite\Models\ListingMinisiteSection;
-use Modules\ListingPackages\Models\ListingPackage;
 use Modules\ListingMinisite\Models\ListingMinisiteSetting;
 use Modules\ListingMinisite\Services\MinisiteExtensionRegistry;
 

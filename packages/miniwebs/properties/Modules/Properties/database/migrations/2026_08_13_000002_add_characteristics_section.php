@@ -5,8 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Modules\Properties\Models\GeneralFieldSection;
 use Modules\Properties\Models\GeneralField;
+use Modules\Properties\Models\GeneralFieldTypeAssignment;
 use Modules\Properties\Models\PropertyType;
-use Modules\Properties\Services\GeneralFieldService;
 
 return new class extends Migration
 {
@@ -42,11 +42,18 @@ return new class extends Migration
             ]);
         }
 
-        $generalFieldService = app(GeneralFieldService::class);
         $propertyTypes = PropertyType::all();
 
         foreach ($propertyTypes as $propertyType) {
-            $generalFieldService->assignSectionToPropertyType($propertyType, $section);
+            GeneralFieldTypeAssignment::updateOrCreate(
+                [
+                    'property_type_id' => $propertyType->id,
+                    'general_field_section_id' => $section->id,
+                ],
+                [
+                    'sort_order' => 0,
+                ]
+            );
         }
     }
 

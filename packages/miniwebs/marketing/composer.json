@@ -4,7 +4,7 @@
     "type": "library",
     "license": "proprietary",
     "authors": [{"name": "MiniWebs Team"}],
-    "require": {"php": "^8.2"},
+    "require": {"php": "^8.2", "miniwebs/locations": "*"},
     "autoload": {
         "psr-4": {
             "Modules\\ListingPromotions\\": "Modules/ListingPromotions/app/"

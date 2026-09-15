@@ -1,6 +1,6 @@
 {
     "name": "miniwebs/shared",
-    "description": "Shared utilities for MiniWebs - Office Hours module",
+    "description": "Shared utilities for MiniWebs - Office Hours, GeoLocation",
     "type": "library",
     "license": "proprietary",
     "authors": [
@@ -9,17 +9,20 @@
         }
     ],
     "require": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "miniwebs/locations": "*"
     },
     "autoload": {
         "psr-4": {
-            "Modules\\ListingOfficeHours\\": "Modules/ListingOfficeHours/app/"
+            "Modules\\ListingOfficeHours\\": "Modules/ListingOfficeHours/app/",
+            "Modules\\ListingGeoLocation\\": "Modules/ListingGeoLocation/app/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\ListingOfficeHours\\Providers\\ListingOfficeHoursServiceProvider"
+                "Modules\\ListingOfficeHours\\Providers\\ListingOfficeHoursServiceProvider",
+                "Modules\\ListingGeoLocation\\Providers\\ListingGeoLocationServiceProvider"
             ]
         }
     }

@@ -4,7 +4,7 @@ namespace Modules\VCards\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Modules\ListingAiChatbot\Services\GeoLocationService;
+use Modules\ListingGeoLocation\Services\GeoLocationService;
 use Modules\VCards\Models\VCard;
 use Modules\VCards\Models\VCardVisit;
 use Jenssegers\Agent\Agent;

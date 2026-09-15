@@ -23,7 +23,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapMemberRoutes(): void
     {
         Route::middleware(['web'])
-            ->group(module_path($this->name, '/routes/member.php'));
+            ->group(dirname(__DIR__, 2) . '/routes/member.php');
     }
 
     protected function mapAdminApiRoutes(): void
@@ -31,6 +31,6 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware(['auth:api', 'role:superadmin|admin'])
             ->prefix('api/v1/admin')
             ->name('api.v1.admin.')
-            ->group(module_path($this->name, '/routes/admin_api.php'));
+            ->group(dirname(__DIR__, 2) . '/routes/admin_api.php');
     }
 }

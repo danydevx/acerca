@@ -25,24 +25,24 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapWebRoutes(): void
     {
-        Route::middleware('web')->group(module_path($this->name, '/routes/web.php'));
+        Route::middleware('web')->group(dirname(__DIR__, 2) . '/routes/web.php');
     }
 
     protected function mapApiRoutes(): void
     {
-        Route::middleware('api')->prefix('api')->name('api.')->group(module_path($this->name, '/routes/api.php'));
+        Route::middleware('api')->prefix('api')->name('api.')->group(dirname(__DIR__, 2) . '/routes/api.php');
     }
 
     protected function mapMemberRoutes(): void
     {
         Route::middleware(['web'])
-            ->group(module_path($this->name, '/routes/member.php'));
+            ->group(dirname(__DIR__, 2) . '/routes/member.php');
     }
 
     protected function mapAdminRoutes(): void
     {
         Route::middleware(['web'])
-            ->group(module_path($this->name, '/routes/admin.php'));
+            ->group(dirname(__DIR__, 2) . '/routes/admin.php');
     }
 
     protected function mapAdminApiRoutes(): void
@@ -50,6 +50,6 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware(['auth:api', 'role:superadmin|admin'])
             ->prefix('api/v1/admin')
             ->name('api.v1.admin.')
-            ->group(module_path($this->name, '/routes/admin_api.php'));
+            ->group(dirname(__DIR__, 2) . '/routes/admin_api.php');
     }
 }

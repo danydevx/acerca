@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('listing_locations', function (Blueprint $table) {
-            $table->string('image', 500)->nullable()->after('directions_url');
-        });
+        if (!Schema::hasColumn('listing_locations', 'image')) {
+            Schema::table('listing_locations', function (Blueprint $table) {
+                $table->string('image', 500)->nullable()->after('directions_url');
+            });
+        }
     }
 
     /**

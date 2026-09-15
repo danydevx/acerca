@@ -39,6 +39,45 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        if ($this->app->runningInConsole() && $this->app->environment('production')) {
+            $destructiveCommands = [
+                'migrate:fresh',
+                'migrate:refresh',
+                'migrate:reset',
+                'db:wipe',
+                'migrate:fresh --seed',
+                'migrate:refresh --seed',
+            ];
+            $argv = $_SERVER['argv'] ?? [];
+            $cmd = $argv[1] ?? '';
+            if (in_array($cmd, $destructiveCommands) || str_starts_with($cmd, 'migrate:fresh') || str_starts_with($cmd, 'db:wipe')) {
+                $this->app->terminate();
+                echo "\n  \033[41m\033[1;37m  ABORTED  \033[0m\n\n";
+                echo "  Destructive database command disabled in production.\n";
+                echo "  Command: {$cmd}\n";
+                echo "  Environment: production\n";
+                echo "  Database: " . config('database.connections.mysql.database') . "\n\n";
+                echo "  Use --env=local or APP_ENV=local to override.\n";
+                echo "  For testing, use: php artisan migrate --force\n\n";
+                exit(1);
+            }
+        }
+
+        if ($this->app->runningInConsole()) {
+            $dbName = config('database.connections.mysql.database');
+            $productionDbName = env('PRODUCTION_DB_NAME', 'laravel_acerca');
+            if ($this->app->environment('production') && $dbName !== $productionDbName) {
+                $this->app->terminate();
+                echo "\n  \033[41m\033[1;37m  DB NAME MISMATCH  \033[0m\n\n";
+                echo "  Production environment detected but database name does not match.\n";
+                echo "  Expected: {$productionDbName}\n";
+                echo "  Got: {$dbName}\n\n";
+                echo "  Check DB_DATABASE in .env or set PRODUCTION_DB_NAME.\n";
+                echo "  This may indicate you are pointing at the wrong database.\n\n";
+                exit(1);
+            }
+        }
+
         $this->app->router->bind('listing', function ($value) {
             return Listing::findOrFail($value);
         });

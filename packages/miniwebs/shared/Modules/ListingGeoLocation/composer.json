@@ -1,0 +1,22 @@
+{
+    "name": "miniwebs/listinggeolocation",
+    "description": "Shared geolocation service for IP address resolution",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [{"name": "MiniWebs Team"}],
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ListingGeoLocation\\": "app/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ListingGeoLocation\\Providers\\ListingGeoLocationServiceProvider"
+            ]
+        }
+    }
+}

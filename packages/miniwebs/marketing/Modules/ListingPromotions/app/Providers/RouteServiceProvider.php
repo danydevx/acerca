@@ -30,18 +30,18 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapMemberRoutes(): void
     {
         Route::middleware(['web'])
-            ->group(module_path($this->name, '/routes/member.php'));
+            ->group(dirname(__DIR__, 2) . '/routes/member.php');
     }
 
     protected function mapAdminRoutes(): void
     {
         Route::middleware(['web'])
-            ->group(module_path($this->name, '/routes/admin.php'));
+            ->group(dirname(__DIR__, 2) . '/routes/admin.php');
     }
 
     protected function mapPublicRoutes(): void
     {
         Route::middleware(['web'])
-            ->group(module_path($this->name, '/routes/public.php'));
+            ->group(dirname(__DIR__, 2) . '/routes/public.php');
     }
 }

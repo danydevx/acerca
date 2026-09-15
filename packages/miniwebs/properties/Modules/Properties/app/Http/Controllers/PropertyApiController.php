@@ -3,9 +3,9 @@
 namespace Modules\Properties\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Properties\PropertyCollection;
-use App\Http\Resources\Properties\PropertyResource;
-use App\Http\Resources\Properties\PropertyTypeResource;
+use Modules\Properties\Http\Resources\PropertyCollection;
+use Modules\Properties\Http\Resources\PropertyResource;
+use Modules\Properties\Http\Resources\PropertyTypeResource;
 use Illuminate\Http\Request;
 use Modules\Listings\Models\Listing;
 use Modules\Properties\Models\Property;

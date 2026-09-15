@@ -251,6 +251,7 @@ class ServiceController extends Controller
         $maxOrder = ListingService::forListing($business->id)->max('sort_order') ?? 0;
 
         $cloned = ListingService::create([
+            'listing_id' => $business->id,
             'name' => $service->name . ' (copia)',
             'slug' => \Illuminate\Support\Str::slug($service->name) . '-copy-' . time(),
             'description' => $service->description,

@@ -1,0 +1,11 @@
+{
+    "name": "ListingGeoLocation",
+    "alias": "listinggeolocation",
+    "description": "Shared geolocation service for IP address resolution",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ListingGeoLocation\\Providers\\ListingGeoLocationServiceProvider"
+    ],
+    "files": []
+}

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Member\ContactFormController;
+use Modules\ListingContactForm\Http\Controllers\Member\ContactFormController;
 use App\Http\Controllers\Public\BusinessController;
 
 Route::middleware(['auth', 'verified', 'active', 'role:member'])->prefix('member/listings/{listing}')->name('member.listings.')->group(function () {

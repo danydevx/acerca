@@ -172,7 +172,8 @@ class LocationController extends Controller
 
     public function getCountries(): JsonResponse
     {
-        $countries = Country::where('is_active', true)
+        $countries = DB::table('countries')
+            ->where('is_active', true)
             ->orderBy('name')
             ->get(['id', 'code', 'name', 'currency', 'currency_symbol']);
 
@@ -181,32 +182,19 @@ class LocationController extends Controller
 
     public function getStates(?string $countryCode = null): JsonResponse
     {
-        $query = State::with('country')->where('is_active', true);
-
-        if ($countryCode) {
-            $country = Country::where('code', $countryCode)->first();
-            if (!$country) {
-                return response()->json(['error' => 'Country not found'], 404);
-            }
-            $query->where('country_id', $country->id);
-        }
-
-        $states = $query->orderBy('name')->get(['id', 'code', 'name', 'lat', 'lng']);
+        $states = DB::table('mx_states')
+            ->orderBy('name')
+            ->get(['code', 'name', 'lat', 'lng']);
 
         return response()->json(['states' => $states]);
     }
 
     public function getMunicipalities(string $stateCode): JsonResponse
     {
-        $state = State::where('code', $stateCode)->first();
-
-        if (!$state) {
-            return response()->json(['error' => 'State not found'], 404);
-        }
-
-        $municipalities = Municipality::where('state_id', $state->id)
+        $municipalities = DB::table('mx_municipalities')
+            ->where('state_code', $stateCode)
             ->orderBy('name')
-            ->get(['id', 'code', 'name', 'is_metropolitan', 'lat', 'lng']);
+            ->get(['code', 'name', 'is_metropolitan', 'lat', 'lng']);
 
         return response()->json(['municipalities' => $municipalities]);
     }

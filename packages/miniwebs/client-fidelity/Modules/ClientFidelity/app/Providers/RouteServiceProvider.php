@@ -11,16 +11,16 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->routes(function () {
             Route::middleware('web')
-                ->group(module_path('ClientFidelity', '/routes/web.php'));
+                ->group(dirname(__DIR__, 2) . '/routes/web.php');
 
             Route::middleware('api')
                 ->prefix('api')
-                ->group(module_path('ClientFidelity', '/routes/api.php'));
+                ->group(dirname(__DIR__, 2) . '/routes/api.php');
 
             Route::middleware(['auth:api', 'role:superadmin|admin'])
                 ->prefix('api/v1/admin')
                 ->name('api.v1.admin.')
-                ->group(module_path('ClientFidelity', '/routes/admin_api.php'));
+                ->group(dirname(__DIR__, 2) . '/routes/admin_api.php');
         });
     }
 }

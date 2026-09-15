@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Analytics\Services;
+namespace Modules\ListingGeoLocation\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;

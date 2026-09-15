@@ -15,6 +15,8 @@ class ListingModule extends Model
         'module_key',
         'module_name',
         'is_enabled',
+        'show_in_menu',
+        'menu_title',
         'settings',
     ];
 

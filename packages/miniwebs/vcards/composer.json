@@ -5,7 +5,8 @@
     "license": "proprietary",
     "authors": [{"name": "MiniWebs Team"}],
     "require": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "miniwebs/shared": "*"
     },
     "autoload": {
         "psr-4": {

@@ -5,7 +5,10 @@
     "license": "proprietary",
     "authors": [{"name": "MiniWebs Team"}],
     "require": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "miniwebs/catalog": "*",
+        "miniwebs/locations": "*",
+        "miniwebs/packages": "*"
     },
     "autoload": {
         "psr-4": {

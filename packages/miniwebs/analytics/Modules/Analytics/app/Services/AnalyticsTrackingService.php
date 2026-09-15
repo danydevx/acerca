@@ -11,6 +11,7 @@ use Modules\Analytics\Models\AnalyticsSession;
 use Modules\Analytics\Models\AnalyticsSetting;
 use Modules\Analytics\Models\AnalyticsVisitor;
 use Modules\Listings\Models\Listing;
+use Modules\ListingGeoLocation\Services\GeoLocationService as SharedGeoLocationService;
 
 class AnalyticsTrackingService
 {
@@ -195,7 +196,7 @@ class AnalyticsTrackingService
     private function resolveGeoData(Request $request): array
     {
         try {
-            $geoService = new GeoLocationService();
+            $geoService = new SharedGeoLocationService();
             $ip = $request->ip();
             if (!$ip || $this->isLocalIp($ip)) {
                 return [];

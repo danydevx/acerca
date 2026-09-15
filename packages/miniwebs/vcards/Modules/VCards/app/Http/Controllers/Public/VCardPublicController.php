@@ -77,6 +77,10 @@ class VCardPublicController extends Controller
             return null;
         }
 
+        if (!class_exists('\Modules\ListingAiChatbot\Models\ListingAiSetting')) {
+            return null;
+        }
+
         $aiSetting = \Modules\ListingAiChatbot\Models\ListingAiSetting::where('listing_id', $vcard->listing_id)
             ->where('is_enabled', true)
             ->first();

@@ -17,6 +17,7 @@ Route::middleware(['auth', 'verified', 'active', 'role:admin|superadmin'])->pref
     Route::put('/municipalities/{municipality}', [LocationController::class, 'municipalitiesUpdate'])->name('admin.locations.municipalities.update');
 });
 
-Route::get('/api/v1/location-data/countries', [LocationController::class, 'getStates'])->name('api.location.countries');
-Route::get('/api/v1/location-data/states/{countryCode}', [LocationController::class, 'getStates'])->name('api.location.states');
+Route::get('/api/v1/location-data/countries', [LocationController::class, 'getCountries'])->name('api.location.countries');
+Route::get('/api/v1/location-data/states', [LocationController::class, 'getStates'])->name('api.location.states');
+Route::get('/api/v1/location-data/states/{countryCode}', [LocationController::class, 'getStates'])->name('api.location.states.by-country');
 Route::get('/api/v1/location-data/municipalities/{stateCode}', [LocationController::class, 'getMunicipalities'])->name('api.location.municipalities');
